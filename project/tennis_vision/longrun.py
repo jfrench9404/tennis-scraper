@@ -27,12 +27,20 @@ import time
 from pathlib import Path
 from typing import Any
 
+# Read by Ultralytics at import time: never download weights or pip-install
+# packages mid-run (it does not recognise onnxruntime-directml as onnxruntime).
+os.environ.setdefault("YOLO_OFFLINE", "true")
+os.environ.setdefault("YOLO_AUTOINSTALL", "false")
+os.environ.setdefault("YOLO_CONFIG_DIR", str(Path(__file__).resolve().parent.parent / ".inference-config"))
+
 import cv2
 import numpy as np
 
 LONGRUN_VERSION = 1
 BLOCK = 5  # GridTrackNet consumes non-overlapping five-frame blocks from the run start.
-CODE_FILES = ("cli.py", "longrun.py", "tracking.py", "filters.py", "detail.py", "scene.py", "events.py",
+# Analysis code whose changes would alter rows. Orchestration changes in this file
+# that alter chunk semantics must bump LONGRUN_VERSION instead.
+CODE_FILES = ("cli.py", "tracking.py", "filters.py", "detail.py", "scene.py", "events.py",
               "court.py", "ball_motion.py", "temporal_ball.py")
 
 
@@ -180,6 +188,28 @@ def open_at(video: Path, source_frame: int, expected_previous_hash: str | None):
         cap.release()
         raise RuntimeError("Decoded frame before the resume point does not match the stored hash; the input changed")
     return cap, "sequential_verified"
+
+
+class KeepAwake:
+    """While processing, ask Windows not to sleep (like a video player does).
+
+    Uses SetThreadExecutionState for this process only; no power settings are
+    changed and the request ends when the process exits. No-op elsewhere.
+    """
+
+    def __enter__(self):
+        self.active = False
+        if sys.platform == "win32":
+            import ctypes
+            ES_CONTINUOUS, ES_SYSTEM_REQUIRED = 0x80000000, 0x00000001
+            self.active = bool(ctypes.windll.kernel32.SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED))
+        return self
+
+    def __exit__(self, *exc):
+        if self.active:
+            import ctypes
+            ctypes.windll.kernel32.SetThreadExecutionState(0x80000000)
+        return False
 
 
 class Progress:
@@ -410,6 +440,7 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument("--no-detail-pass", action="store_true")
     p.add_argument("--all-players", action="store_true")
     p.add_argument("--no-auto-court", action="store_true")
+    p.add_argument("--keep-awake", action="store_true", help="Windows: keep the PC from sleeping while this run is processing")
     p.add_argument("--stop-after-chunks", type=int, help="Testing aid: stop after N newly processed chunks")
     args = p.parse_args(argv)
     args.motion_ball = False  # Experimental motion recovery is not part of long runs.
@@ -453,7 +484,11 @@ def main(argv=None) -> None:
     print(f"[longrun] {args.input.name}: source frames {start}-{end - 1} ({(end - start) / info['fps']:.1f} s) "
           f"in {len(manifest['chunks'])} chunks -> {output}", file=sys.stderr, flush=True)
     started = time.perf_counter()
-    session = run_chunks(args, manifest, output, factory, temporal, stop_after_chunks=args.stop_after_chunks)
+    if args.keep_awake:
+        with KeepAwake():
+            session = run_chunks(args, manifest, output, factory, temporal, stop_after_chunks=args.stop_after_chunks)
+    else:
+        session = run_chunks(args, manifest, output, factory, temporal, stop_after_chunks=args.stop_after_chunks)
     if len(completed_chunks(output, manifest)) < len(manifest["chunks"]):
         print("[longrun] stopped before the end; rerun the same command to resume.", file=sys.stderr)
         return

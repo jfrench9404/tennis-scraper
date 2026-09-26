@@ -1,0 +1,11 @@
+{
+  "frames_done": 30,
+  "frames_total": 30,
+  "percent": 100.0,
+  "session_elapsed_s": 163.6,
+  "measured_frames_per_s": 0.183,
+  "eta_s": 0.0,
+  "eta_basis": "frames processed in this session only; resumed frames excluded",
+  "chunks_done": 3,
+  "chunks_total": 3
+}
