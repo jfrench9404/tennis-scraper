@@ -22,3 +22,7 @@ venv/
 .pytest_cache/
 node_modules/
 *.log
+
+# Long-run working files (rows are duplicated in the merged events.jsonl)
+**/chunks/
+.inference-config/

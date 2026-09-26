@@ -1,0 +1,427 @@
+{
+  "reference": {
+    "video": "media\\sebbie-demo-shortest (1).mp4",
+    "source_frame": 5040,
+    "score": 0.9897
+  },
+  "videos": [
+    {
+      "video": "media\\sebbie-demo-shortest (1).mp4",
+      "corrections": "runs\\court-bounce-20260925-110335-545\\calibration-corrections.json",
+      "fps": 30.0,
+      "frames": 5654,
+      "line_samples": 581,
+      "landmark_rmse_px": 1.4987856467680234,
+      "samples": [
+        {
+          "frame": 0,
+          "time_s": 0.0,
+          "score": 0.9983,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 0.9983
+        },
+        {
+          "frame": 300,
+          "time_s": 10.0,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 600,
+          "time_s": 20.0,
+          "score": 0.988,
+          "best_shift_px": [
+            -2,
+            -2
+          ],
+          "best_shift_score": 0.9966
+        },
+        {
+          "frame": 900,
+          "time_s": 30.0,
+          "score": 0.9828,
+          "best_shift_px": [
+            -2,
+            -2
+          ],
+          "best_shift_score": 0.9931
+        },
+        {
+          "frame": 1200,
+          "time_s": 40.0,
+          "score": 0.9948,
+          "best_shift_px": [
+            0,
+            -2
+          ],
+          "best_shift_score": 0.9966
+        },
+        {
+          "frame": 1500,
+          "time_s": 50.0,
+          "score": 0.9931,
+          "best_shift_px": [
+            0,
+            -2
+          ],
+          "best_shift_score": 0.9948
+        },
+        {
+          "frame": 1800,
+          "time_s": 60.0,
+          "score": 0.9931,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 0.9931
+        },
+        {
+          "frame": 2100,
+          "time_s": 70.0,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 2400,
+          "time_s": 80.0,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 2700,
+          "time_s": 90.0,
+          "score": 0.9983,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 0.9983
+        },
+        {
+          "frame": 3000,
+          "time_s": 100.0,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 3300,
+          "time_s": 110.0,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 3600,
+          "time_s": 120.0,
+          "score": 0.9673,
+          "best_shift_px": [
+            2,
+            -2
+          ],
+          "best_shift_score": 0.9742
+        },
+        {
+          "frame": 3900,
+          "time_s": 130.0,
+          "score": 0.9966,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 0.9966
+        },
+        {
+          "frame": 4200,
+          "time_s": 140.0,
+          "score": 0.9983,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 0.9983
+        },
+        {
+          "frame": 4500,
+          "time_s": 150.0,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 4800,
+          "time_s": 160.0,
+          "score": 0.9983,
+          "best_shift_px": [
+            2,
+            -2
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 5100,
+          "time_s": 170.0,
+          "score": 0.9983,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 0.9983
+        },
+        {
+          "frame": 5400,
+          "time_s": 180.0,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        }
+      ],
+      "summary": {
+        "reference_score": 0.9896729776247849,
+        "min_score": 0.9673,
+        "median_score": 0.9983,
+        "threshold": 0.8412,
+        "failing_samples": [],
+        "verdict": "consistent",
+        "meaning": "Projected court lines of the reviewed calibration land on painted lines as well as in the calibration frame, with no better-fitting shift beyond the limit. Consistency, not accuracy."
+      }
+    },
+    {
+      "video": "media\\sebbie-demo-shortestpar2.mp4",
+      "corrections": "runs\\court-bounce-20260925-110335-545\\calibration-corrections.json",
+      "fps": 30.0,
+      "frames": 5549,
+      "line_samples": 581,
+      "landmark_rmse_px": 1.4987856467680234,
+      "samples": [
+        {
+          "frame": 0,
+          "time_s": 0.0,
+          "score": 0.9914,
+          "best_shift_px": [
+            2,
+            -2
+          ],
+          "best_shift_score": 0.9931
+        },
+        {
+          "frame": 300,
+          "time_s": 10.0,
+          "score": 0.9983,
+          "best_shift_px": [
+            -4,
+            -2
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 600,
+          "time_s": 20.0,
+          "score": 0.9948,
+          "best_shift_px": [
+            2,
+            -2
+          ],
+          "best_shift_score": 0.9966
+        },
+        {
+          "frame": 900,
+          "time_s": 30.0,
+          "score": 0.9983,
+          "best_shift_px": [
+            -2,
+            -2
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 1200,
+          "time_s": 40.0,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 1500,
+          "time_s": 50.0,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 1800,
+          "time_s": 60.0,
+          "score": 0.9966,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 0.9966
+        },
+        {
+          "frame": 2100,
+          "time_s": 70.0,
+          "score": 0.988,
+          "best_shift_px": [
+            2,
+            0
+          ],
+          "best_shift_score": 0.9897
+        },
+        {
+          "frame": 2400,
+          "time_s": 80.0,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 2700,
+          "time_s": 90.0,
+          "score": 0.9845,
+          "best_shift_px": [
+            -2,
+            0
+          ],
+          "best_shift_score": 0.988
+        },
+        {
+          "frame": 3000,
+          "time_s": 100.0,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 3300,
+          "time_s": 110.0,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 3600,
+          "time_s": 120.0,
+          "score": 0.9983,
+          "best_shift_px": [
+            -2,
+            -2
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 3900,
+          "time_s": 130.0,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 4200,
+          "time_s": 140.0,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 4500,
+          "time_s": 150.0,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 4800,
+          "time_s": 160.0,
+          "score": 0.9983,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 0.9983
+        },
+        {
+          "frame": 5100,
+          "time_s": 170.0,
+          "score": 0.9948,
+          "best_shift_px": [
+            -2,
+            -2
+          ],
+          "best_shift_score": 0.9983
+        },
+        {
+          "frame": 5400,
+          "time_s": 180.0,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        }
+      ],
+      "summary": {
+        "reference_score": 0.9896729776247849,
+        "min_score": 0.9845,
+        "median_score": 0.9983,
+        "threshold": 0.8412,
+        "failing_samples": [],
+        "verdict": "consistent",
+        "meaning": "Projected court lines of the reviewed calibration land on painted lines as well as in the calibration frame, with no better-fitting shift beyond the limit. Consistency, not accuracy."
+      }
+    }
+  ]
+}

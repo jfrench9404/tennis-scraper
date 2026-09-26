@@ -1,0 +1,10 @@
+{
+  "status": "ok",
+  "camera_position_m": [
+    -0.156,
+    -25.015,
+    6.156
+  ],
+  "camera_confidence": 0.45,
+  "fits": []
+}

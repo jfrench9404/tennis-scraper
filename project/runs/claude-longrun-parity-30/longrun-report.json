@@ -1,0 +1,31 @@
+{
+  "fingerprint": "c12a4c1b9b8b8bc0b049fa02681a6f1c15ab3c90a9ebe81f8dc22e3bd6f54f06",
+  "session": {
+    "resumed_chunks": 1,
+    "processed_chunks": 2,
+    "positioning": [
+      "seek_verified"
+    ]
+  },
+  "session_seconds": 418.0,
+  "chunk_seconds": [
+    152.4,
+    222.68,
+    195.11
+  ],
+  "device": "cpu",
+  "summary": {
+    "input": "C:\\Users\\John\\Documents\\Codex\\2026-09-17\\can-x20\\outputs\\tennis-scraper\\project\\media\\sebbie-demo-shortest (1).mp4",
+    "frames": 30,
+    "fps": 30.0,
+    "width": 1280,
+    "height": 720,
+    "events": 1,
+    "shots": 0,
+    "flight3d_fits": 0,
+    "court_calibrated": true,
+    "court_source": "manual",
+    "court_confidence": 1.0,
+    "note": "Events, shots, and single-camera 3D fits are candidates; validate before use."
+  }
+}
