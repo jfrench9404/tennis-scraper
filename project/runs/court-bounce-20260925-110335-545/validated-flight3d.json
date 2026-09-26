@@ -1,0 +1,12 @@
+{
+  "status": "no_supported_flights",
+  "fits": [],
+  "skipped": [
+    {
+      "bounce_event_id": "bounce_candidate-000122",
+      "reason": "No preceding confirmed hit/bounce to bound the flight"
+    }
+  ],
+  "confirmed_bounces": 1,
+  "limitation": "Airborne XYZ is estimated from an approximate single-camera calibration and gravity-only motion. Reviewed bounce timing does not make court calibration or XYZ ground truth. Drag/spin are not modeled; radial lens compensation is used only when supplied by the calibration, and camera/lens errors can remain."
+}

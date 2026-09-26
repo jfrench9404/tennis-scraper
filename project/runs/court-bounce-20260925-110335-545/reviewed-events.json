@@ -1,0 +1,373 @@
+{
+  "run_id": "39449302177328c739e679a953b51d001bf297e21541feb1cc38c76265aa9ab9",
+  "events": [
+    {
+      "id": "hit_candidate-000057",
+      "type": "hit",
+      "status": "unreviewed",
+      "frame": 57,
+      "time_s": 1.9,
+      "player_id": "near",
+      "pixel": [
+        728.36,
+        179.98
+      ],
+      "pixel_basis": "observed_ball_at_reviewed_frame",
+      "court_m": null,
+      "candidate_court_m": null,
+      "candidate_geometry_basis": null,
+      "geometry_issue": null,
+      "original_frame": 57,
+      "notes": ""
+    },
+    {
+      "id": "bounce_candidate-000122",
+      "type": "bounce",
+      "status": "confirmed",
+      "frame": 121,
+      "time_s": 4.033333333333333,
+      "player_id": null,
+      "pixel": [
+        873.89,
+        252.87
+      ],
+      "pixel_basis": "observed_ball_at_reviewed_frame",
+      "court_m": [
+        10.354,
+        10.123
+      ],
+      "candidate_court_m": null,
+      "candidate_geometry_basis": null,
+      "geometry_issue": null,
+      "original_frame": 122,
+      "notes": "User reports bounce near middle of doubles alley. Visual evidence supports frame 122 +/- 1; do not force an alley-centre coordinate.",
+      "timing_review": {
+        "frame_range": [
+          120,
+          122
+        ],
+        "frame_period_ms": 33.333333333333336,
+        "precision": "frame_level_not_exact_subframe_contact",
+        "status": "confirmed"
+      }
+    },
+    {
+      "id": "bounce_candidate-000149",
+      "type": "bounce",
+      "status": "unreviewed",
+      "frame": 149,
+      "time_s": 4.966666666666667,
+      "player_id": null,
+      "pixel": [
+        1030.37,
+        324.27
+      ],
+      "pixel_basis": "observed_ball_at_reviewed_frame",
+      "court_m": null,
+      "candidate_court_m": [
+        11.993,
+        6.646
+      ],
+      "candidate_geometry_basis": "conditional_on_unverified_bounce_not_a_flight_constraint",
+      "geometry_issue": null,
+      "original_frame": 149,
+      "notes": ""
+    },
+    {
+      "id": "hit_candidate-000179",
+      "type": "hit",
+      "status": "unreviewed",
+      "frame": 179,
+      "time_s": 5.966666666666667,
+      "player_id": "near",
+      "pixel": [
+        1189.09,
+        405.84
+      ],
+      "pixel_basis": "observed_ball_at_reviewed_frame",
+      "court_m": null,
+      "candidate_court_m": null,
+      "candidate_geometry_basis": null,
+      "geometry_issue": null,
+      "original_frame": 179,
+      "notes": ""
+    },
+    {
+      "id": "hit_candidate-000200",
+      "type": "hit",
+      "status": "unreviewed",
+      "frame": 200,
+      "time_s": 6.666666666666667,
+      "player_id": "near",
+      "pixel": [
+        1180.91,
+        455.05
+      ],
+      "pixel_basis": "observed_ball_at_reviewed_frame",
+      "court_m": null,
+      "candidate_court_m": null,
+      "candidate_geometry_basis": null,
+      "geometry_issue": null,
+      "original_frame": 200,
+      "notes": ""
+    },
+    {
+      "id": "bounce_candidate-000242",
+      "type": "bounce",
+      "status": "unreviewed",
+      "frame": 242,
+      "time_s": 8.066666666666666,
+      "player_id": null,
+      "pixel": [
+        1157.93,
+        525.06
+      ],
+      "pixel_basis": "observed_ball_at_reviewed_frame",
+      "court_m": null,
+      "candidate_court_m": [
+        11.048,
+        0.803
+      ],
+      "candidate_geometry_basis": "conditional_on_unverified_bounce_not_a_flight_constraint",
+      "geometry_issue": null,
+      "original_frame": 242,
+      "notes": ""
+    },
+    {
+      "id": "bounce_candidate-000261",
+      "type": "bounce",
+      "status": "unreviewed",
+      "frame": 261,
+      "time_s": 8.7,
+      "player_id": null,
+      "pixel": [
+        1023.5899999999999,
+        540.68
+      ],
+      "pixel_basis": "observed_ball_at_reviewed_frame",
+      "court_m": null,
+      "candidate_court_m": [
+        9.379,
+        0.662
+      ],
+      "candidate_geometry_basis": "conditional_on_unverified_bounce_not_a_flight_constraint",
+      "geometry_issue": null,
+      "original_frame": 261,
+      "notes": ""
+    },
+    {
+      "id": "bounce_candidate-000286",
+      "type": "bounce",
+      "status": "unreviewed",
+      "frame": 286,
+      "time_s": 9.533333333333333,
+      "player_id": null,
+      "pixel": [
+        887.12,
+        576.13
+      ],
+      "pixel_basis": "observed_ball_at_reviewed_frame",
+      "court_m": null,
+      "candidate_court_m": [
+        7.907,
+        0.184
+      ],
+      "candidate_geometry_basis": "conditional_on_unverified_bounce_not_a_flight_constraint",
+      "geometry_issue": null,
+      "original_frame": 286,
+      "notes": ""
+    },
+    {
+      "id": "hit_candidate-000295",
+      "type": "hit",
+      "status": "unreviewed",
+      "frame": 295,
+      "time_s": 9.833333333333334,
+      "player_id": "near",
+      "pixel": [
+        883.0,
+        484.38
+      ],
+      "pixel_basis": "observed_ball_at_reviewed_frame",
+      "court_m": null,
+      "candidate_court_m": null,
+      "candidate_geometry_basis": null,
+      "geometry_issue": null,
+      "original_frame": 295,
+      "notes": ""
+    },
+    {
+      "id": "bounce_candidate-000301",
+      "type": "bounce",
+      "status": "unreviewed",
+      "frame": 301,
+      "time_s": 10.033333333333333,
+      "player_id": null,
+      "pixel": [
+        823.14,
+        580.0
+      ],
+      "pixel_basis": "observed_ball_at_reviewed_frame",
+      "court_m": null,
+      "candidate_court_m": [
+        7.349,
+        0.148
+      ],
+      "candidate_geometry_basis": "conditional_on_unverified_bounce_not_a_flight_constraint",
+      "geometry_issue": null,
+      "original_frame": 301,
+      "notes": ""
+    },
+    {
+      "id": "hit_candidate-000309",
+      "type": "hit",
+      "status": "unreviewed",
+      "frame": 309,
+      "time_s": 10.3,
+      "player_id": "near",
+      "pixel": [
+        808.09,
+        466.68
+      ],
+      "pixel_basis": "observed_ball_at_reviewed_frame",
+      "court_m": null,
+      "candidate_court_m": null,
+      "candidate_geometry_basis": null,
+      "geometry_issue": null,
+      "original_frame": 309,
+      "notes": ""
+    },
+    {
+      "id": "bounce_candidate-000321",
+      "type": "bounce",
+      "status": "unreviewed",
+      "frame": 321,
+      "time_s": 10.7,
+      "player_id": null,
+      "pixel": [
+        706.53,
+        602.42
+      ],
+      "pixel_basis": "observed_ball_at_reviewed_frame",
+      "court_m": null,
+      "candidate_court_m": [
+        6.371,
+        -0.151
+      ],
+      "candidate_geometry_basis": "conditional_on_unverified_bounce_not_a_flight_constraint",
+      "geometry_issue": null,
+      "original_frame": 321,
+      "notes": ""
+    },
+    {
+      "id": "hit_candidate-000336",
+      "type": "hit",
+      "status": "unreviewed",
+      "frame": 336,
+      "time_s": 11.2,
+      "player_id": "near",
+      "pixel": [
+        638.29,
+        603.35
+      ],
+      "pixel_basis": "observed_ball_at_reviewed_frame",
+      "court_m": null,
+      "candidate_court_m": null,
+      "candidate_geometry_basis": null,
+      "geometry_issue": null,
+      "original_frame": 336,
+      "notes": ""
+    },
+    {
+      "id": "hit_candidate-000369",
+      "type": "hit",
+      "status": "unreviewed",
+      "frame": 369,
+      "time_s": 12.3,
+      "player_id": "near",
+      "pixel": [
+        507.82,
+        407.64
+      ],
+      "pixel_basis": "observed_ball_at_reviewed_frame",
+      "court_m": null,
+      "candidate_court_m": null,
+      "candidate_geometry_basis": null,
+      "geometry_issue": null,
+      "original_frame": 369,
+      "notes": ""
+    },
+    {
+      "id": "hit_candidate-000440",
+      "type": "hit",
+      "status": "unreviewed",
+      "frame": 440,
+      "time_s": 14.666666666666666,
+      "player_id": "near",
+      "pixel": [
+        442.38,
+        549.86
+      ],
+      "pixel_basis": "observed_ball_at_reviewed_frame",
+      "court_m": null,
+      "candidate_court_m": null,
+      "candidate_geometry_basis": null,
+      "geometry_issue": null,
+      "original_frame": 440,
+      "notes": ""
+    },
+    {
+      "id": "bounce_candidate-000519",
+      "type": "bounce",
+      "status": "unreviewed",
+      "frame": 518,
+      "time_s": 17.266666666666666,
+      "player_id": null,
+      "pixel": [
+        623.42,
+        161.55
+      ],
+      "pixel_basis": "observed_ball_at_reviewed_frame",
+      "court_m": null,
+      "candidate_court_m": [
+        6.009,
+        17.589
+      ],
+      "candidate_geometry_basis": "conditional_on_unverified_bounce_not_a_flight_constraint",
+      "geometry_issue": null,
+      "original_frame": 519,
+      "notes": "User reports serve in service box. Visual turn appears at frame 518 +/- 1, rather than original 519. Timing remains a proposal pending review.",
+      "timing_review": {
+        "frame_range": [
+          517,
+          519
+        ],
+        "frame_period_ms": 33.333333333333336,
+        "precision": "frame_level_not_exact_subframe_contact",
+        "status": "unreviewed"
+      }
+    },
+    {
+      "id": "bounce_candidate-000580",
+      "type": "bounce",
+      "status": "unreviewed",
+      "frame": 580,
+      "time_s": 19.333333333333332,
+      "player_id": null,
+      "pixel": [
+        471.39,
+        514.56
+      ],
+      "pixel_basis": "observed_ball_at_reviewed_frame",
+      "court_m": null,
+      "candidate_court_m": [
+        4.431,
+        1.05
+      ],
+      "candidate_geometry_basis": "conditional_on_unverified_bounce_not_a_flight_constraint",
+      "geometry_issue": null,
+      "original_frame": 580,
+      "notes": ""
+    }
+  ]
+}

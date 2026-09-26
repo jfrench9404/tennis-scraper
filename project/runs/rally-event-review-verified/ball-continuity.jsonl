@@ -1,0 +1,600 @@
+{"frame": 0, "time_s": 0.0, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 1, "time_s": 0.03333333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 2, "time_s": 0.06666666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 3, "time_s": 0.1, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 4, "time_s": 0.13333333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 5, "time_s": 0.16666666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 6, "time_s": 0.2, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 7, "time_s": 0.23333333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 8, "time_s": 0.26666666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 9, "time_s": 0.3, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 10, "time_s": 0.3333333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 11, "time_s": 0.36666666666666664, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 12, "time_s": 0.4, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 13, "time_s": 0.43333333333333335, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 14, "time_s": 0.4666666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 15, "time_s": 0.5, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 16, "time_s": 0.5333333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 17, "time_s": 0.5666666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 18, "time_s": 0.6, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 19, "time_s": 0.6333333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 20, "time_s": 0.6666666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 21, "time_s": 0.7, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 22, "time_s": 0.7333333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 23, "time_s": 0.7666666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 24, "time_s": 0.8, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 25, "time_s": 0.8333333333333334, "status": "detected", "pixel": [744.62, 450.56], "observation": {"pixel": [744.62, 450.56], "source": "gridtracknet", "detector_score": 0.59, "track_id": 5}, "estimate": null}
+{"frame": 26, "time_s": 0.8666666666666667, "status": "detected", "pixel": [743.34, 437.08], "observation": {"pixel": [743.34, 437.08], "source": "gridtracknet", "detector_score": 0.733, "track_id": 5}, "estimate": null}
+{"frame": 27, "time_s": 0.9, "status": "detected", "pixel": [740.99, 410.83], "observation": {"pixel": [740.99, 410.83], "source": "gridtracknet", "detector_score": 0.68, "track_id": 5}, "estimate": null}
+{"frame": 28, "time_s": 0.9333333333333333, "status": "detected", "pixel": [738.53, 386.59], "observation": {"pixel": [738.53, 386.59], "source": "gridtracknet", "detector_score": 0.843, "track_id": 5}, "estimate": null}
+{"frame": 29, "time_s": 0.9666666666666667, "status": "detected", "pixel": [739.94, 360.26], "observation": {"pixel": [739.94, 360.26], "source": "gridtracknet", "detector_score": 0.78, "track_id": 5}, "estimate": null}
+{"frame": 30, "time_s": 1.0, "status": "detected", "pixel": [743.35, 333.63], "observation": {"pixel": [743.35, 333.63], "source": "gridtracknet", "detector_score": 0.977, "track_id": 5}, "estimate": null}
+{"frame": 31, "time_s": 1.0333333333333334, "status": "detected", "pixel": [744.01, 306.43], "observation": {"pixel": [744.01, 306.43], "source": "gridtracknet", "detector_score": 0.926, "track_id": 5}, "estimate": null}
+{"frame": 32, "time_s": 1.0666666666666667, "status": "detected", "pixel": [744.74, 285.26], "observation": {"pixel": [744.74, 285.26], "source": "gridtracknet", "detector_score": 0.936, "track_id": 5}, "estimate": null}
+{"frame": 33, "time_s": 1.1, "status": "detected", "pixel": [745.11, 261.77], "observation": {"pixel": [745.11, 261.77], "source": "gridtracknet", "detector_score": 0.93, "track_id": 5}, "estimate": null}
+{"frame": 34, "time_s": 1.1333333333333333, "status": "detected", "pixel": [745.32, 243.13], "observation": {"pixel": [745.32, 243.13], "source": "gridtracknet", "detector_score": 0.858, "track_id": 5}, "estimate": null}
+{"frame": 35, "time_s": 1.1666666666666667, "status": "detected", "pixel": [747.58, 222.94], "observation": {"pixel": [747.58, 222.94], "source": "gridtracknet", "detector_score": 0.85, "track_id": 5}, "estimate": null}
+{"frame": 36, "time_s": 1.2, "status": "detected", "pixel": [748.38, 205.97], "observation": {"pixel": [748.38, 205.97], "source": "gridtracknet", "detector_score": 0.922, "track_id": 5}, "estimate": null}
+{"frame": 37, "time_s": 1.2333333333333334, "status": "detected", "pixel": [749.04, 191.1], "observation": {"pixel": [749.04, 191.1], "source": "gridtracknet", "detector_score": 0.787, "track_id": 5}, "estimate": null}
+{"frame": 38, "time_s": 1.2666666666666666, "status": "detected", "pixel": [748.78, 176.21], "observation": {"pixel": [748.78, 176.21], "source": "gridtracknet", "detector_score": 0.959, "track_id": 5}, "estimate": null}
+{"frame": 39, "time_s": 1.3, "status": "detected", "pixel": [748.7, 163.4], "observation": {"pixel": [748.7, 163.4], "source": "gridtracknet", "detector_score": 0.75, "track_id": 5}, "estimate": null}
+{"frame": 40, "time_s": 1.3333333333333333, "status": "detected", "pixel": [748.56, 150.81], "observation": {"pixel": [748.56, 150.81], "source": "gridtracknet", "detector_score": 0.929, "track_id": 5}, "estimate": null}
+{"frame": 41, "time_s": 1.3666666666666667, "status": "detected", "pixel": [748.73, 140.66], "observation": {"pixel": [748.73, 140.66], "source": "gridtracknet", "detector_score": 0.968, "track_id": 5}, "estimate": null}
+{"frame": 42, "time_s": 1.4, "status": "detected", "pixel": [748.85, 130.73], "observation": {"pixel": [748.85, 130.73], "source": "gridtracknet", "detector_score": 0.771, "track_id": 5}, "estimate": null}
+{"frame": 43, "time_s": 1.4333333333333333, "status": "detected", "pixel": [748.17, 123.94], "observation": {"pixel": [748.17, 123.94], "source": "gridtracknet", "detector_score": 0.921, "track_id": 5}, "estimate": null}
+{"frame": 44, "time_s": 1.4666666666666666, "status": "detected", "pixel": [748.2, 117.08], "observation": {"pixel": [748.2, 117.08], "source": "gridtracknet", "detector_score": 0.863, "track_id": 5}, "estimate": null}
+{"frame": 45, "time_s": 1.5, "status": "detected", "pixel": [749.5, 114.85], "observation": {"pixel": [749.5, 114.85], "source": "gridtracknet", "detector_score": 0.93, "track_id": 5}, "estimate": null}
+{"frame": 46, "time_s": 1.5333333333333334, "status": "detected", "pixel": [748.81, 111.94], "observation": {"pixel": [748.81, 111.94], "source": "gridtracknet", "detector_score": 0.892, "track_id": 5}, "estimate": null}
+{"frame": 47, "time_s": 1.5666666666666667, "status": "detected", "pixel": [747.99, 110.8], "observation": {"pixel": [747.99, 110.8], "source": "gridtracknet", "detector_score": 0.756, "track_id": 5}, "estimate": null}
+{"frame": 48, "time_s": 1.6, "status": "detected", "pixel": [745.7, 110.89], "observation": {"pixel": [745.7, 110.89], "source": "gridtracknet", "detector_score": 0.759, "track_id": 5}, "estimate": null}
+{"frame": 49, "time_s": 1.6333333333333333, "status": "detected", "pixel": [744.85, 111.89], "observation": {"pixel": [744.85, 111.89], "source": "gridtracknet", "detector_score": 0.805, "track_id": 5}, "estimate": null}
+{"frame": 50, "time_s": 1.6666666666666667, "status": "detected", "pixel": [743.54, 117.06], "observation": {"pixel": [743.54, 117.06], "source": "gridtracknet", "detector_score": 0.969, "track_id": 5}, "estimate": null}
+{"frame": 51, "time_s": 1.7, "status": "detected", "pixel": [742.93, 121.04], "observation": {"pixel": [742.93, 121.04], "source": "gridtracknet", "detector_score": 0.981, "track_id": 5}, "estimate": null}
+{"frame": 52, "time_s": 1.7333333333333334, "status": "detected", "pixel": [741.77, 126.9], "observation": {"pixel": [741.77, 126.9], "source": "gridtracknet", "detector_score": 0.958, "track_id": 5}, "estimate": null}
+{"frame": 53, "time_s": 1.7666666666666666, "status": "detected", "pixel": [741.32, 135.36], "observation": {"pixel": [741.32, 135.36], "source": "gridtracknet", "detector_score": 0.938, "track_id": 5}, "estimate": null}
+{"frame": 54, "time_s": 1.8, "status": "detected", "pixel": [740.55, 143.28], "observation": {"pixel": [740.55, 143.28], "source": "gridtracknet", "detector_score": 0.942, "track_id": 5}, "estimate": null}
+{"frame": 55, "time_s": 1.8333333333333333, "status": "detected", "pixel": [738.79, 155.91], "observation": {"pixel": [738.79, 155.91], "source": "gridtracknet", "detector_score": 0.961, "track_id": 5}, "estimate": null}
+{"frame": 56, "time_s": 1.8666666666666667, "status": "detected", "pixel": [736.31, 168.09], "observation": {"pixel": [736.31, 168.09], "source": "gridtracknet", "detector_score": 0.977, "track_id": 5}, "estimate": null}
+{"frame": 57, "time_s": 1.9, "status": "detected", "pixel": [728.36, 179.98], "observation": {"pixel": [728.36, 179.98], "source": "gridtracknet", "detector_score": 0.93, "track_id": 5}, "estimate": null}
+{"frame": 58, "time_s": 1.9333333333333333, "status": "detected", "pixel": [706.07, 179.68], "observation": {"pixel": [706.07, 179.68], "source": "gridtracknet", "detector_score": 0.701, "track_id": 5}, "estimate": null}
+{"frame": 59, "time_s": 1.9666666666666666, "status": "detected", "pixel": [670.62, 172.4], "observation": {"pixel": [670.62, 172.4], "source": "gridtracknet", "detector_score": 0.879, "track_id": 5}, "estimate": null}
+{"frame": 60, "time_s": 2.0, "status": "detected", "pixel": [645.36, 165.1], "observation": {"pixel": [645.36, 165.1], "source": "gridtracknet", "detector_score": 0.917, "track_id": 5}, "estimate": null}
+{"frame": 61, "time_s": 2.033333333333333, "status": "detected", "pixel": [628.03, 162.29], "observation": {"pixel": [628.03, 162.29], "source": "gridtracknet", "detector_score": 0.98, "track_id": 5}, "estimate": null}
+{"frame": 62, "time_s": 2.066666666666667, "status": "estimated", "pixel": [617.0999999999999, 160.615], "observation": null, "estimate": {"method": "bounded_linear_display_only", "endpoints": [61, 63], "not_event_evidence": true}}
+{"frame": 63, "time_s": 2.1, "status": "detected", "pixel": [606.17, 158.94], "observation": {"pixel": [606.17, 158.94], "source": "gridtracknet", "detector_score": 0.952, "track_id": 10}, "estimate": null}
+{"frame": 64, "time_s": 2.1333333333333333, "status": "detected", "pixel": [595.7, 158.84], "observation": {"pixel": [595.7, 158.84], "source": "gridtracknet", "detector_score": 0.869, "track_id": 10}, "estimate": null}
+{"frame": 65, "time_s": 2.1666666666666665, "status": "detected", "pixel": [589.33, 158.58], "observation": {"pixel": [589.33, 158.58], "source": "gridtracknet", "detector_score": 0.723, "track_id": 10}, "estimate": null}
+{"frame": 66, "time_s": 2.2, "status": "detected", "pixel": [585.37, 158.7], "observation": {"pixel": [585.37, 158.7], "source": "gridtracknet", "detector_score": 0.653, "track_id": 10}, "estimate": null}
+{"frame": 67, "time_s": 2.2333333333333334, "status": "detected", "pixel": [582.99, 156.56], "observation": {"pixel": [582.99, 156.56], "source": "gridtracknet", "detector_score": 0.846, "track_id": 10}, "estimate": null}
+{"frame": 68, "time_s": 2.2666666666666666, "status": "detected", "pixel": [579.86, 153.55], "observation": {"pixel": [579.86, 153.55], "source": "gridtracknet", "detector_score": 0.908, "track_id": 10}, "estimate": null}
+{"frame": 69, "time_s": 2.3, "status": "detected", "pixel": [578.09, 145.53], "observation": {"pixel": [578.09, 145.53], "source": "gridtracknet", "detector_score": 0.947, "track_id": 10}, "estimate": null}
+{"frame": 70, "time_s": 2.3333333333333335, "status": "detected", "pixel": [575.57, 129.31], "observation": {"pixel": [575.57, 129.31], "source": "gridtracknet", "detector_score": 0.94, "track_id": 10}, "estimate": null}
+{"frame": 71, "time_s": 2.3666666666666667, "status": "detected", "pixel": [574.63, 118.32], "observation": {"pixel": [574.63, 118.32], "source": "gridtracknet", "detector_score": 0.992, "track_id": 10}, "estimate": null}
+{"frame": 72, "time_s": 2.4, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 73, "time_s": 2.433333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 74, "time_s": 2.466666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 75, "time_s": 2.5, "status": "detected", "pixel": [572.28, 88.27], "observation": {"pixel": [572.28, 88.27], "source": "gridtracknet", "detector_score": 0.955, "track_id": 14}, "estimate": null}
+{"frame": 76, "time_s": 2.533333333333333, "status": "detected", "pixel": [571.84, 86.94], "observation": {"pixel": [571.84, 86.94], "source": "gridtracknet", "detector_score": 0.98, "track_id": 14}, "estimate": null}
+{"frame": 77, "time_s": 2.566666666666667, "status": "detected", "pixel": [571.3, 84.96], "observation": {"pixel": [571.3, 84.96], "source": "gridtracknet", "detector_score": 0.947, "track_id": 14}, "estimate": null}
+{"frame": 78, "time_s": 2.6, "status": "detected", "pixel": [572.33, 82.4], "observation": {"pixel": [572.33, 82.4], "source": "gridtracknet", "detector_score": 0.879, "track_id": 14}, "estimate": null}
+{"frame": 79, "time_s": 2.6333333333333333, "status": "detected", "pixel": [571.33, 81.78], "observation": {"pixel": [571.33, 81.78], "source": "gridtracknet", "detector_score": 0.73, "track_id": 14}, "estimate": null}
+{"frame": 80, "time_s": 2.6666666666666665, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 81, "time_s": 2.7, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 82, "time_s": 2.7333333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 83, "time_s": 2.7666666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 84, "time_s": 2.8, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 85, "time_s": 2.8333333333333335, "status": "detected", "pixel": [606.26, 62.42], "observation": {"pixel": [606.26, 62.42], "source": "gridtracknet", "detector_score": 0.919, "track_id": 18}, "estimate": null}
+{"frame": 86, "time_s": 2.8666666666666667, "status": "detected", "pixel": [611.07, 59.45], "observation": {"pixel": [611.07, 59.45], "source": "gridtracknet", "detector_score": 0.93, "track_id": 18}, "estimate": null}
+{"frame": 87, "time_s": 2.9, "status": "detected", "pixel": [616.09, 58.64], "observation": {"pixel": [616.09, 58.64], "source": "gridtracknet", "detector_score": 0.817, "track_id": 18}, "estimate": null}
+{"frame": 88, "time_s": 2.933333333333333, "status": "detected", "pixel": [620.1, 56.79], "observation": {"pixel": [620.1, 56.79], "source": "gridtracknet", "detector_score": 0.938, "track_id": 18}, "estimate": null}
+{"frame": 89, "time_s": 2.966666666666667, "status": "detected", "pixel": [625.3, 56.44], "observation": {"pixel": [625.3, 56.44], "source": "gridtracknet", "detector_score": 0.785, "track_id": 18}, "estimate": null}
+{"frame": 90, "time_s": 3.0, "status": "detected", "pixel": [633.68, 55.44], "observation": {"pixel": [633.68, 55.44], "source": "gridtracknet", "detector_score": 0.944, "track_id": 18}, "estimate": null}
+{"frame": 91, "time_s": 3.033333333333333, "status": "detected", "pixel": [638.99, 54.39], "observation": {"pixel": [638.99, 54.39], "source": "gridtracknet", "detector_score": 0.636, "track_id": 18}, "estimate": null}
+{"frame": 92, "time_s": 3.066666666666667, "status": "detected", "pixel": [645.49, 54.08], "observation": {"pixel": [645.49, 54.08], "source": "gridtracknet", "detector_score": 0.86, "track_id": 18}, "estimate": null}
+{"frame": 93, "time_s": 3.1, "status": "detected", "pixel": [652.71, 54.22], "observation": {"pixel": [652.71, 54.22], "source": "gridtracknet", "detector_score": 0.863, "track_id": 18}, "estimate": null}
+{"frame": 94, "time_s": 3.1333333333333333, "status": "detected", "pixel": [659.44, 54.93], "observation": {"pixel": [659.44, 54.93], "source": "gridtracknet", "detector_score": 0.738, "track_id": 18}, "estimate": null}
+{"frame": 95, "time_s": 3.1666666666666665, "status": "detected", "pixel": [665.38, 55.64], "observation": {"pixel": [665.38, 55.64], "source": "gridtracknet", "detector_score": 0.773, "track_id": 18}, "estimate": null}
+{"frame": 96, "time_s": 3.2, "status": "detected", "pixel": [670.11, 57.48], "observation": {"pixel": [670.11, 57.48], "source": "gridtracknet", "detector_score": 0.97, "track_id": 18}, "estimate": null}
+{"frame": 97, "time_s": 3.2333333333333334, "status": "detected", "pixel": [676.87, 58.22], "observation": {"pixel": [676.87, 58.22], "source": "gridtracknet", "detector_score": 0.987, "track_id": 18}, "estimate": null}
+{"frame": 98, "time_s": 3.2666666666666666, "status": "detected", "pixel": [682.44, 61.0], "observation": {"pixel": [682.44, 61.0], "source": "gridtracknet", "detector_score": 0.981, "track_id": 18}, "estimate": null}
+{"frame": 99, "time_s": 3.3, "status": "detected", "pixel": [688.5, 62.66], "observation": {"pixel": [688.5, 62.66], "source": "gridtracknet", "detector_score": 0.917, "track_id": 18}, "estimate": null}
+{"frame": 100, "time_s": 3.3333333333333335, "status": "detected", "pixel": [697.04, 66.3], "observation": {"pixel": [697.04, 66.3], "source": "gridtracknet", "detector_score": 0.959, "track_id": 18}, "estimate": null}
+{"frame": 101, "time_s": 3.3666666666666667, "status": "detected", "pixel": [703.42, 68.17], "observation": {"pixel": [703.42, 68.17], "source": "gridtracknet", "detector_score": 0.984, "track_id": 18}, "estimate": null}
+{"frame": 102, "time_s": 3.4, "status": "detected", "pixel": [710.49, 71.0], "observation": {"pixel": [710.49, 71.0], "source": "gridtracknet", "detector_score": 0.987, "track_id": 18}, "estimate": null}
+{"frame": 103, "time_s": 3.433333333333333, "status": "detected", "pixel": [717.56, 75.56], "observation": {"pixel": [717.56, 75.56], "source": "gridtracknet", "detector_score": 0.893, "track_id": 18}, "estimate": null}
+{"frame": 104, "time_s": 3.466666666666667, "status": "detected", "pixel": [726.81, 80.8], "observation": {"pixel": [726.81, 80.8], "source": "gridtracknet", "detector_score": 0.745, "track_id": 18}, "estimate": null}
+{"frame": 105, "time_s": 3.5, "status": "detected", "pixel": [733.48, 84.19], "observation": {"pixel": [733.48, 84.19], "source": "gridtracknet", "detector_score": 0.955, "track_id": 18}, "estimate": null}
+{"frame": 106, "time_s": 3.533333333333333, "status": "detected", "pixel": [742.21, 89.46], "observation": {"pixel": [742.21, 89.46], "source": "gridtracknet", "detector_score": 0.975, "track_id": 18}, "estimate": null}
+{"frame": 107, "time_s": 3.566666666666667, "status": "detected", "pixel": [749.88, 96.22], "observation": {"pixel": [749.88, 96.22], "source": "gridtracknet", "detector_score": 0.883, "track_id": 18}, "estimate": null}
+{"frame": 108, "time_s": 3.6, "status": "detected", "pixel": [757.14, 103.62], "observation": {"pixel": [757.14, 103.62], "source": "gridtracknet", "detector_score": 0.957, "track_id": 18}, "estimate": null}
+{"frame": 109, "time_s": 3.6333333333333333, "status": "detected", "pixel": [766.07, 110.3], "observation": {"pixel": [766.07, 110.3], "source": "gridtracknet", "detector_score": 0.987, "track_id": 18}, "estimate": null}
+{"frame": 110, "time_s": 3.6666666666666665, "status": "detected", "pixel": [775.68, 119.56], "observation": {"pixel": [775.68, 119.56], "source": "gridtracknet", "detector_score": 0.94, "track_id": 18}, "estimate": null}
+{"frame": 111, "time_s": 3.7, "status": "detected", "pixel": [784.88, 126.46000000000001], "observation": {"pixel": [784.88, 126.46000000000001], "source": "gridtracknet", "detector_score": 0.974, "track_id": 18}, "estimate": null}
+{"frame": 112, "time_s": 3.7333333333333334, "status": "detected", "pixel": [790.17, 135.05], "observation": {"pixel": [790.17, 135.05], "source": "gridtracknet", "detector_score": 0.841, "track_id": 18}, "estimate": null}
+{"frame": 113, "time_s": 3.7666666666666666, "status": "detected", "pixel": [801.44, 143.86], "observation": {"pixel": [801.44, 143.86], "source": "gridtracknet", "detector_score": 0.66, "track_id": 18}, "estimate": null}
+{"frame": 114, "time_s": 3.8, "status": "detected", "pixel": [808.93, 155.59], "observation": {"pixel": [808.93, 155.59], "source": "gridtracknet", "detector_score": 0.961, "track_id": 18}, "estimate": null}
+{"frame": 115, "time_s": 3.8333333333333335, "status": "detected", "pixel": [820.42, 171.8], "observation": {"pixel": [820.42, 171.8], "source": "gridtracknet", "detector_score": 0.967, "track_id": 18}, "estimate": null}
+{"frame": 116, "time_s": 3.8666666666666667, "status": "detected", "pixel": [828.43, 180.65], "observation": {"pixel": [828.43, 180.65], "source": "gridtracknet", "detector_score": 0.893, "track_id": 18}, "estimate": null}
+{"frame": 117, "time_s": 3.9, "status": "detected", "pixel": [836.6, 193.21], "observation": {"pixel": [836.6, 193.21], "source": "gridtracknet", "detector_score": 0.98, "track_id": 18}, "estimate": null}
+{"frame": 118, "time_s": 3.933333333333333, "status": "detected", "pixel": [845.34, 205.02], "observation": {"pixel": [845.34, 205.02], "source": "gridtracknet", "detector_score": 0.99, "track_id": 18}, "estimate": null}
+{"frame": 119, "time_s": 3.966666666666667, "status": "detected", "pixel": [855.71, 220.76], "observation": {"pixel": [855.71, 220.76], "source": "gridtracknet", "detector_score": 0.969, "track_id": 18}, "estimate": null}
+{"frame": 120, "time_s": 4.0, "status": "detected", "pixel": [866.67, 234.14], "observation": {"pixel": [866.67, 234.14], "source": "gridtracknet", "detector_score": 0.988, "track_id": 18}, "estimate": null}
+{"frame": 121, "time_s": 4.033333333333333, "status": "detected", "pixel": [873.89, 252.87], "observation": {"pixel": [873.89, 252.87], "source": "gridtracknet", "detector_score": 0.962, "track_id": 18}, "estimate": null}
+{"frame": 122, "time_s": 4.066666666666666, "status": "detected", "pixel": [882.74, 260.69], "observation": {"pixel": [882.74, 260.69], "source": "gridtracknet", "detector_score": 0.886, "track_id": 18}, "estimate": null}
+{"frame": 123, "time_s": 4.1, "status": "detected", "pixel": [888.55, 257.53], "observation": {"pixel": [888.55, 257.53], "source": "gridtracknet", "detector_score": 0.979, "track_id": 18}, "estimate": null}
+{"frame": 124, "time_s": 4.133333333333334, "status": "detected", "pixel": [897.49, 250.73], "observation": {"pixel": [897.49, 250.73], "source": "gridtracknet", "detector_score": 0.964, "track_id": 18}, "estimate": null}
+{"frame": 125, "time_s": 4.166666666666667, "status": "detected", "pixel": [901.4, 248.37], "observation": {"pixel": [901.4, 248.37], "source": "gridtracknet", "detector_score": 0.974, "track_id": 18}, "estimate": null}
+{"frame": 126, "time_s": 4.2, "status": "detected", "pixel": [907.94, 241.87], "observation": {"pixel": [907.94, 241.87], "source": "gridtracknet", "detector_score": 0.877, "track_id": 18}, "estimate": null}
+{"frame": 127, "time_s": 4.233333333333333, "status": "detected", "pixel": [913.53, 237.72], "observation": {"pixel": [913.53, 237.72], "source": "gridtracknet", "detector_score": 0.895, "track_id": 18}, "estimate": null}
+{"frame": 128, "time_s": 4.266666666666667, "status": "detected", "pixel": [919.47, 235.83], "observation": {"pixel": [919.47, 235.83], "source": "gridtracknet", "detector_score": 0.984, "track_id": 18}, "estimate": null}
+{"frame": 129, "time_s": 4.3, "status": "detected", "pixel": [926.19, 234.12], "observation": {"pixel": [926.19, 234.12], "source": "gridtracknet", "detector_score": 0.981, "track_id": 18}, "estimate": null}
+{"frame": 130, "time_s": 4.333333333333333, "status": "detected", "pixel": [930.66, 231.75], "observation": {"pixel": [930.66, 231.75], "source": "gridtracknet", "detector_score": 0.961, "track_id": 18}, "estimate": null}
+{"frame": 131, "time_s": 4.366666666666666, "status": "detected", "pixel": [936.23, 230.31], "observation": {"pixel": [936.23, 230.31], "source": "gridtracknet", "detector_score": 0.937, "track_id": 18}, "estimate": null}
+{"frame": 132, "time_s": 4.4, "status": "detected", "pixel": [942.16, 227.33], "observation": {"pixel": [942.16, 227.33], "source": "gridtracknet", "detector_score": 0.939, "track_id": 18}, "estimate": null}
+{"frame": 133, "time_s": 4.433333333333334, "status": "detected", "pixel": [946.89, 228.88], "observation": {"pixel": [946.89, 228.88], "source": "gridtracknet", "detector_score": 0.983, "track_id": 18}, "estimate": null}
+{"frame": 134, "time_s": 4.466666666666667, "status": "detected", "pixel": [953.89, 231.26], "observation": {"pixel": [953.89, 231.26], "source": "gridtracknet", "detector_score": 0.973, "track_id": 18}, "estimate": null}
+{"frame": 135, "time_s": 4.5, "status": "detected", "pixel": [960.98, 234.14], "observation": {"pixel": [960.98, 234.14], "source": "gridtracknet", "detector_score": 0.553, "track_id": 18}, "estimate": null}
+{"frame": 136, "time_s": 4.533333333333333, "status": "detected", "pixel": [964.08, 235.98], "observation": {"pixel": [964.08, 235.98], "source": "gridtracknet", "detector_score": 0.992, "track_id": 18}, "estimate": null}
+{"frame": 137, "time_s": 4.566666666666666, "status": "detected", "pixel": [971.19, 238.51], "observation": {"pixel": [971.19, 238.51], "source": "gridtracknet", "detector_score": 0.939, "track_id": 18}, "estimate": null}
+{"frame": 138, "time_s": 4.6, "status": "detected", "pixel": [978.71, 241.91], "observation": {"pixel": [978.71, 241.91], "source": "gridtracknet", "detector_score": 0.985, "track_id": 18}, "estimate": null}
+{"frame": 139, "time_s": 4.633333333333334, "status": "detected", "pixel": [984.46, 245.54], "observation": {"pixel": [984.46, 245.54], "source": "gridtracknet", "detector_score": 0.915, "track_id": 18}, "estimate": null}
+{"frame": 140, "time_s": 4.666666666666667, "status": "detected", "pixel": [987.94, 247.94], "observation": {"pixel": [987.94, 247.94], "source": "gridtracknet", "detector_score": 0.892, "track_id": 18}, "estimate": null}
+{"frame": 141, "time_s": 4.7, "status": "detected", "pixel": [991.17, 256.5], "observation": {"pixel": [991.17, 256.5], "source": "gridtracknet", "detector_score": 0.998, "track_id": 18}, "estimate": null}
+{"frame": 142, "time_s": 4.733333333333333, "status": "detected", "pixel": [995.47, 264.64], "observation": {"pixel": [995.47, 264.64], "source": "gridtracknet", "detector_score": 0.945, "track_id": 18}, "estimate": null}
+{"frame": 143, "time_s": 4.766666666666667, "status": "detected", "pixel": [1003.35, 271.32], "observation": {"pixel": [1003.35, 271.32], "source": "gridtracknet", "detector_score": 0.995, "track_id": 18}, "estimate": null}
+{"frame": 144, "time_s": 4.8, "status": "detected", "pixel": [1009.77, 280.24], "observation": {"pixel": [1009.77, 280.24], "source": "gridtracknet", "detector_score": 0.947, "track_id": 18}, "estimate": null}
+{"frame": 145, "time_s": 4.833333333333333, "status": "detected", "pixel": [1012.38, 289.5], "observation": {"pixel": [1012.38, 289.5], "source": "gridtracknet", "detector_score": 0.952, "track_id": 18}, "estimate": null}
+{"frame": 146, "time_s": 4.866666666666666, "status": "detected", "pixel": [1015.43, 297.44], "observation": {"pixel": [1015.43, 297.44], "source": "gridtracknet", "detector_score": 0.967, "track_id": 18}, "estimate": null}
+{"frame": 147, "time_s": 4.9, "status": "detected", "pixel": [1020.8800000000001, 309.02], "observation": {"pixel": [1020.8800000000001, 309.02], "source": "gridtracknet", "detector_score": 0.974, "track_id": 18}, "estimate": null}
+{"frame": 148, "time_s": 4.933333333333334, "status": "detected", "pixel": [1025.14, 318.29], "observation": {"pixel": [1025.14, 318.29], "source": "gridtracknet", "detector_score": 0.649, "track_id": 18}, "estimate": null}
+{"frame": 149, "time_s": 4.966666666666667, "status": "detected", "pixel": [1030.37, 324.27], "observation": {"pixel": [1030.37, 324.27], "source": "gridtracknet", "detector_score": 0.915, "track_id": 18}, "estimate": null}
+{"frame": 150, "time_s": 5.0, "status": "detected", "pixel": [1035.01, 322.22], "observation": {"pixel": [1035.01, 322.22], "source": "gridtracknet", "detector_score": 0.884, "track_id": 18}, "estimate": null}
+{"frame": 151, "time_s": 5.033333333333333, "status": "detected", "pixel": [1043.85, 318.09], "observation": {"pixel": [1043.85, 318.09], "source": "gridtracknet", "detector_score": 0.874, "track_id": 18}, "estimate": null}
+{"frame": 152, "time_s": 5.066666666666666, "status": "detected", "pixel": [1050.59, 312.4], "observation": {"pixel": [1050.59, 312.4], "source": "gridtracknet", "detector_score": 0.978, "track_id": 18}, "estimate": null}
+{"frame": 153, "time_s": 5.1, "status": "detected", "pixel": [1059.03, 313.32], "observation": {"pixel": [1059.03, 313.32], "source": "gridtracknet", "detector_score": 0.943, "track_id": 18}, "estimate": null}
+{"frame": 154, "time_s": 5.133333333333334, "status": "detected", "pixel": [1064.13, 312.86], "observation": {"pixel": [1064.13, 312.86], "source": "gridtracknet", "detector_score": 0.784, "track_id": 18}, "estimate": null}
+{"frame": 155, "time_s": 5.166666666666667, "status": "detected", "pixel": [1070.57, 312.3], "observation": {"pixel": [1070.57, 312.3], "source": "gridtracknet", "detector_score": 0.953, "track_id": 18}, "estimate": null}
+{"frame": 156, "time_s": 5.2, "status": "detected", "pixel": [1078.66, 308.62], "observation": {"pixel": [1078.66, 308.62], "source": "gridtracknet", "detector_score": 0.983, "track_id": 18}, "estimate": null}
+{"frame": 157, "time_s": 5.233333333333333, "status": "detected", "pixel": [1084.2, 310.48], "observation": {"pixel": [1084.2, 310.48], "source": "gridtracknet", "detector_score": 0.966, "track_id": 18}, "estimate": null}
+{"frame": 158, "time_s": 5.266666666666667, "status": "detected", "pixel": [1090.47, 313.49], "observation": {"pixel": [1090.47, 313.49], "source": "gridtracknet", "detector_score": 0.918, "track_id": 18}, "estimate": null}
+{"frame": 159, "time_s": 5.3, "status": "detected", "pixel": [1101.48, 316.39], "observation": {"pixel": [1101.48, 316.39], "source": "gridtracknet", "detector_score": 0.862, "track_id": 18}, "estimate": null}
+{"frame": 160, "time_s": 5.333333333333333, "status": "detected", "pixel": [1104.4, 318.29], "observation": {"pixel": [1104.4, 318.29], "source": "gridtracknet", "detector_score": 0.989, "track_id": 18}, "estimate": null}
+{"frame": 161, "time_s": 5.366666666666666, "status": "detected", "pixel": [1106.53, 321.39], "observation": {"pixel": [1106.53, 321.39], "source": "gridtracknet", "detector_score": 0.906, "track_id": 18}, "estimate": null}
+{"frame": 162, "time_s": 5.4, "status": "detected", "pixel": [1112.7, 325.57], "observation": {"pixel": [1112.7, 325.57], "source": "gridtracknet", "detector_score": 0.971, "track_id": 18}, "estimate": null}
+{"frame": 163, "time_s": 5.433333333333334, "status": "detected", "pixel": [1119.08, 330.88], "observation": {"pixel": [1119.08, 330.88], "source": "gridtracknet", "detector_score": 0.615, "track_id": 18}, "estimate": null}
+{"frame": 164, "time_s": 5.466666666666667, "status": "detected", "pixel": [1128.8, 334.93], "observation": {"pixel": [1128.8, 334.93], "source": "gridtracknet", "detector_score": 0.964, "track_id": 18}, "estimate": null}
+{"frame": 165, "time_s": 5.5, "status": "detected", "pixel": [1127.12, 344.35], "observation": {"pixel": [1127.12, 344.35], "source": "gridtracknet", "detector_score": 0.821, "track_id": 18}, "estimate": null}
+{"frame": 166, "time_s": 5.533333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 167, "time_s": 5.566666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 168, "time_s": 5.6, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 169, "time_s": 5.633333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 170, "time_s": 5.666666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 171, "time_s": 5.7, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 172, "time_s": 5.733333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 173, "time_s": 5.766666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 174, "time_s": 5.8, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 175, "time_s": 5.833333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 176, "time_s": 5.866666666666666, "status": "detected", "pixel": [1197.04, 375.03], "observation": {"pixel": [1197.04, 375.03], "source": "gridtracknet", "detector_score": 0.836, "track_id": 34}, "estimate": null}
+{"frame": 177, "time_s": 5.9, "status": "detected", "pixel": [1195.23, 386.98], "observation": {"pixel": [1195.23, 386.98], "source": "gridtracknet", "detector_score": 0.963, "track_id": 34}, "estimate": null}
+{"frame": 178, "time_s": 5.933333333333334, "status": "detected", "pixel": [1194.23, 395.95], "observation": {"pixel": [1194.23, 395.95], "source": "gridtracknet", "detector_score": 0.81, "track_id": 34}, "estimate": null}
+{"frame": 179, "time_s": 5.966666666666667, "status": "detected", "pixel": [1189.09, 405.84], "observation": {"pixel": [1189.09, 405.84], "source": "gridtracknet", "detector_score": 0.986, "track_id": 34}, "estimate": null}
+{"frame": 180, "time_s": 6.0, "status": "detected", "pixel": [1187.8, 402.26], "observation": {"pixel": [1187.8, 402.26], "source": "gridtracknet", "detector_score": 0.973, "track_id": 34}, "estimate": null}
+{"frame": 181, "time_s": 6.033333333333333, "status": "detected", "pixel": [1195.76, 397.43], "observation": {"pixel": [1195.76, 397.43], "source": "gridtracknet", "detector_score": 0.889, "track_id": 34}, "estimate": null}
+{"frame": 182, "time_s": 6.066666666666666, "status": "detected", "pixel": [1198.13, 391.29], "observation": {"pixel": [1198.13, 391.29], "source": "gridtracknet", "detector_score": 0.867, "track_id": 34}, "estimate": null}
+{"frame": 183, "time_s": 6.1, "status": "detected", "pixel": [1200.45, 384.56], "observation": {"pixel": [1200.45, 384.56], "source": "gridtracknet", "detector_score": 0.613, "track_id": 34}, "estimate": null}
+{"frame": 184, "time_s": 6.133333333333334, "status": "detected", "pixel": [1201.6, 378.06], "observation": {"pixel": [1201.6, 378.06], "source": "gridtracknet", "detector_score": 0.785, "track_id": 34}, "estimate": null}
+{"frame": 185, "time_s": 6.166666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 186, "time_s": 6.2, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 187, "time_s": 6.233333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 188, "time_s": 6.266666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 189, "time_s": 6.3, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 190, "time_s": 6.333333333333333, "status": "detected", "pixel": [1208.6, 375.2], "observation": {"pixel": [1208.6, 375.2], "source": "gridtracknet", "detector_score": 0.733, "track_id": 37}, "estimate": null}
+{"frame": 191, "time_s": 6.366666666666666, "status": "detected", "pixel": [1211.65, 377.57], "observation": {"pixel": [1211.65, 377.57], "source": "gridtracknet", "detector_score": 0.783, "track_id": 37}, "estimate": null}
+{"frame": 192, "time_s": 6.4, "status": "detected", "pixel": [1212.52, 380.57], "observation": {"pixel": [1212.52, 380.57], "source": "gridtracknet", "detector_score": 0.755, "track_id": 37}, "estimate": null}
+{"frame": 193, "time_s": 6.433333333333334, "status": "detected", "pixel": [1214.3, 384.13], "observation": {"pixel": [1214.3, 384.13], "source": "gridtracknet", "detector_score": 0.753, "track_id": 37}, "estimate": null}
+{"frame": 194, "time_s": 6.466666666666667, "status": "detected", "pixel": [1213.31, 387.22], "observation": {"pixel": [1213.31, 387.22], "source": "gridtracknet", "detector_score": 0.685, "track_id": 37}, "estimate": null}
+{"frame": 195, "time_s": 6.5, "status": "detected", "pixel": [1215.23, 395.3], "observation": {"pixel": [1215.23, 395.3], "source": "gridtracknet", "detector_score": 0.829, "track_id": 37}, "estimate": null}
+{"frame": 196, "time_s": 6.533333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 197, "time_s": 6.566666666666666, "status": "detected", "pixel": [1209.15, 409.5], "observation": {"pixel": [1209.15, 409.5], "source": "gridtracknet", "detector_score": 0.654, "track_id": 40}, "estimate": null}
+{"frame": 198, "time_s": 6.6, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 199, "time_s": 6.633333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 200, "time_s": 6.666666666666667, "status": "detected", "pixel": [1180.91, 455.05], "observation": {"pixel": [1180.91, 455.05], "source": "gridtracknet", "detector_score": 0.777, "track_id": 41}, "estimate": null}
+{"frame": 201, "time_s": 6.7, "status": "detected", "pixel": [1179.99, 443.47], "observation": {"pixel": [1179.99, 443.47], "source": "gridtracknet", "detector_score": 0.518, "track_id": 41}, "estimate": null}
+{"frame": 202, "time_s": 6.733333333333333, "status": "detected", "pixel": [1182.03, 430.31], "observation": {"pixel": [1182.03, 430.31], "source": "gridtracknet", "detector_score": 0.69, "track_id": 41}, "estimate": null}
+{"frame": 203, "time_s": 6.766666666666667, "status": "detected", "pixel": [1183.11, 414.64], "observation": {"pixel": [1183.11, 414.64], "source": "gridtracknet", "detector_score": 0.919, "track_id": 41}, "estimate": null}
+{"frame": 204, "time_s": 6.8, "status": "detected", "pixel": [1185.99, 395.72], "observation": {"pixel": [1185.99, 395.72], "source": "gridtracknet", "detector_score": 0.592, "track_id": 41}, "estimate": null}
+{"frame": 205, "time_s": 6.833333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 206, "time_s": 6.866666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 207, "time_s": 6.9, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 208, "time_s": 6.933333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 209, "time_s": 6.966666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 210, "time_s": 7.0, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 211, "time_s": 7.033333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 212, "time_s": 7.066666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 213, "time_s": 7.1, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 214, "time_s": 7.133333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 215, "time_s": 7.166666666666667, "status": "detected", "pixel": [1165.03, 365.98], "observation": {"pixel": [1165.03, 365.98], "source": "gridtracknet", "detector_score": 0.886, "track_id": 42}, "estimate": null}
+{"frame": 216, "time_s": 7.2, "status": "detected", "pixel": [1163.22, 368.02], "observation": {"pixel": [1163.22, 368.02], "source": "gridtracknet", "detector_score": 0.821, "track_id": 42}, "estimate": null}
+{"frame": 217, "time_s": 7.233333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 218, "time_s": 7.266666666666667, "status": "detected", "pixel": [1162.48, 383.49], "observation": {"pixel": [1162.48, 383.49], "source": "gridtracknet", "detector_score": 0.724, "track_id": 43}, "estimate": null}
+{"frame": 219, "time_s": 7.3, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 220, "time_s": 7.333333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 221, "time_s": 7.366666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 222, "time_s": 7.4, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 223, "time_s": 7.433333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 224, "time_s": 7.466666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 225, "time_s": 7.5, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 226, "time_s": 7.533333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 227, "time_s": 7.566666666666666, "status": "detected", "pixel": [1181.32, 455.82], "observation": {"pixel": [1181.32, 455.82], "source": "gridtracknet", "detector_score": 0.555, "track_id": 46}, "estimate": null}
+{"frame": 228, "time_s": 7.6, "status": "detected", "pixel": [1194.02, 449.05], "observation": {"pixel": [1194.02, 449.05], "source": "gridtracknet", "detector_score": 0.783, "track_id": 46}, "estimate": null}
+{"frame": 229, "time_s": 7.633333333333334, "status": "detected", "pixel": [1195.09, 446.41], "observation": {"pixel": [1195.09, 446.41], "source": "gridtracknet", "detector_score": 0.73, "track_id": 46}, "estimate": null}
+{"frame": 230, "time_s": 7.666666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 231, "time_s": 7.7, "status": "detected", "pixel": [1204.2, 439.4], "observation": {"pixel": [1204.2, 439.4], "source": "gridtracknet", "detector_score": 0.879, "track_id": 49}, "estimate": null}
+{"frame": 232, "time_s": 7.733333333333333, "status": "detected", "pixel": [1209.78, 435.93], "observation": {"pixel": [1209.78, 435.93], "source": "gridtracknet", "detector_score": 0.812, "track_id": 49}, "estimate": null}
+{"frame": 233, "time_s": 7.766666666666667, "status": "detected", "pixel": [1213.77, 435.73], "observation": {"pixel": [1213.77, 435.73], "source": "gridtracknet", "detector_score": 0.9, "track_id": 49}, "estimate": null}
+{"frame": 234, "time_s": 7.8, "status": "detected", "pixel": [1217.0, 435.83], "observation": {"pixel": [1217.0, 435.83], "source": "gridtracknet", "detector_score": 0.842, "track_id": 49}, "estimate": null}
+{"frame": 235, "time_s": 7.833333333333333, "status": "detected", "pixel": [1225.53, 437.74], "observation": {"pixel": [1225.53, 437.74], "source": "gridtracknet", "detector_score": 0.677, "track_id": 49}, "estimate": null}
+{"frame": 236, "time_s": 7.866666666666666, "status": "detected", "pixel": [1223.39, 442.76], "observation": {"pixel": [1223.39, 442.76], "source": "gridtracknet", "detector_score": 0.894, "track_id": 49}, "estimate": null}
+{"frame": 237, "time_s": 7.9, "status": "detected", "pixel": [1211.7, 454.6], "observation": {"pixel": [1211.7, 454.6], "source": "gridtracknet", "detector_score": 0.764, "track_id": 49}, "estimate": null}
+{"frame": 238, "time_s": 7.933333333333334, "status": "detected", "pixel": [1204.54, 465.66], "observation": {"pixel": [1204.54, 465.66], "source": "gridtracknet", "detector_score": 0.963, "track_id": 49}, "estimate": null}
+{"frame": 239, "time_s": 7.966666666666667, "status": "detected", "pixel": [1192.38, 484.45], "observation": {"pixel": [1192.38, 484.45], "source": "gridtracknet", "detector_score": 0.977, "track_id": 49}, "estimate": null}
+{"frame": 240, "time_s": 8.0, "status": "detected", "pixel": [1179.51, 497.92], "observation": {"pixel": [1179.51, 497.92], "source": "gridtracknet", "detector_score": 0.985, "track_id": 49}, "estimate": null}
+{"frame": 241, "time_s": 8.033333333333333, "status": "detected", "pixel": [1167.08, 519.2], "observation": {"pixel": [1167.08, 519.2], "source": "gridtracknet", "detector_score": 0.686, "track_id": 49}, "estimate": null}
+{"frame": 242, "time_s": 8.066666666666666, "status": "detected", "pixel": [1157.93, 525.06], "observation": {"pixel": [1157.93, 525.06], "source": "gridtracknet", "detector_score": 0.934, "track_id": 49}, "estimate": null}
+{"frame": 243, "time_s": 8.1, "status": "detected", "pixel": [1156.36, 512.72], "observation": {"pixel": [1156.36, 512.72], "source": "gridtracknet", "detector_score": 0.819, "track_id": 49}, "estimate": null}
+{"frame": 244, "time_s": 8.133333333333333, "status": "detected", "pixel": [1151.07, 500.06], "observation": {"pixel": [1151.07, 500.06], "source": "gridtracknet", "detector_score": 0.679, "track_id": 49}, "estimate": null}
+{"frame": 245, "time_s": 8.166666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 246, "time_s": 8.2, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 247, "time_s": 8.233333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 248, "time_s": 8.266666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 249, "time_s": 8.3, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 250, "time_s": 8.333333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 251, "time_s": 8.366666666666667, "status": "detected", "pixel": [1113.78, 457.78], "observation": {"pixel": [1113.78, 457.78], "source": "gridtracknet", "detector_score": 0.567, "track_id": 55}, "estimate": null}
+{"frame": 252, "time_s": 8.4, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 253, "time_s": 8.433333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 254, "time_s": 8.466666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 255, "time_s": 8.5, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 256, "time_s": 8.533333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 257, "time_s": 8.566666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 258, "time_s": 8.6, "status": "detected", "pixel": [1057.71, 487.77], "observation": {"pixel": [1057.71, 487.77], "source": "gridtracknet", "detector_score": 0.607, "track_id": 56}, "estimate": null}
+{"frame": 259, "time_s": 8.633333333333333, "status": "detected", "pixel": [1051.1, 495.94], "observation": {"pixel": [1051.1, 495.94], "source": "gridtracknet", "detector_score": 0.784, "track_id": 56}, "estimate": null}
+{"frame": 260, "time_s": 8.666666666666666, "status": "detected", "pixel": [1028.95, 522.38], "observation": {"pixel": [1028.95, 522.38], "source": "gridtracknet", "detector_score": 0.956, "track_id": 56}, "estimate": null}
+{"frame": 261, "time_s": 8.7, "status": "detected", "pixel": [1023.5899999999999, 540.68], "observation": {"pixel": [1023.5899999999999, 540.68], "source": "gridtracknet", "detector_score": 0.993, "track_id": 56}, "estimate": null}
+{"frame": 262, "time_s": 8.733333333333333, "status": "detected", "pixel": [1028.84, 527.41], "observation": {"pixel": [1028.84, 527.41], "source": "gridtracknet", "detector_score": 0.766, "track_id": 56}, "estimate": null}
+{"frame": 263, "time_s": 8.766666666666667, "status": "detected", "pixel": [1028.37, 512.0], "observation": {"pixel": [1028.37, 512.0], "source": "gridtracknet", "detector_score": 0.9, "track_id": 56}, "estimate": null}
+{"frame": 264, "time_s": 8.8, "status": "detected", "pixel": [1029.9, 495.08], "observation": {"pixel": [1029.9, 495.08], "source": "gridtracknet", "detector_score": 0.883, "track_id": 56}, "estimate": null}
+{"frame": 265, "time_s": 8.833333333333334, "status": "detected", "pixel": [1031.06, 481.58], "observation": {"pixel": [1031.06, 481.58], "source": "gridtracknet", "detector_score": 0.674, "track_id": 56}, "estimate": null}
+{"frame": 266, "time_s": 8.866666666666667, "status": "detected", "pixel": [1029.36, 467.41], "observation": {"pixel": [1029.36, 467.41], "source": "gridtracknet", "detector_score": 0.89, "track_id": 56}, "estimate": null}
+{"frame": 267, "time_s": 8.9, "status": "detected", "pixel": [1033.54, 449.2], "observation": {"pixel": [1033.54, 449.2], "source": "gridtracknet", "detector_score": 0.667, "track_id": 56}, "estimate": null}
+{"frame": 268, "time_s": 8.933333333333334, "status": "detected", "pixel": [1032.71, 440.65], "observation": {"pixel": [1032.71, 440.65], "source": "gridtracknet", "detector_score": 0.953, "track_id": 56}, "estimate": null}
+{"frame": 269, "time_s": 8.966666666666667, "status": "detected", "pixel": [1035.46, 432.56], "observation": {"pixel": [1035.46, 432.56], "source": "gridtracknet", "detector_score": 0.782, "track_id": 56}, "estimate": null}
+{"frame": 270, "time_s": 9.0, "status": "detected", "pixel": [724.08, 88.63], "observation": {"pixel": [724.08, 88.63], "source": "gridtracknet", "detector_score": 0.563, "track_id": 59}, "estimate": null}
+{"frame": 271, "time_s": 9.033333333333333, "status": "detected", "pixel": [723.84, 88.98], "observation": {"pixel": [723.84, 88.98], "source": "gridtracknet", "detector_score": 0.646, "track_id": 59}, "estimate": null}
+{"frame": 272, "time_s": 9.066666666666666, "status": "detected", "pixel": [723.95, 86.86], "observation": {"pixel": [723.95, 86.86], "source": "gridtracknet", "detector_score": 0.615, "track_id": 59}, "estimate": null}
+{"frame": 273, "time_s": 9.1, "status": "detected", "pixel": [723.39, 86.21], "observation": {"pixel": [723.39, 86.21], "source": "gridtracknet", "detector_score": 0.728, "track_id": 59}, "estimate": null}
+{"frame": 274, "time_s": 9.133333333333333, "status": "detected", "pixel": [723.1, 86.56], "observation": {"pixel": [723.1, 86.56], "source": "gridtracknet", "detector_score": 0.54, "track_id": 59}, "estimate": null}
+{"frame": 275, "time_s": 9.166666666666666, "status": "detected", "pixel": [982.75, 411.26], "observation": {"pixel": [982.75, 411.26], "source": "gridtracknet", "detector_score": 0.504, "track_id": 61}, "estimate": null}
+{"frame": 276, "time_s": 9.2, "status": "detected", "pixel": [979.01, 413.38], "observation": {"pixel": [979.01, 413.38], "source": "gridtracknet", "detector_score": 0.718, "track_id": 61}, "estimate": null}
+{"frame": 277, "time_s": 9.233333333333333, "status": "detected", "pixel": [972.03, 416.59], "observation": {"pixel": [972.03, 416.59], "source": "gridtracknet", "detector_score": 0.924, "track_id": 61}, "estimate": null}
+{"frame": 278, "time_s": 9.266666666666667, "status": "detected", "pixel": [963.58, 424.45], "observation": {"pixel": [963.58, 424.45], "source": "gridtracknet", "detector_score": 0.542, "track_id": 61}, "estimate": null}
+{"frame": 279, "time_s": 9.3, "status": "detected", "pixel": [955.12, 440.27], "observation": {"pixel": [955.12, 440.27], "source": "gridtracknet", "detector_score": 0.791, "track_id": 61}, "estimate": null}
+{"frame": 280, "time_s": 9.333333333333334, "status": "detected", "pixel": [945.37, 459.56], "observation": {"pixel": [945.37, 459.56], "source": "gridtracknet", "detector_score": 0.993, "track_id": 61}, "estimate": null}
+{"frame": 281, "time_s": 9.366666666666667, "status": "detected", "pixel": [935.61, 477.07], "observation": {"pixel": [935.61, 477.07], "source": "gridtracknet", "detector_score": 0.606, "track_id": 61}, "estimate": null}
+{"frame": 282, "time_s": 9.4, "status": "detected", "pixel": [921.6, 499.19], "observation": {"pixel": [921.6, 499.19], "source": "gridtracknet", "detector_score": 0.917, "track_id": 61}, "estimate": null}
+{"frame": 283, "time_s": 9.433333333333334, "status": "detected", "pixel": [913.15, 518.64], "observation": {"pixel": [913.15, 518.64], "source": "gridtracknet", "detector_score": 0.918, "track_id": 61}, "estimate": null}
+{"frame": 284, "time_s": 9.466666666666667, "status": "detected", "pixel": [903.07, 546.68], "observation": {"pixel": [903.07, 546.68], "source": "gridtracknet", "detector_score": 0.971, "track_id": 61}, "estimate": null}
+{"frame": 285, "time_s": 9.5, "status": "detected", "pixel": [888.5, 569.3], "observation": {"pixel": [888.5, 569.3], "source": "gridtracknet", "detector_score": 0.821, "track_id": 61}, "estimate": null}
+{"frame": 286, "time_s": 9.533333333333333, "status": "detected", "pixel": [887.12, 576.13], "observation": {"pixel": [887.12, 576.13], "source": "gridtracknet", "detector_score": 0.98, "track_id": 61}, "estimate": null}
+{"frame": 287, "time_s": 9.566666666666666, "status": "detected", "pixel": [886.07, 564.84], "observation": {"pixel": [886.07, 564.84], "source": "gridtracknet", "detector_score": 0.72, "track_id": 61}, "estimate": null}
+{"frame": 288, "time_s": 9.6, "status": "detected", "pixel": [887.59, 548.39], "observation": {"pixel": [887.59, 548.39], "source": "gridtracknet", "detector_score": 0.982, "track_id": 61}, "estimate": null}
+{"frame": 289, "time_s": 9.633333333333333, "status": "detected", "pixel": [887.95, 536.88], "observation": {"pixel": [887.95, 536.88], "source": "gridtracknet", "detector_score": 0.944, "track_id": 61}, "estimate": null}
+{"frame": 290, "time_s": 9.666666666666666, "status": "detected", "pixel": [886.43, 528.53], "observation": {"pixel": [886.43, 528.53], "source": "gridtracknet", "detector_score": 0.94, "track_id": 61}, "estimate": null}
+{"frame": 291, "time_s": 9.7, "status": "detected", "pixel": [886.28, 519.91], "observation": {"pixel": [886.28, 519.91], "source": "gridtracknet", "detector_score": 0.968, "track_id": 61}, "estimate": null}
+{"frame": 292, "time_s": 9.733333333333333, "status": "detected", "pixel": [886.47, 508.61], "observation": {"pixel": [886.47, 508.61], "source": "gridtracknet", "detector_score": 0.549, "track_id": 61}, "estimate": null}
+{"frame": 293, "time_s": 9.766666666666667, "status": "detected", "pixel": [884.84, 502.0], "observation": {"pixel": [884.84, 502.0], "source": "gridtracknet", "detector_score": 0.928, "track_id": 61}, "estimate": null}
+{"frame": 294, "time_s": 9.8, "status": "detected", "pixel": [885.06, 496.23], "observation": {"pixel": [885.06, 496.23], "source": "gridtracknet", "detector_score": 0.963, "track_id": 61}, "estimate": null}
+{"frame": 295, "time_s": 9.833333333333334, "status": "detected", "pixel": [883.0, 484.38], "observation": {"pixel": [883.0, 484.38], "source": "gridtracknet", "detector_score": 0.826, "track_id": 61}, "estimate": null}
+{"frame": 296, "time_s": 9.866666666666667, "status": "detected", "pixel": [881.72, 489.2], "observation": {"pixel": [881.72, 489.2], "source": "gridtracknet", "detector_score": 0.643, "track_id": 61}, "estimate": null}
+{"frame": 297, "time_s": 9.9, "status": "detected", "pixel": [872.61, 501.33], "observation": {"pixel": [872.61, 501.33], "source": "gridtracknet", "detector_score": 0.656, "track_id": 61}, "estimate": null}
+{"frame": 298, "time_s": 9.933333333333334, "status": "detected", "pixel": [858.32, 513.22], "observation": {"pixel": [858.32, 513.22], "source": "gridtracknet", "detector_score": 0.866, "track_id": 61}, "estimate": null}
+{"frame": 299, "time_s": 9.966666666666667, "status": "detected", "pixel": [846.82, 540.37], "observation": {"pixel": [846.82, 540.37], "source": "gridtracknet", "detector_score": 0.944, "track_id": 61}, "estimate": null}
+{"frame": 300, "time_s": 10.0, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 301, "time_s": 10.033333333333333, "status": "detected", "pixel": [823.14, 580.0], "observation": {"pixel": [823.14, 580.0], "source": "gridtracknet", "detector_score": 0.802, "track_id": 65}, "estimate": null}
+{"frame": 302, "time_s": 10.066666666666666, "status": "detected", "pixel": [819.98, 575.17], "observation": {"pixel": [819.98, 575.17], "source": "gridtracknet", "detector_score": 0.894, "track_id": 65}, "estimate": null}
+{"frame": 303, "time_s": 10.1, "status": "detected", "pixel": [815.93, 567.97], "observation": {"pixel": [815.93, 567.97], "source": "gridtracknet", "detector_score": 0.952, "track_id": 65}, "estimate": null}
+{"frame": 304, "time_s": 10.133333333333333, "status": "detected", "pixel": [816.12, 552.77], "observation": {"pixel": [816.12, 552.77], "source": "gridtracknet", "detector_score": 0.907, "track_id": 65}, "estimate": null}
+{"frame": 305, "time_s": 10.166666666666666, "status": "detected", "pixel": [814.76, 530.74], "observation": {"pixel": [814.76, 530.74], "source": "gridtracknet", "detector_score": 0.872, "track_id": 65}, "estimate": null}
+{"frame": 306, "time_s": 10.2, "status": "detected", "pixel": [813.09, 513.14], "observation": {"pixel": [813.09, 513.14], "source": "gridtracknet", "detector_score": 0.909, "track_id": 65}, "estimate": null}
+{"frame": 307, "time_s": 10.233333333333333, "status": "detected", "pixel": [811.17, 501.43], "observation": {"pixel": [811.17, 501.43], "source": "gridtracknet", "detector_score": 0.927, "track_id": 65}, "estimate": null}
+{"frame": 308, "time_s": 10.266666666666667, "status": "detected", "pixel": [809.86, 485.78], "observation": {"pixel": [809.86, 485.78], "source": "gridtracknet", "detector_score": 0.907, "track_id": 65}, "estimate": null}
+{"frame": 309, "time_s": 10.3, "status": "detected", "pixel": [808.09, 466.68], "observation": {"pixel": [808.09, 466.68], "source": "gridtracknet", "detector_score": 0.913, "track_id": 65}, "estimate": null}
+{"frame": 310, "time_s": 10.333333333333334, "status": "detected", "pixel": [805.12, 456.32], "observation": {"pixel": [805.12, 456.32], "source": "gridtracknet", "detector_score": 0.875, "track_id": 65}, "estimate": null}
+{"frame": 311, "time_s": 10.366666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 312, "time_s": 10.4, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 313, "time_s": 10.433333333333334, "status": "detected", "pixel": [787.65, 449.72], "observation": {"pixel": [787.65, 449.72], "source": "gridtracknet", "detector_score": 0.806, "track_id": 66}, "estimate": null}
+{"frame": 314, "time_s": 10.466666666666667, "status": "detected", "pixel": [780.14, 450.02], "observation": {"pixel": [780.14, 450.02], "source": "gridtracknet", "detector_score": 0.695, "track_id": 66}, "estimate": null}
+{"frame": 315, "time_s": 10.5, "status": "detected", "pixel": [764.82, 460.93], "observation": {"pixel": [764.82, 460.93], "source": "gridtracknet", "detector_score": 0.933, "track_id": 66}, "estimate": null}
+{"frame": 316, "time_s": 10.533333333333333, "status": "detected", "pixel": [753.79, 481.7], "observation": {"pixel": [753.79, 481.7], "source": "gridtracknet", "detector_score": 0.848, "track_id": 66}, "estimate": null}
+{"frame": 317, "time_s": 10.566666666666666, "status": "detected", "pixel": [748.19, 499.06], "observation": {"pixel": [748.19, 499.06], "source": "gridtracknet", "detector_score": 0.63, "track_id": 66}, "estimate": null}
+{"frame": 318, "time_s": 10.6, "status": "detected", "pixel": [736.73, 525.46], "observation": {"pixel": [736.73, 525.46], "source": "gridtracknet", "detector_score": 0.965, "track_id": 66}, "estimate": null}
+{"frame": 319, "time_s": 10.633333333333333, "status": "detected", "pixel": [728.84, 547.05], "observation": {"pixel": [728.84, 547.05], "source": "gridtracknet", "detector_score": 0.95, "track_id": 66}, "estimate": null}
+{"frame": 320, "time_s": 10.666666666666666, "status": "detected", "pixel": [715.32, 578.48], "observation": {"pixel": [715.32, 578.48], "source": "gridtracknet", "detector_score": 0.707, "track_id": 66}, "estimate": null}
+{"frame": 321, "time_s": 10.7, "status": "detected", "pixel": [706.53, 602.42], "observation": {"pixel": [706.53, 602.42], "source": "gridtracknet", "detector_score": 0.599, "track_id": 66}, "estimate": null}
+{"frame": 322, "time_s": 10.733333333333333, "status": "detected", "pixel": [703.7, 601.05], "observation": {"pixel": [703.7, 601.05], "source": "gridtracknet", "detector_score": 0.543, "track_id": 66}, "estimate": null}
+{"frame": 323, "time_s": 10.766666666666667, "status": "detected", "pixel": [701.17, 599.61], "observation": {"pixel": [701.17, 599.61], "source": "gridtracknet", "detector_score": 0.691, "track_id": 66}, "estimate": null}
+{"frame": 324, "time_s": 10.8, "status": "detected", "pixel": [699.63, 580.89], "observation": {"pixel": [699.63, 580.89], "source": "gridtracknet", "detector_score": 0.71, "track_id": 66}, "estimate": null}
+{"frame": 325, "time_s": 10.833333333333334, "status": "detected", "pixel": [694.98, 565.91], "observation": {"pixel": [694.98, 565.91], "source": "gridtracknet", "detector_score": 0.988, "track_id": 66}, "estimate": null}
+{"frame": 326, "time_s": 10.866666666666667, "status": "detected", "pixel": [694.31, 554.11], "observation": {"pixel": [694.31, 554.11], "source": "gridtracknet", "detector_score": 0.874, "track_id": 66}, "estimate": null}
+{"frame": 327, "time_s": 10.9, "status": "detected", "pixel": [691.51, 539.45], "observation": {"pixel": [691.51, 539.45], "source": "gridtracknet", "detector_score": 0.895, "track_id": 66}, "estimate": null}
+{"frame": 328, "time_s": 10.933333333333334, "status": "detected", "pixel": [688.11, 528.92], "observation": {"pixel": [688.11, 528.92], "source": "gridtracknet", "detector_score": 0.954, "track_id": 66}, "estimate": null}
+{"frame": 329, "time_s": 10.966666666666667, "status": "detected", "pixel": [687.07, 517.93], "observation": {"pixel": [687.07, 517.93], "source": "gridtracknet", "detector_score": 0.983, "track_id": 66}, "estimate": null}
+{"frame": 330, "time_s": 11.0, "status": "detected", "pixel": [682.89, 507.57], "observation": {"pixel": [682.89, 507.57], "source": "gridtracknet", "detector_score": 0.678, "track_id": 66}, "estimate": null}
+{"frame": 331, "time_s": 11.033333333333333, "status": "detected", "pixel": [679.87, 510.15999999999997], "observation": {"pixel": [679.87, 510.15999999999997], "source": "gridtracknet", "detector_score": 0.738, "track_id": 66}, "estimate": null}
+{"frame": 332, "time_s": 11.066666666666666, "status": "detected", "pixel": [671.7, 523.99], "observation": {"pixel": [671.7, 523.99], "source": "gridtracknet", "detector_score": 0.679, "track_id": 66}, "estimate": null}
+{"frame": 333, "time_s": 11.1, "status": "detected", "pixel": [663.46, 538.79], "observation": {"pixel": [663.46, 538.79], "source": "gridtracknet", "detector_score": 0.722, "track_id": 66}, "estimate": null}
+{"frame": 334, "time_s": 11.133333333333333, "status": "detected", "pixel": [655.26, 557.55], "observation": {"pixel": [655.26, 557.55], "source": "gridtracknet", "detector_score": 0.731, "track_id": 66}, "estimate": null}
+{"frame": 335, "time_s": 11.166666666666666, "status": "detected", "pixel": [645.34, 578.93], "observation": {"pixel": [645.34, 578.93], "source": "gridtracknet", "detector_score": 0.838, "track_id": 66}, "estimate": null}
+{"frame": 336, "time_s": 11.2, "status": "detected", "pixel": [638.29, 603.35], "observation": {"pixel": [638.29, 603.35], "source": "gridtracknet", "detector_score": 0.747, "track_id": 66}, "estimate": null}
+{"frame": 337, "time_s": 11.233333333333333, "status": "detected", "pixel": [634.49, 594.54], "observation": {"pixel": [634.49, 594.54], "source": "gridtracknet", "detector_score": 0.854, "track_id": 66}, "estimate": null}
+{"frame": 338, "time_s": 11.266666666666667, "status": "detected", "pixel": [632.23, 579.49], "observation": {"pixel": [632.23, 579.49], "source": "gridtracknet", "detector_score": 0.882, "track_id": 66}, "estimate": null}
+{"frame": 339, "time_s": 11.3, "status": "detected", "pixel": [628.94, 562.9], "observation": {"pixel": [628.94, 562.9], "source": "gridtracknet", "detector_score": 0.753, "track_id": 66}, "estimate": null}
+{"frame": 340, "time_s": 11.333333333333334, "status": "detected", "pixel": [625.8, 542.06], "observation": {"pixel": [625.8, 542.06], "source": "gridtracknet", "detector_score": 0.962, "track_id": 66}, "estimate": null}
+{"frame": 341, "time_s": 11.366666666666667, "status": "detected", "pixel": [622.52, 525.88], "observation": {"pixel": [622.52, 525.88], "source": "gridtracknet", "detector_score": 0.884, "track_id": 66}, "estimate": null}
+{"frame": 342, "time_s": 11.4, "status": "detected", "pixel": [618.88, 510.76], "observation": {"pixel": [618.88, 510.76], "source": "gridtracknet", "detector_score": 0.863, "track_id": 66}, "estimate": null}
+{"frame": 343, "time_s": 11.433333333333334, "status": "detected", "pixel": [615.87, 494.04], "observation": {"pixel": [615.87, 494.04], "source": "gridtracknet", "detector_score": 0.974, "track_id": 66}, "estimate": null}
+{"frame": 344, "time_s": 11.466666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 345, "time_s": 11.5, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 346, "time_s": 11.533333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 347, "time_s": 11.566666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 348, "time_s": 11.6, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 349, "time_s": 11.633333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 350, "time_s": 11.666666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 351, "time_s": 11.7, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 352, "time_s": 11.733333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 353, "time_s": 11.766666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 354, "time_s": 11.8, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 355, "time_s": 11.833333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 356, "time_s": 11.866666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 357, "time_s": 11.9, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 358, "time_s": 11.933333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 359, "time_s": 11.966666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 360, "time_s": 12.0, "status": "detected", "pixel": [537.17, 439.58], "observation": {"pixel": [537.17, 439.58], "source": "gridtracknet", "detector_score": 0.899, "track_id": 74}, "estimate": null}
+{"frame": 361, "time_s": 12.033333333333333, "status": "detected", "pixel": [534.28, 433.82], "observation": {"pixel": [534.28, 433.82], "source": "gridtracknet", "detector_score": 0.762, "track_id": 74}, "estimate": null}
+{"frame": 362, "time_s": 12.066666666666666, "status": "detected", "pixel": [530.64, 428.43], "observation": {"pixel": [530.64, 428.43], "source": "gridtracknet", "detector_score": 0.563, "track_id": 74}, "estimate": null}
+{"frame": 363, "time_s": 12.1, "status": "detected", "pixel": [526.9, 420.05], "observation": {"pixel": [526.9, 420.05], "source": "gridtracknet", "detector_score": 0.935, "track_id": 74}, "estimate": null}
+{"frame": 364, "time_s": 12.133333333333333, "status": "detected", "pixel": [524.84, 414.14], "observation": {"pixel": [524.84, 414.14], "source": "gridtracknet", "detector_score": 0.945, "track_id": 74}, "estimate": null}
+{"frame": 365, "time_s": 12.166666666666666, "status": "detected", "pixel": [519.28, 412.85], "observation": {"pixel": [519.28, 412.85], "source": "gridtracknet", "detector_score": 0.7, "track_id": 74}, "estimate": null}
+{"frame": 366, "time_s": 12.2, "status": "detected", "pixel": [516.69, 408.23], "observation": {"pixel": [516.69, 408.23], "source": "gridtracknet", "detector_score": 0.7, "track_id": 74}, "estimate": null}
+{"frame": 367, "time_s": 12.233333333333333, "status": "detected", "pixel": [513.25, 407.44], "observation": {"pixel": [513.25, 407.44], "source": "gridtracknet", "detector_score": 0.732, "track_id": 74}, "estimate": null}
+{"frame": 368, "time_s": 12.266666666666667, "status": "detected", "pixel": [509.59000000000003, 408.51], "observation": {"pixel": [509.59000000000003, 408.51], "source": "gridtracknet", "detector_score": 0.529, "track_id": 74}, "estimate": null}
+{"frame": 369, "time_s": 12.3, "status": "detected", "pixel": [507.82, 407.64], "observation": {"pixel": [507.82, 407.64], "source": "gridtracknet", "detector_score": 0.545, "track_id": 74}, "estimate": null}
+{"frame": 370, "time_s": 12.333333333333334, "status": "detected", "pixel": [501.13, 419.33], "observation": {"pixel": [501.13, 419.33], "source": "gridtracknet", "detector_score": 0.706, "track_id": 74}, "estimate": null}
+{"frame": 371, "time_s": 12.366666666666667, "status": "detected", "pixel": [496.43, 430.09], "observation": {"pixel": [496.43, 430.09], "source": "gridtracknet", "detector_score": 0.749, "track_id": 74}, "estimate": null}
+{"frame": 372, "time_s": 12.4, "status": "detected", "pixel": [493.0, 439.31], "observation": {"pixel": [493.0, 439.31], "source": "gridtracknet", "detector_score": 0.598, "track_id": 74}, "estimate": null}
+{"frame": 373, "time_s": 12.433333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 374, "time_s": 12.466666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 375, "time_s": 12.5, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 376, "time_s": 12.533333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 377, "time_s": 12.566666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 378, "time_s": 12.6, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 379, "time_s": 12.633333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 380, "time_s": 12.666666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 381, "time_s": 12.7, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 382, "time_s": 12.733333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 383, "time_s": 12.766666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 384, "time_s": 12.8, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 385, "time_s": 12.833333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 386, "time_s": 12.866666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 387, "time_s": 12.9, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 388, "time_s": 12.933333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 389, "time_s": 12.966666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 390, "time_s": 13.0, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 391, "time_s": 13.033333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 392, "time_s": 13.066666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 393, "time_s": 13.1, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 394, "time_s": 13.133333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 395, "time_s": 13.166666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 396, "time_s": 13.2, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 397, "time_s": 13.233333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 398, "time_s": 13.266666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 399, "time_s": 13.3, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 400, "time_s": 13.333333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 401, "time_s": 13.366666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 402, "time_s": 13.4, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 403, "time_s": 13.433333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 404, "time_s": 13.466666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 405, "time_s": 13.5, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 406, "time_s": 13.533333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 407, "time_s": 13.566666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 408, "time_s": 13.6, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 409, "time_s": 13.633333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 410, "time_s": 13.666666666666666, "status": "detected", "pixel": [447.26, 558.49], "observation": {"pixel": [447.26, 558.49], "source": "gridtracknet", "detector_score": 0.774, "track_id": 82}, "estimate": null}
+{"frame": 411, "time_s": 13.7, "status": "detected", "pixel": [446.19, 550.26], "observation": {"pixel": [446.19, 550.26], "source": "gridtracknet", "detector_score": 0.972, "track_id": 82}, "estimate": null}
+{"frame": 412, "time_s": 13.733333333333333, "status": "detected", "pixel": [445.54, 537.92], "observation": {"pixel": [445.54, 537.92], "source": "gridtracknet", "detector_score": 0.856, "track_id": 82}, "estimate": null}
+{"frame": 413, "time_s": 13.766666666666667, "status": "detected", "pixel": [444.29, 530.27], "observation": {"pixel": [444.29, 530.27], "source": "gridtracknet", "detector_score": 0.7, "track_id": 82}, "estimate": null}
+{"frame": 414, "time_s": 13.8, "status": "detected", "pixel": [443.41, 522.93], "observation": {"pixel": [443.41, 522.93], "source": "gridtracknet", "detector_score": 0.69, "track_id": 82}, "estimate": null}
+{"frame": 415, "time_s": 13.833333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 416, "time_s": 13.866666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 417, "time_s": 13.9, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 418, "time_s": 13.933333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 419, "time_s": 13.966666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 420, "time_s": 14.0, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 421, "time_s": 14.033333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 422, "time_s": 14.066666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 423, "time_s": 14.1, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 424, "time_s": 14.133333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 425, "time_s": 14.166666666666666, "status": "detected", "pixel": [441.61, 550.61], "observation": {"pixel": [441.61, 550.61], "source": "gridtracknet", "detector_score": 0.978, "track_id": 85}, "estimate": null}
+{"frame": 426, "time_s": 14.2, "status": "detected", "pixel": [439.41, 536.49], "observation": {"pixel": [439.41, 536.49], "source": "gridtracknet", "detector_score": 0.936, "track_id": 85}, "estimate": null}
+{"frame": 427, "time_s": 14.233333333333333, "status": "detected", "pixel": [439.12, 524.27], "observation": {"pixel": [439.12, 524.27], "source": "gridtracknet", "detector_score": 0.856, "track_id": 85}, "estimate": null}
+{"frame": 428, "time_s": 14.266666666666667, "status": "detected", "pixel": [436.68, 516.51], "observation": {"pixel": [436.68, 516.51], "source": "gridtracknet", "detector_score": 0.831, "track_id": 85}, "estimate": null}
+{"frame": 429, "time_s": 14.3, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 430, "time_s": 14.333333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 431, "time_s": 14.366666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 432, "time_s": 14.4, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 433, "time_s": 14.433333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 434, "time_s": 14.466666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 435, "time_s": 14.5, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 436, "time_s": 14.533333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 437, "time_s": 14.566666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 438, "time_s": 14.6, "status": "detected", "pixel": [439.06, 522.93], "observation": {"pixel": [439.06, 522.93], "source": "gridtracknet", "detector_score": 0.597, "track_id": 86}, "estimate": null}
+{"frame": 439, "time_s": 14.633333333333333, "status": "detected", "pixel": [441.14, 523.58], "observation": {"pixel": [441.14, 523.58], "source": "gridtracknet", "detector_score": 0.836, "track_id": 86}, "estimate": null}
+{"frame": 440, "time_s": 14.666666666666666, "status": "detected", "pixel": [442.38, 549.86], "observation": {"pixel": [442.38, 549.86], "source": "gridtracknet", "detector_score": 0.946, "track_id": 86}, "estimate": null}
+{"frame": 441, "time_s": 14.7, "status": "detected", "pixel": [440.9, 537.19], "observation": {"pixel": [440.9, 537.19], "source": "gridtracknet", "detector_score": 0.932, "track_id": 86}, "estimate": null}
+{"frame": 442, "time_s": 14.733333333333333, "status": "detected", "pixel": [439.55, 526.92], "observation": {"pixel": [439.55, 526.92], "source": "gridtracknet", "detector_score": 0.951, "track_id": 86}, "estimate": null}
+{"frame": 443, "time_s": 14.766666666666667, "status": "detected", "pixel": [436.6, 517.82], "observation": {"pixel": [436.6, 517.82], "source": "gridtracknet", "detector_score": 0.921, "track_id": 86}, "estimate": null}
+{"frame": 444, "time_s": 14.8, "status": "detected", "pixel": [435.53, 513.36], "observation": {"pixel": [435.53, 513.36], "source": "gridtracknet", "detector_score": 0.744, "track_id": 86}, "estimate": null}
+{"frame": 445, "time_s": 14.833333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 446, "time_s": 14.866666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 447, "time_s": 14.9, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 448, "time_s": 14.933333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 449, "time_s": 14.966666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 450, "time_s": 15.0, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 451, "time_s": 15.033333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 452, "time_s": 15.066666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 453, "time_s": 15.1, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 454, "time_s": 15.133333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 455, "time_s": 15.166666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 456, "time_s": 15.2, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 457, "time_s": 15.233333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 458, "time_s": 15.266666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 459, "time_s": 15.3, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 460, "time_s": 15.333333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 461, "time_s": 15.366666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 462, "time_s": 15.4, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 463, "time_s": 15.433333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 464, "time_s": 15.466666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 465, "time_s": 15.5, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 466, "time_s": 15.533333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 467, "time_s": 15.566666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 468, "time_s": 15.6, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 469, "time_s": 15.633333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 470, "time_s": 15.666666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 471, "time_s": 15.7, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 472, "time_s": 15.733333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 473, "time_s": 15.766666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 474, "time_s": 15.8, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 475, "time_s": 15.833333333333334, "status": "detected", "pixel": [401.65, 490.91], "observation": {"pixel": [401.65, 490.91], "source": "gridtracknet", "detector_score": 0.764, "track_id": 90}, "estimate": null}
+{"frame": 476, "time_s": 15.866666666666667, "status": "detected", "pixel": [401.55, 497.74], "observation": {"pixel": [401.55, 497.74], "source": "gridtracknet", "detector_score": 0.712, "track_id": 90}, "estimate": null}
+{"frame": 477, "time_s": 15.9, "status": "detected", "pixel": [401.98, 502.28], "observation": {"pixel": [401.98, 502.28], "source": "gridtracknet", "detector_score": 0.503, "track_id": 90}, "estimate": null}
+{"frame": 478, "time_s": 15.933333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 479, "time_s": 15.966666666666667, "status": "detected", "pixel": [424.0, 376.37], "observation": {"pixel": [424.0, 376.37], "source": "gridtracknet", "detector_score": 0.743, "track_id": 92}, "estimate": null}
+{"frame": 480, "time_s": 16.0, "status": "detected", "pixel": [423.72, 356.22], "observation": {"pixel": [423.72, 356.22], "source": "gridtracknet", "detector_score": 0.908, "track_id": 92}, "estimate": null}
+{"frame": 481, "time_s": 16.033333333333335, "status": "detected", "pixel": [423.32, 326.82], "observation": {"pixel": [423.32, 326.82], "source": "gridtracknet", "detector_score": 0.91, "track_id": 92}, "estimate": null}
+{"frame": 482, "time_s": 16.066666666666666, "status": "detected", "pixel": [422.51, 306.43], "observation": {"pixel": [422.51, 306.43], "source": "gridtracknet", "detector_score": 0.963, "track_id": 92}, "estimate": null}
+{"frame": 483, "time_s": 16.1, "status": "detected", "pixel": [423.04, 281.67], "observation": {"pixel": [423.04, 281.67], "source": "gridtracknet", "detector_score": 0.963, "track_id": 92}, "estimate": null}
+{"frame": 484, "time_s": 16.133333333333333, "status": "detected", "pixel": [424.01, 259.5], "observation": {"pixel": [424.01, 259.5], "source": "gridtracknet", "detector_score": 0.981, "track_id": 92}, "estimate": null}
+{"frame": 485, "time_s": 16.166666666666668, "status": "detected", "pixel": [423.68, 238.23], "observation": {"pixel": [423.68, 238.23], "source": "gridtracknet", "detector_score": 0.794, "track_id": 92}, "estimate": null}
+{"frame": 486, "time_s": 16.2, "status": "detected", "pixel": [423.25, 220.9], "observation": {"pixel": [423.25, 220.9], "source": "gridtracknet", "detector_score": 0.958, "track_id": 92}, "estimate": null}
+{"frame": 487, "time_s": 16.233333333333334, "status": "detected", "pixel": [422.36, 202.59], "observation": {"pixel": [422.36, 202.59], "source": "gridtracknet", "detector_score": 0.96, "track_id": 92}, "estimate": null}
+{"frame": 488, "time_s": 16.266666666666666, "status": "detected", "pixel": [423.79, 184.73], "observation": {"pixel": [423.79, 184.73], "source": "gridtracknet", "detector_score": 0.793, "track_id": 92}, "estimate": null}
+{"frame": 489, "time_s": 16.3, "status": "detected", "pixel": [423.37, 168.93], "observation": {"pixel": [423.37, 168.93], "source": "gridtracknet", "detector_score": 0.984, "track_id": 92}, "estimate": null}
+{"frame": 490, "time_s": 16.333333333333332, "status": "detected", "pixel": [424.46, 156.55], "observation": {"pixel": [424.46, 156.55], "source": "gridtracknet", "detector_score": 0.806, "track_id": 92}, "estimate": null}
+{"frame": 491, "time_s": 16.366666666666667, "status": "detected", "pixel": [423.92, 146.31], "observation": {"pixel": [423.92, 146.31], "source": "gridtracknet", "detector_score": 0.98, "track_id": 92}, "estimate": null}
+{"frame": 492, "time_s": 16.4, "status": "detected", "pixel": [424.77, 136.04], "observation": {"pixel": [424.77, 136.04], "source": "gridtracknet", "detector_score": 0.839, "track_id": 92}, "estimate": null}
+{"frame": 493, "time_s": 16.433333333333334, "status": "detected", "pixel": [424.76, 128.4], "observation": {"pixel": [424.76, 128.4], "source": "gridtracknet", "detector_score": 0.892, "track_id": 92}, "estimate": null}
+{"frame": 494, "time_s": 16.466666666666665, "status": "detected", "pixel": [425.27, 119.21], "observation": {"pixel": [425.27, 119.21], "source": "gridtracknet", "detector_score": 0.839, "track_id": 92}, "estimate": null}
+{"frame": 495, "time_s": 16.5, "status": "detected", "pixel": [427.47, 112.13], "observation": {"pixel": [427.47, 112.13], "source": "gridtracknet", "detector_score": 0.646, "track_id": 92}, "estimate": null}
+{"frame": 496, "time_s": 16.533333333333335, "status": "detected", "pixel": [428.28, 108.91], "observation": {"pixel": [428.28, 108.91], "source": "gridtracknet", "detector_score": 0.768, "track_id": 92}, "estimate": null}
+{"frame": 497, "time_s": 16.566666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 498, "time_s": 16.6, "status": "detected", "pixel": [428.76, 105.43], "observation": {"pixel": [428.76, 105.43], "source": "gridtracknet", "detector_score": 0.607, "track_id": 95}, "estimate": null}
+{"frame": 499, "time_s": 16.633333333333333, "status": "detected", "pixel": [429.8, 105.19], "observation": {"pixel": [429.8, 105.19], "source": "gridtracknet", "detector_score": 0.744, "track_id": 95}, "estimate": null}
+{"frame": 500, "time_s": 16.666666666666668, "status": "detected", "pixel": [428.94, 108.07], "observation": {"pixel": [428.94, 108.07], "source": "gridtracknet", "detector_score": 0.881, "track_id": 95}, "estimate": null}
+{"frame": 501, "time_s": 16.7, "status": "detected", "pixel": [429.75, 110.61], "observation": {"pixel": [429.75, 110.61], "source": "gridtracknet", "detector_score": 0.977, "track_id": 95}, "estimate": null}
+{"frame": 502, "time_s": 16.733333333333334, "status": "detected", "pixel": [429.92, 114.87], "observation": {"pixel": [429.92, 114.87], "source": "gridtracknet", "detector_score": 0.964, "track_id": 95}, "estimate": null}
+{"frame": 503, "time_s": 16.766666666666666, "status": "detected", "pixel": [429.51, 121.1], "observation": {"pixel": [429.51, 121.1], "source": "gridtracknet", "detector_score": 0.983, "track_id": 95}, "estimate": null}
+{"frame": 504, "time_s": 16.8, "status": "detected", "pixel": [429.04, 129.63], "observation": {"pixel": [429.04, 129.63], "source": "gridtracknet", "detector_score": 0.968, "track_id": 95}, "estimate": null}
+{"frame": 505, "time_s": 16.833333333333332, "status": "detected", "pixel": [430.71, 132.64], "observation": {"pixel": [430.71, 132.64], "source": "gridtracknet", "detector_score": 0.727, "track_id": 95}, "estimate": null}
+{"frame": 506, "time_s": 16.866666666666667, "status": "detected", "pixel": [431.54, 145.53], "observation": {"pixel": [431.54, 145.53], "source": "gridtracknet", "detector_score": 0.988, "track_id": 95}, "estimate": null}
+{"frame": 507, "time_s": 16.9, "status": "detected", "pixel": [431.77, 156.79], "observation": {"pixel": [431.77, 156.79], "source": "gridtracknet", "detector_score": 0.742, "track_id": 95}, "estimate": null}
+{"frame": 508, "time_s": 16.933333333333334, "status": "detected", "pixel": [429.3, 167.8], "observation": {"pixel": [429.3, 167.8], "source": "gridtracknet", "detector_score": 0.978, "track_id": 95}, "estimate": null}
+{"frame": 509, "time_s": 16.966666666666665, "status": "detected", "pixel": [494.73, 163.1], "observation": {"pixel": [494.73, 163.1], "source": "gridtracknet", "detector_score": 0.546, "track_id": 95}, "estimate": null}
+{"frame": 510, "time_s": 17.0, "status": "detected", "pixel": [521.22, 159.02], "observation": {"pixel": [521.22, 159.02], "source": "gridtracknet", "detector_score": 0.831, "track_id": 95}, "estimate": null}
+{"frame": 511, "time_s": 17.033333333333335, "status": "detected", "pixel": [540.63, 157.36], "observation": {"pixel": [540.63, 157.36], "source": "gridtracknet", "detector_score": 0.831, "track_id": 95}, "estimate": null}
+{"frame": 512, "time_s": 17.066666666666666, "status": "detected", "pixel": [557.45, 157.06], "observation": {"pixel": [557.45, 157.06], "source": "gridtracknet", "detector_score": 0.641, "track_id": 95}, "estimate": null}
+{"frame": 513, "time_s": 17.1, "status": "detected", "pixel": [581.01, 156.75], "observation": {"pixel": [581.01, 156.75], "source": "gridtracknet", "detector_score": 0.854, "track_id": 95}, "estimate": null}
+{"frame": 514, "time_s": 17.133333333333333, "status": "detected", "pixel": [590.29, 157.73], "observation": {"pixel": [590.29, 157.73], "source": "gridtracknet", "detector_score": 0.733, "track_id": 95}, "estimate": null}
+{"frame": 515, "time_s": 17.166666666666668, "status": "detected", "pixel": [598.98, 157.41], "observation": {"pixel": [598.98, 157.41], "source": "gridtracknet", "detector_score": 0.957, "track_id": 95}, "estimate": null}
+{"frame": 516, "time_s": 17.2, "status": "detected", "pixel": [606.71, 157.92], "observation": {"pixel": [606.71, 157.92], "source": "gridtracknet", "detector_score": 0.896, "track_id": 95}, "estimate": null}
+{"frame": 517, "time_s": 17.233333333333334, "status": "detected", "pixel": [616.87, 161.32], "observation": {"pixel": [616.87, 161.32], "source": "gridtracknet", "detector_score": 0.721, "track_id": 95}, "estimate": null}
+{"frame": 518, "time_s": 17.266666666666666, "status": "detected", "pixel": [623.42, 161.55], "observation": {"pixel": [623.42, 161.55], "source": "gridtracknet", "detector_score": 0.914, "track_id": 95}, "estimate": null}
+{"frame": 519, "time_s": 17.3, "status": "detected", "pixel": [628.66, 157.59], "observation": {"pixel": [628.66, 157.59], "source": "gridtracknet", "detector_score": 0.761, "track_id": 95}, "estimate": null}
+{"frame": 520, "time_s": 17.333333333333332, "status": "detected", "pixel": [632.7, 147.76], "observation": {"pixel": [632.7, 147.76], "source": "gridtracknet", "detector_score": 0.979, "track_id": 95}, "estimate": null}
+{"frame": 521, "time_s": 17.366666666666667, "status": "detected", "pixel": [635.82, 131.58], "observation": {"pixel": [635.82, 131.58], "source": "gridtracknet", "detector_score": 0.87, "track_id": 95}, "estimate": null}
+{"frame": 522, "time_s": 17.4, "status": "detected", "pixel": [639.0, 121.05], "observation": {"pixel": [639.0, 121.05], "source": "gridtracknet", "detector_score": 0.743, "track_id": 95}, "estimate": null}
+{"frame": 523, "time_s": 17.433333333333334, "status": "detected", "pixel": [642.99, 110.48], "observation": {"pixel": [642.99, 110.48], "source": "gridtracknet", "detector_score": 0.9, "track_id": 95}, "estimate": null}
+{"frame": 524, "time_s": 17.466666666666665, "status": "detected", "pixel": [644.98, 102.49], "observation": {"pixel": [644.98, 102.49], "source": "gridtracknet", "detector_score": 0.931, "track_id": 95}, "estimate": null}
+{"frame": 525, "time_s": 17.5, "status": "detected", "pixel": [648.94, 95.03], "observation": {"pixel": [648.94, 95.03], "source": "gridtracknet", "detector_score": 0.983, "track_id": 95}, "estimate": null}
+{"frame": 526, "time_s": 17.533333333333335, "status": "detected", "pixel": [651.53, 91.41], "observation": {"pixel": [651.53, 91.41], "source": "gridtracknet", "detector_score": 0.99, "track_id": 95}, "estimate": null}
+{"frame": 527, "time_s": 17.566666666666666, "status": "detected", "pixel": [654.14, 86.77], "observation": {"pixel": [654.14, 86.77], "source": "gridtracknet", "detector_score": 0.988, "track_id": 95}, "estimate": null}
+{"frame": 528, "time_s": 17.6, "status": "detected", "pixel": [656.23, 83.22], "observation": {"pixel": [656.23, 83.22], "source": "gridtracknet", "detector_score": 0.987, "track_id": 95}, "estimate": null}
+{"frame": 529, "time_s": 17.633333333333333, "status": "detected", "pixel": [658.7, 81.2], "observation": {"pixel": [658.7, 81.2], "source": "gridtracknet", "detector_score": 0.806, "track_id": 95}, "estimate": null}
+{"frame": 530, "time_s": 17.666666666666668, "status": "detected", "pixel": [659.35, 78.2], "observation": {"pixel": [659.35, 78.2], "source": "gridtracknet", "detector_score": 0.914, "track_id": 95}, "estimate": null}
+{"frame": 531, "time_s": 17.7, "status": "detected", "pixel": [660.97, 77.44], "observation": {"pixel": [660.97, 77.44], "source": "gridtracknet", "detector_score": 0.975, "track_id": 95}, "estimate": null}
+{"frame": 532, "time_s": 17.733333333333334, "status": "detected", "pixel": [662.7, 74.48], "observation": {"pixel": [662.7, 74.48], "source": "gridtracknet", "detector_score": 0.957, "track_id": 95}, "estimate": null}
+{"frame": 533, "time_s": 17.766666666666666, "status": "detected", "pixel": [664.29, 72.9], "observation": {"pixel": [664.29, 72.9], "source": "gridtracknet", "detector_score": 0.948, "track_id": 95}, "estimate": null}
+{"frame": 534, "time_s": 17.8, "status": "detected", "pixel": [664.64, 73.24], "observation": {"pixel": [664.64, 73.24], "source": "gridtracknet", "detector_score": 0.677, "track_id": 95}, "estimate": null}
+{"frame": 535, "time_s": 17.833333333333332, "status": "detected", "pixel": [667.82, 67.62], "observation": {"pixel": [667.82, 67.62], "source": "gridtracknet", "detector_score": 0.857, "track_id": 95}, "estimate": null}
+{"frame": 536, "time_s": 17.866666666666667, "status": "detected", "pixel": [668.53, 66.0], "observation": {"pixel": [668.53, 66.0], "source": "gridtracknet", "detector_score": 0.958, "track_id": 95}, "estimate": null}
+{"frame": 537, "time_s": 17.9, "status": "detected", "pixel": [669.55, 63.209999999999994], "observation": {"pixel": [669.55, 63.209999999999994], "source": "gridtracknet", "detector_score": 0.974, "track_id": 95}, "estimate": null}
+{"frame": 538, "time_s": 17.933333333333334, "status": "detected", "pixel": [670.54, 63.09], "observation": {"pixel": [670.54, 63.09], "source": "gridtracknet", "detector_score": 0.985, "track_id": 95}, "estimate": null}
+{"frame": 539, "time_s": 17.966666666666665, "status": "detected", "pixel": [671.11, 61.47], "observation": {"pixel": [671.11, 61.47], "source": "gridtracknet", "detector_score": 0.959, "track_id": 95}, "estimate": null}
+{"frame": 540, "time_s": 18.0, "status": "detected", "pixel": [673.07, 58.5], "observation": {"pixel": [673.07, 58.5], "source": "gridtracknet", "detector_score": 0.88, "track_id": 95}, "estimate": null}
+{"frame": 541, "time_s": 18.033333333333335, "status": "detected", "pixel": [673.67, 57.65], "observation": {"pixel": [673.67, 57.65], "source": "gridtracknet", "detector_score": 0.954, "track_id": 95}, "estimate": null}
+{"frame": 542, "time_s": 18.066666666666666, "status": "detected", "pixel": [675.88, 56.79], "observation": {"pixel": [675.88, 56.79], "source": "gridtracknet", "detector_score": 0.923, "track_id": 95}, "estimate": null}
+{"frame": 543, "time_s": 18.1, "status": "detected", "pixel": [677.68, 56.99], "observation": {"pixel": [677.68, 56.99], "source": "gridtracknet", "detector_score": 0.947, "track_id": 95}, "estimate": null}
+{"frame": 544, "time_s": 18.133333333333333, "status": "detected", "pixel": [677.54, 57.74], "observation": {"pixel": [677.54, 57.74], "source": "gridtracknet", "detector_score": 0.886, "track_id": 95}, "estimate": null}
+{"frame": 545, "time_s": 18.166666666666668, "status": "detected", "pixel": [679.42, 57.3], "observation": {"pixel": [679.42, 57.3], "source": "gridtracknet", "detector_score": 0.951, "track_id": 95}, "estimate": null}
+{"frame": 546, "time_s": 18.2, "status": "detected", "pixel": [679.39, 56.96], "observation": {"pixel": [679.39, 56.96], "source": "gridtracknet", "detector_score": 0.977, "track_id": 95}, "estimate": null}
+{"frame": 547, "time_s": 18.233333333333334, "status": "detected", "pixel": [681.3, 58.06], "observation": {"pixel": [681.3, 58.06], "source": "gridtracknet", "detector_score": 0.951, "track_id": 95}, "estimate": null}
+{"frame": 548, "time_s": 18.266666666666666, "status": "detected", "pixel": [681.79, 59.59], "observation": {"pixel": [681.79, 59.59], "source": "gridtracknet", "detector_score": 0.977, "track_id": 95}, "estimate": null}
+{"frame": 549, "time_s": 18.3, "status": "detected", "pixel": [682.58, 61.91], "observation": {"pixel": [682.58, 61.91], "source": "gridtracknet", "detector_score": 0.888, "track_id": 95}, "estimate": null}
+{"frame": 550, "time_s": 18.333333333333332, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 551, "time_s": 18.366666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 552, "time_s": 18.4, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 553, "time_s": 18.433333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 554, "time_s": 18.466666666666665, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 555, "time_s": 18.5, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 556, "time_s": 18.533333333333335, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 557, "time_s": 18.566666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 558, "time_s": 18.6, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 559, "time_s": 18.633333333333333, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 560, "time_s": 18.666666666666668, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 561, "time_s": 18.7, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 562, "time_s": 18.733333333333334, "status": "detected", "pixel": [550.75, 350.41], "observation": {"pixel": [550.75, 350.41], "source": "gridtracknet", "detector_score": 0.62, "track_id": 108}, "estimate": null}
+{"frame": 563, "time_s": 18.766666666666666, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 564, "time_s": 18.8, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 565, "time_s": 18.833333333333332, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 566, "time_s": 18.866666666666667, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 567, "time_s": 18.9, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 568, "time_s": 18.933333333333334, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 569, "time_s": 18.966666666666665, "status": "missing", "pixel": null, "observation": null, "estimate": null}
+{"frame": 570, "time_s": 19.0, "status": "detected", "pixel": [459.81, 414.96], "observation": {"pixel": [459.81, 414.96], "source": "gridtracknet", "detector_score": 0.904, "track_id": 111}, "estimate": null}
+{"frame": 571, "time_s": 19.033333333333335, "status": "detected", "pixel": [459.31, 417.6], "observation": {"pixel": [459.31, 417.6], "source": "gridtracknet", "detector_score": 0.981, "track_id": 111}, "estimate": null}
+{"frame": 572, "time_s": 19.066666666666666, "status": "detected", "pixel": [462.62, 424.54], "observation": {"pixel": [462.62, 424.54], "source": "gridtracknet", "detector_score": 0.825, "track_id": 111}, "estimate": null}
+{"frame": 573, "time_s": 19.1, "status": "detected", "pixel": [462.19, 431.63], "observation": {"pixel": [462.19, 431.63], "source": "gridtracknet", "detector_score": 0.972, "track_id": 111}, "estimate": null}
+{"frame": 574, "time_s": 19.133333333333333, "status": "detected", "pixel": [467.25, 440.6], "observation": {"pixel": [467.25, 440.6], "source": "gridtracknet", "detector_score": 0.942, "track_id": 111}, "estimate": null}
+{"frame": 575, "time_s": 19.166666666666668, "status": "detected", "pixel": [467.9, 450.37], "observation": {"pixel": [467.9, 450.37], "source": "gridtracknet", "detector_score": 0.897, "track_id": 111}, "estimate": null}
+{"frame": 576, "time_s": 19.2, "status": "detected", "pixel": [466.41, 463.24], "observation": {"pixel": [466.41, 463.24], "source": "gridtracknet", "detector_score": 0.988, "track_id": 111}, "estimate": null}
+{"frame": 577, "time_s": 19.233333333333334, "status": "detected", "pixel": [468.05, 473.71], "observation": {"pixel": [468.05, 473.71], "source": "gridtracknet", "detector_score": 0.784, "track_id": 111}, "estimate": null}
+{"frame": 578, "time_s": 19.266666666666666, "status": "detected", "pixel": [468.01, 489.45], "observation": {"pixel": [468.01, 489.45], "source": "gridtracknet", "detector_score": 0.987, "track_id": 111}, "estimate": null}
+{"frame": 579, "time_s": 19.3, "status": "detected", "pixel": [470.61, 500.74], "observation": {"pixel": [470.61, 500.74], "source": "gridtracknet", "detector_score": 0.964, "track_id": 111}, "estimate": null}
+{"frame": 580, "time_s": 19.333333333333332, "status": "detected", "pixel": [471.39, 514.56], "observation": {"pixel": [471.39, 514.56], "source": "gridtracknet", "detector_score": 0.967, "track_id": 111}, "estimate": null}
+{"frame": 581, "time_s": 19.366666666666667, "status": "detected", "pixel": [473.49, 520.3], "observation": {"pixel": [473.49, 520.3], "source": "gridtracknet", "detector_score": 0.996, "track_id": 111}, "estimate": null}
+{"frame": 582, "time_s": 19.4, "status": "detected", "pixel": [475.2, 510.48], "observation": {"pixel": [475.2, 510.48], "source": "gridtracknet", "detector_score": 0.937, "track_id": 111}, "estimate": null}
+{"frame": 583, "time_s": 19.433333333333334, "status": "detected", "pixel": [475.37, 499.34], "observation": {"pixel": [475.37, 499.34], "source": "gridtracknet", "detector_score": 0.986, "track_id": 111}, "estimate": null}
+{"frame": 584, "time_s": 19.466666666666665, "status": "detected", "pixel": [477.29, 490.5], "observation": {"pixel": [477.29, 490.5], "source": "gridtracknet", "detector_score": 0.969, "track_id": 111}, "estimate": null}
+{"frame": 585, "time_s": 19.5, "status": "detected", "pixel": [477.3, 484.16], "observation": {"pixel": [477.3, 484.16], "source": "gridtracknet", "detector_score": 0.888, "track_id": 111}, "estimate": null}
+{"frame": 586, "time_s": 19.533333333333335, "status": "detected", "pixel": [709.35, 96.98], "observation": {"pixel": [709.35, 96.98], "source": "gridtracknet", "detector_score": 0.9, "track_id": 113}, "estimate": null}
+{"frame": 587, "time_s": 19.566666666666666, "status": "detected", "pixel": [482.59, 472.28], "observation": {"pixel": [482.59, 472.28], "source": "gridtracknet", "detector_score": 0.834, "track_id": 114}, "estimate": null}
+{"frame": 588, "time_s": 19.6, "status": "detected", "pixel": [484.81, 470.69], "observation": {"pixel": [484.81, 470.69], "source": "gridtracknet", "detector_score": 0.922, "track_id": 114}, "estimate": null}
+{"frame": 589, "time_s": 19.633333333333333, "status": "detected", "pixel": [489.18, 464.12], "observation": {"pixel": [489.18, 464.12], "source": "gridtracknet", "detector_score": 0.856, "track_id": 114}, "estimate": null}
+{"frame": 590, "time_s": 19.666666666666668, "status": "detected", "pixel": [488.19, 465.53], "observation": {"pixel": [488.19, 465.53], "source": "gridtracknet", "detector_score": 0.848, "track_id": 114}, "estimate": null}
+{"frame": 591, "time_s": 19.7, "status": "detected", "pixel": [711.24, 104.16], "observation": {"pixel": [711.24, 104.16], "source": "gridtracknet", "detector_score": 0.938, "track_id": 116}, "estimate": null}
+{"frame": 592, "time_s": 19.733333333333334, "status": "detected", "pixel": [711.71, 101.03], "observation": {"pixel": [711.71, 101.03], "source": "gridtracknet", "detector_score": 0.918, "track_id": 116}, "estimate": null}
+{"frame": 593, "time_s": 19.766666666666666, "status": "detected", "pixel": [711.34, 98.46], "observation": {"pixel": [711.34, 98.46], "source": "gridtracknet", "detector_score": 0.971, "track_id": 116}, "estimate": null}
+{"frame": 594, "time_s": 19.8, "status": "detected", "pixel": [711.89, 94.78], "observation": {"pixel": [711.89, 94.78], "source": "gridtracknet", "detector_score": 0.928, "track_id": 116}, "estimate": null}
+{"frame": 595, "time_s": 19.833333333333332, "status": "detected", "pixel": [496.55, 476.09], "observation": {"pixel": [496.55, 476.09], "source": "gridtracknet", "detector_score": 0.859, "track_id": 117}, "estimate": null}
+{"frame": 596, "time_s": 19.866666666666667, "status": "detected", "pixel": [498.89, 481.78], "observation": {"pixel": [498.89, 481.78], "source": "gridtracknet", "detector_score": 0.575, "track_id": 117}, "estimate": null}
+{"frame": 597, "time_s": 19.9, "status": "detected", "pixel": [501.1, 486.54], "observation": {"pixel": [501.1, 486.54], "source": "gridtracknet", "detector_score": 0.937, "track_id": 117}, "estimate": null}
+{"frame": 598, "time_s": 19.933333333333334, "status": "detected", "pixel": [502.67, 492.77], "observation": {"pixel": [502.67, 492.77], "source": "gridtracknet", "detector_score": 0.908, "track_id": 117}, "estimate": null}
+{"frame": 599, "time_s": 19.966666666666665, "status": "detected", "pixel": [504.29, 500.36], "observation": {"pixel": [504.29, 500.36], "source": "gridtracknet", "detector_score": 0.847, "track_id": 117}, "estimate": null}

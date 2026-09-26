@@ -1,0 +1,2280 @@
+{
+  "method": "temporal_candidate_fusion_v1",
+  "raw_candidate_counts": {
+    "contacts": 104,
+    "bounces": 64
+  },
+  "consolidated_counts": {
+    "contacts": 41,
+    "bounces": 62,
+    "shots": 31
+  },
+  "contacts": [
+    {
+      "type": "contact_candidate",
+      "frame": 23,
+      "time_s": 0.7667,
+      "pixel": [
+        625.2,
+        350.3
+      ],
+      "court_m": null,
+      "racket_track_id": 6,
+      "distance_px": 30.9
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 56,
+      "time_s": 1.8667,
+      "pixel": [
+        571.6,
+        442.0
+      ],
+      "court_m": null,
+      "racket_track_id": 6,
+      "distance_px": 51.9
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 365,
+      "time_s": 12.1667,
+      "pixel": [
+        479.6,
+        458.1
+      ],
+      "court_m": null,
+      "racket_track_id": 27,
+      "distance_px": 33.5
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 682,
+      "time_s": 22.7333,
+      "pixel": [
+        776.5,
+        689.8
+      ],
+      "court_m": null,
+      "racket_track_id": 38,
+      "distance_px": 27.4
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 826,
+      "time_s": 27.5333,
+      "pixel": [
+        706.0,
+        702.9
+      ],
+      "court_m": null,
+      "racket_track_id": 47,
+      "distance_px": 31.9
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 1080,
+      "time_s": 36.0,
+      "pixel": [
+        729.0,
+        536.8
+      ],
+      "court_m": null,
+      "racket_track_id": 66,
+      "distance_px": 58.0
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 1099,
+      "time_s": 36.6333,
+      "pixel": [
+        732.2,
+        563.7
+      ],
+      "court_m": null,
+      "racket_track_id": 66,
+      "distance_px": 63.5
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 1116,
+      "time_s": 37.2,
+      "pixel": [
+        733.5,
+        549.7
+      ],
+      "court_m": null,
+      "racket_track_id": 66,
+      "distance_px": 63.9
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 1172,
+      "time_s": 39.0667,
+      "pixel": [
+        722.5,
+        528.6
+      ],
+      "court_m": null,
+      "racket_track_id": 66,
+      "distance_px": 24.6
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 1231,
+      "time_s": 41.0333,
+      "pixel": [
+        704.6,
+        179.7
+      ],
+      "court_m": null,
+      "racket_track_id": 85,
+      "distance_px": 34.5
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 1411,
+      "time_s": 47.0333,
+      "pixel": [
+        1204.5,
+        470.8
+      ],
+      "court_m": null,
+      "racket_track_id": 84,
+      "distance_px": 25.4
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 1437,
+      "time_s": 47.9,
+      "pixel": [
+        1028.2,
+        494.6
+      ],
+      "court_m": null,
+      "racket_track_id": 99,
+      "distance_px": 57.1
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 1471,
+      "time_s": 49.0333,
+      "pixel": [
+        860.6,
+        518.7
+      ],
+      "court_m": null,
+      "racket_track_id": 84,
+      "distance_px": 39.4
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 1506,
+      "time_s": 50.2,
+      "pixel": [
+        666.0,
+        538.0
+      ],
+      "court_m": null,
+      "racket_track_id": 84,
+      "distance_px": 37.8
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 1743,
+      "time_s": 58.1,
+      "pixel": [
+        459.4,
+        413.7
+      ],
+      "court_m": null,
+      "racket_track_id": 121,
+      "distance_px": 51.7
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 3015,
+      "time_s": 100.5,
+      "pixel": [
+        325.4,
+        320.3
+      ],
+      "court_m": null,
+      "racket_track_id": 167,
+      "distance_px": 21.7
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 3088,
+      "time_s": 102.9333,
+      "pixel": [
+        467.6,
+        440.2
+      ],
+      "court_m": null,
+      "racket_track_id": 167,
+      "distance_px": 23.0
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 3113,
+      "time_s": 103.7667,
+      "pixel": [
+        626.5,
+        497.4
+      ],
+      "court_m": null,
+      "racket_track_id": 167,
+      "distance_px": 23.4
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 3389,
+      "time_s": 112.9667,
+      "pixel": [
+        808.9,
+        577.9
+      ],
+      "court_m": null,
+      "racket_track_id": 191,
+      "distance_px": 16.6
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 3420,
+      "time_s": 114.0,
+      "pixel": [
+        882.2,
+        607.7
+      ],
+      "court_m": null,
+      "racket_track_id": 191,
+      "distance_px": 23.3
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 3584,
+      "time_s": 119.4667,
+      "pixel": [
+        852.8,
+        386.6
+      ],
+      "court_m": null,
+      "racket_track_id": 197,
+      "distance_px": 4.0
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 4033,
+      "time_s": 134.4333,
+      "pixel": [
+        418.4,
+        562.1
+      ],
+      "court_m": null,
+      "racket_track_id": 232,
+      "distance_px": 25.9
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 4076,
+      "time_s": 135.8667,
+      "pixel": [
+        479.2,
+        524.0
+      ],
+      "court_m": null,
+      "racket_track_id": 233,
+      "distance_px": 28.4
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 4151,
+      "time_s": 138.3667,
+      "pixel": [
+        435.6,
+        528.6
+      ],
+      "court_m": null,
+      "racket_track_id": 235,
+      "distance_px": 17.0
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 4207,
+      "time_s": 140.2333,
+      "pixel": [
+        418.0,
+        508.4
+      ],
+      "court_m": null,
+      "racket_track_id": 235,
+      "distance_px": 30.9
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 4243,
+      "time_s": 141.4333,
+      "pixel": [
+        416.3,
+        192.4
+      ],
+      "court_m": null,
+      "racket_track_id": 249,
+      "distance_px": 50.2
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 4697,
+      "time_s": 156.5667,
+      "pixel": [
+        900.0,
+        693.1
+      ],
+      "court_m": null,
+      "racket_track_id": 289,
+      "distance_px": 14.7
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 4778,
+      "time_s": 159.2667,
+      "pixel": [
+        771.9,
+        620.4
+      ],
+      "court_m": null,
+      "racket_track_id": 289,
+      "distance_px": 65.8
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 4818,
+      "time_s": 160.6,
+      "pixel": [
+        833.9,
+        579.5
+      ],
+      "court_m": null,
+      "racket_track_id": 304,
+      "distance_px": 13.2
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 4994,
+      "time_s": 166.4667,
+      "pixel": [
+        813.9,
+        478.1
+      ],
+      "court_m": null,
+      "racket_track_id": 314,
+      "distance_px": 62.8
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 5027,
+      "time_s": 167.5667,
+      "pixel": [
+        762.7,
+        207.4
+      ],
+      "court_m": null,
+      "racket_track_id": 316,
+      "distance_px": 42.1
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 5125,
+      "time_s": 170.8333,
+      "pixel": [
+        583.9,
+        371.4
+      ],
+      "court_m": null,
+      "racket_track_id": 321,
+      "distance_px": 34.4
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 5166,
+      "time_s": 172.2,
+      "pixel": [
+        475.2,
+        300.2
+      ],
+      "court_m": null,
+      "racket_track_id": 321,
+      "distance_px": 22.8
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 5178,
+      "time_s": 172.6,
+      "pixel": [
+        472.4,
+        299.0
+      ],
+      "court_m": null,
+      "racket_track_id": 321,
+      "distance_px": 15.1
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 5220,
+      "time_s": 174.0,
+      "pixel": [
+        495.5,
+        378.7
+      ],
+      "court_m": null,
+      "racket_track_id": 321,
+      "distance_px": 42.1
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 5249,
+      "time_s": 174.9667,
+      "pixel": [
+        578.2,
+        379.1
+      ],
+      "court_m": null,
+      "racket_track_id": 321,
+      "distance_px": 34.4
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 5293,
+      "time_s": 176.4333,
+      "pixel": [
+        625.4,
+        468.1
+      ],
+      "court_m": null,
+      "racket_track_id": 331,
+      "distance_px": 23.5
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 5308,
+      "time_s": 176.9333,
+      "pixel": [
+        641.4,
+        516.8
+      ],
+      "court_m": null,
+      "racket_track_id": 331,
+      "distance_px": 48.1
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 5338,
+      "time_s": 177.9333,
+      "pixel": [
+        814.3,
+        543.5
+      ],
+      "court_m": null,
+      "racket_track_id": 332,
+      "distance_px": 26.2
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 5462,
+      "time_s": 182.0667,
+      "pixel": [
+        826.4,
+        488.8
+      ],
+      "court_m": null,
+      "racket_track_id": 341,
+      "distance_px": 61.8
+    },
+    {
+      "type": "contact_candidate",
+      "frame": 5496,
+      "time_s": 183.2,
+      "pixel": [
+        748.4,
+        200.3
+      ],
+      "court_m": null,
+      "racket_track_id": 345,
+      "distance_px": 55.7
+    }
+  ],
+  "bounces": [
+    {
+      "type": "bounce_candidate",
+      "frame": 12,
+      "time_s": 0.4,
+      "pixel": [
+        601.3,
+        388.9
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 26,
+      "time_s": 0.8667,
+      "pixel": [
+        624.0,
+        410.0
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 56,
+      "time_s": 1.8667,
+      "pixel": [
+        571.6,
+        442.0
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 249,
+      "time_s": 8.3,
+      "pixel": [
+        407.0,
+        166.1
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 260,
+      "time_s": 8.6667,
+      "pixel": [
+        718.9,
+        151.1
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 336,
+      "time_s": 11.2,
+      "pixel": [
+        500.4,
+        319.1
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 356,
+      "time_s": 11.8667,
+      "pixel": [
+        487.6,
+        527.8
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 601,
+      "time_s": 20.0333,
+      "pixel": [
+        420.9,
+        172.0
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 683,
+      "time_s": 22.7667,
+      "pixel": [
+        775.6,
+        709.8
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 957,
+      "time_s": 31.9,
+      "pixel": [
+        823.5,
+        335.3
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 984,
+      "time_s": 32.8,
+      "pixel": [
+        852.3,
+        671.8
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1082,
+      "time_s": 36.0667,
+      "pixel": [
+        725.1,
+        572.5
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1100,
+      "time_s": 36.6667,
+      "pixel": [
+        731.0,
+        574.7
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1117,
+      "time_s": 37.2333,
+      "pixel": [
+        729.5,
+        573.2
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1135,
+      "time_s": 37.8333,
+      "pixel": [
+        727.5,
+        570.4
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1152,
+      "time_s": 38.4,
+      "pixel": [
+        717.1,
+        562.4
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1169,
+      "time_s": 38.9667,
+      "pixel": [
+        714.5,
+        567.7
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1231,
+      "time_s": 41.0333,
+      "pixel": [
+        704.6,
+        179.7
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1296,
+      "time_s": 43.2,
+      "pixel": [
+        889.5,
+        257.9
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1402,
+      "time_s": 46.7333,
+      "pixel": [
+        1195.2,
+        448.1
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1416,
+      "time_s": 47.2,
+      "pixel": [
+        1156.6,
+        513.1
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1459,
+      "time_s": 48.6333,
+      "pixel": [
+        886.9,
+        575.5
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1474,
+      "time_s": 49.1333,
+      "pixel": [
+        823.5,
+        585.2
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1495,
+      "time_s": 49.8333,
+      "pixel": [
+        701.6,
+        613.6
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1509,
+      "time_s": 50.3,
+      "pixel": [
+        640.8,
+        606.0
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1676,
+      "time_s": 55.8667,
+      "pixel": [
+        429.7,
+        122.7
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1753,
+      "time_s": 58.4333,
+      "pixel": [
+        472.7,
+        517.6
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1774,
+      "time_s": 59.1333,
+      "pixel": [
+        508.0,
+        523.7
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1826,
+      "time_s": 60.8667,
+      "pixel": [
+        589.7,
+        573.8
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 1843,
+      "time_s": 61.4333,
+      "pixel": [
+        612.7,
+        583.9
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 3148,
+      "time_s": 104.9333,
+      "pixel": [
+        648.6,
+        664.5
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 3178,
+      "time_s": 105.9333,
+      "pixel": [
+        823.6,
+        714.8
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 3380,
+      "time_s": 112.6667,
+      "pixel": [
+        806.2,
+        668.3
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 3423,
+      "time_s": 114.1,
+      "pixel": [
+        847.0,
+        627.5
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 3613,
+      "time_s": 120.4333,
+      "pixel": [
+        805.5,
+        199.8
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 3891,
+      "time_s": 129.7,
+      "pixel": [
+        749.9,
+        376.7
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 3919,
+      "time_s": 130.6333,
+      "pixel": [
+        884.0,
+        692.4
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 4026,
+      "time_s": 134.2,
+      "pixel": [
+        435.1,
+        637.4
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 4057,
+      "time_s": 135.2333,
+      "pixel": [
+        466.5,
+        596.4
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 4070,
+      "time_s": 135.6667,
+      "pixel": [
+        499.6,
+        579.8
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 4083,
+      "time_s": 136.1,
+      "pixel": [
+        442.3,
+        581.5
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 4122,
+      "time_s": 137.4,
+      "pixel": [
+        421.2,
+        577.5
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 4147,
+      "time_s": 138.2333,
+      "pixel": [
+        440.8,
+        566.1
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 4243,
+      "time_s": 141.4333,
+      "pixel": [
+        416.3,
+        192.4
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 4311,
+      "time_s": 143.7,
+      "pixel": [
+        545.7,
+        550.6
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 4652,
+      "time_s": 155.0667,
+      "pixel": [
+        739.6,
+        356.9
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 4667,
+      "time_s": 155.5667,
+      "pixel": [
+        837.6,
+        609.0
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 4700,
+      "time_s": 156.6667,
+      "pixel": [
+        854.1,
+        715.9
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 4808,
+      "time_s": 160.2667,
+      "pixel": [
+        793.3,
+        659.7
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 4826,
+      "time_s": 160.8667,
+      "pixel": [
+        827.0,
+        647.4
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 4837,
+      "time_s": 161.2333,
+      "pixel": [
+        817.8,
+        640.4
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 5027,
+      "time_s": 167.5667,
+      "pixel": [
+        762.7,
+        207.4
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 5115,
+      "time_s": 170.5,
+      "pixel": [
+        537.6,
+        355.6
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 5133,
+      "time_s": 171.1,
+      "pixel": [
+        566.8,
+        369.0
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 5222,
+      "time_s": 174.0667,
+      "pixel": [
+        492.0,
+        388.5
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 5235,
+      "time_s": 174.5,
+      "pixel": [
+        470.9,
+        445.1
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 5253,
+      "time_s": 175.1,
+      "pixel": [
+        428.0,
+        527.0
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 5269,
+      "time_s": 175.6333,
+      "pixel": [
+        381.4,
+        625.4
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 5308,
+      "time_s": 176.9333,
+      "pixel": [
+        641.4,
+        516.8
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 5319,
+      "time_s": 177.3,
+      "pixel": [
+        689.3,
+        622.9
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 5331,
+      "time_s": 177.7,
+      "pixel": [
+        765.7,
+        619.2
+      ],
+      "court_m": null
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 5495,
+      "time_s": 183.1667,
+      "pixel": [
+        772.2,
+        207.3
+      ],
+      "court_m": null
+    }
+  ],
+  "shots": [
+    {
+      "shot_id": 1,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 23,
+        "time_s": 0.7667,
+        "pixel": [
+          625.2,
+          350.3
+        ],
+        "court_m": null,
+        "racket_track_id": 6,
+        "distance_px": 30.9
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 56,
+        "time_s": 1.8667,
+        "pixel": [
+          571.6,
+          442.0
+        ],
+        "court_m": null,
+        "racket_track_id": 6,
+        "distance_px": 51.9
+      },
+      "flight_s": 1.1,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 26,
+        "time_s": 0.8667,
+        "pixel": [
+          624.0,
+          410.0
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 2,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 682,
+        "time_s": 22.7333,
+        "pixel": [
+          776.5,
+          689.8
+        ],
+        "court_m": null,
+        "racket_track_id": 38,
+        "distance_px": 27.4
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 826,
+        "time_s": 27.5333,
+        "pixel": [
+          706.0,
+          702.9
+        ],
+        "court_m": null,
+        "racket_track_id": 47,
+        "distance_px": 31.9
+      },
+      "flight_s": 4.8,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 683,
+        "time_s": 22.7667,
+        "pixel": [
+          775.6,
+          709.8
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 3,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 1080,
+        "time_s": 36.0,
+        "pixel": [
+          729.0,
+          536.8
+        ],
+        "court_m": null,
+        "racket_track_id": 66,
+        "distance_px": 58.0
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 1099,
+        "time_s": 36.6333,
+        "pixel": [
+          732.2,
+          563.7
+        ],
+        "court_m": null,
+        "racket_track_id": 66,
+        "distance_px": 63.5
+      },
+      "flight_s": 0.6333,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 1082,
+        "time_s": 36.0667,
+        "pixel": [
+          725.1,
+          572.5
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 4,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 1099,
+        "time_s": 36.6333,
+        "pixel": [
+          732.2,
+          563.7
+        ],
+        "court_m": null,
+        "racket_track_id": 66,
+        "distance_px": 63.5
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 1116,
+        "time_s": 37.2,
+        "pixel": [
+          733.5,
+          549.7
+        ],
+        "court_m": null,
+        "racket_track_id": 66,
+        "distance_px": 63.9
+      },
+      "flight_s": 0.5667,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 1100,
+        "time_s": 36.6667,
+        "pixel": [
+          731.0,
+          574.7
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 5,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 1116,
+        "time_s": 37.2,
+        "pixel": [
+          733.5,
+          549.7
+        ],
+        "court_m": null,
+        "racket_track_id": 66,
+        "distance_px": 63.9
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 1172,
+        "time_s": 39.0667,
+        "pixel": [
+          722.5,
+          528.6
+        ],
+        "court_m": null,
+        "racket_track_id": 66,
+        "distance_px": 24.6
+      },
+      "flight_s": 1.8667,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 1117,
+        "time_s": 37.2333,
+        "pixel": [
+          729.5,
+          573.2
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 6,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 1172,
+        "time_s": 39.0667,
+        "pixel": [
+          722.5,
+          528.6
+        ],
+        "court_m": null,
+        "racket_track_id": 66,
+        "distance_px": 24.6
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 1231,
+        "time_s": 41.0333,
+        "pixel": [
+          704.6,
+          179.7
+        ],
+        "court_m": null,
+        "racket_track_id": 85,
+        "distance_px": 34.5
+      },
+      "flight_s": 1.9666,
+      "landing": null,
+      "is_volley_candidate": true,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 7,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 1231,
+        "time_s": 41.0333,
+        "pixel": [
+          704.6,
+          179.7
+        ],
+        "court_m": null,
+        "racket_track_id": 85,
+        "distance_px": 34.5
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 1411,
+        "time_s": 47.0333,
+        "pixel": [
+          1204.5,
+          470.8
+        ],
+        "court_m": null,
+        "racket_track_id": 84,
+        "distance_px": 25.4
+      },
+      "flight_s": 6.0,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 1296,
+        "time_s": 43.2,
+        "pixel": [
+          889.5,
+          257.9
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 8,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 1411,
+        "time_s": 47.0333,
+        "pixel": [
+          1204.5,
+          470.8
+        ],
+        "court_m": null,
+        "racket_track_id": 84,
+        "distance_px": 25.4
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 1437,
+        "time_s": 47.9,
+        "pixel": [
+          1028.2,
+          494.6
+        ],
+        "court_m": null,
+        "racket_track_id": 99,
+        "distance_px": 57.1
+      },
+      "flight_s": 0.8667,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 1416,
+        "time_s": 47.2,
+        "pixel": [
+          1156.6,
+          513.1
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 9,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 1437,
+        "time_s": 47.9,
+        "pixel": [
+          1028.2,
+          494.6
+        ],
+        "court_m": null,
+        "racket_track_id": 99,
+        "distance_px": 57.1
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 1471,
+        "time_s": 49.0333,
+        "pixel": [
+          860.6,
+          518.7
+        ],
+        "court_m": null,
+        "racket_track_id": 84,
+        "distance_px": 39.4
+      },
+      "flight_s": 1.1333,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 1459,
+        "time_s": 48.6333,
+        "pixel": [
+          886.9,
+          575.5
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 10,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 1471,
+        "time_s": 49.0333,
+        "pixel": [
+          860.6,
+          518.7
+        ],
+        "court_m": null,
+        "racket_track_id": 84,
+        "distance_px": 39.4
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 1506,
+        "time_s": 50.2,
+        "pixel": [
+          666.0,
+          538.0
+        ],
+        "court_m": null,
+        "racket_track_id": 84,
+        "distance_px": 37.8
+      },
+      "flight_s": 1.1667,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 1474,
+        "time_s": 49.1333,
+        "pixel": [
+          823.5,
+          585.2
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 11,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 3015,
+        "time_s": 100.5,
+        "pixel": [
+          325.4,
+          320.3
+        ],
+        "court_m": null,
+        "racket_track_id": 167,
+        "distance_px": 21.7
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 3088,
+        "time_s": 102.9333,
+        "pixel": [
+          467.6,
+          440.2
+        ],
+        "court_m": null,
+        "racket_track_id": 167,
+        "distance_px": 23.0
+      },
+      "flight_s": 2.4333,
+      "landing": null,
+      "is_volley_candidate": true,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 12,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 3088,
+        "time_s": 102.9333,
+        "pixel": [
+          467.6,
+          440.2
+        ],
+        "court_m": null,
+        "racket_track_id": 167,
+        "distance_px": 23.0
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 3113,
+        "time_s": 103.7667,
+        "pixel": [
+          626.5,
+          497.4
+        ],
+        "court_m": null,
+        "racket_track_id": 167,
+        "distance_px": 23.4
+      },
+      "flight_s": 0.8334,
+      "landing": null,
+      "is_volley_candidate": true,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 13,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 3389,
+        "time_s": 112.9667,
+        "pixel": [
+          808.9,
+          577.9
+        ],
+        "court_m": null,
+        "racket_track_id": 191,
+        "distance_px": 16.6
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 3420,
+        "time_s": 114.0,
+        "pixel": [
+          882.2,
+          607.7
+        ],
+        "court_m": null,
+        "racket_track_id": 191,
+        "distance_px": 23.3
+      },
+      "flight_s": 1.0333,
+      "landing": null,
+      "is_volley_candidate": true,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 14,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 3420,
+        "time_s": 114.0,
+        "pixel": [
+          882.2,
+          607.7
+        ],
+        "court_m": null,
+        "racket_track_id": 191,
+        "distance_px": 23.3
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 3584,
+        "time_s": 119.4667,
+        "pixel": [
+          852.8,
+          386.6
+        ],
+        "court_m": null,
+        "racket_track_id": 197,
+        "distance_px": 4.0
+      },
+      "flight_s": 5.4667,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 3423,
+        "time_s": 114.1,
+        "pixel": [
+          847.0,
+          627.5
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 15,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 4033,
+        "time_s": 134.4333,
+        "pixel": [
+          418.4,
+          562.1
+        ],
+        "court_m": null,
+        "racket_track_id": 232,
+        "distance_px": 25.9
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 4076,
+        "time_s": 135.8667,
+        "pixel": [
+          479.2,
+          524.0
+        ],
+        "court_m": null,
+        "racket_track_id": 233,
+        "distance_px": 28.4
+      },
+      "flight_s": 1.4334,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 4057,
+        "time_s": 135.2333,
+        "pixel": [
+          466.5,
+          596.4
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 16,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 4076,
+        "time_s": 135.8667,
+        "pixel": [
+          479.2,
+          524.0
+        ],
+        "court_m": null,
+        "racket_track_id": 233,
+        "distance_px": 28.4
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 4151,
+        "time_s": 138.3667,
+        "pixel": [
+          435.6,
+          528.6
+        ],
+        "court_m": null,
+        "racket_track_id": 235,
+        "distance_px": 17.0
+      },
+      "flight_s": 2.5,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 4083,
+        "time_s": 136.1,
+        "pixel": [
+          442.3,
+          581.5
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 17,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 4151,
+        "time_s": 138.3667,
+        "pixel": [
+          435.6,
+          528.6
+        ],
+        "court_m": null,
+        "racket_track_id": 235,
+        "distance_px": 17.0
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 4207,
+        "time_s": 140.2333,
+        "pixel": [
+          418.0,
+          508.4
+        ],
+        "court_m": null,
+        "racket_track_id": 235,
+        "distance_px": 30.9
+      },
+      "flight_s": 1.8666,
+      "landing": null,
+      "is_volley_candidate": true,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 18,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 4207,
+        "time_s": 140.2333,
+        "pixel": [
+          418.0,
+          508.4
+        ],
+        "court_m": null,
+        "racket_track_id": 235,
+        "distance_px": 30.9
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 4243,
+        "time_s": 141.4333,
+        "pixel": [
+          416.3,
+          192.4
+        ],
+        "court_m": null,
+        "racket_track_id": 249,
+        "distance_px": 50.2
+      },
+      "flight_s": 1.2,
+      "landing": null,
+      "is_volley_candidate": true,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 19,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 4697,
+        "time_s": 156.5667,
+        "pixel": [
+          900.0,
+          693.1
+        ],
+        "court_m": null,
+        "racket_track_id": 289,
+        "distance_px": 14.7
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 4778,
+        "time_s": 159.2667,
+        "pixel": [
+          771.9,
+          620.4
+        ],
+        "court_m": null,
+        "racket_track_id": 289,
+        "distance_px": 65.8
+      },
+      "flight_s": 2.7,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 4700,
+        "time_s": 156.6667,
+        "pixel": [
+          854.1,
+          715.9
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 20,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 4778,
+        "time_s": 159.2667,
+        "pixel": [
+          771.9,
+          620.4
+        ],
+        "court_m": null,
+        "racket_track_id": 289,
+        "distance_px": 65.8
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 4818,
+        "time_s": 160.6,
+        "pixel": [
+          833.9,
+          579.5
+        ],
+        "court_m": null,
+        "racket_track_id": 304,
+        "distance_px": 13.2
+      },
+      "flight_s": 1.3333,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 4808,
+        "time_s": 160.2667,
+        "pixel": [
+          793.3,
+          659.7
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 21,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 4818,
+        "time_s": 160.6,
+        "pixel": [
+          833.9,
+          579.5
+        ],
+        "court_m": null,
+        "racket_track_id": 304,
+        "distance_px": 13.2
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 4994,
+        "time_s": 166.4667,
+        "pixel": [
+          813.9,
+          478.1
+        ],
+        "court_m": null,
+        "racket_track_id": 314,
+        "distance_px": 62.8
+      },
+      "flight_s": 5.8667,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 4826,
+        "time_s": 160.8667,
+        "pixel": [
+          827.0,
+          647.4
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 22,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 4994,
+        "time_s": 166.4667,
+        "pixel": [
+          813.9,
+          478.1
+        ],
+        "court_m": null,
+        "racket_track_id": 314,
+        "distance_px": 62.8
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 5027,
+        "time_s": 167.5667,
+        "pixel": [
+          762.7,
+          207.4
+        ],
+        "court_m": null,
+        "racket_track_id": 316,
+        "distance_px": 42.1
+      },
+      "flight_s": 1.1,
+      "landing": null,
+      "is_volley_candidate": true,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 23,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 5027,
+        "time_s": 167.5667,
+        "pixel": [
+          762.7,
+          207.4
+        ],
+        "court_m": null,
+        "racket_track_id": 316,
+        "distance_px": 42.1
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 5125,
+        "time_s": 170.8333,
+        "pixel": [
+          583.9,
+          371.4
+        ],
+        "court_m": null,
+        "racket_track_id": 321,
+        "distance_px": 34.4
+      },
+      "flight_s": 3.2666,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 5115,
+        "time_s": 170.5,
+        "pixel": [
+          537.6,
+          355.6
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 24,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 5125,
+        "time_s": 170.8333,
+        "pixel": [
+          583.9,
+          371.4
+        ],
+        "court_m": null,
+        "racket_track_id": 321,
+        "distance_px": 34.4
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 5166,
+        "time_s": 172.2,
+        "pixel": [
+          475.2,
+          300.2
+        ],
+        "court_m": null,
+        "racket_track_id": 321,
+        "distance_px": 22.8
+      },
+      "flight_s": 1.3667,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 5133,
+        "time_s": 171.1,
+        "pixel": [
+          566.8,
+          369.0
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 25,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 5178,
+        "time_s": 172.6,
+        "pixel": [
+          472.4,
+          299.0
+        ],
+        "court_m": null,
+        "racket_track_id": 321,
+        "distance_px": 15.1
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 5220,
+        "time_s": 174.0,
+        "pixel": [
+          495.5,
+          378.7
+        ],
+        "court_m": null,
+        "racket_track_id": 321,
+        "distance_px": 42.1
+      },
+      "flight_s": 1.4,
+      "landing": null,
+      "is_volley_candidate": true,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 26,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 5220,
+        "time_s": 174.0,
+        "pixel": [
+          495.5,
+          378.7
+        ],
+        "court_m": null,
+        "racket_track_id": 321,
+        "distance_px": 42.1
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 5249,
+        "time_s": 174.9667,
+        "pixel": [
+          578.2,
+          379.1
+        ],
+        "court_m": null,
+        "racket_track_id": 321,
+        "distance_px": 34.4
+      },
+      "flight_s": 0.9667,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 5222,
+        "time_s": 174.0667,
+        "pixel": [
+          492.0,
+          388.5
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 27,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 5249,
+        "time_s": 174.9667,
+        "pixel": [
+          578.2,
+          379.1
+        ],
+        "court_m": null,
+        "racket_track_id": 321,
+        "distance_px": 34.4
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 5293,
+        "time_s": 176.4333,
+        "pixel": [
+          625.4,
+          468.1
+        ],
+        "court_m": null,
+        "racket_track_id": 331,
+        "distance_px": 23.5
+      },
+      "flight_s": 1.4666,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 5253,
+        "time_s": 175.1,
+        "pixel": [
+          428.0,
+          527.0
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 28,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 5293,
+        "time_s": 176.4333,
+        "pixel": [
+          625.4,
+          468.1
+        ],
+        "court_m": null,
+        "racket_track_id": 331,
+        "distance_px": 23.5
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 5308,
+        "time_s": 176.9333,
+        "pixel": [
+          641.4,
+          516.8
+        ],
+        "court_m": null,
+        "racket_track_id": 331,
+        "distance_px": 48.1
+      },
+      "flight_s": 0.5,
+      "landing": null,
+      "is_volley_candidate": true,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 29,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 5308,
+        "time_s": 176.9333,
+        "pixel": [
+          641.4,
+          516.8
+        ],
+        "court_m": null,
+        "racket_track_id": 331,
+        "distance_px": 48.1
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 5338,
+        "time_s": 177.9333,
+        "pixel": [
+          814.3,
+          543.5
+        ],
+        "court_m": null,
+        "racket_track_id": 332,
+        "distance_px": 26.2
+      },
+      "flight_s": 1.0,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 5319,
+        "time_s": 177.3,
+        "pixel": [
+          689.3,
+          622.9
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 30,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 5338,
+        "time_s": 177.9333,
+        "pixel": [
+          814.3,
+          543.5
+        ],
+        "court_m": null,
+        "racket_track_id": 332,
+        "distance_px": 26.2
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 5462,
+        "time_s": 182.0667,
+        "pixel": [
+          826.4,
+          488.8
+        ],
+        "court_m": null,
+        "racket_track_id": 341,
+        "distance_px": 61.8
+      },
+      "flight_s": 4.1334,
+      "landing": null,
+      "is_volley_candidate": true,
+      "classification": "unclassified"
+    },
+    {
+      "shot_id": 31,
+      "start_contact": {
+        "type": "contact_candidate",
+        "frame": 5462,
+        "time_s": 182.0667,
+        "pixel": [
+          826.4,
+          488.8
+        ],
+        "court_m": null,
+        "racket_track_id": 341,
+        "distance_px": 61.8
+      },
+      "end_contact": {
+        "type": "contact_candidate",
+        "frame": 5496,
+        "time_s": 183.2,
+        "pixel": [
+          748.4,
+          200.3
+        ],
+        "court_m": null,
+        "racket_track_id": 345,
+        "distance_px": 55.7
+      },
+      "flight_s": 1.1333,
+      "landing": {
+        "type": "bounce_candidate",
+        "frame": 5495,
+        "time_s": 183.1667,
+        "pixel": [
+          772.2,
+          207.3
+        ],
+        "court_m": null
+      },
+      "is_volley_candidate": false,
+      "classification": "unclassified"
+    }
+  ]
+}

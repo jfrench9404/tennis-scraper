@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/VKorpelshoek/GridTrackNet",
+  "revision": "0764162b73fb64d440fd9e6c363d592965400799",
+  "license": "MIT",
+  "weights_sha256": "ac93a1f074b5292c6a06474db1fb8a2ff91553816eb337d6062b28535056ee42",
+  "onnx_sha256": "14a2b5f31d9c0f2f4edabcbbc4c058f824e0f9689081a0ddd69fe44b9c924ed8",
+  "input": "5 RGB frames, 768x432, divided by 255",
+  "note": "Pretrained public tennis model; not fine-tuned on this camera. Scores are not calibrated accuracy."
+}

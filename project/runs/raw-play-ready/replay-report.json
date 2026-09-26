@@ -1,0 +1,1439 @@
+{
+  "schema_version": 1,
+  "package_id": "3c970d6526e0854df89f0742104973372d7834a86b8534aeefe104087baaa4e1",
+  "review_run_id": "39449302177328c739e679a953b51d001bf297e21541feb1cc38c76265aa9ab9",
+  "frames": 600,
+  "fps": 30.0,
+  "width": 1280,
+  "height": 720,
+  "source_start_frame": 4740,
+  "input_run": "C:\\Users\\John\\Documents\\Codex\\2026-09-17\\can-x20\\outputs\\tennis-vision-mvp\\runs\\rally-neural-ball",
+  "review_labels": null,
+  "classification_counts": {
+    "serve": 1
+  },
+  "handedness": {
+    "near": {
+      "hand": "unknown",
+      "source": "insufficient_or_conflicting_evidence",
+      "votes": {
+        "left": 260,
+        "right": 85
+      },
+      "majority_fraction": 0.754,
+      "role": "descriptive_only_not_a_stroke_constraint"
+    },
+    "far": {
+      "hand": "unknown",
+      "source": "insufficient_or_conflicting_evidence",
+      "votes": {
+        "right": 64,
+        "left": 27
+      },
+      "majority_fraction": 0.703,
+      "role": "descriptive_only_not_a_stroke_constraint"
+    }
+  },
+  "event_review_counts": {
+    "unreviewed": 19,
+    "confirmed": 1
+  },
+  "player_frames": {
+    "near": 600,
+    "far": 600
+  },
+  "player_projection_omissions": {},
+  "confirmed_bounces": 1,
+  "visible_bounce_candidates": 8,
+  "player_identity_recovery": {
+    "basis": "backward_cached_association_from_confirmed_track",
+    "scope": "replay_only_not_shot_or_ball_evidence",
+    "recovered_frames": {
+      "near": 2,
+      "far": 70
+    },
+    "identities": {
+      "near": {
+        "seed_frame": 2,
+        "recovered": 2,
+        "stop_reason": "clip start"
+      },
+      "far": {
+        "seed_frame": 70,
+        "recovered": 70,
+        "stop_reason": "clip start"
+      }
+    }
+  },
+  "far_player_refinement": {
+    "method": "identity_anchored_crop_pose_v1",
+    "counts": {
+      "inferred_frames": 600,
+      "no_supported_crop_detection": 270,
+      "replaced_pose_frames": 70,
+      "original_pose_retained": 260
+    },
+    "before": {
+      "body_joints": 5476,
+      "pose_frames": 472
+    },
+    "after": {
+      "body_joints": 5826,
+      "pose_frames": 497
+    },
+    "limitation": "Fresh crop detections, not interpolated joints. Joint coverage is not accuracy. Missing identity anchors remain missing; no unrestricted referee/bystander reacquisition.",
+    "checkpoint_sha256": "ad33da8a29ea5772318c4c980844e47b56792d2b63815ad4e8e09c078c7d1abf",
+    "observation_sha256": "078d9b61856494d248c0404aa319bde00ca13f84195d6296db63e57ef6b5c36f"
+  },
+  "contact_detection": {
+    "method": "observed_turn_equipment_swing_v2",
+    "contacts": [
+      {
+        "id": "contact_candidate-000057",
+        "frame": 57,
+        "time_s": 1.9,
+        "type": "hit",
+        "status": "unreviewed",
+        "player_id": "near",
+        "pixel": [
+          728.36,
+          179.98
+        ],
+        "frame_range": [
+          56,
+          58
+        ],
+        "support": "limited",
+        "ranking_score": 0.547,
+        "score_is_probability": false,
+        "evidence": {
+          "racket_distance_heights": null,
+          "wrist_distance_heights": 0.2545742847102773,
+          "racquet_observed": false,
+          "body_relative_swing_heights_per_frame": 0.033797936155947325,
+          "pose_source": "original_model",
+          "identity_association_estimated": false,
+          "before": [
+            -2.3954285714284778,
+            10.749142857142864
+          ],
+          "after": [
+            -26.137000000000153,
+            -4.996000000000026
+          ],
+          "turn_degrees": 88.25837435053319,
+          "speed_ratio": 2.416293620516813,
+          "velocity_change_px_frame": 28.488098172566886,
+          "corner_rmse_px": 2.5435813581525384,
+          "smooth_rmse_px": 5.190865641303054,
+          "support_frames": [
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61
+          ],
+          "frame_range": [
+            56,
+            58
+          ]
+        },
+        "limitation": "2D proximity plus observed ball turn and swing, not measured ball/string contact. Timing is frame-level; confirmation requires review."
+      },
+      {
+        "id": "contact_candidate-000179",
+        "frame": 179,
+        "time_s": 5.966666666666667,
+        "type": "hit",
+        "status": "unreviewed",
+        "player_id": "near",
+        "pixel": [
+          1189.09,
+          405.84
+        ],
+        "frame_range": [
+          178,
+          180
+        ],
+        "support": "moderate",
+        "ranking_score": 0.85,
+        "score_is_probability": false,
+        "evidence": {
+          "racket_distance_heights": 0.1328215386903467,
+          "wrist_distance_heights": 0.47175765239176604,
+          "racquet_observed": true,
+          "body_relative_swing_heights_per_frame": 0.02245964905799207,
+          "pose_source": "original_model",
+          "identity_association_estimated": false,
+          "before": [
+            -2.4849999999998627,
+            10.140000000000002
+          ],
+          "after": [
+            2.939142857142834,
+            -5.661142857142815
+          ],
+          "turn_degrees": 166.33266931591658,
+          "speed_ratio": 1.6367207012358438,
+          "velocity_change_px_frame": 16.7062096636708,
+          "corner_rmse_px": 1.2271633472983052,
+          "smooth_rmse_px": 2.4934193293347335,
+          "support_frames": [
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184
+          ],
+          "frame_range": [
+            178,
+            180
+          ]
+        },
+        "limitation": "2D proximity plus observed ball turn and swing, not measured ball/string contact. Timing is frame-level; confirmation requires review."
+      },
+      {
+        "id": "contact_candidate-000200",
+        "frame": 200,
+        "time_s": 6.666666666666667,
+        "type": "hit",
+        "status": "unreviewed",
+        "player_id": "near",
+        "pixel": [
+          1180.91,
+          455.05
+        ],
+        "frame_range": [
+          197,
+          201
+        ],
+        "support": "moderate",
+        "ranking_score": 0.75,
+        "score_is_probability": false,
+        "evidence": {
+          "racket_distance_heights": 0.13383086069372416,
+          "wrist_distance_heights": 0.5146091749147149,
+          "racquet_observed": true,
+          "body_relative_swing_heights_per_frame": 0.010383026285598531,
+          "pose_source": "original_model",
+          "identity_association_estimated": false,
+          "before": [
+            -7.065263157894702,
+            12.205263157894782
+          ],
+          "after": [
+            1.3279999999998129,
+            -14.749000000000033
+          ],
+          "turn_degrees": 155.0797667767046,
+          "speed_ratio": 1.0500582693889866,
+          "velocity_change_px_frame": 28.230819485496966,
+          "corner_rmse_px": 2.802793044212198,
+          "smooth_rmse_px": 6.335171362882788,
+          "support_frames": [
+            195,
+            197,
+            200,
+            201,
+            202,
+            203,
+            204
+          ],
+          "frame_range": [
+            197,
+            201
+          ]
+        },
+        "limitation": "2D proximity plus observed ball turn and swing, not measured ball/string contact. Timing is frame-level; confirmation requires review."
+      },
+      {
+        "id": "contact_candidate-000262",
+        "frame": 262,
+        "time_s": 8.733333333333333,
+        "type": "hit",
+        "status": "unreviewed",
+        "player_id": "near",
+        "pixel": [
+          1028.84,
+          527.41
+        ],
+        "frame_range": [
+          261,
+          263
+        ],
+        "support": "moderate",
+        "ranking_score": 0.75,
+        "score_is_probability": false,
+        "evidence": {
+          "racket_distance_heights": 0.13173858573718258,
+          "wrist_distance_heights": 0.5308650714201122,
+          "racquet_observed": true,
+          "body_relative_swing_heights_per_frame": 0.013713486483688513,
+          "pose_source": "original_model",
+          "identity_association_estimated": false,
+          "before": [
+            -8.52499999999973,
+            12.402000000000061
+          ],
+          "after": [
+            0.7894285714285562,
+            -15.380571428571393
+          ],
+          "turn_degrees": 148.43399559476273,
+          "speed_ratio": 1.0233491390340466,
+          "velocity_change_px_frame": 29.302386503421772,
+          "corner_rmse_px": 5.4548653508286336,
+          "smooth_rmse_px": 7.11248405014987,
+          "support_frames": [
+            258,
+            259,
+            260,
+            261,
+            262,
+            263,
+            264,
+            265,
+            266,
+            267
+          ],
+          "frame_range": [
+            261,
+            263
+          ]
+        },
+        "limitation": "2D proximity plus observed ball turn and swing, not measured ball/string contact. Timing is frame-level; confirmation requires review."
+      },
+      {
+        "id": "contact_candidate-000295",
+        "frame": 295,
+        "time_s": 9.833333333333334,
+        "type": "hit",
+        "status": "unreviewed",
+        "player_id": "near",
+        "pixel": [
+          883.0,
+          484.38
+        ],
+        "frame_range": [
+          294,
+          296
+        ],
+        "support": "moderate",
+        "ranking_score": 0.75,
+        "score_is_probability": false,
+        "evidence": {
+          "racket_distance_heights": 0.0,
+          "wrist_distance_heights": 0.3058828449173917,
+          "racquet_observed": true,
+          "body_relative_swing_heights_per_frame": 0.008828268243164199,
+          "pose_source": "original_model",
+          "identity_association_estimated": false,
+          "before": [
+            -0.6411428571428414,
+            -8.525714285714223
+          ],
+          "after": [
+            -9.576000000000082,
+            13.599999999999968
+          ],
+          "turn_degrees": 140.54933847582686,
+          "speed_ratio": 1.9454392960488978,
+          "velocity_change_px_frame": 23.861661820089648,
+          "corner_rmse_px": 3.218440468242202,
+          "smooth_rmse_px": 4.13394625831864,
+          "support_frames": [
+            290,
+            291,
+            292,
+            293,
+            294,
+            295,
+            296,
+            297,
+            298,
+            299
+          ],
+          "frame_range": [
+            294,
+            296
+          ]
+        },
+        "limitation": "2D proximity plus observed ball turn and swing, not measured ball/string contact. Timing is frame-level; confirmation requires review."
+      },
+      {
+        "id": "contact_candidate-000309",
+        "frame": 309,
+        "time_s": 10.3,
+        "type": "hit",
+        "status": "unreviewed",
+        "player_id": "near",
+        "pixel": [
+          808.09,
+          466.68
+        ],
+        "frame_range": [
+          308,
+          310
+        ],
+        "support": "moderate",
+        "ranking_score": 0.744,
+        "score_is_probability": false,
+        "evidence": {
+          "racket_distance_heights": 0.4693169884649745,
+          "wrist_distance_heights": 0.09790811743929805,
+          "racquet_observed": true,
+          "body_relative_swing_heights_per_frame": 0.02120334236300364,
+          "pose_source": "original_model",
+          "identity_association_estimated": false,
+          "before": [
+            -1.6219999999999788,
+            -16.48685714285712
+          ],
+          "after": [
+            -5.6517647058823455,
+            -3.032352941176466
+          ],
+          "turn_degrees": 56.16625830516641,
+          "speed_ratio": 2.5829142821292828,
+          "velocity_change_px_frame": 14.045023563448284,
+          "corner_rmse_px": 1.9017449454474633,
+          "smooth_rmse_px": 2.2483003002418664,
+          "support_frames": [
+            304,
+            305,
+            306,
+            307,
+            308,
+            309,
+            310,
+            313,
+            314
+          ],
+          "frame_range": [
+            308,
+            310
+          ]
+        },
+        "limitation": "2D proximity plus observed ball turn and swing, not measured ball/string contact. Timing is frame-level; confirmation requires review."
+      },
+      {
+        "id": "contact_candidate-000336",
+        "frame": 336,
+        "time_s": 11.2,
+        "type": "hit",
+        "status": "unreviewed",
+        "player_id": "near",
+        "pixel": [
+          638.29,
+          603.35
+        ],
+        "frame_range": [
+          335,
+          337
+        ],
+        "support": "moderate",
+        "ranking_score": 0.75,
+        "score_is_probability": false,
+        "evidence": {
+          "racket_distance_heights": 0.11528809411368837,
+          "wrist_distance_heights": 0.5197930034694499,
+          "racquet_observed": true,
+          "body_relative_swing_heights_per_frame": 0.044774937668124445,
+          "pose_source": "original_model",
+          "identity_association_estimated": false,
+          "before": [
+            -8.43371428571429,
+            18.55800000000006
+          ],
+          "after": [
+            -3.0917142857143154,
+            -16.039428571428594
+          ],
+          "turn_degrees": 144.6501404904037,
+          "speed_ratio": 1.2479258539717988,
+          "velocity_change_px_frame": 35.00741389698912,
+          "corner_rmse_px": 2.364907193051355,
+          "smooth_rmse_px": 6.402387486445561,
+          "support_frames": [
+            331,
+            332,
+            333,
+            334,
+            335,
+            336,
+            337,
+            338,
+            339,
+            340,
+            341
+          ],
+          "frame_range": [
+            335,
+            337
+          ]
+        },
+        "limitation": "2D proximity plus observed ball turn and swing, not measured ball/string contact. Timing is frame-level; confirmation requires review."
+      },
+      {
+        "id": "contact_candidate-000369",
+        "frame": 369,
+        "time_s": 12.3,
+        "type": "hit",
+        "status": "unreviewed",
+        "player_id": "near",
+        "pixel": [
+          507.82,
+          407.64
+        ],
+        "frame_range": [
+          368,
+          370
+        ],
+        "support": "moderate",
+        "ranking_score": 0.794,
+        "score_is_probability": false,
+        "evidence": {
+          "racket_distance_heights": 0.4755682973327612,
+          "wrist_distance_heights": 0.08332373735736387,
+          "racquet_observed": true,
+          "body_relative_swing_heights_per_frame": 0.05736767418332889,
+          "pose_source": "original_model",
+          "identity_association_estimated": false,
+          "before": [
+            -3.3602857142856837,
+            -1.3231428571428145
+          ],
+          "after": [
+            -4.916000000000015,
+            10.577000000000009
+          ],
+          "turn_degrees": 86.56432774388556,
+          "speed_ratio": 3.229664490612401,
+          "velocity_change_px_frame": 12.001401874747092,
+          "corner_rmse_px": 1.0003226741311828,
+          "smooth_rmse_px": 1.6050355569298629,
+          "support_frames": [
+            364,
+            365,
+            366,
+            367,
+            368,
+            369,
+            370,
+            371,
+            372
+          ],
+          "frame_range": [
+            368,
+            370
+          ]
+        },
+        "limitation": "2D proximity plus observed ball turn and swing, not measured ball/string contact. Timing is frame-level; confirmation requires review."
+      }
+    ],
+    "review_windows": [
+      {
+        "id": "contact_window-000078",
+        "frame": 78,
+        "time_s": 2.6,
+        "type": "hit",
+        "status": "unreviewed",
+        "player_id": "far",
+        "pixel": [
+          572.33,
+          82.4
+        ],
+        "frame_range": [
+          74,
+          81
+        ],
+        "support": "review_window_only",
+        "evidence": {
+          "nearby_observed_ball_frames": [
+            77,
+            78
+          ],
+          "wrist_distance_heights": 0.5597539501832619,
+          "body_relative_swing_heights_per_frame": 0.03822936197354075
+        },
+        "limitation": "Possible far-player swing window only. Ball-turn/contact evidence is insufficient; do not treat this as a detected hit."
+      },
+      {
+        "id": "contact_window-000536",
+        "frame": 536,
+        "time_s": 17.866666666666667,
+        "type": "hit",
+        "status": "unreviewed",
+        "player_id": "far",
+        "pixel": [
+          668.53,
+          66.0
+        ],
+        "frame_range": [
+          529,
+          545
+        ],
+        "support": "review_window_only",
+        "evidence": {
+          "nearby_observed_ball_frames": [
+            532,
+            533,
+            536,
+            539,
+            540,
+            542
+          ],
+          "wrist_distance_heights": 0.46915082453084084,
+          "body_relative_swing_heights_per_frame": 0.0728121965538438
+        },
+        "limitation": "Possible far-player swing window only. Ball-turn/contact evidence is insufficient; do not treat this as a detected hit."
+      }
+    ],
+    "by_player": {
+      "near": 8
+    },
+    "limitation": "Candidate scores rank evidence, not calibrated confidence probabilities. Missing ball observations and uncertain identities cause abstention."
+  },
+  "contact_review_binding": "1735f4750cbf210ac0bb2aaf86611d52f793092abade5eb959b2006dea72a9d6",
+  "stroke_review_binding": "3c970d6526e0854df89f0742104973372d7834a86b8534aeefe104087baaa4e1",
+  "stroke_review": null,
+  "play_context": {
+    "method": "raw_play_context_v1",
+    "assessments": [
+      {
+        "event_id": "hit_candidate-000057",
+        "frame": 57,
+        "action_state": "shot_candidate",
+        "phase": "serve_candidate",
+        "reason": "Contact cues plus serve context or incoming/outgoing court flight",
+        "incoming": {
+          "relation": "unresolved",
+          "observed_frames": [
+            56,
+            55,
+            54,
+            53,
+            52,
+            51,
+            50,
+            49,
+            48,
+            47,
+            46,
+            45,
+            44,
+            43,
+            42,
+            41,
+            40,
+            39,
+            38,
+            37,
+            36,
+            35,
+            34,
+            33,
+            32,
+            31,
+            30
+          ],
+          "stop_reason": "window_end",
+          "span_frames": 27,
+          "sample_count": 27,
+          "excursion_body_heights": 0.453,
+          "near_hitter_fraction": 0.222,
+          "approaches_opponent": false,
+          "detached_from_hitter": true,
+          "receiver_reference_frame": null,
+          "reason": "Neither court flight nor sustained local activity is established"
+        },
+        "outgoing": {
+          "relation": "court_flight",
+          "observed_frames": [
+            58,
+            59,
+            60,
+            61,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            75,
+            76,
+            77,
+            78,
+            79
+          ],
+          "stop_reason": "observation_gap",
+          "span_frames": 22,
+          "sample_count": 18,
+          "excursion_body_heights": 0.544,
+          "near_hitter_fraction": 0.056,
+          "approaches_opponent": true,
+          "detached_from_hitter": true,
+          "receiver_reference_frame": 70,
+          "reason": "Continuous ball travel separates from hitter and approaches opponent region"
+        },
+        "serve_pattern": true,
+        "is_human_decision": false
+      },
+      {
+        "event_id": "contact_window-000078",
+        "frame": 78,
+        "action_state": "uncertain_contact",
+        "phase": "unresolved",
+        "reason": "A swing/proximity or missing ball track is not enough to establish a shot",
+        "incoming": {
+          "relation": "unresolved",
+          "observed_frames": [
+            77,
+            76,
+            75,
+            71,
+            70,
+            69,
+            68,
+            67,
+            66,
+            65,
+            64,
+            63,
+            61,
+            60,
+            59,
+            58,
+            57,
+            56,
+            55,
+            54,
+            53,
+            52,
+            51
+          ],
+          "stop_reason": "window_end",
+          "span_frames": 27,
+          "sample_count": 23,
+          "excursion_body_heights": 3.602,
+          "near_hitter_fraction": 0.0,
+          "approaches_opponent": false,
+          "detached_from_hitter": true,
+          "receiver_reference_frame": 78,
+          "reason": "Neither court flight nor sustained local activity is established"
+        },
+        "outgoing": {
+          "relation": "unresolved",
+          "observed_frames": [
+            79
+          ],
+          "stop_reason": "observation_gap",
+          "span_frames": 1,
+          "sample_count": 1,
+          "reason": "Too little continuous ball evidence"
+        },
+        "serve_pattern": false,
+        "is_human_decision": false
+      },
+      {
+        "event_id": "hit_candidate-000179",
+        "frame": 179,
+        "action_state": "uncertain_contact",
+        "phase": "unresolved",
+        "reason": "A swing/proximity or missing ball track is not enough to establish a shot",
+        "incoming": {
+          "relation": "unresolved",
+          "observed_frames": [
+            178,
+            177,
+            176
+          ],
+          "stop_reason": "observation_gap",
+          "span_frames": 3,
+          "sample_count": 3,
+          "reason": "Too little continuous ball evidence"
+        },
+        "outgoing": {
+          "relation": "unresolved",
+          "observed_frames": [
+            180,
+            181,
+            182,
+            183,
+            184
+          ],
+          "stop_reason": "observation_gap",
+          "span_frames": 5,
+          "sample_count": 5,
+          "reason": "Too little continuous ball evidence"
+        },
+        "serve_pattern": false,
+        "is_human_decision": false
+      },
+      {
+        "event_id": "hit_candidate-000200",
+        "frame": 200,
+        "action_state": "uncertain_contact",
+        "phase": "unresolved",
+        "reason": "A swing/proximity or missing ball track is not enough to establish a shot",
+        "incoming": {
+          "relation": "local_activity",
+          "observed_frames": [
+            197,
+            195,
+            194,
+            193,
+            192,
+            191,
+            190
+          ],
+          "stop_reason": "observation_gap",
+          "span_frames": 10,
+          "sample_count": 7,
+          "excursion_body_heights": 0.51,
+          "near_hitter_fraction": 1.0,
+          "approaches_opponent": false,
+          "detached_from_hitter": false,
+          "receiver_reference_frame": 200,
+          "reason": "Observed ball stays with the player; no court-directed flight established"
+        },
+        "outgoing": {
+          "relation": "unresolved",
+          "observed_frames": [
+            201,
+            202,
+            203,
+            204
+          ],
+          "stop_reason": "observation_gap",
+          "span_frames": 4,
+          "sample_count": 4,
+          "reason": "Too little continuous ball evidence"
+        },
+        "serve_pattern": false,
+        "is_human_decision": false
+      },
+      {
+        "event_id": "contact_candidate-000262",
+        "frame": 262,
+        "action_state": "uncertain_contact",
+        "phase": "unresolved",
+        "reason": "A swing/proximity or missing ball track is not enough to establish a shot",
+        "incoming": {
+          "relation": "unresolved",
+          "observed_frames": [
+            261,
+            260,
+            259,
+            258
+          ],
+          "stop_reason": "observation_gap",
+          "span_frames": 4,
+          "sample_count": 4,
+          "reason": "Too little continuous ball evidence"
+        },
+        "outgoing": {
+          "relation": "local_activity",
+          "observed_frames": [
+            263,
+            264,
+            265,
+            266,
+            267,
+            268,
+            269
+          ],
+          "stop_reason": "detector_jump",
+          "span_frames": 7,
+          "sample_count": 7,
+          "excursion_body_heights": 0.463,
+          "near_hitter_fraction": 1.0,
+          "approaches_opponent": false,
+          "detached_from_hitter": false,
+          "receiver_reference_frame": 262,
+          "reason": "Observed ball stays with the player; no court-directed flight established"
+        },
+        "serve_pattern": false,
+        "is_human_decision": false
+      },
+      {
+        "event_id": "hit_candidate-000295",
+        "frame": 295,
+        "action_state": "no_shot_candidate",
+        "phase": "between_points_candidate",
+        "reason": "Ball remains near the player on both sides; likely ball handling/non-play activity",
+        "incoming": {
+          "relation": "local_activity",
+          "observed_frames": [
+            294,
+            293,
+            292,
+            291,
+            290,
+            289,
+            288,
+            287,
+            286,
+            285,
+            284,
+            283,
+            282,
+            281,
+            280,
+            279,
+            278,
+            277,
+            276,
+            275
+          ],
+          "stop_reason": "detector_jump",
+          "span_frames": 20,
+          "sample_count": 20,
+          "excursion_body_heights": 0.525,
+          "near_hitter_fraction": 0.95,
+          "approaches_opponent": false,
+          "detached_from_hitter": false,
+          "receiver_reference_frame": 295,
+          "reason": "Observed ball stays with the player; no court-directed flight established"
+        },
+        "outgoing": {
+          "relation": "local_activity",
+          "observed_frames": [
+            296,
+            297,
+            298,
+            299,
+            301,
+            302,
+            303,
+            304,
+            305,
+            306,
+            307,
+            308,
+            309,
+            310,
+            313,
+            314,
+            315,
+            316,
+            317,
+            318,
+            319,
+            320,
+            321,
+            322
+          ],
+          "stop_reason": "window_end",
+          "span_frames": 27,
+          "sample_count": 24,
+          "excursion_body_heights": 0.909,
+          "near_hitter_fraction": 0.958,
+          "approaches_opponent": false,
+          "detached_from_hitter": false,
+          "receiver_reference_frame": 295,
+          "reason": "Observed ball stays with the player; no court-directed flight established"
+        },
+        "serve_pattern": false,
+        "is_human_decision": false
+      },
+      {
+        "event_id": "hit_candidate-000309",
+        "frame": 309,
+        "action_state": "no_shot_candidate",
+        "phase": "between_points_candidate",
+        "reason": "Ball remains near the player on both sides; likely ball handling/non-play activity",
+        "incoming": {
+          "relation": "local_activity",
+          "observed_frames": [
+            308,
+            307,
+            306,
+            305,
+            304,
+            303,
+            302,
+            301,
+            299,
+            298,
+            297,
+            296,
+            295,
+            294,
+            293,
+            292,
+            291,
+            290,
+            289,
+            288,
+            287,
+            286,
+            285,
+            284,
+            283,
+            282
+          ],
+          "stop_reason": "window_end",
+          "span_frames": 27,
+          "sample_count": 26,
+          "excursion_body_heights": 0.525,
+          "near_hitter_fraction": 0.962,
+          "approaches_opponent": false,
+          "detached_from_hitter": false,
+          "receiver_reference_frame": 309,
+          "reason": "Observed ball stays with the player; no court-directed flight established"
+        },
+        "outgoing": {
+          "relation": "local_activity",
+          "observed_frames": [
+            310,
+            313,
+            314,
+            315,
+            316,
+            317,
+            318,
+            319,
+            320,
+            321,
+            322,
+            323,
+            324,
+            325,
+            326,
+            327,
+            328,
+            329,
+            330,
+            331,
+            332,
+            333,
+            334,
+            335,
+            336
+          ],
+          "stop_reason": "window_end",
+          "span_frames": 27,
+          "sample_count": 25,
+          "excursion_body_heights": 0.847,
+          "near_hitter_fraction": 1.0,
+          "approaches_opponent": false,
+          "detached_from_hitter": false,
+          "receiver_reference_frame": 309,
+          "reason": "Observed ball stays with the player; no court-directed flight established"
+        },
+        "serve_pattern": false,
+        "is_human_decision": false
+      },
+      {
+        "event_id": "hit_candidate-000336",
+        "frame": 336,
+        "action_state": "no_shot_candidate",
+        "phase": "between_points_candidate",
+        "reason": "Ball remains near the player on both sides; likely ball handling/non-play activity",
+        "incoming": {
+          "relation": "local_activity",
+          "observed_frames": [
+            335,
+            334,
+            333,
+            332,
+            331,
+            330,
+            329,
+            328,
+            327,
+            326,
+            325,
+            324,
+            323,
+            322,
+            321,
+            320,
+            319,
+            318,
+            317,
+            316,
+            315,
+            314,
+            313,
+            310,
+            309
+          ],
+          "stop_reason": "window_end",
+          "span_frames": 27,
+          "sample_count": 25,
+          "excursion_body_heights": 0.873,
+          "near_hitter_fraction": 1.0,
+          "approaches_opponent": false,
+          "detached_from_hitter": false,
+          "receiver_reference_frame": 336,
+          "reason": "Observed ball stays with the player; no court-directed flight established"
+        },
+        "outgoing": {
+          "relation": "local_activity",
+          "observed_frames": [
+            337,
+            338,
+            339,
+            340,
+            341,
+            342,
+            343
+          ],
+          "stop_reason": "observation_gap",
+          "span_frames": 7,
+          "sample_count": 7,
+          "excursion_body_heights": 0.438,
+          "near_hitter_fraction": 1.0,
+          "approaches_opponent": false,
+          "detached_from_hitter": false,
+          "receiver_reference_frame": 336,
+          "reason": "Observed ball stays with the player; no court-directed flight established"
+        },
+        "serve_pattern": false,
+        "is_human_decision": false
+      },
+      {
+        "event_id": "hit_candidate-000369",
+        "frame": 369,
+        "action_state": "uncertain_contact",
+        "phase": "unresolved",
+        "reason": "A swing/proximity or missing ball track is not enough to establish a shot",
+        "incoming": {
+          "relation": "local_activity",
+          "observed_frames": [
+            368,
+            367,
+            366,
+            365,
+            364,
+            363,
+            362,
+            361,
+            360
+          ],
+          "stop_reason": "observation_gap",
+          "span_frames": 9,
+          "sample_count": 9,
+          "excursion_body_heights": 0.164,
+          "near_hitter_fraction": 1.0,
+          "approaches_opponent": false,
+          "detached_from_hitter": false,
+          "receiver_reference_frame": 369,
+          "reason": "Observed ball stays with the player; no court-directed flight established"
+        },
+        "outgoing": {
+          "relation": "unresolved",
+          "observed_frames": [
+            370,
+            371,
+            372
+          ],
+          "stop_reason": "observation_gap",
+          "span_frames": 3,
+          "sample_count": 3,
+          "reason": "Too little continuous ball evidence"
+        },
+        "serve_pattern": false,
+        "is_human_decision": false
+      },
+      {
+        "event_id": "hit_candidate-000440",
+        "frame": 440,
+        "action_state": "uncertain_contact",
+        "phase": "unresolved",
+        "reason": "A swing/proximity or missing ball track is not enough to establish a shot",
+        "incoming": {
+          "relation": "unresolved",
+          "observed_frames": [
+            439,
+            438
+          ],
+          "stop_reason": "observation_gap",
+          "span_frames": 2,
+          "sample_count": 2,
+          "reason": "Too little continuous ball evidence"
+        },
+        "outgoing": {
+          "relation": "unresolved",
+          "observed_frames": [
+            441,
+            442,
+            443,
+            444
+          ],
+          "stop_reason": "observation_gap",
+          "span_frames": 4,
+          "sample_count": 4,
+          "reason": "Too little continuous ball evidence"
+        },
+        "serve_pattern": false,
+        "is_human_decision": false
+      },
+      {
+        "event_id": "contact_window-000536",
+        "frame": 536,
+        "action_state": "uncertain_contact",
+        "phase": "unresolved",
+        "reason": "A swing/proximity or missing ball track is not enough to establish a shot",
+        "incoming": {
+          "relation": "court_flight",
+          "observed_frames": [
+            535,
+            534,
+            533,
+            532,
+            531,
+            530,
+            529,
+            528,
+            527,
+            526,
+            525,
+            524,
+            523,
+            522,
+            521,
+            520,
+            519,
+            518,
+            517,
+            516,
+            515,
+            514,
+            513,
+            512,
+            511,
+            510,
+            509
+          ],
+          "stop_reason": "window_end",
+          "span_frames": 27,
+          "sample_count": 27,
+          "excursion_body_heights": 3.703,
+          "near_hitter_fraction": 0.0,
+          "approaches_opponent": true,
+          "detached_from_hitter": true,
+          "receiver_reference_frame": 536,
+          "reason": "Continuous ball travel separates from hitter and approaches opponent region"
+        },
+        "outgoing": {
+          "relation": "unresolved",
+          "observed_frames": [
+            537,
+            538,
+            539,
+            540,
+            541,
+            542,
+            543,
+            544,
+            545,
+            546,
+            547,
+            548,
+            549
+          ],
+          "stop_reason": "observation_gap",
+          "span_frames": 13,
+          "sample_count": 13,
+          "excursion_body_heights": 0.28,
+          "near_hitter_fraction": 0.538,
+          "approaches_opponent": false,
+          "detached_from_hitter": false,
+          "receiver_reference_frame": 536,
+          "reason": "Neither court flight nor sustained local activity is established"
+        },
+        "serve_pattern": false,
+        "is_human_decision": false
+      }
+    ],
+    "action_counts": {
+      "shot_candidate": 1,
+      "uncertain_contact": 7,
+      "no_shot_candidate": 3
+    },
+    "phase_counts": {
+      "unresolved": 488,
+      "preparation_candidate": 27,
+      "serve_candidate": 1,
+      "live_ball_candidate": 18,
+      "between_points_candidate": 66
+    },
+    "outcome": "undetermined",
+    "limitation": "Heuristic play phases, not verified rally boundaries. Local activity is a no-shot hypothesis; missing ball observations never establish an ace, fault, winner, or return."
+  },
+  "avatar_counts": {
+    "pose_wireframe": 1097,
+    "height_placeholder": 103
+  },
+  "observed_ball_frames": 390,
+  "missing_ball_frames": 210,
+  "supported_flight_fits": 0,
+  "camera_available": true,
+  "unvalidated_preview_segments": 4,
+  "unvalidated_preview_frames": 86,
+  "camera_focal_length_basis": "multi_point_radial_camera",
+  "camera_fit": {
+    "basis": "multi_point_radial_camera",
+    "status": "approximate_not_measurement_grade",
+    "landmarks": 15,
+    "radial_distortion": [
+      -0.4000228121537815,
+      0.15721867915146132,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "focal_length_px": 983.5971576429987,
+    "landmark_rmse_px": 1.4987856467680234,
+    "residuals_px": {
+      "near_left_doubles": 0.75,
+      "near_right_doubles": 1.911,
+      "far_right_doubles": 2.108,
+      "far_left_doubles": 1.389,
+      "near_left_singles": 1.355,
+      "near_right_singles": 0.161,
+      "far_left_singles": 2.699,
+      "far_right_singles": 0.688,
+      "near_service_left": 1.035,
+      "near_service_centre": 2.047,
+      "near_service_right": 1.434,
+      "far_service_left": 1.772,
+      "far_service_centre": 0.313,
+      "far_service_right": 1.5,
+      "near_baseline_centre": 0.825
+    },
+    "assumptions": "one fixed view; square pixels; centred principal point; k1/k2 radial distortion; no tangential distortion",
+    "limitation": "Residuals use fitted landmarks, not independent 3D validation. Review all projected court lines; a single view cannot fully validate camera intrinsics or airborne XYZ.",
+    "review_status": "reviewed",
+    "previous_landmark_rmse_px": 19.408929554342222
+  },
+  "calibration_review": {
+    "schema_version": 1,
+    "kind": "court_and_bounce_review",
+    "run_id": "39449302177328c739e679a953b51d001bf297e21541feb1cc38c76265aa9ab9",
+    "image_size": [
+      1280,
+      720
+    ],
+    "calibration_frame": 300,
+    "calibration_status": "reviewed",
+    "landmark_source": "assistant_visual_annotation_of_source_frame_300",
+    "landmarks": {
+      "near_left_doubles": [
+        3,
+        535
+      ],
+      "near_right_doubles": [
+        1188,
+        570
+      ],
+      "far_right_doubles": [
+        782,
+        133
+      ],
+      "far_left_doubles": [
+        427,
+        123
+      ],
+      "near_left_singles": [
+        119,
+        550
+      ],
+      "near_right_singles": [
+        1070,
+        579
+      ],
+      "far_left_singles": [
+        469,
+        124
+      ],
+      "far_right_singles": [
+        737,
+        131
+      ],
+      "near_service_left": [
+        289,
+        327
+      ],
+      "near_service_centre": [
+        595,
+        335
+      ],
+      "near_service_right": [
+        906,
+        346
+      ],
+      "far_service_left": [
+        441,
+        151
+      ],
+      "far_service_centre": [
+        602,
+        156
+      ],
+      "far_service_right": [
+        763,
+        162
+      ],
+      "near_baseline_centre": [
+        591,
+        590
+      ]
+    },
+    "bounce_edits": [
+      {
+        "id": "bounce_candidate-000519",
+        "frame": 518,
+        "frame_range": [
+          517,
+          519
+        ],
+        "status": "unreviewed",
+        "landing_pixel": null,
+        "notes": "User reports serve in service box. Visual turn appears at frame 518 +/- 1, rather than original 519. Timing remains a proposal pending review."
+      },
+      {
+        "id": "bounce_candidate-000122",
+        "frame": 121,
+        "frame_range": [
+          120,
+          122
+        ],
+        "status": "confirmed",
+        "landing_pixel": null,
+        "notes": "User reports bounce near middle of doubles alley. Visual evidence supports frame 122 +/- 1; do not force an alley-centre coordinate."
+      }
+    ]
+  },
+  "limitations": [
+    "Heuristic stroke and hand-use candidates, not measured grip or trained tennis classification. Player hand tendencies never restrict a stroke. Two-handed forehand/backhand remains unknown without adequate grip/orientation evidence or human review.",
+    "Airborne XYZ is estimated from an approximate single-camera calibration and gravity-only motion. Reviewed bounce timing does not make court calibration or XYZ ground truth. Drag/spin are not modeled; radial lens compensation is used only when supplied by the calibration, and camera/lens errors can remain.",
+    "Dashed cyan paths are unvalidated single-camera estimates, conditional on possible bounce landings. They are partial observation windows, not complete shot reconstructions. Camera/depth and bounce errors remain possible despite pixel agreement; no event is confirmed, no missing detection is repaired, and unsupported intervals stay empty.",
+    "Player roots are estimated ground-plane foot positions, not measured jumping height. Missing ankles fall back to box bottom and are labelled.",
+    "Wireframes are 2.5D camera-facing pose constructions. Individual joint depth and body orientation are not recovered.",
+    "Delayed player initialization may be back-associated to cached person detections using adjacent motion, clothing and court-half gates. These identity assignments are estimates; the detector and original log are unchanged.",
+    "Dashed bounce-candidate rings are conditional ground locations IF the event is a bounce, not confirmed landings or reviewed-flight constraints. Only the separate preview channel may use them as hypotheses.",
+    "Camera calibration is approximate; consult camera_fit for its landmark, lens and review assumptions. Fitted residuals are not independent 3D accuracy measurements.",
+    "Reviewed-only mode hides unvalidated previews. Neither mode extends a ball path through unsupported intervals; unreviewed hypotheses never become confirmed observations.",
+    "An absent bounce detection is not sufficient evidence of a volley; uncertain classifications stay unknown.",
+    "Fresh crop detections, not interpolated joints. Joint coverage is not accuracy. Missing identity anchors remain missing; no unrestricted referee/bystander reacquisition.",
+    "Candidate scores rank evidence, not calibrated confidence probabilities. Missing ball observations and uncertain identities cause abstention.",
+    "Heuristic play phases, not verified rally boundaries. Local activity is a no-shot hypothesis; missing ball observations never establish an ace, fault, winner, or return."
+  ],
+  "seconds_processing": 2.94
+}

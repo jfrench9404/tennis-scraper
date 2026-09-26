@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "algorithm": "event-review-1",
+  "run_id": "39449302177328c739e679a953b51d001bf297e21541feb1cc38c76265aa9ab9",
+  "source_run": "C:\\Users\\John\\Documents\\Codex\\2026-09-17\\can-x20\\outputs\\tennis-vision-mvp\\runs\\rally-neural-ball",
+  "source_video": "C:\\Users\\John\\Downloads\\sebbie-demo-shortest (1).mp4",
+  "source_start_frame": 4740,
+  "fps": 30.0,
+  "frames": 600,
+  "ball_frames": {
+    "missing": 209,
+    "detected": 390,
+    "estimated": 1
+  },
+  "gap_decisions": {
+    "long_gap": 15,
+    "consistent_short_gap": 1,
+    "inconsistent_speed": 3,
+    "insufficient_observed_context": 3,
+    "near_player_equipment": 1,
+    "event_neighbourhood": 2
+  },
+  "scene_cut_frames": [],
+  "candidate_counts": {
+    "hit_candidate": 8,
+    "bounce_candidate": 9
+  },
+  "court_calibrated": true,
+  "limitations": [
+    "Coverage is not accuracy. All events start unreviewed; scores are NOT probabilities.",
+    "Estimated points are display-only and never feed events, legacy shots, or 3D.",
+    "No extrapolation; up to 3 missing frames filled only with consistent observed context away from impacts.",
+    "Missed events and false candidates remain possible, especially when the ball is occluded.",
+    "Bounce court coordinates are conditional on a real ground contact; no airborne XYZ is measured.",
+    "Court calibration assumes a fixed camera. Obvious-cut guard does not detect every camera movement.",
+    "Export review labels to retain them; browser-local autosave is best-effort. Review videos are silent."
+  ],
+  "seconds_processing": 37.53
+}

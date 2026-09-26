@@ -1,0 +1,1053 @@
+{
+  "schema_version": 1,
+  "run_id": "39449302177328c739e679a953b51d001bf297e21541feb1cc38c76265aa9ab9",
+  "events": [
+    {
+      "type": "hit_candidate",
+      "frame": 57,
+      "time_s": 1.9,
+      "frame_range": [
+        56,
+        58
+      ],
+      "pixel": [
+        728.36,
+        179.98
+      ],
+      "player_id": "near",
+      "player_feet_court_m": [
+        6.547,
+        -0.093
+      ],
+      "landing_if_bounce_m": null,
+      "score": 0.75,
+      "status": "unreviewed",
+      "evidence": {
+        "turn_degrees": 88.25837435053319,
+        "speed_ratio": 2.416293620516813,
+        "velocity_change_px_frame": 28.488098172566886,
+        "corner_rmse_px": 2.5435813581525384,
+        "smooth_rmse_px": 5.190865641303054,
+        "support_frames": [
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61
+        ],
+        "incoming_px_per_frame": [
+          -2.3954285714284778,
+          10.749142857142864
+        ],
+        "outgoing_px_per_frame": [
+          -26.137000000000153,
+          -4.996000000000026
+        ],
+        "ball_evidence": "learned_observations_only",
+        "racket_distance_heights": null,
+        "wrist_distance_heights": 0.2545742847102773,
+        "racket_close": false,
+        "body_relative_swing_heights_per_frame": 0.033797936155947325
+      },
+      "limitation": "Ball observation near player equipment; NOT exact ball/string contact or 3D.",
+      "id": "hit_candidate-000057",
+      "source_frame": 4797,
+      "source_time_s": 159.9,
+      "clip": {
+        "path": "clips/hit_candidate-000057.mp4",
+        "start_frame": 33,
+        "end_frame_exclusive": 82,
+        "source_start_frame": 4773,
+        "event_offset_s": 0.8
+      }
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 122,
+      "time_s": 4.066666666666666,
+      "frame_range": [
+        121,
+        123
+      ],
+      "pixel": [
+        882.74,
+        260.69
+      ],
+      "player_id": null,
+      "player_feet_court_m": null,
+      "landing_if_bounce_m": [
+        10.63,
+        9.982
+      ],
+      "score": 0.75,
+      "status": "unreviewed",
+      "evidence": {
+        "turn_degrees": 93.7263649391962,
+        "speed_ratio": 2.184939727462612,
+        "velocity_change_px_frame": 19.081604108327504,
+        "corner_rmse_px": 1.2703369444289003,
+        "smooth_rmse_px": 3.0988700898655157,
+        "support_frames": [
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127
+        ],
+        "incoming_px_per_frame": [
+          9.351714285714294,
+          14.123714285714314
+        ],
+        "outgoing_px_per_frame": [
+          6.17228571428571,
+          -4.691142857142884
+        ],
+        "ball_evidence": "learned_observations_only"
+      },
+      "limitation": "2D turn consistent with a bounce; court location valid ONLY if ground contact is confirmed.",
+      "id": "bounce_candidate-000122",
+      "source_frame": 4862,
+      "source_time_s": 162.06666666666666,
+      "clip": {
+        "path": "clips/bounce_candidate-000122.mp4",
+        "start_frame": 98,
+        "end_frame_exclusive": 147,
+        "source_start_frame": 4838,
+        "event_offset_s": 0.8
+      }
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 149,
+      "time_s": 4.966666666666667,
+      "frame_range": [
+        148,
+        150
+      ],
+      "pixel": [
+        1030.37,
+        324.27
+      ],
+      "player_id": null,
+      "player_feet_court_m": null,
+      "landing_if_bounce_m": [
+        12.099,
+        6.73
+      ],
+      "score": 0.75,
+      "status": "unreviewed",
+      "evidence": {
+        "turn_degrees": 85.0986673274084,
+        "speed_ratio": 1.3306681428544238,
+        "velocity_change_px_frame": 11.995359936242004,
+        "corner_rmse_px": 1.235719859607575,
+        "smooth_rmse_px": 2.4754164726943806,
+        "support_frames": [
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154
+        ],
+        "incoming_px_per_frame": [
+          4.192285714285773,
+          9.088571428571447
+        ],
+        "outgoing_px_per_frame": [
+          7.074285714285682,
+          -2.5554285714285667
+        ],
+        "ball_evidence": "learned_observations_only"
+      },
+      "limitation": "2D turn consistent with a bounce; court location valid ONLY if ground contact is confirmed.",
+      "id": "bounce_candidate-000149",
+      "source_frame": 4889,
+      "source_time_s": 162.96666666666667,
+      "clip": {
+        "path": "clips/bounce_candidate-000149.mp4",
+        "start_frame": 125,
+        "end_frame_exclusive": 174,
+        "source_start_frame": 4865,
+        "event_offset_s": 0.8
+      }
+    },
+    {
+      "type": "hit_candidate",
+      "frame": 179,
+      "time_s": 5.966666666666667,
+      "frame_range": [
+        178,
+        180
+      ],
+      "pixel": [
+        1189.09,
+        405.84
+      ],
+      "player_id": "near",
+      "player_feet_court_m": [
+        12.723,
+        3.844
+      ],
+      "landing_if_bounce_m": null,
+      "score": 0.95,
+      "status": "unreviewed",
+      "evidence": {
+        "turn_degrees": 166.33266931591658,
+        "speed_ratio": 1.6367207012358438,
+        "velocity_change_px_frame": 16.7062096636708,
+        "corner_rmse_px": 1.2271633472983052,
+        "smooth_rmse_px": 2.4934193293347335,
+        "support_frames": [
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184
+        ],
+        "incoming_px_per_frame": [
+          -2.4849999999998627,
+          10.140000000000002
+        ],
+        "outgoing_px_per_frame": [
+          2.939142857142834,
+          -5.661142857142815
+        ],
+        "ball_evidence": "learned_observations_only",
+        "racket_distance_heights": 0.1328215386903467,
+        "wrist_distance_heights": 0.47175765239176604,
+        "racket_close": true,
+        "body_relative_swing_heights_per_frame": 0.02245964905799207
+      },
+      "limitation": "Ball observation near player equipment; NOT exact ball/string contact or 3D.",
+      "id": "hit_candidate-000179",
+      "source_frame": 4919,
+      "source_time_s": 163.96666666666667,
+      "clip": {
+        "path": "clips/hit_candidate-000179.mp4",
+        "start_frame": 155,
+        "end_frame_exclusive": 204,
+        "source_start_frame": 4895,
+        "event_offset_s": 0.8
+      }
+    },
+    {
+      "type": "hit_candidate",
+      "frame": 200,
+      "time_s": 6.666666666666667,
+      "frame_range": [
+        197,
+        201
+      ],
+      "pixel": [
+        1180.91,
+        455.05
+      ],
+      "player_id": "near",
+      "player_feet_court_m": [
+        12.559,
+        2.934
+      ],
+      "landing_if_bounce_m": null,
+      "score": 0.85,
+      "status": "unreviewed",
+      "evidence": {
+        "turn_degrees": 155.0797667767046,
+        "speed_ratio": 1.0500582693889866,
+        "velocity_change_px_frame": 28.230819485496966,
+        "corner_rmse_px": 2.802793044212198,
+        "smooth_rmse_px": 6.335171362882788,
+        "support_frames": [
+          195,
+          197,
+          200,
+          201,
+          202,
+          203,
+          204
+        ],
+        "incoming_px_per_frame": [
+          -7.065263157894702,
+          12.205263157894782
+        ],
+        "outgoing_px_per_frame": [
+          1.3279999999998129,
+          -14.749000000000033
+        ],
+        "ball_evidence": "learned_observations_only",
+        "racket_distance_heights": 0.13383086069372416,
+        "wrist_distance_heights": 0.5146091749147149,
+        "racket_close": true,
+        "body_relative_swing_heights_per_frame": 0.010383026285598531
+      },
+      "limitation": "Ball observation near player equipment; NOT exact ball/string contact or 3D.",
+      "id": "hit_candidate-000200",
+      "source_frame": 4940,
+      "source_time_s": 164.66666666666666,
+      "clip": {
+        "path": "clips/hit_candidate-000200.mp4",
+        "start_frame": 176,
+        "end_frame_exclusive": 225,
+        "source_start_frame": 4916,
+        "event_offset_s": 0.8
+      }
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 242,
+      "time_s": 8.066666666666666,
+      "frame_range": [
+        241,
+        243
+      ],
+      "pixel": [
+        1157.93,
+        525.06
+      ],
+      "player_id": null,
+      "player_feet_court_m": null,
+      "landing_if_bounce_m": [
+        11.091,
+        0.799
+      ],
+      "score": 0.75,
+      "status": "unreviewed",
+      "evidence": {
+        "turn_degrees": 127.83408776210547,
+        "speed_ratio": 1.4494442747756071,
+        "velocity_change_px_frame": 28.631185147296584,
+        "corner_rmse_px": 1.969109808810443,
+        "smooth_rmse_px": 4.885079483744348,
+        "support_frames": [
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244
+        ],
+        "incoming_px_per_frame": [
+          -11.259999999999998,
+          15.039714285714325
+        ],
+        "outgoing_px_per_frame": [
+          -3.430000000000066,
+          -12.5
+        ],
+        "ball_evidence": "learned_observations_only"
+      },
+      "limitation": "2D turn consistent with a bounce; court location valid ONLY if ground contact is confirmed.",
+      "id": "bounce_candidate-000242",
+      "source_frame": 4982,
+      "source_time_s": 166.06666666666666,
+      "clip": {
+        "path": "clips/bounce_candidate-000242.mp4",
+        "start_frame": 218,
+        "end_frame_exclusive": 267,
+        "source_start_frame": 4958,
+        "event_offset_s": 0.8
+      }
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 261,
+      "time_s": 8.7,
+      "frame_range": [
+        260,
+        262
+      ],
+      "pixel": [
+        1023.5899999999999,
+        540.68
+      ],
+      "player_id": null,
+      "player_feet_court_m": null,
+      "landing_if_bounce_m": [
+        9.595,
+        0.428
+      ],
+      "score": 0.65,
+      "status": "unreviewed",
+      "evidence": {
+        "turn_degrees": 150.15116793885534,
+        "speed_ratio": 1.49592087708749,
+        "velocity_change_px_frame": 36.02477029512226,
+        "corner_rmse_px": 2.563327515629025,
+        "smooth_rmse_px": 6.625724831522168,
+        "support_frames": [
+          258,
+          259,
+          260,
+          261,
+          262,
+          263,
+          264,
+          265,
+          266
+        ],
+        "incoming_px_per_frame": [
+          -12.451000000000061,
+          18.51699999999999
+        ],
+        "outgoing_px_per_frame": [
+          1.058285714285605,
+          -14.878857142857125
+        ],
+        "ball_evidence": "learned_observations_only"
+      },
+      "limitation": "2D turn consistent with a bounce; court location valid ONLY if ground contact is confirmed.",
+      "id": "bounce_candidate-000261",
+      "source_frame": 5001,
+      "source_time_s": 166.7,
+      "clip": {
+        "path": "clips/bounce_candidate-000261.mp4",
+        "start_frame": 237,
+        "end_frame_exclusive": 286,
+        "source_start_frame": 4977,
+        "event_offset_s": 0.8
+      }
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 286,
+      "time_s": 9.533333333333333,
+      "frame_range": [
+        285,
+        287
+      ],
+      "pixel": [
+        887.12,
+        576.13
+      ],
+      "player_id": null,
+      "player_feet_court_m": null,
+      "landing_if_bounce_m": [
+        8.097,
+        -0.246
+      ],
+      "score": 0.65,
+      "status": "unreviewed",
+      "evidence": {
+        "turn_degrees": 153.98622642840715,
+        "speed_ratio": 2.026321232239847,
+        "velocity_change_px_frame": 33.93332729374601,
+        "corner_rmse_px": 2.995124278630929,
+        "smooth_rmse_px": 6.26626717784525,
+        "support_frames": [
+          281,
+          282,
+          283,
+          284,
+          285,
+          286,
+          287,
+          288,
+          289,
+          290,
+          291
+        ],
+        "incoming_px_per_frame": [
+          -10.052285714285615,
+          20.961999999999986
+        ],
+        "outgoing_px_per_frame": [
+          -0.07885714285714329,
+          -11.472571428571442
+        ],
+        "ball_evidence": "learned_observations_only"
+      },
+      "limitation": "2D turn consistent with a bounce; court location valid ONLY if ground contact is confirmed.",
+      "id": "bounce_candidate-000286",
+      "source_frame": 5026,
+      "source_time_s": 167.53333333333333,
+      "clip": {
+        "path": "clips/bounce_candidate-000286.mp4",
+        "start_frame": 262,
+        "end_frame_exclusive": 311,
+        "source_start_frame": 5002,
+        "event_offset_s": 0.8
+      }
+    },
+    {
+      "type": "hit_candidate",
+      "frame": 295,
+      "time_s": 9.833333333333334,
+      "frame_range": [
+        294,
+        296
+      ],
+      "pixel": [
+        883.0,
+        484.38
+      ],
+      "player_id": "near",
+      "player_feet_court_m": [
+        8.646,
+        0.079
+      ],
+      "landing_if_bounce_m": null,
+      "score": 0.85,
+      "status": "unreviewed",
+      "evidence": {
+        "turn_degrees": 140.54933847582686,
+        "speed_ratio": 1.9454392960488978,
+        "velocity_change_px_frame": 23.861661820089648,
+        "corner_rmse_px": 3.218440468242202,
+        "smooth_rmse_px": 4.13394625831864,
+        "support_frames": [
+          290,
+          291,
+          292,
+          293,
+          294,
+          295,
+          296,
+          297,
+          298,
+          299
+        ],
+        "incoming_px_per_frame": [
+          -0.6411428571428414,
+          -8.525714285714223
+        ],
+        "outgoing_px_per_frame": [
+          -9.576000000000082,
+          13.599999999999968
+        ],
+        "ball_evidence": "learned_observations_only",
+        "racket_distance_heights": 0.0,
+        "wrist_distance_heights": 0.3058828449173917,
+        "racket_close": true,
+        "body_relative_swing_heights_per_frame": 0.008828268243164199
+      },
+      "limitation": "Ball observation near player equipment; NOT exact ball/string contact or 3D.",
+      "id": "hit_candidate-000295",
+      "source_frame": 5035,
+      "source_time_s": 167.83333333333334,
+      "clip": {
+        "path": "clips/hit_candidate-000295.mp4",
+        "start_frame": 271,
+        "end_frame_exclusive": 320,
+        "source_start_frame": 5011,
+        "event_offset_s": 0.8
+      }
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 301,
+      "time_s": 10.033333333333333,
+      "frame_range": [
+        299,
+        302
+      ],
+      "pixel": [
+        823.14,
+        580.0
+      ],
+      "player_id": null,
+      "player_feet_court_m": null,
+      "landing_if_bounce_m": [
+        7.498,
+        -0.337
+      ],
+      "score": 0.65,
+      "status": "unreviewed",
+      "evidence": {
+        "turn_degrees": 139.6570343081334,
+        "speed_ratio": 1.5888853105857828,
+        "velocity_change_px_frame": 33.94779028004122,
+        "corner_rmse_px": 3.764557883350459,
+        "smooth_rmse_px": 6.49255125782946,
+        "support_frames": [
+          296,
+          297,
+          298,
+          299,
+          301,
+          302,
+          303,
+          304,
+          305,
+          306
+        ],
+        "incoming_px_per_frame": [
+          -11.914324324324328,
+          18.636216216216187
+        ],
+        "outgoing_px_per_frame": [
+          -1.8777142857142821,
+          -13.794000000000029
+        ],
+        "ball_evidence": "learned_observations_only"
+      },
+      "limitation": "2D turn consistent with a bounce; court location valid ONLY if ground contact is confirmed.",
+      "id": "bounce_candidate-000301",
+      "source_frame": 5041,
+      "source_time_s": 168.03333333333333,
+      "clip": {
+        "path": "clips/bounce_candidate-000301.mp4",
+        "start_frame": 277,
+        "end_frame_exclusive": 326,
+        "source_start_frame": 5017,
+        "event_offset_s": 0.8
+      }
+    },
+    {
+      "type": "hit_candidate",
+      "frame": 309,
+      "time_s": 10.3,
+      "frame_range": [
+        308,
+        310
+      ],
+      "pixel": [
+        808.09,
+        466.68
+      ],
+      "player_id": "near",
+      "player_feet_court_m": [
+        7.844,
+        -0.364
+      ],
+      "landing_if_bounce_m": null,
+      "score": 0.85,
+      "status": "unreviewed",
+      "evidence": {
+        "turn_degrees": 56.16625830516641,
+        "speed_ratio": 2.5829142821292828,
+        "velocity_change_px_frame": 14.045023563448284,
+        "corner_rmse_px": 1.9017449454474633,
+        "smooth_rmse_px": 2.2483003002418664,
+        "support_frames": [
+          304,
+          305,
+          306,
+          307,
+          308,
+          309,
+          310,
+          313,
+          314
+        ],
+        "incoming_px_per_frame": [
+          -1.6219999999999788,
+          -16.48685714285712
+        ],
+        "outgoing_px_per_frame": [
+          -5.6517647058823455,
+          -3.032352941176466
+        ],
+        "ball_evidence": "learned_observations_only",
+        "racket_distance_heights": 0.4693169884649745,
+        "wrist_distance_heights": 0.09790811743929805,
+        "racket_close": false,
+        "body_relative_swing_heights_per_frame": 0.02120334236300364
+      },
+      "limitation": "Ball observation near player equipment; NOT exact ball/string contact or 3D.",
+      "id": "hit_candidate-000309",
+      "source_frame": 5049,
+      "source_time_s": 168.3,
+      "clip": {
+        "path": "clips/hit_candidate-000309.mp4",
+        "start_frame": 285,
+        "end_frame_exclusive": 334,
+        "source_start_frame": 5025,
+        "event_offset_s": 0.8
+      }
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 321,
+      "time_s": 10.7,
+      "frame_range": [
+        320,
+        322
+      ],
+      "pixel": [
+        706.53,
+        602.42
+      ],
+      "player_id": null,
+      "player_feet_court_m": null,
+      "landing_if_bounce_m": [
+        6.416,
+        -0.725
+      ],
+      "score": 0.65,
+      "status": "unreviewed",
+      "evidence": {
+        "turn_degrees": 144.69745289349237,
+        "speed_ratio": 2.4686861855763267,
+        "velocity_change_px_frame": 35.860286027291814,
+        "corner_rmse_px": 3.3505109536895534,
+        "smooth_rmse_px": 6.29069925206171,
+        "support_frames": [
+          316,
+          317,
+          318,
+          319,
+          320,
+          321,
+          322,
+          323,
+          324,
+          325,
+          326
+        ],
+        "incoming_px_per_frame": [
+          -9.7942857142856,
+          24.670000000000005
+        ],
+        "outgoing_px_per_frame": [
+          -2.5371428571428902,
+          -10.448285714285701
+        ],
+        "ball_evidence": "learned_observations_only"
+      },
+      "limitation": "2D turn consistent with a bounce; court location valid ONLY if ground contact is confirmed.",
+      "id": "bounce_candidate-000321",
+      "source_frame": 5061,
+      "source_time_s": 168.7,
+      "clip": {
+        "path": "clips/bounce_candidate-000321.mp4",
+        "start_frame": 297,
+        "end_frame_exclusive": 346,
+        "source_start_frame": 5037,
+        "event_offset_s": 0.8
+      }
+    },
+    {
+      "type": "hit_candidate",
+      "frame": 336,
+      "time_s": 11.2,
+      "frame_range": [
+        335,
+        337
+      ],
+      "pixel": [
+        638.29,
+        603.35
+      ],
+      "player_id": "near",
+      "player_feet_court_m": [
+        6.629,
+        -0.587
+      ],
+      "landing_if_bounce_m": null,
+      "score": 0.85,
+      "status": "unreviewed",
+      "evidence": {
+        "turn_degrees": 144.6501404904037,
+        "speed_ratio": 1.2479258539717988,
+        "velocity_change_px_frame": 35.00741389698912,
+        "corner_rmse_px": 2.364907193051355,
+        "smooth_rmse_px": 6.402387486445561,
+        "support_frames": [
+          331,
+          332,
+          333,
+          334,
+          335,
+          336,
+          337,
+          338,
+          339,
+          340,
+          341
+        ],
+        "incoming_px_per_frame": [
+          -8.43371428571429,
+          18.55800000000006
+        ],
+        "outgoing_px_per_frame": [
+          -3.0917142857143154,
+          -16.039428571428594
+        ],
+        "ball_evidence": "learned_observations_only",
+        "racket_distance_heights": 0.11528809411368837,
+        "wrist_distance_heights": 0.5197930034694499,
+        "racket_close": true,
+        "body_relative_swing_heights_per_frame": 0.044774937668124445
+      },
+      "limitation": "Ball observation near player equipment; NOT exact ball/string contact or 3D.",
+      "id": "hit_candidate-000336",
+      "source_frame": 5076,
+      "source_time_s": 169.2,
+      "clip": {
+        "path": "clips/hit_candidate-000336.mp4",
+        "start_frame": 312,
+        "end_frame_exclusive": 361,
+        "source_start_frame": 5052,
+        "event_offset_s": 0.8
+      }
+    },
+    {
+      "type": "hit_candidate",
+      "frame": 369,
+      "time_s": 12.3,
+      "frame_range": [
+        368,
+        370
+      ],
+      "pixel": [
+        507.82,
+        407.64
+      ],
+      "player_id": "near",
+      "player_feet_court_m": [
+        4.976,
+        -0.808
+      ],
+      "landing_if_bounce_m": null,
+      "score": 0.85,
+      "status": "unreviewed",
+      "evidence": {
+        "turn_degrees": 86.56432774388556,
+        "speed_ratio": 3.229664490612401,
+        "velocity_change_px_frame": 12.001401874747092,
+        "corner_rmse_px": 1.0003226741311828,
+        "smooth_rmse_px": 1.6050355569298629,
+        "support_frames": [
+          364,
+          365,
+          366,
+          367,
+          368,
+          369,
+          370,
+          371,
+          372
+        ],
+        "incoming_px_per_frame": [
+          -3.3602857142856837,
+          -1.3231428571428145
+        ],
+        "outgoing_px_per_frame": [
+          -4.916000000000015,
+          10.577000000000009
+        ],
+        "ball_evidence": "learned_observations_only",
+        "racket_distance_heights": 0.4755682973327612,
+        "wrist_distance_heights": 0.08332373735736387,
+        "racket_close": false,
+        "body_relative_swing_heights_per_frame": 0.05736767418332889
+      },
+      "limitation": "Ball observation near player equipment; NOT exact ball/string contact or 3D.",
+      "id": "hit_candidate-000369",
+      "source_frame": 5109,
+      "source_time_s": 170.3,
+      "clip": {
+        "path": "clips/hit_candidate-000369.mp4",
+        "start_frame": 345,
+        "end_frame_exclusive": 394,
+        "source_start_frame": 5085,
+        "event_offset_s": 0.8
+      }
+    },
+    {
+      "type": "hit_candidate",
+      "frame": 440,
+      "time_s": 14.666666666666666,
+      "frame_range": [
+        439,
+        441
+      ],
+      "pixel": [
+        442.38,
+        549.86
+      ],
+      "player_id": "near",
+      "player_feet_court_m": [
+        4.121,
+        -0.853
+      ],
+      "landing_if_bounce_m": null,
+      "score": 0.75,
+      "status": "unreviewed",
+      "evidence": {
+        "turn_degrees": 176.00116072238697,
+        "speed_ratio": 1.4416430402536866,
+        "velocity_change_px_frame": 22.96415476345712,
+        "corner_rmse_px": 2.8859119731319915,
+        "smooth_rmse_px": 4.777767958646247,
+        "support_frames": [
+          438,
+          439,
+          440,
+          441,
+          442,
+          443,
+          444
+        ],
+        "incoming_px_per_frame": [
+          1.6600000000001474,
+          13.465000000000128
+        ],
+        "outgoing_px_per_frame": [
+          -1.8000000000000396,
+          -9.23700000000007
+        ],
+        "ball_evidence": "learned_observations_only",
+        "racket_distance_heights": 0.08203957353231425,
+        "wrist_distance_heights": 0.24613152085808282,
+        "racket_close": true,
+        "body_relative_swing_heights_per_frame": 0.007923452819989152
+      },
+      "limitation": "Ball observation near player equipment; NOT exact ball/string contact or 3D.",
+      "id": "hit_candidate-000440",
+      "source_frame": 5180,
+      "source_time_s": 172.66666666666666,
+      "clip": {
+        "path": "clips/hit_candidate-000440.mp4",
+        "start_frame": 416,
+        "end_frame_exclusive": 465,
+        "source_start_frame": 5156,
+        "event_offset_s": 0.8
+      }
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 519,
+      "time_s": 17.3,
+      "frame_range": [
+        518,
+        520
+      ],
+      "pixel": [
+        628.66,
+        157.59
+      ],
+      "player_id": null,
+      "player_feet_court_m": null,
+      "landing_if_bounce_m": [
+        6.129,
+        19.001
+      ],
+      "score": 0.75,
+      "status": "unreviewed",
+      "evidence": {
+        "turn_degrees": 76.93558061770004,
+        "speed_ratio": 1.5026114582630241,
+        "velocity_change_px_frame": 12.650996330853383,
+        "corner_rmse_px": 1.4177066490840555,
+        "smooth_rmse_px": 2.619462944136154,
+        "support_frames": [
+          514,
+          515,
+          516,
+          517,
+          518,
+          519,
+          520,
+          521,
+          522,
+          523,
+          524
+        ],
+        "incoming_px_per_frame": [
+          7.866571428571427,
+          0.4320000000000184
+        ],
+        "outgoing_px_per_frame": [
+          3.3042857142856854,
+          -11.367714285714277
+        ],
+        "ball_evidence": "learned_observations_only"
+      },
+      "limitation": "2D turn consistent with a bounce; court location valid ONLY if ground contact is confirmed.",
+      "id": "bounce_candidate-000519",
+      "source_frame": 5259,
+      "source_time_s": 175.3,
+      "clip": {
+        "path": "clips/bounce_candidate-000519.mp4",
+        "start_frame": 495,
+        "end_frame_exclusive": 544,
+        "source_start_frame": 5235,
+        "event_offset_s": 0.8
+      }
+    },
+    {
+      "type": "bounce_candidate",
+      "frame": 580,
+      "time_s": 19.333333333333332,
+      "frame_range": [
+        579,
+        581
+      ],
+      "pixel": [
+        471.39,
+        514.56
+      ],
+      "player_id": null,
+      "player_feet_court_m": null,
+      "landing_if_bounce_m": [
+        4.23,
+        0.607
+      ],
+      "score": 0.65,
+      "status": "unreviewed",
+      "evidence": {
+        "turn_degrees": 166.92973199487304,
+        "speed_ratio": 1.7594823560901434,
+        "velocity_change_px_frame": 20.051941226194955,
+        "corner_rmse_px": 2.1818117380556608,
+        "smooth_rmse_px": 3.654984319982458,
+        "support_frames": [
+          575,
+          576,
+          577,
+          578,
+          579,
+          580,
+          581,
+          582,
+          583,
+          584,
+          585
+        ],
+        "incoming_px_per_frame": [
+          0.8574285714285944,
+          12.834000000000042
+        ],
+        "outgoing_px_per_frame": [
+          1.174857142857165,
+          -7.215428571428563
+        ],
+        "ball_evidence": "learned_observations_only"
+      },
+      "limitation": "2D turn consistent with a bounce; court location valid ONLY if ground contact is confirmed.",
+      "id": "bounce_candidate-000580",
+      "source_frame": 5320,
+      "source_time_s": 177.33333333333334,
+      "clip": {
+        "path": "clips/bounce_candidate-000580.mp4",
+        "start_frame": 556,
+        "end_frame_exclusive": 600,
+        "source_start_frame": 5296,
+        "event_offset_s": 0.8
+      }
+    }
+  ]
+}

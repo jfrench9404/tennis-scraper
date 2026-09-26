@@ -1,0 +1,14 @@
+{
+  "input": "C:\\Users\\John\\Downloads\\sebbie-demo-shortest (1).mp4",
+  "frames": 600,
+  "fps": 30.0,
+  "width": 1280,
+  "height": 720,
+  "events": 54,
+  "shots": 13,
+  "flight3d_fits": 5,
+  "court_calibrated": true,
+  "court_source": "manual",
+  "court_confidence": 1.0,
+  "note": "Events, shots, and single-camera 3D fits are candidates; validate before use."
+}

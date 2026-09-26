@@ -1,0 +1,3 @@
+# Store every file byte-for-byte. court.yaml, run metadata and review JSON are
+# hashed into review/run fingerprints; line-ending conversion would break them.
+* -text

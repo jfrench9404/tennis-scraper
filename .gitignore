@@ -1,0 +1,24 @@
+# --- Kept local on purpose (see README "What is not in git") ---
+# Footage and anything cut from it: never uploaded without John's explicit approval.
+*.mp4
+*.mov
+*.avi
+*.mkv
+**/timing-frames/
+**/calibration.png
+**/calibration-overlay.png
+**/frames/
+# Model weights: large (yolo11x.pt > GitHub's 100 MB limit) and separately licensed.
+*.pt
+*.onnx
+*.h5
+# SHA-256 of every excluded asset is recorded in MANIFEST.json.
+
+# --- Python / tooling ---
+__pycache__/
+*.pyc
+.venv*/
+venv/
+.pytest_cache/
+node_modules/
+*.log

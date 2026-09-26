@@ -1,0 +1,177 @@
+[
+  {
+    "start_frame": 0,
+    "end_frame": 24,
+    "length": 25,
+    "filled": false,
+    "reason": "long_gap"
+  },
+  {
+    "start_frame": 62,
+    "end_frame": 62,
+    "length": 1,
+    "filled": true,
+    "reason": "consistent_short_gap"
+  },
+  {
+    "start_frame": 72,
+    "end_frame": 74,
+    "length": 3,
+    "filled": false,
+    "reason": "inconsistent_speed"
+  },
+  {
+    "start_frame": 80,
+    "end_frame": 84,
+    "length": 5,
+    "filled": false,
+    "reason": "long_gap"
+  },
+  {
+    "start_frame": 166,
+    "end_frame": 175,
+    "length": 10,
+    "filled": false,
+    "reason": "long_gap"
+  },
+  {
+    "start_frame": 185,
+    "end_frame": 189,
+    "length": 5,
+    "filled": false,
+    "reason": "long_gap"
+  },
+  {
+    "start_frame": 196,
+    "end_frame": 196,
+    "length": 1,
+    "filled": false,
+    "reason": "insufficient_observed_context"
+  },
+  {
+    "start_frame": 198,
+    "end_frame": 199,
+    "length": 2,
+    "filled": false,
+    "reason": "insufficient_observed_context"
+  },
+  {
+    "start_frame": 205,
+    "end_frame": 214,
+    "length": 10,
+    "filled": false,
+    "reason": "long_gap"
+  },
+  {
+    "start_frame": 217,
+    "end_frame": 217,
+    "length": 1,
+    "filled": false,
+    "reason": "insufficient_observed_context"
+  },
+  {
+    "start_frame": 219,
+    "end_frame": 226,
+    "length": 8,
+    "filled": false,
+    "reason": "long_gap"
+  },
+  {
+    "start_frame": 230,
+    "end_frame": 230,
+    "length": 1,
+    "filled": false,
+    "reason": "near_player_equipment"
+  },
+  {
+    "start_frame": 245,
+    "end_frame": 250,
+    "length": 6,
+    "filled": false,
+    "reason": "long_gap"
+  },
+  {
+    "start_frame": 252,
+    "end_frame": 257,
+    "length": 6,
+    "filled": false,
+    "reason": "long_gap"
+  },
+  {
+    "start_frame": 300,
+    "end_frame": 300,
+    "length": 1,
+    "filled": false,
+    "reason": "event_neighbourhood"
+  },
+  {
+    "start_frame": 311,
+    "end_frame": 312,
+    "length": 2,
+    "filled": false,
+    "reason": "event_neighbourhood"
+  },
+  {
+    "start_frame": 344,
+    "end_frame": 359,
+    "length": 16,
+    "filled": false,
+    "reason": "long_gap"
+  },
+  {
+    "start_frame": 373,
+    "end_frame": 409,
+    "length": 37,
+    "filled": false,
+    "reason": "long_gap"
+  },
+  {
+    "start_frame": 415,
+    "end_frame": 424,
+    "length": 10,
+    "filled": false,
+    "reason": "long_gap"
+  },
+  {
+    "start_frame": 429,
+    "end_frame": 437,
+    "length": 9,
+    "filled": false,
+    "reason": "long_gap"
+  },
+  {
+    "start_frame": 445,
+    "end_frame": 474,
+    "length": 30,
+    "filled": false,
+    "reason": "long_gap"
+  },
+  {
+    "start_frame": 478,
+    "end_frame": 478,
+    "length": 1,
+    "filled": false,
+    "reason": "inconsistent_speed"
+  },
+  {
+    "start_frame": 497,
+    "end_frame": 497,
+    "length": 1,
+    "filled": false,
+    "reason": "inconsistent_speed"
+  },
+  {
+    "start_frame": 550,
+    "end_frame": 561,
+    "length": 12,
+    "filled": false,
+    "reason": "long_gap"
+  },
+  {
+    "start_frame": 563,
+    "end_frame": 569,
+    "length": 7,
+    "filled": false,
+    "reason": "long_gap"
+  }
+]

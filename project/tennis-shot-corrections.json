@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "package_id": "40f738e21423af73194d600bd9766ed7b72da5c173ceadd4ed2dd16063a7e69f",
+  "review_run_id": "39449302177328c739e679a953b51d001bf297e21541feb1cc38c76265aa9ab9",
+  "corrections": [
+    {
+      "event_id": "hit_candidate-000057",
+      "shot_type": "serve",
+      "status": "human_reviewed"
+    },
+    {
+      "event_id": "hit_candidate-000179",
+      "shot_type": "unknown",
+      "status": "human_reviewed"
+    },
+    {
+      "event_id": "hit_candidate-000200",
+      "shot_type": "unknown",
+      "status": "human_reviewed"
+    },
+    {
+      "event_id": "hit_candidate-000295",
+      "shot_type": "unknown",
+      "status": "human_reviewed"
+    },
+    {
+      "event_id": "hit_candidate-000309",
+      "shot_type": "unknown",
+      "status": "human_reviewed"
+    },
+    {
+      "event_id": "hit_candidate-000336",
+      "shot_type": "unknown",
+      "status": "human_reviewed"
+    },
+    {
+      "event_id": "hit_candidate-000369",
+      "shot_type": "unknown",
+      "status": "human_reviewed"
+    },
+    {
+      "event_id": "hit_candidate-000440",
+      "shot_type": "unknown",
+      "status": "human_reviewed"
+    }
+  ],
+  "note": "Shot-type feedback only; does not confirm hit/bounce events, retrain a model, or change 3D fits."
+}

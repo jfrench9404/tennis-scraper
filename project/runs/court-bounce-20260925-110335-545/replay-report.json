@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "package_id": "93e52cc6de0bfeb783a63f3f4ea78b56673697820cff502916f4b9e32603fefb",
+  "review_run_id": "39449302177328c739e679a953b51d001bf297e21541feb1cc38c76265aa9ab9",
+  "frames": 600,
+  "fps": 30.0,
+  "width": 1280,
+  "height": 720,
+  "source_start_frame": 4740,
+  "input_run": "C:\\Users\\John\\Documents\\Codex\\2026-09-17\\can-x20\\outputs\\tennis-vision-mvp\\runs\\rally-neural-ball",
+  "review_labels": null,
+  "classification_counts": {
+    "serve": 1,
+    "unknown": 7
+  },
+  "handedness": {
+    "near": {
+      "hand": "unknown",
+      "source": "insufficient_or_conflicting_evidence",
+      "votes": {
+        "left": 260,
+        "right": 85
+      },
+      "majority_fraction": 0.754
+    },
+    "far": {
+      "hand": "unknown",
+      "source": "insufficient_or_conflicting_evidence",
+      "votes": {
+        "right": 63,
+        "left": 24
+      },
+      "majority_fraction": 0.724
+    }
+  },
+  "event_review_counts": {
+    "unreviewed": 16,
+    "confirmed": 1
+  },
+  "player_frames": {
+    "near": 600,
+    "far": 600
+  },
+  "player_projection_omissions": {},
+  "confirmed_bounces": 1,
+  "visible_bounce_candidates": 8,
+  "player_identity_recovery": {
+    "basis": "backward_cached_association_from_confirmed_track",
+    "scope": "replay_only_not_shot_or_ball_evidence",
+    "recovered_frames": {
+      "near": 2,
+      "far": 70
+    },
+    "identities": {
+      "near": {
+        "seed_frame": 2,
+        "recovered": 2,
+        "stop_reason": "clip start"
+      },
+      "far": {
+        "seed_frame": 70,
+        "recovered": 70,
+        "stop_reason": "clip start"
+      }
+    }
+  },
+  "avatar_counts": {
+    "pose_wireframe": 1072,
+    "height_placeholder": 128
+  },
+  "observed_ball_frames": 390,
+  "missing_ball_frames": 210,
+  "supported_flight_fits": 0,
+  "camera_available": true,
+  "unvalidated_preview_segments": 4,
+  "unvalidated_preview_frames": 86,
+  "camera_focal_length_basis": "multi_point_radial_camera",
+  "camera_fit": {
+    "basis": "multi_point_radial_camera",
+    "status": "approximate_not_measurement_grade",
+    "landmarks": 15,
+    "radial_distortion": [
+      -0.4000228121537815,
+      0.15721867915146132,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "focal_length_px": 983.5971576429987,
+    "landmark_rmse_px": 1.4987856467680234,
+    "residuals_px": {
+      "near_left_doubles": 0.75,
+      "near_right_doubles": 1.911,
+      "far_right_doubles": 2.108,
+      "far_left_doubles": 1.389,
+      "near_left_singles": 1.355,
+      "near_right_singles": 0.161,
+      "far_left_singles": 2.699,
+      "far_right_singles": 0.688,
+      "near_service_left": 1.035,
+      "near_service_centre": 2.047,
+      "near_service_right": 1.434,
+      "far_service_left": 1.772,
+      "far_service_centre": 0.313,
+      "far_service_right": 1.5,
+      "near_baseline_centre": 0.825
+    },
+    "assumptions": "one fixed view; square pixels; centred principal point; k1/k2 radial distortion; no tangential distortion",
+    "limitation": "Residuals use fitted landmarks, not independent 3D validation. Review all projected court lines; a single view cannot fully validate camera intrinsics or airborne XYZ.",
+    "review_status": "reviewed",
+    "previous_landmark_rmse_px": 19.408929554342222
+  },
+  "calibration_review": {
+    "schema_version": 1,
+    "kind": "court_and_bounce_review",
+    "run_id": "39449302177328c739e679a953b51d001bf297e21541feb1cc38c76265aa9ab9",
+    "image_size": [
+      1280,
+      720
+    ],
+    "calibration_frame": 300,
+    "calibration_status": "reviewed",
+    "landmark_source": "assistant_visual_annotation_of_source_frame_300",
+    "landmarks": {
+      "near_left_doubles": [
+        3,
+        535
+      ],
+      "near_right_doubles": [
+        1188,
+        570
+      ],
+      "far_right_doubles": [
+        782,
+        133
+      ],
+      "far_left_doubles": [
+        427,
+        123
+      ],
+      "near_left_singles": [
+        119,
+        550
+      ],
+      "near_right_singles": [
+        1070,
+        579
+      ],
+      "far_left_singles": [
+        469,
+        124
+      ],
+      "far_right_singles": [
+        737,
+        131
+      ],
+      "near_service_left": [
+        289,
+        327
+      ],
+      "near_service_centre": [
+        595,
+        335
+      ],
+      "near_service_right": [
+        906,
+        346
+      ],
+      "far_service_left": [
+        441,
+        151
+      ],
+      "far_service_centre": [
+        602,
+        156
+      ],
+      "far_service_right": [
+        763,
+        162
+      ],
+      "near_baseline_centre": [
+        591,
+        590
+      ]
+    },
+    "bounce_edits": [
+      {
+        "id": "bounce_candidate-000519",
+        "frame": 518,
+        "frame_range": [
+          517,
+          519
+        ],
+        "status": "unreviewed",
+        "landing_pixel": null,
+        "notes": "User reports serve in service box. Visual turn appears at frame 518 +/- 1, rather than original 519. Timing remains a proposal pending review."
+      },
+      {
+        "id": "bounce_candidate-000122",
+        "frame": 121,
+        "frame_range": [
+          120,
+          122
+        ],
+        "status": "confirmed",
+        "landing_pixel": null,
+        "notes": "User reports bounce near middle of doubles alley. Visual evidence supports frame 122 +/- 1; do not force an alley-centre coordinate."
+      }
+    ]
+  },
+  "limitations": [
+    "Heuristic shot-type candidates, not trained classifications or accuracy measurements. Forehand/backhand describe swing side; groundstroke versus volley can remain unresolved.",
+    "Airborne XYZ is estimated from an approximate single-camera calibration and gravity-only motion. Reviewed bounce timing does not make court calibration or XYZ ground truth. Drag/spin are not modeled; radial lens compensation is used only when supplied by the calibration, and camera/lens errors can remain.",
+    "Dashed cyan paths are unvalidated single-camera estimates, conditional on possible bounce landings. They are partial observation windows, not complete shot reconstructions. Camera/depth and bounce errors remain possible despite pixel agreement; no event is confirmed, no missing detection is repaired, and unsupported intervals stay empty.",
+    "Player roots are estimated ground-plane foot positions, not measured jumping height. Missing ankles fall back to box bottom and are labelled.",
+    "Wireframes are 2.5D camera-facing pose constructions. Individual joint depth and body orientation are not recovered.",
+    "Delayed player initialization may be back-associated to cached person detections using adjacent motion, clothing and court-half gates. These identity assignments are estimates; the detector and original log are unchanged.",
+    "Dashed bounce-candidate rings are conditional ground locations IF the event is a bounce, not confirmed landings or reviewed-flight constraints. Only the separate preview channel may use them as hypotheses.",
+    "Camera calibration is approximate; consult camera_fit for its landmark, lens and review assumptions. Fitted residuals are not independent 3D accuracy measurements.",
+    "Reviewed-only mode hides unvalidated previews. Neither mode extends a ball path through unsupported intervals; unreviewed hypotheses never become confirmed observations.",
+    "An absent bounce detection is not sufficient evidence of a volley; uncertain classifications stay unknown."
+  ],
+  "seconds_processing": 3.37
+}

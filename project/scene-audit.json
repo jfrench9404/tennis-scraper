@@ -1,0 +1,24 @@
+{
+  "before": {
+    "player": 568,
+    "racket": 459,
+    "ball": 444
+  },
+  "after_scene_only": {
+    "racket": 459,
+    "player": 522,
+    "ball": 264
+  },
+  "rejections": {
+    "players_unselected": 46,
+    "ball_outside_area": 161,
+    "ball_colour_rejected": 19,
+    "ball_stationary_rejected": 0
+  },
+  "towel_region_before": 97,
+  "towel_region_after": 0,
+  "identity_labels_initialized": [
+    "near"
+  ],
+  "limitation": "Re-filtered prior accepted detections only; not new inference or ground-truth recall measurement. Racket filter not repeated."
+}

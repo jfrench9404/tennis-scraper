@@ -1,0 +1,362 @@
+{
+  "method": "temporal_pose_rules_v1",
+  "profiles": {
+    "near": {
+      "hand": "unknown",
+      "source": "insufficient_or_conflicting_evidence",
+      "votes": {
+        "left": 260,
+        "right": 85
+      },
+      "majority_fraction": 0.754
+    },
+    "far": {
+      "hand": "unknown",
+      "source": "insufficient_or_conflicting_evidence",
+      "votes": {
+        "right": 63,
+        "left": 24
+      },
+      "majority_fraction": 0.724
+    }
+  },
+  "shots": [
+    {
+      "event_id": "hit_candidate-000057",
+      "frame": 57,
+      "time_s": 1.9,
+      "event_status": "unreviewed",
+      "player_id": "near",
+      "classification": "serve",
+      "classification_status": "candidate",
+      "support": "moderate",
+      "reasons": [
+        "Baseline position, overhead contact and preceding raised-arm pattern",
+        "Underlying hit is not human-confirmed; it may be a catch/toss or false event"
+      ],
+      "evidence": {
+        "overhead_contact_frames": 4,
+        "pre_contact_raised_arms": [
+          "right"
+        ],
+        "wrist_movement_body_heights": {
+          "left": 0.5747582123356835,
+          "right": 0.6082579577055226
+        },
+        "anatomical_side_samples": [],
+        "swing_side": "unknown",
+        "racquet_observed_near_contact_frames": 1,
+        "player_feet_court_m": [
+          6.488,
+          0.421
+        ],
+        "pose_contact_frames": 7
+      },
+      "handedness": {
+        "hand": "unknown",
+        "source": "insufficient_or_conflicting_evidence",
+        "votes": {
+          "left": 260,
+          "right": 85
+        },
+        "majority_fraction": 0.754
+      }
+    },
+    {
+      "event_id": "hit_candidate-000179",
+      "frame": 179,
+      "time_s": 5.966666666666667,
+      "event_status": "unreviewed",
+      "player_id": "near",
+      "classification": "unknown",
+      "classification_status": "candidate",
+      "support": "insufficient",
+      "reasons": [
+        "Unknown handedness, foreshortened shoulders, or inconsistent swing-side evidence",
+        "Underlying hit is not human-confirmed; it may be a catch/toss or false event"
+      ],
+      "evidence": {
+        "overhead_contact_frames": 0,
+        "pre_contact_raised_arms": [],
+        "wrist_movement_body_heights": {
+          "left": 0.38967217505470486,
+          "right": 0.14196703491161217
+        },
+        "anatomical_side_samples": [],
+        "swing_side": "unknown",
+        "racquet_observed_near_contact_frames": 7,
+        "player_feet_court_m": [
+          12.907,
+          3.779
+        ],
+        "pose_contact_frames": 7,
+        "incoming_observation_coverage": 0,
+        "confirmed_incoming_bounce": false,
+        "ambiguous_incoming_events": false
+      },
+      "handedness": {
+        "hand": "unknown",
+        "source": "insufficient_or_conflicting_evidence",
+        "votes": {
+          "left": 260,
+          "right": 85
+        },
+        "majority_fraction": 0.754
+      }
+    },
+    {
+      "event_id": "hit_candidate-000200",
+      "frame": 200,
+      "time_s": 6.666666666666667,
+      "event_status": "unreviewed",
+      "player_id": "near",
+      "classification": "unknown",
+      "classification_status": "candidate",
+      "support": "insufficient",
+      "reasons": [
+        "Insufficient observed pose/movement around contact",
+        "Underlying hit is not human-confirmed; it may be a catch/toss or false event"
+      ],
+      "evidence": {
+        "overhead_contact_frames": 0,
+        "pre_contact_raised_arms": [],
+        "wrist_movement_body_heights": {
+          "left": 0.09816235922418927,
+          "right": 0.04170220057498098
+        },
+        "anatomical_side_samples": [],
+        "swing_side": "unknown",
+        "racquet_observed_near_contact_frames": 7,
+        "player_feet_court_m": [
+          12.764,
+          2.841
+        ],
+        "pose_contact_frames": 7
+      },
+      "handedness": {
+        "hand": "unknown",
+        "source": "insufficient_or_conflicting_evidence",
+        "votes": {
+          "left": 260,
+          "right": 85
+        },
+        "majority_fraction": 0.754
+      }
+    },
+    {
+      "event_id": "hit_candidate-000295",
+      "frame": 295,
+      "time_s": 9.833333333333334,
+      "event_status": "unreviewed",
+      "player_id": "near",
+      "classification": "unknown",
+      "classification_status": "candidate",
+      "support": "insufficient",
+      "reasons": [
+        "Unknown handedness, foreshortened shoulders, or inconsistent swing-side evidence",
+        "Underlying hit is not human-confirmed; it may be a catch/toss or false event"
+      ],
+      "evidence": {
+        "overhead_contact_frames": 0,
+        "pre_contact_raised_arms": [],
+        "wrist_movement_body_heights": {
+          "left": 0.09752063986054313,
+          "right": 0.13766644055454333
+        },
+        "anatomical_side_samples": [],
+        "swing_side": "unknown",
+        "racquet_observed_near_contact_frames": 7,
+        "player_feet_court_m": [
+          8.429,
+          0.437
+        ],
+        "pose_contact_frames": 7,
+        "incoming_observation_coverage": 0,
+        "confirmed_incoming_bounce": false,
+        "ambiguous_incoming_events": false
+      },
+      "handedness": {
+        "hand": "unknown",
+        "source": "insufficient_or_conflicting_evidence",
+        "votes": {
+          "left": 260,
+          "right": 85
+        },
+        "majority_fraction": 0.754
+      }
+    },
+    {
+      "event_id": "hit_candidate-000309",
+      "frame": 309,
+      "time_s": 10.3,
+      "event_status": "unreviewed",
+      "player_id": "near",
+      "classification": "unknown",
+      "classification_status": "candidate",
+      "support": "insufficient",
+      "reasons": [
+        "Unknown handedness, foreshortened shoulders, or inconsistent swing-side evidence",
+        "Underlying hit is not human-confirmed; it may be a catch/toss or false event"
+      ],
+      "evidence": {
+        "overhead_contact_frames": 0,
+        "pre_contact_raised_arms": [],
+        "wrist_movement_body_heights": {
+          "left": 0.16332551252513255,
+          "right": 0.18270673044603128
+        },
+        "anatomical_side_samples": [],
+        "swing_side": "unknown",
+        "racquet_observed_near_contact_frames": 7,
+        "player_feet_court_m": [
+          7.67,
+          0.096
+        ],
+        "pose_contact_frames": 7,
+        "incoming_observation_coverage": 0,
+        "confirmed_incoming_bounce": false,
+        "ambiguous_incoming_events": false
+      },
+      "handedness": {
+        "hand": "unknown",
+        "source": "insufficient_or_conflicting_evidence",
+        "votes": {
+          "left": 260,
+          "right": 85
+        },
+        "majority_fraction": 0.754
+      }
+    },
+    {
+      "event_id": "hit_candidate-000336",
+      "frame": 336,
+      "time_s": 11.2,
+      "event_status": "unreviewed",
+      "player_id": "near",
+      "classification": "unknown",
+      "classification_status": "candidate",
+      "support": "insufficient",
+      "reasons": [
+        "Unknown handedness, foreshortened shoulders, or inconsistent swing-side evidence",
+        "Underlying hit is not human-confirmed; it may be a catch/toss or false event"
+      ],
+      "evidence": {
+        "overhead_contact_frames": 0,
+        "pre_contact_raised_arms": [],
+        "wrist_movement_body_heights": {
+          "left": 0.13940940246558678,
+          "right": 0.15652516405293046
+        },
+        "anatomical_side_samples": [],
+        "swing_side": "unknown",
+        "racquet_observed_near_contact_frames": 7,
+        "player_feet_court_m": [
+          6.562,
+          -0.032
+        ],
+        "pose_contact_frames": 7,
+        "incoming_observation_coverage": 0,
+        "confirmed_incoming_bounce": false,
+        "ambiguous_incoming_events": false
+      },
+      "handedness": {
+        "hand": "unknown",
+        "source": "insufficient_or_conflicting_evidence",
+        "votes": {
+          "left": 260,
+          "right": 85
+        },
+        "majority_fraction": 0.754
+      }
+    },
+    {
+      "event_id": "hit_candidate-000369",
+      "frame": 369,
+      "time_s": 12.3,
+      "event_status": "unreviewed",
+      "player_id": "near",
+      "classification": "unknown",
+      "classification_status": "candidate",
+      "support": "insufficient",
+      "reasons": [
+        "Unknown handedness, foreshortened shoulders, or inconsistent swing-side evidence",
+        "Underlying hit is not human-confirmed; it may be a catch/toss or false event"
+      ],
+      "evidence": {
+        "overhead_contact_frames": 0,
+        "pre_contact_raised_arms": [],
+        "wrist_movement_body_heights": {
+          "left": 0.09715719135943139,
+          "right": 0.2758250106666939
+        },
+        "anatomical_side_samples": [],
+        "swing_side": "unknown",
+        "racquet_observed_near_contact_frames": 7,
+        "player_feet_court_m": [
+          5.09,
+          -0.21
+        ],
+        "pose_contact_frames": 7,
+        "incoming_observation_coverage": 0,
+        "confirmed_incoming_bounce": false,
+        "ambiguous_incoming_events": false
+      },
+      "handedness": {
+        "hand": "unknown",
+        "source": "insufficient_or_conflicting_evidence",
+        "votes": {
+          "left": 260,
+          "right": 85
+        },
+        "majority_fraction": 0.754
+      }
+    },
+    {
+      "event_id": "hit_candidate-000440",
+      "frame": 440,
+      "time_s": 14.666666666666666,
+      "event_status": "unreviewed",
+      "player_id": "near",
+      "classification": "unknown",
+      "classification_status": "candidate",
+      "support": "insufficient",
+      "reasons": [
+        "Unknown handedness, foreshortened shoulders, or inconsistent swing-side evidence",
+        "Underlying hit is not human-confirmed; it may be a catch/toss or false event"
+      ],
+      "evidence": {
+        "overhead_contact_frames": 0,
+        "pre_contact_raised_arms": [],
+        "wrist_movement_body_heights": {
+          "left": 0.13649161454732134,
+          "right": 0.10270101053229971
+        },
+        "anatomical_side_samples": [],
+        "swing_side": "unknown",
+        "racquet_observed_near_contact_frames": 7,
+        "player_feet_court_m": [
+          4.32,
+          -0.28
+        ],
+        "pose_contact_frames": 7,
+        "incoming_observation_coverage": 0,
+        "confirmed_incoming_bounce": false,
+        "ambiguous_incoming_events": false
+      },
+      "handedness": {
+        "hand": "unknown",
+        "source": "insufficient_or_conflicting_evidence",
+        "votes": {
+          "left": 260,
+          "right": 85
+        },
+        "majority_fraction": 0.754
+      }
+    }
+  ],
+  "counts": {
+    "serve": 1,
+    "unknown": 7
+  },
+  "limitation": "Heuristic shot-type candidates, not trained classifications or accuracy measurements. Forehand/backhand describe swing side; groundstroke versus volley can remain unresolved."
+}

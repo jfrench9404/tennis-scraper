@@ -1,0 +1,6 @@
+# Minimal tests/cached replay dependencies. Fresh YOLO inference needs additional
+# dependencies from the original requirements and a compatible PyTorch runtime.
+numpy>=1.24
+opencv-python>=4.8
+PyYAML>=6.0
+tqdm>=4.66
