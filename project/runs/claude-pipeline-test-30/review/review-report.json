@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "algorithm": "event-review-1",
+  "run_id": "9edf01292ea8e53b74014dca1d919836d83f84c714d555e44aab21c63b27adc3",
+  "source_run": "C:\\Users\\John\\Documents\\Codex\\2026-09-17\\can-x20\\outputs\\tennis-scraper\\project\\runs\\claude-longrun-dml-30",
+  "source_video": "C:\\Users\\John\\Documents\\Codex\\2026-09-17\\can-x20\\outputs\\tennis-scraper\\project\\media\\sebbie-demo-shortest (1).mp4",
+  "source_start_frame": 4740,
+  "fps": 30.0,
+  "frames": 30,
+  "ball_frames": {
+    "missing": 25,
+    "detected": 5
+  },
+  "gap_decisions": {
+    "long_gap": 1
+  },
+  "scene_cut_frames": [],
+  "candidate_counts": {},
+  "court_calibrated": true,
+  "limitations": [
+    "Coverage is not accuracy. All events start unreviewed; scores are NOT probabilities.",
+    "Estimated points are display-only and never feed events, legacy shots, or 3D.",
+    "No extrapolation; up to 3 missing frames filled only with consistent observed context away from impacts.",
+    "Missed events and false candidates remain possible, especially when the ball is occluded.",
+    "Bounce court coordinates are conditional on a real ground contact; no airborne XYZ is measured.",
+    "Court calibration assumes a fixed camera. Obvious-cut guard does not detect every camera movement.",
+    "Export review labels to retain them; browser-local autosave is best-effort. Review videos are silent."
+  ],
+  "seconds_processing": 2.76
+}

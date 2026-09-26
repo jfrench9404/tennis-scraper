@@ -1,0 +1,7304 @@
+{
+  "report": {
+    "schema_version": 1,
+    "package_id": "0526b3a394bc6390df5d681e0835530aed1106ce55e94f2cbae3933aba618b34",
+    "review_run_id": "9edf01292ea8e53b74014dca1d919836d83f84c714d555e44aab21c63b27adc3",
+    "frames": 30,
+    "fps": 30.0,
+    "width": 1280,
+    "height": 720,
+    "source_start_frame": 4740,
+    "input_run": "C:\\Users\\John\\Documents\\Codex\\2026-09-17\\can-x20\\outputs\\tennis-scraper\\project\\runs\\claude-longrun-dml-30",
+    "review_labels": null,
+    "classification_counts": {},
+    "handedness": {
+      "near": {
+        "hand": "unknown",
+        "source": "insufficient_or_conflicting_evidence",
+        "votes": {
+          "left": 7
+        },
+        "majority_fraction": 1.0,
+        "role": "descriptive_only_not_a_stroke_constraint"
+      },
+      "far": {
+        "hand": "unknown",
+        "source": "insufficient_or_conflicting_evidence",
+        "votes": {},
+        "majority_fraction": 0.0,
+        "role": "descriptive_only_not_a_stroke_constraint"
+      }
+    },
+    "event_review_counts": {},
+    "player_frames": {
+      "near": 30
+    },
+    "player_projection_omissions": {
+      "far_missing_or_ambiguous": 30
+    },
+    "confirmed_bounces": 0,
+    "visible_bounce_candidates": 0,
+    "player_identity_recovery": {
+      "basis": "backward_cached_association_from_confirmed_track",
+      "scope": "replay_only_not_shot_or_ball_evidence",
+      "recovered_frames": {
+        "near": 2,
+        "far": 0
+      },
+      "identities": {
+        "near": {
+          "seed_frame": 2,
+          "recovered": 2,
+          "stop_reason": "clip start"
+        },
+        "far": {
+          "seed_frame": null,
+          "recovered": 0,
+          "stop_reason": "no confirmed observed identity seed"
+        }
+      }
+    },
+    "far_player_refinement": {
+      "method": "identity_anchored_crop_pose_v1",
+      "counts": {
+        "no_observed_identity_anchor": 30
+      },
+      "before": {},
+      "after": {},
+      "limitation": "Fresh crop detections, not interpolated joints. Joint coverage is not accuracy. Missing identity anchors remain missing; no unrestricted referee/bystander reacquisition.",
+      "checkpoint_sha256": "ad33da8a29ea5772318c4c980844e47b56792d2b63815ad4e8e09c078c7d1abf",
+      "observation_sha256": "61075316940f2cb133269a42d357ea1fbcdf1f53867e2d40d2787b1331ba7e23"
+    },
+    "contact_detection": {
+      "method": "observed_turn_equipment_swing_v2",
+      "contacts": [],
+      "review_windows": [],
+      "by_player": {},
+      "limitation": "Candidate scores rank evidence, not calibrated confidence probabilities. Missing ball observations and uncertain identities cause abstention."
+    },
+    "contact_review_binding": "bf3fff848d06e6cf5c21f026eca8c445066261a30a4aff6f99f9f25fe54a2213",
+    "stroke_review_binding": "0526b3a394bc6390df5d681e0835530aed1106ce55e94f2cbae3933aba618b34",
+    "stroke_review": null,
+    "play_context": {
+      "method": "raw_play_context_v1",
+      "assessments": [],
+      "action_counts": {},
+      "phase_counts": {
+        "unresolved": 30
+      },
+      "outcome": "undetermined",
+      "limitation": "Heuristic play phases, not verified rally boundaries. Local activity is a no-shot hypothesis; missing ball observations never establish an ace, fault, winner, or return."
+    },
+    "avatar_counts": {
+      "pose_wireframe": 30
+    },
+    "racquet_display": {
+      "method": "racquet_box_wrist_display_v1",
+      "hold_frames": 6,
+      "counts": {
+        "observed": 17,
+        "stale": 4,
+        "box_without_supported_wrist": 2,
+        "hands": {
+          "both": 13,
+          "left": 4
+        }
+      },
+      "limitations": [
+        "Racquet boxes do not measure handle endpoints, grip, face orientation or string-bed contact.",
+        "Axis points from the supporting wrist toward the box centre on the 2.5D player plane; face orientation is a display choice.",
+        "Held up to 6 frames after the last observed box and labelled stale; hidden afterwards.",
+        "Rendered racquets are never contact evidence and do not create or confirm events."
+      ]
+    },
+    "observed_ball_frames": 5,
+    "missing_ball_frames": 25,
+    "supported_flight_fits": 0,
+    "camera_available": true,
+    "unvalidated_preview_segments": 0,
+    "unvalidated_preview_frames": 0,
+    "camera_focal_length_basis": "multi_point_radial_camera",
+    "camera_fit": {
+      "basis": "multi_point_radial_camera",
+      "status": "approximate_not_measurement_grade",
+      "landmarks": 15,
+      "radial_distortion": [
+        -0.4000228121537815,
+        0.15721867915146132,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "focal_length_px": 983.5971576429987,
+      "landmark_rmse_px": 1.4987856467680234,
+      "residuals_px": {
+        "near_left_doubles": 0.75,
+        "near_right_doubles": 1.911,
+        "far_right_doubles": 2.108,
+        "far_left_doubles": 1.389,
+        "near_left_singles": 1.355,
+        "near_right_singles": 0.161,
+        "far_left_singles": 2.699,
+        "far_right_singles": 0.688,
+        "near_service_left": 1.035,
+        "near_service_centre": 2.047,
+        "near_service_right": 1.434,
+        "far_service_left": 1.772,
+        "far_service_centre": 0.313,
+        "far_service_right": 1.5,
+        "near_baseline_centre": 0.825
+      },
+      "assumptions": "one fixed view; square pixels; centred principal point; k1/k2 radial distortion; no tangential distortion",
+      "limitation": "Residuals use fitted landmarks, not independent 3D validation. Review all projected court lines; a single view cannot fully validate camera intrinsics or airborne XYZ.",
+      "review_status": "draft",
+      "previous_landmark_rmse_px": 19.408929554342222
+    },
+    "calibration_review": {
+      "schema_version": 1,
+      "kind": "court_and_bounce_review",
+      "run_id": "9edf01292ea8e53b74014dca1d919836d83f84c714d555e44aab21c63b27adc3",
+      "image_size": [
+        1280,
+        720
+      ],
+      "calibration_frame": 0,
+      "calibration_status": "draft",
+      "landmark_source": "carried_from_reviewed_run_39449302177328c7_after_camera_check",
+      "landmarks": {
+        "near_left_doubles": [
+          3,
+          535
+        ],
+        "near_right_doubles": [
+          1188,
+          570
+        ],
+        "far_right_doubles": [
+          782,
+          133
+        ],
+        "far_left_doubles": [
+          427,
+          123
+        ],
+        "near_left_singles": [
+          119,
+          550
+        ],
+        "near_right_singles": [
+          1070,
+          579
+        ],
+        "far_left_singles": [
+          469,
+          124
+        ],
+        "far_right_singles": [
+          737,
+          131
+        ],
+        "near_service_left": [
+          289,
+          327
+        ],
+        "near_service_centre": [
+          595,
+          335
+        ],
+        "near_service_right": [
+          906,
+          346
+        ],
+        "far_service_left": [
+          441,
+          151
+        ],
+        "far_service_centre": [
+          602,
+          156
+        ],
+        "far_service_right": [
+          763,
+          162
+        ],
+        "near_baseline_centre": [
+          591,
+          590
+        ]
+      },
+      "bounce_edits": [],
+      "carried_from": {
+        "run_id": "39449302177328c739e679a953b51d001bf297e21541feb1cc38c76265aa9ab9",
+        "calibration_frame": 300,
+        "landmark_source": "assistant_visual_annotation_of_source_frame_300",
+        "status_there": "reviewed",
+        "file": "C:\\Users\\John\\Documents\\Codex\\2026-09-17\\can-x20\\outputs\\tennis-scraper\\project\\runs\\court-bounce-20260925-110335-545\\calibration-corrections.json"
+      },
+      "camera_check": {
+        "samples": [
+          {
+            "frame": 4740,
+            "time_s": 158.0,
+            "score": 1.0,
+            "best_shift_px": [
+              0,
+              0
+            ],
+            "best_shift_score": 1.0
+          },
+          {
+            "frame": 4769,
+            "time_s": 158.97,
+            "score": 1.0,
+            "best_shift_px": [
+              0,
+              0
+            ],
+            "best_shift_score": 1.0
+          }
+        ],
+        "summary": {
+          "reference_score": 1.0,
+          "min_score": 1.0,
+          "median_score": 1.0,
+          "threshold": 0.85,
+          "failing_samples": [],
+          "verdict": "consistent",
+          "meaning": "Projected court lines of the reviewed calibration land on painted lines as well as in the calibration frame, with no better-fitting shift beyond the limit. Consistency, not accuracy."
+        },
+        "meaning": "Consistency of court-line positions with the reviewed calibration, not accuracy."
+      },
+      "notes": "Landmarks only. Bounce decisions and event ids from the source run are NOT carried. Draft until reviewed for this run in the calibration desk."
+    },
+    "limitations": [
+      "Heuristic stroke and hand-use candidates, not measured grip or trained tennis classification. Player hand tendencies never restrict a stroke. Two-handed forehand/backhand remains unknown without adequate grip/orientation evidence or human review.",
+      "Airborne XYZ is estimated from an approximate single-camera calibration and gravity-only motion. Reviewed bounce timing does not make court calibration or XYZ ground truth. Drag/spin are not modeled; radial lens compensation is used only when supplied by the calibration, and camera/lens errors can remain.",
+      "Dashed cyan paths are unvalidated single-camera estimates, conditional on possible bounce landings. They are partial observation windows, not complete shot reconstructions. Camera/depth and bounce errors remain possible despite pixel agreement; no event is confirmed, no missing detection is repaired, and unsupported intervals stay empty.",
+      "Player roots are estimated ground-plane foot positions, not measured jumping height. Missing ankles fall back to box bottom and are labelled.",
+      "Wireframes are 2.5D camera-facing pose constructions. Individual joint depth and body orientation are not recovered.",
+      "Delayed player initialization may be back-associated to cached person detections using adjacent motion, clothing and court-half gates. These identity assignments are estimates; the detector and original log are unchanged.",
+      "Dashed bounce-candidate rings are conditional ground locations IF the event is a bounce, not confirmed landings or reviewed-flight constraints. Only the separate preview channel may use them as hypotheses.",
+      "Camera calibration is approximate; consult camera_fit for its landmark, lens and review assumptions. Fitted residuals are not independent 3D accuracy measurements.",
+      "Reviewed-only mode hides unvalidated previews. Neither mode extends a ball path through unsupported intervals; unreviewed hypotheses never become confirmed observations.",
+      "An absent bounce detection is not sufficient evidence of a volley; uncertain classifications stay unknown.",
+      "Fresh crop detections, not interpolated joints. Joint coverage is not accuracy. Missing identity anchors remain missing; no unrestricted referee/bystander reacquisition.",
+      "Candidate scores rank evidence, not calibrated confidence probabilities. Missing ball observations and uncertain identities cause abstention.",
+      "Heuristic play phases, not verified rally boundaries. Local activity is a no-shot hypothesis; missing ball observations never establish an ace, fault, winner, or return."
+    ],
+    "seconds_processing": 4.55
+  },
+  "frames": [
+    {
+      "frame": 0,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            762.285,
+            607.7149999999999
+          ],
+          "raw_feet_xyz_m": [
+            1.311,
+            -12.106,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.311,
+            -12.106,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": false,
+          "bbox": [
+            711.656005859375,
+            359.93011474609375,
+            800.899169921875,
+            639.0222778320312
+          ],
+          "identity_basis": "backward_cached_association_from_confirmed_track",
+          "identity_association_estimated": true,
+          "identity_seed_frame": 2,
+          "identity_evidence": {
+            "adjacent_displacement_body_heights": 0.0067,
+            "box_iou": 0.9451,
+            "seed_colour_distance": 0.1345,
+            "adjacent_colour_distance": 0.1095
+          },
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_ear": [
+              0.9333,
+              -12.022,
+              1.8436
+            ],
+            "right_ear": [
+              1.0516,
+              -12.0483,
+              1.8665
+            ],
+            "left_shoulder": [
+              1.0128,
+              -12.0397,
+              1.6154
+            ],
+            "right_shoulder": [
+              1.1772,
+              -12.0763,
+              1.6837
+            ],
+            "left_elbow": [
+              0.9864,
+              -12.0338,
+              1.2223
+            ],
+            "right_elbow": [
+              1.2284,
+              -12.0876,
+              1.3403
+            ],
+            "left_wrist": [
+              0.9352,
+              -12.0225,
+              0.9052
+            ],
+            "left_hip": [
+              1.1869,
+              -12.0784,
+              0.994
+            ],
+            "right_hip": [
+              1.2941,
+              -12.1022,
+              1.0407
+            ],
+            "left_knee": [
+              1.2708,
+              -12.0971,
+              0.4891
+            ],
+            "right_knee": [
+              1.1895,
+              -12.079,
+              0.5479
+            ],
+            "left_ankle": [
+              1.472,
+              -12.24,
+              0.0
+            ],
+            "right_ankle": [
+              1.147,
+              -11.971,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              731.9,
+              387.43,
+              0.11
+            ],
+            "left_eye": [
+              731.5,
+              382.09,
+              0.175
+            ],
+            "right_eye": [
+              734.69,
+              381.57,
+              0.018
+            ],
+            "left_ear": [
+              734.55,
+              381.78,
+              0.978
+            ],
+            "right_ear": [
+              752.52,
+              380.72,
+              0.467
+            ],
+            "left_shoulder": [
+              743.45,
+              413.54,
+              0.998
+            ],
+            "right_shoulder": [
+              768.65,
+              407.36,
+              0.982
+            ],
+            "left_elbow": [
+              734.55,
+              463.36,
+              0.99
+            ],
+            "right_elbow": [
+              771.08,
+              452.71,
+              0.309
+            ],
+            "left_wrist": [
+              723.36,
+              501.07,
+              0.984
+            ],
+            "right_wrist": [
+              748.63,
+              487.58,
+              0.14
+            ],
+            "left_hip": [
+              760.03,
+              494.78,
+              0.995
+            ],
+            "right_hip": [
+              775.91,
+              490.94,
+              0.99
+            ],
+            "left_knee": [
+              764.22,
+              554.71,
+              0.996
+            ],
+            "right_knee": [
+              753.96,
+              546.78,
+              0.996
+            ],
+            "left_ankle": [
+              785.39,
+              617.79,
+              0.988
+            ],
+            "right_ankle": [
+              739.18,
+              597.64,
+              0.996
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 1,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            764.56,
+            607.62
+          ],
+          "raw_feet_xyz_m": [
+            1.3289999999999997,
+            -12.105,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.3289999999999997,
+            -12.105,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            711.137451171875,
+            359.61029052734375,
+            805.106201171875,
+            640.0783081054688
+          ],
+          "identity_basis": "backward_cached_association_from_confirmed_track",
+          "identity_association_estimated": true,
+          "identity_seed_frame": 2,
+          "identity_evidence": {
+            "adjacent_displacement_body_heights": 0.001,
+            "box_iou": 0.9832,
+            "seed_colour_distance": 0.0931,
+            "adjacent_colour_distance": 0.0624
+          },
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_ear": [
+              0.951,
+              -12.0198,
+              1.8445
+            ],
+            "right_ear": [
+              1.0737,
+              -12.0475,
+              1.8688
+            ],
+            "left_shoulder": [
+              1.0217,
+              -12.0358,
+              1.5943
+            ],
+            "right_shoulder": [
+              1.1931,
+              -12.0744,
+              1.6793
+            ],
+            "left_elbow": [
+              0.9772,
+              -12.0258,
+              1.2141
+            ],
+            "right_elbow": [
+              1.183,
+              -12.0721,
+              1.3259
+            ],
+            "left_wrist": [
+              0.9165,
+              -12.0121,
+              0.94
+            ],
+            "left_hip": [
+              1.1916,
+              -12.074,
+              0.9861
+            ],
+            "right_hip": [
+              1.307,
+              -12.1,
+              1.0404
+            ],
+            "left_knee": [
+              1.2782,
+              -12.0935,
+              0.4775
+            ],
+            "right_knee": [
+              1.2028,
+              -12.0766,
+              0.5523
+            ],
+            "left_ankle": [
+              1.503,
+              -12.245,
+              0.0
+            ],
+            "right_ankle": [
+              1.152,
+              -11.965,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              734.99,
+              386.58,
+              0.1
+            ],
+            "left_eye": [
+              734.56,
+              381.27,
+              0.169
+            ],
+            "right_eye": [
+              737.8,
+              380.74,
+              0.018
+            ],
+            "left_ear": [
+              737.09,
+              381.6,
+              0.98
+            ],
+            "right_ear": [
+              755.74,
+              380.45,
+              0.536
+            ],
+            "left_shoulder": [
+              744.37,
+              416.09,
+              0.998
+            ],
+            "right_shoulder": [
+              770.82,
+              407.88,
+              0.98
+            ],
+            "left_elbow": [
+              733.03,
+              463.82,
+              0.99
+            ],
+            "right_elbow": [
+              764.18,
+              453.4,
+              0.32
+            ],
+            "left_wrist": [
+              721.06,
+              496.16,
+              0.984
+            ],
+            "right_wrist": [
+              739.93,
+              484.01,
+              0.268
+            ],
+            "left_hip": [
+              760.47,
+              495.43,
+              0.995
+            ],
+            "right_hip": [
+              777.63,
+              490.84,
+              0.989
+            ],
+            "left_knee": [
+              764.96,
+              555.74,
+              0.995
+            ],
+            "right_knee": [
+              755.75,
+              546.11,
+              0.996
+            ],
+            "left_ankle": [
+              789.42,
+              618.09,
+              0.987
+            ],
+            "right_ankle": [
+              739.7,
+              597.15,
+              0.996
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 2,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            765.47,
+            607.24
+          ],
+          "raw_feet_xyz_m": [
+            1.3369999999999997,
+            -12.1,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.3369999999999997,
+            -12.105,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            710.64,
+            359.6,
+            806.13,
+            639.85
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_ear": [
+              0.9602,
+              -12.0197,
+              1.837
+            ],
+            "right_ear": [
+              1.0839,
+              -12.0477,
+              1.8634
+            ],
+            "left_shoulder": [
+              1.026,
+              -12.0346,
+              1.5834
+            ],
+            "right_shoulder": [
+              1.2038,
+              -12.0748,
+              1.6759
+            ],
+            "left_elbow": [
+              0.9741,
+              -12.0228,
+              1.2096
+            ],
+            "right_elbow": [
+              1.1907,
+              -12.0719,
+              1.3158
+            ],
+            "left_wrist": [
+              0.9118,
+              -12.0087,
+              0.9447
+            ],
+            "right_wrist": [
+              1.0437,
+              -12.0386,
+              1.0623
+            ],
+            "left_hip": [
+              1.1999,
+              -12.074,
+              0.9765
+            ],
+            "right_hip": [
+              1.3101,
+              -12.0989,
+              1.0336
+            ],
+            "left_knee": [
+              1.2819,
+              -12.0925,
+              0.4682
+            ],
+            "right_knee": [
+              1.2024,
+              -12.0745,
+              0.5501
+            ],
+            "left_ankle": [
+              1.516,
+              -12.242,
+              0.0
+            ],
+            "right_ankle": [
+              1.154,
+              -11.968,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              735.89,
+              386.45,
+              0.111
+            ],
+            "left_eye": [
+              735.61,
+              381.24,
+              0.182
+            ],
+            "right_eye": [
+              738.9,
+              380.64,
+              0.019
+            ],
+            "left_ear": [
+              738.24,
+              382.35,
+              0.982
+            ],
+            "right_ear": [
+              757.04,
+              380.94,
+              0.544
+            ],
+            "left_shoulder": [
+              744.73,
+              417.14,
+              0.997
+            ],
+            "right_shoulder": [
+              772.2,
+              408.09,
+              0.984
+            ],
+            "left_elbow": [
+              732.41,
+              463.84,
+              0.988
+            ],
+            "right_elbow": [
+              765.0,
+              454.35,
+              0.5
+            ],
+            "left_wrist": [
+              720.35,
+              495.01,
+              0.983
+            ],
+            "right_wrist": [
+              740.44,
+              483.17,
+              0.528
+            ],
+            "left_hip": [
+              761.37,
+              496.24,
+              0.994
+            ],
+            "right_hip": [
+              777.81,
+              491.25,
+              0.99
+            ],
+            "left_knee": [
+              765.2,
+              556.33,
+              0.995
+            ],
+            "right_knee": [
+              755.55,
+              545.85,
+              0.996
+            ],
+            "left_ankle": [
+              790.92,
+              617.43,
+              0.987
+            ],
+            "right_ankle": [
+              740.02,
+              597.05,
+              0.996
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 3,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            767.155,
+            607.855
+          ],
+          "raw_feet_xyz_m": [
+            1.3489999999999993,
+            -12.109,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.3489999999999993,
+            -12.109,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            709.68,
+            359.68,
+            809.69,
+            640.26
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_ear": [
+              0.9779,
+              -12.0241,
+              1.8417
+            ],
+            "right_ear": [
+              1.1094,
+              -12.0542,
+              1.8644
+            ],
+            "left_shoulder": [
+              1.0316,
+              -12.0364,
+              1.577
+            ],
+            "right_shoulder": [
+              1.2238,
+              -12.0804,
+              1.6714
+            ],
+            "left_elbow": [
+              0.97,
+              -12.0223,
+              1.2069
+            ],
+            "right_elbow": [
+              1.2082,
+              -12.0768,
+              1.3336
+            ],
+            "left_wrist": [
+              0.893,
+              -12.0047,
+              0.983
+            ],
+            "left_hip": [
+              1.2026,
+              -12.0755,
+              0.965
+            ],
+            "right_hip": [
+              1.3224,
+              -12.1029,
+              1.0228
+            ],
+            "left_knee": [
+              1.3003,
+              -12.0979,
+              0.4545
+            ],
+            "right_knee": [
+              1.2047,
+              -12.076,
+              0.541
+            ],
+            "left_ankle": [
+              1.539,
+              -12.252,
+              0.0
+            ],
+            "right_ankle": [
+              1.155,
+              -11.965,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              739.24,
+              386.07,
+              0.087
+            ],
+            "left_eye": [
+              738.9,
+              380.77,
+              0.153
+            ],
+            "right_eye": [
+              742.42,
+              380.52,
+              0.019
+            ],
+            "left_ear": [
+              741.04,
+              382.34,
+              0.982
+            ],
+            "right_ear": [
+              760.98,
+              381.59,
+              0.627
+            ],
+            "left_shoulder": [
+              745.57,
+              418.42,
+              0.998
+            ],
+            "right_shoulder": [
+              775.22,
+              409.4,
+              0.982
+            ],
+            "left_elbow": [
+              731.88,
+              464.47,
+              0.991
+            ],
+            "right_elbow": [
+              767.92,
+              452.79,
+              0.321
+            ],
+            "left_wrist": [
+              718.22,
+              490.45,
+              0.985
+            ],
+            "right_wrist": [
+              738.93,
+              478.95,
+              0.247
+            ],
+            "left_hip": [
+              761.7,
+              498.08,
+              0.996
+            ],
+            "right_hip": [
+              779.52,
+              493.19,
+              0.991
+            ],
+            "left_knee": [
+              767.62,
+              558.61,
+              0.995
+            ],
+            "right_knee": [
+              755.83,
+              547.34,
+              0.996
+            ],
+            "left_ankle": [
+              794.25,
+              618.55,
+              0.985
+            ],
+            "right_ankle": [
+              740.06,
+              597.16,
+              0.996
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 4,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            767.785,
+            607.86
+          ],
+          "raw_feet_xyz_m": [
+            1.354,
+            -12.109,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.354,
+            -12.109,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            709.39,
+            359.66,
+            810.61,
+            640.36
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_ear": [
+              0.9896,
+              -12.0253,
+              1.8426
+            ],
+            "right_ear": [
+              1.1156,
+              -12.0543,
+              1.8628
+            ],
+            "left_shoulder": [
+              1.0413,
+              -12.0372,
+              1.576
+            ],
+            "right_shoulder": [
+              1.2297,
+              -12.0805,
+              1.6634
+            ],
+            "left_elbow": [
+              0.9739,
+              -12.0217,
+              1.213
+            ],
+            "right_elbow": [
+              1.1818,
+              -12.0695,
+              1.3041
+            ],
+            "left_wrist": [
+              0.8869,
+              -12.0017,
+              0.9946
+            ],
+            "right_wrist": [
+              0.9902,
+              -12.0255,
+              1.0753
+            ],
+            "left_hip": [
+              1.2081,
+              -12.0755,
+              0.9589
+            ],
+            "right_hip": [
+              1.3196,
+              -12.1011,
+              1.014
+            ],
+            "left_knee": [
+              1.3088,
+              -12.0986,
+              0.4533
+            ],
+            "right_knee": [
+              1.2008,
+              -12.0738,
+              0.5382
+            ],
+            "left_ankle": [
+              1.546,
+              -12.251,
+              0.0
+            ],
+            "right_ankle": [
+              1.157,
+              -11.966,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              740.25,
+              386.44,
+              0.103
+            ],
+            "left_eye": [
+              740.05,
+              380.97,
+              0.192
+            ],
+            "right_eye": [
+              743.41,
+              380.82,
+              0.019
+            ],
+            "left_ear": [
+              742.77,
+              382.34,
+              0.985
+            ],
+            "right_ear": [
+              761.86,
+              381.84,
+              0.571
+            ],
+            "left_shoulder": [
+              746.96,
+              418.63,
+              0.998
+            ],
+            "right_shoulder": [
+              775.94,
+              410.49,
+              0.982
+            ],
+            "left_elbow": [
+              732.49,
+              463.68,
+              0.991
+            ],
+            "right_elbow": [
+              763.65,
+              455.97,
+              0.417
+            ],
+            "left_wrist": [
+              717.47,
+              488.84,
+              0.983
+            ],
+            "right_wrist": [
+              733.08,
+              480.92,
+              0.456
+            ],
+            "left_hip": [
+              762.36,
+              498.82,
+              0.996
+            ],
+            "right_hip": [
+              778.96,
+              494.13,
+              0.991
+            ],
+            "left_knee": [
+              768.73,
+              558.8,
+              0.995
+            ],
+            "right_knee": [
+              755.24,
+              547.49,
+              0.996
+            ],
+            "left_ankle": [
+              795.16,
+              618.5,
+              0.986
+            ],
+            "right_ankle": [
+              740.41,
+              597.22,
+              0.996
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 5,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            769.225,
+            608.135
+          ],
+          "raw_feet_xyz_m": [
+            1.3649999999999993,
+            -12.113,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.3649999999999993,
+            -12.113,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            709.07,
+            360.0,
+            813.46,
+            640.75
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_ear": [
+              1.0075,
+              -12.0302,
+              1.8429
+            ],
+            "right_ear": [
+              1.1337,
+              -12.0594,
+              1.8632
+            ],
+            "left_shoulder": [
+              1.0551,
+              -12.0412,
+              1.5714
+            ],
+            "right_shoulder": [
+              1.2463,
+              -12.0855,
+              1.6605
+            ],
+            "left_elbow": [
+              0.9751,
+              -12.0227,
+              1.2183
+            ],
+            "left_wrist": [
+              0.8811,
+              -12.0009,
+              1.0175
+            ],
+            "left_hip": [
+              1.2213,
+              -12.0797,
+              0.9507
+            ],
+            "right_hip": [
+              1.3249,
+              -12.1037,
+              1.0057
+            ],
+            "left_knee": [
+              1.3239,
+              -12.1035,
+              0.4462
+            ],
+            "right_knee": [
+              1.2109,
+              -12.0773,
+              0.5437
+            ],
+            "left_ankle": [
+              1.565,
+              -12.262,
+              0.0
+            ],
+            "right_ankle": [
+              1.16,
+              -11.962,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              742.68,
+              385.68,
+              0.099
+            ],
+            "left_eye": [
+              742.64,
+              380.41,
+              0.19
+            ],
+            "right_eye": [
+              746.13,
+              380.31,
+              0.018
+            ],
+            "left_ear": [
+              745.46,
+              382.67,
+              0.984
+            ],
+            "right_ear": [
+              764.59,
+              382.16,
+              0.544
+            ],
+            "left_shoulder": [
+              748.94,
+              419.54,
+              0.998
+            ],
+            "right_shoulder": [
+              778.38,
+              411.24,
+              0.982
+            ],
+            "left_elbow": [
+              732.73,
+              463.09,
+              0.991
+            ],
+            "right_elbow": [
+              768.74,
+              451.33,
+              0.275
+            ],
+            "left_wrist": [
+              716.93,
+              486.01,
+              0.982
+            ],
+            "right_wrist": [
+              737.71,
+              475.4,
+              0.199
+            ],
+            "left_hip": [
+              764.12,
+              500.11,
+              0.996
+            ],
+            "right_hip": [
+              779.61,
+              495.31,
+              0.991
+            ],
+            "left_knee": [
+              770.71,
+              559.94,
+              0.995
+            ],
+            "right_knee": [
+              756.72,
+              547.14,
+              0.996
+            ],
+            "left_ankle": [
+              797.7,
+              619.3,
+              0.985
+            ],
+            "right_ankle": [
+              740.75,
+              596.97,
+              0.997
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 6,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            770.365,
+            608.375
+          ],
+          "raw_feet_xyz_m": [
+            1.3729999999999993,
+            -12.116,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.3729999999999993,
+            -12.116,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            708.24,
+            360.13,
+            815.59,
+            641.17
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_ear": [
+              1.0266,
+              -12.0353,
+              1.8416
+            ],
+            "right_ear": [
+              1.1535,
+              -12.0648,
+              1.8605
+            ],
+            "left_shoulder": [
+              1.0736,
+              -12.0462,
+              1.5626
+            ],
+            "right_shoulder": [
+              1.2585,
+              -12.0893,
+              1.6541
+            ],
+            "left_elbow": [
+              0.9849,
+              -12.0256,
+              1.2297
+            ],
+            "left_wrist": [
+              0.8823,
+              -12.0016,
+              1.047
+            ],
+            "left_hip": [
+              1.2287,
+              -12.0824,
+              0.9372
+            ],
+            "right_hip": [
+              1.3373,
+              -12.1077,
+              0.995
+            ],
+            "left_knee": [
+              1.3371,
+              -12.1076,
+              0.4377
+            ],
+            "right_knee": [
+              1.2155,
+              -12.0793,
+              0.5391
+            ],
+            "left_ankle": [
+              1.578,
+              -12.267,
+              0.0
+            ],
+            "right_ankle": [
+              1.163,
+              -11.964,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              745.97,
+              385.86,
+              0.105
+            ],
+            "left_eye": [
+              745.9,
+              380.6,
+              0.199
+            ],
+            "right_eye": [
+              749.34,
+              380.59,
+              0.018
+            ],
+            "left_ear": [
+              748.3,
+              383.21,
+              0.984
+            ],
+            "right_ear": [
+              767.53,
+              382.93,
+              0.537
+            ],
+            "left_shoulder": [
+              751.55,
+              421.06,
+              0.998
+            ],
+            "right_shoulder": [
+              780.1,
+              412.36,
+              0.98
+            ],
+            "left_elbow": [
+              734.3,
+              461.88,
+              0.99
+            ],
+            "right_elbow": [
+              769.42,
+              450.45,
+              0.213
+            ],
+            "left_wrist": [
+              717.44,
+              482.48,
+              0.985
+            ],
+            "right_wrist": [
+              737.71,
+              473.27,
+              0.169
+            ],
+            "left_hip": [
+              764.99,
+              501.92,
+              0.996
+            ],
+            "right_hip": [
+              781.22,
+              496.9,
+              0.991
+            ],
+            "left_knee": [
+              772.39,
+              561.18,
+              0.995
+            ],
+            "right_knee": [
+              757.3,
+              547.8,
+              0.996
+            ],
+            "left_ankle": [
+              799.57,
+              619.67,
+              0.985
+            ],
+            "right_ankle": [
+              741.16,
+              597.08,
+              0.997
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 7,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            771.64,
+            608.525
+          ],
+          "raw_feet_xyz_m": [
+            1.383,
+            -12.118,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.383,
+            -12.118,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            707.76,
+            360.38,
+            817.53,
+            641.04
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_ear": [
+              1.0438,
+              -12.0383,
+              1.8446
+            ],
+            "right_ear": [
+              1.1706,
+              -12.0681,
+              1.8615
+            ],
+            "left_shoulder": [
+              1.0919,
+              -12.0497,
+              1.5568
+            ],
+            "right_shoulder": [
+              1.2693,
+              -12.0913,
+              1.6454
+            ],
+            "left_elbow": [
+              0.9882,
+              -12.0253,
+              1.2328
+            ],
+            "left_wrist": [
+              0.8788,
+              -11.9996,
+              1.0574
+            ],
+            "right_wrist": [
+              0.9773,
+              -12.0227,
+              1.1968
+            ],
+            "left_hip": [
+              1.2391,
+              -12.0842,
+              0.9326
+            ],
+            "right_hip": [
+              1.3451,
+              -12.1091,
+              0.9888
+            ],
+            "left_knee": [
+              1.3482,
+              -12.1098,
+              0.4356
+            ],
+            "right_knee": [
+              1.2297,
+              -12.082,
+              0.5339
+            ],
+            "left_ankle": [
+              1.594,
+              -12.27,
+              0.0
+            ],
+            "right_ankle": [
+              1.167,
+              -11.965,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              748.57,
+              385.35,
+              0.113
+            ],
+            "left_eye": [
+              748.5,
+              380.03,
+              0.196
+            ],
+            "right_eye": [
+              752.09,
+              380.14,
+              0.016
+            ],
+            "left_ear": [
+              750.89,
+              383.07,
+              0.981
+            ],
+            "right_ear": [
+              770.09,
+              383.05,
+              0.495
+            ],
+            "left_shoulder": [
+              754.14,
+              422.08,
+              0.998
+            ],
+            "right_shoulder": [
+              781.55,
+              413.66,
+              0.978
+            ],
+            "left_elbow": [
+              734.79,
+              461.49,
+              0.99
+            ],
+            "right_elbow": [
+              764.2,
+              450.4,
+              0.295
+            ],
+            "left_wrist": [
+              717.05,
+              481.07,
+              0.989
+            ],
+            "right_wrist": [
+              732.77,
+              465.77,
+              0.505
+            ],
+            "left_hip": [
+              766.38,
+              502.61,
+              0.996
+            ],
+            "right_hip": [
+              782.22,
+              497.75,
+              0.991
+            ],
+            "left_knee": [
+              773.86,
+              561.57,
+              0.996
+            ],
+            "right_knee": [
+              759.16,
+              548.59,
+              0.997
+            ],
+            "left_ankle": [
+              801.6,
+              619.87,
+              0.987
+            ],
+            "right_ankle": [
+              741.68,
+              597.18,
+              0.997
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 8,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            772.38,
+            608.905
+          ],
+          "raw_feet_xyz_m": [
+            1.388,
+            -12.123,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.388,
+            -12.123,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            707.48,
+            361.37,
+            819.37,
+            642.58
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_ear": [
+              1.0668,
+              -12.0473,
+              1.838
+            ],
+            "right_ear": [
+              1.1889,
+              -12.076,
+              1.8527
+            ],
+            "left_shoulder": [
+              1.105,
+              -12.0563,
+              1.5497
+            ],
+            "right_shoulder": [
+              1.2889,
+              -12.0996,
+              1.6385
+            ],
+            "left_elbow": [
+              0.9954,
+              -12.0304,
+              1.2328
+            ],
+            "left_wrist": [
+              0.8848,
+              -12.0043,
+              1.0758
+            ],
+            "right_wrist": [
+              0.9799,
+              -12.0268,
+              1.2061
+            ],
+            "left_hip": [
+              1.2456,
+              -12.0894,
+              0.9236
+            ],
+            "right_hip": [
+              1.3621,
+              -12.1169,
+              0.982
+            ],
+            "left_knee": [
+              1.3571,
+              -12.1157,
+              0.428
+            ],
+            "right_knee": [
+              1.2346,
+              -12.0868,
+              0.5303
+            ],
+            "left_ankle": [
+              1.604,
+              -12.279,
+              0.0
+            ],
+            "right_ankle": [
+              1.167,
+              -11.967,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              750.85,
+              386.92,
+              0.154
+            ],
+            "left_eye": [
+              751.06,
+              381.53,
+              0.255
+            ],
+            "right_eye": [
+              754.48,
+              381.79,
+              0.017
+            ],
+            "left_ear": [
+              754.32,
+              384.58,
+              0.981
+            ],
+            "right_ear": [
+              772.78,
+              384.78,
+              0.387
+            ],
+            "left_shoulder": [
+              756.03,
+              423.47,
+              0.998
+            ],
+            "right_shoulder": [
+              784.44,
+              415.15,
+              0.977
+            ],
+            "left_elbow": [
+              735.89,
+              461.85,
+              0.99
+            ],
+            "right_elbow": [
+              766.89,
+              450.98,
+              0.299
+            ],
+            "left_wrist": [
+              718.16,
+              479.17,
+              0.99
+            ],
+            "right_wrist": [
+              733.32,
+              464.89,
+              0.515
+            ],
+            "left_hip": [
+              767.23,
+              504.06,
+              0.996
+            ],
+            "right_hip": [
+              784.6,
+              499.13,
+              0.991
+            ],
+            "left_knee": [
+              775.03,
+              562.84,
+              0.996
+            ],
+            "right_knee": [
+              759.85,
+              549.35,
+              0.997
+            ],
+            "left_ankle": [
+              803.09,
+              620.52,
+              0.987
+            ],
+            "right_ankle": [
+              741.67,
+              597.29,
+              0.997
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 9,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            773.005,
+            609.1949999999999
+          ],
+          "raw_feet_xyz_m": [
+            1.3919999999999995,
+            -12.126999999999999,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.3919999999999995,
+            -12.126999999999999,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            708.1,
+            362.38,
+            820.27,
+            643.88
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_ear": [
+              1.0853,
+              -12.0544,
+              1.8356
+            ],
+            "right_ear": [
+              1.2187,
+              -12.086,
+              1.8499
+            ],
+            "left_shoulder": [
+              1.1253,
+              -12.0639,
+              1.5435
+            ],
+            "right_shoulder": [
+              1.3052,
+              -12.1065,
+              1.6318
+            ],
+            "left_elbow": [
+              1.0088,
+              -12.0363,
+              1.2375
+            ],
+            "right_elbow": [
+              1.2028,
+              -12.0822,
+              1.3467
+            ],
+            "left_wrist": [
+              0.8859,
+              -12.0072,
+              1.082
+            ],
+            "right_wrist": [
+              0.9839,
+              -12.0304,
+              1.2714
+            ],
+            "left_hip": [
+              1.2637,
+              -12.0966,
+              0.9151
+            ],
+            "right_hip": [
+              1.3736,
+              -12.1227,
+              0.9739
+            ],
+            "left_knee": [
+              1.3686,
+              -12.1215,
+              0.4358
+            ],
+            "right_knee": [
+              1.234,
+              -12.0896,
+              0.5484
+            ],
+            "left_ankle": [
+              1.607,
+              -12.29,
+              0.0
+            ],
+            "right_ankle": [
+              1.172,
+              -11.963,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              754.97,
+              387.11,
+              0.113
+            ],
+            "left_eye": [
+              754.83,
+              381.68,
+              0.184
+            ],
+            "right_eye": [
+              758.88,
+              382.1,
+              0.016
+            ],
+            "left_ear": [
+              757.11,
+              385.4,
+              0.976
+            ],
+            "right_ear": [
+              777.28,
+              385.87,
+              0.53
+            ],
+            "left_shoulder": [
+              758.98,
+              424.82,
+              0.998
+            ],
+            "right_shoulder": [
+              786.81,
+              416.52,
+              0.975
+            ],
+            "left_elbow": [
+              737.92,
+              461.69,
+              0.992
+            ],
+            "right_elbow": [
+              767.47,
+              451.48,
+              0.541
+            ],
+            "left_wrist": [
+              718.43,
+              478.62,
+              0.993
+            ],
+            "right_wrist": [
+              734.76,
+              457.0,
+              0.934
+            ],
+            "left_hip": [
+              769.71,
+              505.6,
+              0.995
+            ],
+            "right_hip": [
+              786.16,
+              500.52,
+              0.99
+            ],
+            "left_knee": [
+              776.78,
+              562.41,
+              0.996
+            ],
+            "right_knee": [
+              760.08,
+              547.51,
+              0.997
+            ],
+            "left_ankle": [
+              803.78,
+              621.39,
+              0.988
+            ],
+            "right_ankle": [
+              742.23,
+              597.0,
+              0.997
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "both",
+          "status": "observed",
+          "age_frames": 0,
+          "grip_m": [
+            0.9349,
+            -12.0188,
+            1.1767
+          ],
+          "axis_unit": [
+            -0.5522,
+            0.1305,
+            0.8235
+          ],
+          "confidence": 0.422,
+          "bbox": [
+            712.73,
+            430.22,
+            722.17,
+            476.05
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 10,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            773.855,
+            610.365
+          ],
+          "raw_feet_xyz_m": [
+            1.3969999999999994,
+            -12.142,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.3969999999999994,
+            -12.142,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            709.29,
+            364.5,
+            821.38,
+            644.19
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_eye": [
+              1.0948,
+              -12.0701,
+              1.8632
+            ],
+            "left_ear": [
+              1.1233,
+              -12.0768,
+              1.8333
+            ],
+            "right_ear": [
+              1.2354,
+              -12.1035,
+              1.8432
+            ],
+            "left_shoulder": [
+              1.1521,
+              -12.0837,
+              1.5349
+            ],
+            "right_shoulder": [
+              1.3224,
+              -12.1242,
+              1.6273
+            ],
+            "left_elbow": [
+              1.0308,
+              -12.0548,
+              1.2314
+            ],
+            "right_elbow": [
+              1.2125,
+              -12.0981,
+              1.3751
+            ],
+            "left_wrist": [
+              0.896,
+              -12.0227,
+              1.1057
+            ],
+            "right_wrist": [
+              0.9985,
+              -12.0471,
+              1.3111
+            ],
+            "left_hip": [
+              1.2911,
+              -12.1168,
+              0.9131
+            ],
+            "right_hip": [
+              1.3802,
+              -12.138,
+              0.9707
+            ],
+            "left_knee": [
+              1.3976,
+              -12.1421,
+              0.4375
+            ],
+            "right_knee": [
+              1.2354,
+              -12.1035,
+              0.5546
+            ],
+            "left_ankle": [
+              1.619,
+              -12.317,
+              0.0
+            ],
+            "right_ankle": [
+              1.168,
+              -11.967,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              758.62,
+              388.06,
+              0.202
+            ],
+            "left_eye": [
+              759.19,
+              382.63,
+              0.33
+            ],
+            "right_eye": [
+              762.4,
+              383.27,
+              0.02
+            ],
+            "left_ear": [
+              763.04,
+              387.19,
+              0.98
+            ],
+            "right_ear": [
+              779.99,
+              387.89,
+              0.338
+            ],
+            "left_shoulder": [
+              763.08,
+              427.28,
+              0.998
+            ],
+            "right_shoulder": [
+              789.61,
+              418.28,
+              0.976
+            ],
+            "left_elbow": [
+              741.23,
+              463.74,
+              0.993
+            ],
+            "right_elbow": [
+              769.58,
+              448.95,
+              0.708
+            ],
+            "left_wrist": [
+              720.33,
+              476.79,
+              0.993
+            ],
+            "right_wrist": [
+              737.6,
+              453.14,
+              0.971
+            ],
+            "left_hip": [
+              773.83,
+              507.29,
+              0.994
+            ],
+            "right_hip": [
+              787.34,
+              501.99,
+              0.989
+            ],
+            "left_knee": [
+              781.03,
+              563.74,
+              0.995
+            ],
+            "right_knee": [
+              760.62,
+              547.84,
+              0.996
+            ],
+            "left_ankle": [
+              805.86,
+              623.43,
+              0.986
+            ],
+            "right_ankle": [
+              741.85,
+              597.3,
+              0.996
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "both",
+          "status": "observed",
+          "age_frames": 0,
+          "grip_m": [
+            0.9472,
+            -12.0349,
+            1.2084
+          ],
+          "axis_unit": [
+            -0.3699,
+            0.088,
+            0.9249
+          ],
+          "confidence": 0.445,
+          "bbox": [
+            717.36,
+            418.43,
+            726.31,
+            470.47
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 11,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            774.065,
+            610.675
+          ],
+          "raw_feet_xyz_m": [
+            1.3979999999999997,
+            -12.145999999999999,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.3979999999999997,
+            -12.145999999999999,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            709.92,
+            365.06,
+            822.01,
+            643.98
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_eye": [
+              1.1085,
+              -12.077,
+              1.8656
+            ],
+            "left_ear": [
+              1.134,
+              -12.0831,
+              1.8401
+            ],
+            "right_ear": [
+              1.2449,
+              -12.1095,
+              1.8465
+            ],
+            "left_shoulder": [
+              1.1702,
+              -12.0917,
+              1.5456
+            ],
+            "right_shoulder": [
+              1.3268,
+              -12.129,
+              1.6286
+            ],
+            "left_elbow": [
+              1.0408,
+              -12.0608,
+              1.2377
+            ],
+            "right_elbow": [
+              1.2142,
+              -12.1022,
+              1.3785
+            ],
+            "left_wrist": [
+              0.9032,
+              -12.028,
+              1.1105
+            ],
+            "right_wrist": [
+              1.0023,
+              -12.0516,
+              1.3226
+            ],
+            "left_hip": [
+              1.3053,
+              -12.1239,
+              0.9143
+            ],
+            "right_hip": [
+              1.3795,
+              -12.1416,
+              0.9685
+            ],
+            "left_knee": [
+              1.4108,
+              -12.149,
+              0.4353
+            ],
+            "right_knee": [
+              1.2333,
+              -12.1067,
+              0.5542
+            ],
+            "left_ankle": [
+              1.623,
+              -12.324,
+              0.0
+            ],
+            "right_ankle": [
+              1.166,
+              -11.967,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              761.01,
+              388.33,
+              0.194
+            ],
+            "left_eye": [
+              761.35,
+              382.77,
+              0.306
+            ],
+            "right_eye": [
+              764.56,
+              383.57,
+              0.019
+            ],
+            "left_ear": [
+              764.82,
+              386.68,
+              0.979
+            ],
+            "right_ear": [
+              781.56,
+              387.84,
+              0.343
+            ],
+            "left_shoulder": [
+              765.98,
+              426.45,
+              0.998
+            ],
+            "right_shoulder": [
+              790.37,
+              418.42,
+              0.977
+            ],
+            "left_elbow": [
+              742.83,
+              463.39,
+              0.993
+            ],
+            "right_elbow": [
+              769.96,
+              448.79,
+              0.753
+            ],
+            "left_wrist": [
+              721.47,
+              476.59,
+              0.993
+            ],
+            "right_wrist": [
+              738.36,
+              452.0,
+              0.976
+            ],
+            "left_hip": [
+              775.93,
+              507.67,
+              0.993
+            ],
+            "right_hip": [
+              787.29,
+              502.5,
+              0.989
+            ],
+            "left_knee": [
+              782.87,
+              564.49,
+              0.995
+            ],
+            "right_knee": [
+              760.39,
+              548.12,
+              0.997
+            ],
+            "left_ankle": [
+              806.53,
+              624.02,
+              0.985
+            ],
+            "right_ankle": [
+              741.6,
+              597.33,
+              0.996
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "both",
+          "status": "observed",
+          "age_frames": 0,
+          "grip_m": [
+            0.9528,
+            -12.0398,
+            1.2166
+          ],
+          "axis_unit": [
+            -0.3485,
+            0.0829,
+            0.9336
+          ],
+          "confidence": 0.421,
+          "bbox": [
+            718.5,
+            417.2,
+            727.52,
+            468.08
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 12,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            774.565,
+            611.815
+          ],
+          "raw_feet_xyz_m": [
+            1.399,
+            -12.161,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.399,
+            -12.161,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            710.73,
+            366.44,
+            821.52,
+            643.89
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_eye": [
+              1.1236,
+              -12.0951,
+              1.8614
+            ],
+            "left_ear": [
+              1.154,
+              -12.1024,
+              1.8359
+            ],
+            "left_shoulder": [
+              1.189,
+              -12.1108,
+              1.5372
+            ],
+            "right_shoulder": [
+              1.3401,
+              -12.1469,
+              1.6284
+            ],
+            "left_elbow": [
+              1.0616,
+              -12.0803,
+              1.2311
+            ],
+            "right_elbow": [
+              1.2001,
+              -12.1134,
+              1.3933
+            ],
+            "left_wrist": [
+              0.9134,
+              -12.0449,
+              1.1207
+            ],
+            "right_wrist": [
+              0.9926,
+              -12.0638,
+              1.3274
+            ],
+            "left_hip": [
+              1.3243,
+              -12.1431,
+              0.9149
+            ],
+            "right_hip": [
+              1.382,
+              -12.1569,
+              0.9693
+            ],
+            "left_knee": [
+              1.4359,
+              -12.1698,
+              0.441
+            ],
+            "right_knee": [
+              1.234,
+              -12.1215,
+              0.5521
+            ],
+            "left_ankle": [
+              1.628,
+              -12.342,
+              0.0
+            ],
+            "right_ankle": [
+              1.165,
+              -11.979,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              763.3,
+              390.04,
+              0.286
+            ],
+            "left_eye": [
+              763.88,
+              384.48,
+              0.427
+            ],
+            "right_eye": [
+              766.86,
+              385.27,
+              0.022
+            ],
+            "left_ear": [
+              768.09,
+              388.49,
+              0.981
+            ],
+            "right_ear": [
+              783.49,
+              389.5,
+              0.228
+            ],
+            "left_shoulder": [
+              768.94,
+              428.82,
+              0.998
+            ],
+            "right_shoulder": [
+              792.7,
+              419.62,
+              0.983
+            ],
+            "left_elbow": [
+              746.0,
+              465.57,
+              0.994
+            ],
+            "right_elbow": [
+              768.43,
+              447.6,
+              0.881
+            ],
+            "left_wrist": [
+              723.27,
+              476.5,
+              0.993
+            ],
+            "right_wrist": [
+              737.27,
+              452.17,
+              0.987
+            ],
+            "left_hip": [
+              778.93,
+              508.98,
+              0.993
+            ],
+            "right_hip": [
+              787.99,
+              503.49,
+              0.99
+            ],
+            "left_knee": [
+              786.7,
+              565.4,
+              0.995
+            ],
+            "right_knee": [
+              760.72,
+              549.44,
+              0.997
+            ],
+            "left_ankle": [
+              807.55,
+              625.41,
+              0.984
+            ],
+            "right_ankle": [
+              741.58,
+              598.22,
+              0.996
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "both",
+          "status": "observed",
+          "age_frames": 0,
+          "grip_m": [
+            0.953,
+            -12.0544,
+            1.224
+          ],
+          "axis_unit": [
+            -0.3318,
+            0.0795,
+            0.94
+          ],
+          "confidence": 0.636,
+          "bbox": [
+            719.21,
+            416.02,
+            729.18,
+            471.75
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 13,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            776.2249999999999,
+            612.905
+          ],
+          "raw_feet_xyz_m": [
+            1.4099999999999993,
+            -12.176,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.4099999999999993,
+            -12.176,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            711.77,
+            367.95,
+            821.37,
+            644.36
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_eye": [
+              1.1477,
+              -12.1126,
+              1.8617
+            ],
+            "left_ear": [
+              1.1729,
+              -12.1187,
+              1.8348
+            ],
+            "left_shoulder": [
+              1.2069,
+              -12.1269,
+              1.5317
+            ],
+            "right_shoulder": [
+              1.3606,
+              -12.1641,
+              1.6277
+            ],
+            "left_elbow": [
+              1.0843,
+              -12.0973,
+              1.2289
+            ],
+            "right_elbow": [
+              1.2165,
+              -12.1292,
+              1.4081
+            ],
+            "left_wrist": [
+              0.9311,
+              -12.0603,
+              1.1268
+            ],
+            "right_wrist": [
+              1.006,
+              -12.0784,
+              1.3401
+            ],
+            "left_hip": [
+              1.3409,
+              -12.1593,
+              0.8951
+            ],
+            "right_hip": [
+              1.4009,
+              -12.1738,
+              0.954
+            ],
+            "left_knee": [
+              1.4711,
+              -12.1908,
+              0.4272
+            ],
+            "right_knee": [
+              1.2403,
+              -12.135,
+              0.5527
+            ],
+            "left_ankle": [
+              1.64,
+              -12.359,
+              0.0
+            ],
+            "right_ankle": [
+              1.174,
+              -11.991,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              767.63,
+              391.11,
+              0.209
+            ],
+            "left_eye": [
+              767.77,
+              385.57,
+              0.317
+            ],
+            "right_eye": [
+              771.35,
+              386.48,
+              0.02
+            ],
+            "left_ear": [
+              771.17,
+              389.69,
+              0.974
+            ],
+            "right_ear": [
+              788.56,
+              390.87,
+              0.286
+            ],
+            "left_shoulder": [
+              771.76,
+              430.63,
+              0.997
+            ],
+            "right_shoulder": [
+              796.05,
+              420.87,
+              0.981
+            ],
+            "left_elbow": [
+              749.46,
+              467.04,
+              0.994
+            ],
+            "right_elbow": [
+              771.31,
+              446.8,
+              0.866
+            ],
+            "left_wrist": [
+              726.05,
+              476.85,
+              0.993
+            ],
+            "right_wrist": [
+              739.57,
+              451.56,
+              0.988
+            ],
+            "left_hip": [
+              781.22,
+              512.5,
+              0.993
+            ],
+            "right_hip": [
+              790.7,
+              506.54,
+              0.989
+            ],
+            "left_knee": [
+              791.55,
+              568.46,
+              0.995
+            ],
+            "right_knee": [
+              761.82,
+              550.37,
+              0.996
+            ],
+            "left_ankle": [
+              809.55,
+              626.72,
+              0.983
+            ],
+            "right_ankle": [
+              742.9,
+              599.09,
+              0.996
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "both",
+          "status": "observed",
+          "age_frames": 0,
+          "grip_m": [
+            0.9686,
+            -12.0694,
+            1.2334
+          ],
+          "axis_unit": [
+            -0.3427,
+            0.083,
+            0.9358
+          ],
+          "confidence": 0.746,
+          "bbox": [
+            720.77,
+            413.97,
+            731.37,
+            470.88
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 14,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            776.845,
+            613.995
+          ],
+          "raw_feet_xyz_m": [
+            1.4129999999999994,
+            -12.19,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.4129999999999994,
+            -12.19,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            712.45,
+            368.71,
+            821.0,
+            644.72
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_eye": [
+              1.1676,
+              -12.1304,
+              1.8675
+            ],
+            "left_ear": [
+              1.1923,
+              -12.1364,
+              1.8405
+            ],
+            "left_shoulder": [
+              1.2357,
+              -12.147,
+              1.5289
+            ],
+            "right_shoulder": [
+              1.3722,
+              -12.1801,
+              1.6252
+            ],
+            "left_elbow": [
+              1.1038,
+              -12.1149,
+              1.229
+            ],
+            "right_elbow": [
+              1.2252,
+              -12.1444,
+              1.4193
+            ],
+            "left_wrist": [
+              0.9429,
+              -12.0759,
+              1.1258
+            ],
+            "right_wrist": [
+              1.0172,
+              -12.0939,
+              1.3497
+            ],
+            "left_hip": [
+              1.3561,
+              -12.1762,
+              0.8843
+            ],
+            "right_hip": [
+              1.4005,
+              -12.187,
+              0.9418
+            ],
+            "left_knee": [
+              1.4939,
+              -12.2096,
+              0.4304
+            ],
+            "right_knee": [
+              1.2455,
+              -12.1493,
+              0.5448
+            ],
+            "left_ankle": [
+              1.648,
+              -12.376,
+              0.0
+            ],
+            "right_ankle": [
+              1.172,
+              -12.003,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              770.86,
+              391.59,
+              0.232
+            ],
+            "left_eye": [
+              771.14,
+              385.93,
+              0.374
+            ],
+            "right_eye": [
+              774.41,
+              386.78,
+              0.022
+            ],
+            "left_ear": [
+              774.48,
+              390.07,
+              0.981
+            ],
+            "right_ear": [
+              791.13,
+              391.17,
+              0.293
+            ],
+            "left_shoulder": [
+              776.26,
+              432.37,
+              0.998
+            ],
+            "right_shoulder": [
+              798.06,
+              422.25,
+              0.982
+            ],
+            "left_elbow": [
+              752.53,
+              468.27,
+              0.994
+            ],
+            "right_elbow": [
+              773.04,
+              446.38,
+              0.882
+            ],
+            "left_wrist": [
+              727.93,
+              478.07,
+              0.993
+            ],
+            "right_wrist": [
+              741.56,
+              451.4,
+              0.991
+            ],
+            "left_hip": [
+              783.49,
+              515.01,
+              0.992
+            ],
+            "right_hip": [
+              790.74,
+              508.94,
+              0.988
+            ],
+            "left_knee": [
+              795.02,
+              569.51,
+              0.994
+            ],
+            "right_knee": [
+              762.66,
+              552.33,
+              0.996
+            ],
+            "left_ankle": [
+              810.87,
+              628.01,
+              0.982
+            ],
+            "right_ankle": [
+              742.82,
+              599.98,
+              0.996
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "both",
+          "status": "observed",
+          "age_frames": 0,
+          "grip_m": [
+            0.98,
+            -12.0849,
+            1.2377
+          ],
+          "axis_unit": [
+            -0.2799,
+            0.0679,
+            0.9576
+          ],
+          "confidence": 0.476,
+          "bbox": [
+            724.08,
+            413.93,
+            735.33,
+            471.69
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 15,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            776.935,
+            614.24
+          ],
+          "raw_feet_xyz_m": [
+            1.4129999999999994,
+            -12.193,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.4129999999999994,
+            -12.190999999999999,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            713.95,
+            370.31,
+            820.84,
+            644.93
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_ear": [
+              1.2134,
+              -12.1425,
+              1.8326
+            ],
+            "left_shoulder": [
+              1.2628,
+              -12.1545,
+              1.5213
+            ],
+            "right_shoulder": [
+              1.3907,
+              -12.1856,
+              1.6242
+            ],
+            "left_elbow": [
+              1.1237,
+              -12.1208,
+              1.2196
+            ],
+            "right_elbow": [
+              1.2407,
+              -12.1492,
+              1.4278
+            ],
+            "left_wrist": [
+              0.9621,
+              -12.0815,
+              1.1129
+            ],
+            "right_wrist": [
+              1.0425,
+              -12.101,
+              1.3446
+            ],
+            "left_hip": [
+              1.3851,
+              -12.1842,
+              0.876
+            ],
+            "right_hip": [
+              1.4136,
+              -12.1911,
+              0.9373
+            ],
+            "left_knee": [
+              1.524,
+              -12.218,
+              0.4326
+            ],
+            "right_knee": [
+              1.2553,
+              -12.1527,
+              0.5659
+            ],
+            "left_ankle": [
+              1.645,
+              -12.383,
+              0.0
+            ],
+            "right_ankle": [
+              1.175,
+              -11.997,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              774.47,
+              392.61,
+              0.179
+            ],
+            "left_eye": [
+              774.6,
+              387.15,
+              0.296
+            ],
+            "right_eye": [
+              778.17,
+              387.87,
+              0.018
+            ],
+            "left_ear": [
+              777.62,
+              391.71,
+              0.976
+            ],
+            "right_ear": [
+              794.58,
+              392.51,
+              0.292
+            ],
+            "left_shoulder": [
+              780.23,
+              434.07,
+              0.997
+            ],
+            "right_shoulder": [
+              800.88,
+              422.92,
+              0.979
+            ],
+            "left_elbow": [
+              755.35,
+              470.02,
+              0.993
+            ],
+            "right_elbow": [
+              775.52,
+              445.77,
+              0.888
+            ],
+            "left_wrist": [
+              730.57,
+              480.22,
+              0.992
+            ],
+            "right_wrist": [
+              745.24,
+              452.72,
+              0.992
+            ],
+            "left_hip": [
+              787.53,
+              516.73,
+              0.991
+            ],
+            "right_hip": [
+              792.6,
+              509.93,
+              0.987
+            ],
+            "left_knee": [
+              799.25,
+              570.01,
+              0.993
+            ],
+            "right_knee": [
+              764.4,
+              550.34,
+              0.995
+            ],
+            "left_ankle": [
+              810.73,
+              628.75,
+              0.981
+            ],
+            "right_ankle": [
+              743.14,
+              599.73,
+              0.995
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "both",
+          "status": "observed",
+          "age_frames": 0,
+          "grip_m": [
+            1.0023,
+            -12.0912,
+            1.2288
+          ],
+          "axis_unit": [
+            -0.3624,
+            0.088,
+            0.9279
+          ],
+          "confidence": 0.694,
+          "bbox": [
+            726.06,
+            414.89,
+            735.72,
+            476.0
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 16,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            777.3,
+            614.0550000000001
+          ],
+          "raw_feet_xyz_m": [
+            1.4159999999999995,
+            -12.190999999999999,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.4159999999999995,
+            -12.190999999999999,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            714.43,
+            371.19,
+            821.25,
+            644.99
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_eye": [
+              1.2109,
+              -12.1411,
+              1.859
+            ],
+            "left_ear": [
+              1.237,
+              -12.1475,
+              1.8237
+            ],
+            "left_shoulder": [
+              1.2842,
+              -12.1589,
+              1.5116
+            ],
+            "right_shoulder": [
+              1.4155,
+              -12.1909,
+              1.6192
+            ],
+            "left_elbow": [
+              1.1477,
+              -12.1257,
+              1.2057
+            ],
+            "right_elbow": [
+              1.2662,
+              -12.1546,
+              1.4282
+            ],
+            "left_wrist": [
+              0.9791,
+              -12.0847,
+              1.0968
+            ],
+            "right_wrist": [
+              1.0572,
+              -12.1037,
+              1.3322
+            ],
+            "left_hip": [
+              1.4008,
+              -12.1873,
+              0.8913
+            ],
+            "right_hip": [
+              1.4291,
+              -12.1942,
+              0.9532
+            ],
+            "left_knee": [
+              1.5388,
+              -12.2209,
+              0.4439
+            ],
+            "right_knee": [
+              1.2733,
+              -12.1563,
+              0.5694
+            ],
+            "left_ankle": [
+              1.645,
+              -12.388,
+              0.0
+            ],
+            "right_ankle": [
+              1.181,
+              -11.991,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              777.21,
+              393.17,
+              0.218
+            ],
+            "left_eye": [
+              777.57,
+              387.91,
+              0.377
+            ],
+            "right_eye": [
+              781.06,
+              388.64,
+              0.018
+            ],
+            "left_ear": [
+              780.98,
+              393.18,
+              0.982
+            ],
+            "right_ear": [
+              797.64,
+              393.96,
+              0.234
+            ],
+            "left_shoulder": [
+              783.17,
+              435.54,
+              0.997
+            ],
+            "right_shoulder": [
+              804.41,
+              423.86,
+              0.977
+            ],
+            "left_elbow": [
+              758.57,
+              472.01,
+              0.993
+            ],
+            "right_elbow": [
+              779.21,
+              446.01,
+              0.88
+            ],
+            "left_wrist": [
+              732.76,
+              482.32,
+              0.993
+            ],
+            "right_wrist": [
+              747.17,
+              454.38,
+              0.993
+            ],
+            "left_hip": [
+              789.95,
+              515.0,
+              0.99
+            ],
+            "right_hip": [
+              795.01,
+              508.11,
+              0.985
+            ],
+            "left_knee": [
+              801.41,
+              568.81,
+              0.993
+            ],
+            "right_knee": [
+              766.9,
+              550.07,
+              0.994
+            ],
+            "left_ankle": [
+              810.82,
+              628.98,
+              0.982
+            ],
+            "right_ankle": [
+              743.78,
+              599.13,
+              0.995
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "both",
+          "status": "observed",
+          "age_frames": 0,
+          "grip_m": [
+            1.0181,
+            -12.0942,
+            1.2145
+          ],
+          "axis_unit": [
+            -0.3738,
+            0.0909,
+            0.923
+          ],
+          "confidence": 0.699,
+          "bbox": [
+            727.94,
+            416.58,
+            737.24,
+            477.73
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 17,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            777.935,
+            613.31
+          ],
+          "raw_feet_xyz_m": [
+            1.423,
+            -12.181,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.423,
+            -12.181,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            714.72,
+            371.25,
+            822.83,
+            644.94
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_eye": [
+              1.2327,
+              -12.1346,
+              1.8561
+            ],
+            "left_ear": [
+              1.2601,
+              -12.1412,
+              1.821
+            ],
+            "left_shoulder": [
+              1.3026,
+              -12.1516,
+              1.5033
+            ],
+            "right_shoulder": [
+              1.437,
+              -12.1844,
+              1.611
+            ],
+            "left_elbow": [
+              1.1773,
+              -12.121,
+              1.1872
+            ],
+            "right_elbow": [
+              1.2913,
+              -12.1489,
+              1.4182
+            ],
+            "left_wrist": [
+              1.0113,
+              -12.0805,
+              1.078
+            ],
+            "right_wrist": [
+              1.0841,
+              -12.0983,
+              1.3153
+            ],
+            "left_hip": [
+              1.4133,
+              -12.1786,
+              0.8834
+            ],
+            "right_hip": [
+              1.4486,
+              -12.1872,
+              0.9457
+            ],
+            "left_knee": [
+              1.5559,
+              -12.2134,
+              0.4419
+            ],
+            "right_knee": [
+              1.2882,
+              -12.1481,
+              0.5644
+            ],
+            "left_ankle": [
+              1.646,
+              -12.384,
+              0.0
+            ],
+            "right_ankle": [
+              1.193,
+              -11.976,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              780.12,
+              393.21,
+              0.232
+            ],
+            "left_eye": [
+              780.54,
+              387.99,
+              0.406
+            ],
+            "right_eye": [
+              783.89,
+              388.84,
+              0.018
+            ],
+            "left_ear": [
+              784.13,
+              393.26,
+              0.984
+            ],
+            "right_ear": [
+              800.5,
+              394.28,
+              0.206
+            ],
+            "left_shoulder": [
+              785.48,
+              436.19,
+              0.997
+            ],
+            "right_shoulder": [
+              807.15,
+              424.59,
+              0.977
+            ],
+            "left_elbow": [
+              762.35,
+              474.06,
+              0.993
+            ],
+            "right_elbow": [
+              782.47,
+              446.98,
+              0.885
+            ],
+            "left_wrist": [
+              736.94,
+              484.41,
+              0.992
+            ],
+            "right_wrist": [
+              750.64,
+              456.23,
+              0.994
+            ],
+            "left_hip": [
+              791.32,
+              515.32,
+              0.99
+            ],
+            "right_hip": [
+              797.38,
+              508.53,
+              0.984
+            ],
+            "left_knee": [
+              803.46,
+              568.45,
+              0.993
+            ],
+            "right_knee": [
+              768.66,
+              550.03,
+              0.994
+            ],
+            "left_ankle": [
+              810.81,
+              628.63,
+              0.984
+            ],
+            "right_ankle": [
+              745.06,
+              597.99,
+              0.995
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "both",
+          "status": "observed",
+          "age_frames": 0,
+          "grip_m": [
+            1.0477,
+            -12.0894,
+            1.1966
+          ],
+          "axis_unit": [
+            -0.4204,
+            0.1026,
+            0.9015
+          ],
+          "confidence": 0.658,
+          "bbox": [
+            730.6,
+            418.38,
+            739.38,
+            479.34
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 18,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            778.38,
+            613.275
+          ],
+          "raw_feet_xyz_m": [
+            1.4259999999999993,
+            -12.181,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.4259999999999993,
+            -12.181,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            715.57,
+            371.85,
+            824.25,
+            645.02
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_eye": [
+              1.2524,
+              -12.1385,
+              1.858
+            ],
+            "left_ear": [
+              1.2813,
+              -12.1456,
+              1.8254
+            ],
+            "left_shoulder": [
+              1.3226,
+              -12.1557,
+              1.4982
+            ],
+            "right_shoulder": [
+              1.4501,
+              -12.1869,
+              1.6148
+            ],
+            "left_elbow": [
+              1.2121,
+              -12.1287,
+              1.1878
+            ],
+            "right_elbow": [
+              1.3014,
+              -12.1505,
+              1.4149
+            ],
+            "left_wrist": [
+              1.0397,
+              -12.0865,
+              1.062
+            ],
+            "right_wrist": [
+              1.0984,
+              -12.1009,
+              1.3048
+            ],
+            "left_hip": [
+              1.4271,
+              -12.1813,
+              0.8705
+            ],
+            "right_hip": [
+              1.4514,
+              -12.1872,
+              0.9349
+            ],
+            "left_knee": [
+              1.5664,
+              -12.2153,
+              0.4312
+            ],
+            "right_knee": [
+              1.2994,
+              -12.15,
+              0.5551
+            ],
+            "left_ankle": [
+              1.646,
+              -12.381,
+              0.0
+            ],
+            "right_ankle": [
+              1.199,
+              -11.978,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              783.2,
+              393.5,
+              0.207
+            ],
+            "left_eye": [
+              783.52,
+              388.05,
+              0.379
+            ],
+            "right_eye": [
+              786.9,
+              389.17,
+              0.018
+            ],
+            "left_ear": [
+              787.37,
+              393.01,
+              0.983
+            ],
+            "right_ear": [
+              803.57,
+              394.49,
+              0.225
+            ],
+            "left_shoulder": [
+              788.34,
+              437.18,
+              0.997
+            ],
+            "right_shoulder": [
+              809.14,
+              424.28,
+              0.976
+            ],
+            "left_elbow": [
+              767.37,
+              474.57,
+              0.991
+            ],
+            "right_elbow": [
+              783.88,
+              447.53,
+              0.882
+            ],
+            "left_wrist": [
+              740.79,
+              486.84,
+              0.99
+            ],
+            "right_wrist": [
+              752.57,
+              457.77,
+              0.994
+            ],
+            "left_hip": [
+              793.03,
+              517.05,
+              0.99
+            ],
+            "right_hip": [
+              797.58,
+              509.82,
+              0.984
+            ],
+            "left_knee": [
+              804.69,
+              569.76,
+              0.993
+            ],
+            "right_knee": [
+              770.05,
+              551.22,
+              0.994
+            ],
+            "left_ankle": [
+              810.8,
+              628.43,
+              0.985
+            ],
+            "right_ankle": [
+              745.96,
+              598.12,
+              0.995
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "both",
+          "status": "observed",
+          "age_frames": 0,
+          "grip_m": [
+            1.069,
+            -12.0937,
+            1.1834
+          ],
+          "axis_unit": [
+            -0.4792,
+            0.1172,
+            0.8698
+          ],
+          "confidence": 0.704,
+          "bbox": [
+            732.56,
+            423.07,
+            741.77,
+            483.17
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 19,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            778.74,
+            613.6800000000001
+          ],
+          "raw_feet_xyz_m": [
+            1.428,
+            -12.186,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.428,
+            -12.181,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            716.54,
+            372.1,
+            825.94,
+            645.11
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_eye": [
+              1.2705,
+              -12.1424,
+              1.8663
+            ],
+            "left_ear": [
+              1.2964,
+              -12.1487,
+              1.8258
+            ],
+            "left_shoulder": [
+              1.3336,
+              -12.1579,
+              1.49
+            ],
+            "right_shoulder": [
+              1.4657,
+              -12.1902,
+              1.61
+            ],
+            "left_elbow": [
+              1.2289,
+              -12.1322,
+              1.1787
+            ],
+            "right_elbow": [
+              1.2988,
+              -12.1493,
+              1.4136
+            ],
+            "left_wrist": [
+              1.0759,
+              -12.0947,
+              1.0443
+            ],
+            "right_wrist": [
+              1.114,
+              -12.104,
+              1.2824
+            ],
+            "left_hip": [
+              1.4369,
+              -12.1832,
+              0.8548
+            ],
+            "right_hip": [
+              1.4552,
+              -12.1877,
+              0.9217
+            ],
+            "left_knee": [
+              1.5822,
+              -12.2188,
+              0.4061
+            ],
+            "right_knee": [
+              1.3011,
+              -12.1499,
+              0.5465
+            ],
+            "left_ankle": [
+              1.645,
+              -12.384,
+              0.0
+            ],
+            "right_ankle": [
+              1.205,
+              -11.975,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              786.0,
+              392.86,
+              0.219
+            ],
+            "left_eye": [
+              786.49,
+              387.53,
+              0.38
+            ],
+            "right_eye": [
+              789.63,
+              388.62,
+              0.023
+            ],
+            "left_ear": [
+              789.76,
+              393.51,
+              0.983
+            ],
+            "right_ear": [
+              805.93,
+              394.95,
+              0.272
+            ],
+            "left_shoulder": [
+              789.93,
+              438.73,
+              0.996
+            ],
+            "right_shoulder": [
+              811.5,
+              425.49,
+              0.98
+            ],
+            "left_elbow": [
+              769.75,
+              476.32,
+              0.988
+            ],
+            "right_elbow": [
+              783.59,
+              447.95,
+              0.893
+            ],
+            "left_wrist": [
+              745.81,
+              489.98,
+              0.991
+            ],
+            "right_wrist": [
+              754.6,
+              461.18,
+              0.993
+            ],
+            "left_hip": [
+              794.26,
+              519.41,
+              0.991
+            ],
+            "right_hip": [
+              797.99,
+              511.79,
+              0.987
+            ],
+            "left_knee": [
+              806.49,
+              573.14,
+              0.994
+            ],
+            "right_knee": [
+              770.23,
+              552.55,
+              0.994
+            ],
+            "left_ankle": [
+              810.79,
+              629.08,
+              0.985
+            ],
+            "right_ankle": [
+              746.69,
+              598.28,
+              0.995
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "both",
+          "status": "observed",
+          "age_frames": 0,
+          "grip_m": [
+            1.095,
+            -12.0994,
+            1.1633
+          ],
+          "axis_unit": [
+            -0.5198,
+            0.1273,
+            0.8447
+          ],
+          "confidence": 0.671,
+          "bbox": [
+            734.3,
+            426.61,
+            744.04,
+            485.02
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 20,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            779.05,
+            613.225
+          ],
+          "raw_feet_xyz_m": [
+            1.4319999999999995,
+            -12.18,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.4319999999999995,
+            -12.18,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            717.73,
+            372.49,
+            827.43,
+            645.09
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_eye": [
+              1.2837,
+              -12.1436,
+              1.8554
+            ],
+            "left_ear": [
+              1.3164,
+              -12.1516,
+              1.819
+            ],
+            "left_shoulder": [
+              1.3604,
+              -12.1624,
+              1.4912
+            ],
+            "right_shoulder": [
+              1.4756,
+              -12.1907,
+              1.6129
+            ],
+            "left_elbow": [
+              1.2621,
+              -12.1383,
+              1.1733
+            ],
+            "right_elbow": [
+              1.3047,
+              -12.1487,
+              1.4093
+            ],
+            "left_wrist": [
+              1.1078,
+              -12.1004,
+              1.0232
+            ],
+            "right_wrist": [
+              1.1249,
+              -12.1046,
+              1.2629
+            ],
+            "left_hip": [
+              1.4488,
+              -12.1841,
+              0.8633
+            ],
+            "right_hip": [
+              1.4572,
+              -12.1862,
+              0.9309
+            ],
+            "left_knee": [
+              1.5793,
+              -12.2162,
+              0.4229
+            ],
+            "right_knee": [
+              1.3136,
+              -12.1509,
+              0.5536
+            ],
+            "left_ankle": [
+              1.644,
+              -12.388,
+              0.0
+            ],
+            "right_ankle": [
+              1.212,
+              -11.969,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              787.25,
+              394.18,
+              0.284
+            ],
+            "left_eye": [
+              788.13,
+              388.83,
+              0.473
+            ],
+            "right_eye": [
+              790.8,
+              389.64,
+              0.026
+            ],
+            "left_ear": [
+              792.48,
+              394.37,
+              0.984
+            ],
+            "right_ear": [
+              806.5,
+              395.13,
+              0.197
+            ],
+            "left_shoulder": [
+              793.73,
+              438.62,
+              0.996
+            ],
+            "right_shoulder": [
+              812.83,
+              424.85,
+              0.981
+            ],
+            "left_elbow": [
+              774.32,
+              477.12,
+              0.989
+            ],
+            "right_elbow": [
+              784.22,
+              448.14,
+              0.905
+            ],
+            "left_wrist": [
+              749.95,
+              492.65,
+              0.992
+            ],
+            "right_wrist": [
+              755.78,
+              463.37,
+              0.991
+            ],
+            "left_hip": [
+              795.92,
+              518.11,
+              0.991
+            ],
+            "right_hip": [
+              798.27,
+              510.22,
+              0.987
+            ],
+            "left_knee": [
+              806.24,
+              570.72,
+              0.994
+            ],
+            "right_knee": [
+              771.93,
+              551.46,
+              0.995
+            ],
+            "left_ankle": [
+              810.66,
+              629.01,
+              0.985
+            ],
+            "right_ankle": [
+              747.44,
+              597.44,
+              0.995
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "both",
+          "status": "stale",
+          "age_frames": 1,
+          "grip_m": [
+            1.1164,
+            -12.1025,
+            1.1431
+          ],
+          "axis_unit": [
+            -0.5198,
+            0.1273,
+            0.8447
+          ],
+          "confidence": 0.671,
+          "bbox": [
+            734.3,
+            426.61,
+            744.04,
+            485.02
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 21,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            779.5250000000001,
+            612.595
+          ],
+          "raw_feet_xyz_m": [
+            1.4369999999999994,
+            -12.172,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.4369999999999994,
+            -12.172,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            718.65,
+            372.8,
+            828.83,
+            644.97
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_eye": [
+              1.2964,
+              -12.1374,
+              1.8514
+            ],
+            "left_ear": [
+              1.3305,
+              -12.1458,
+              1.815
+            ],
+            "left_shoulder": [
+              1.376,
+              -12.157,
+              1.486
+            ],
+            "right_shoulder": [
+              1.4918,
+              -12.1855,
+              1.6117
+            ],
+            "left_elbow": [
+              1.2771,
+              -12.1327,
+              1.1534
+            ],
+            "right_elbow": [
+              1.3149,
+              -12.142,
+              1.4136
+            ],
+            "left_wrist": [
+              1.1288,
+              -12.0962,
+              0.9916
+            ],
+            "right_wrist": [
+              1.1466,
+              -12.1005,
+              1.2524
+            ],
+            "left_hip": [
+              1.4556,
+              -12.1766,
+              0.8644
+            ],
+            "right_hip": [
+              1.4735,
+              -12.181,
+              0.9372
+            ],
+            "left_knee": [
+              1.5834,
+              -12.208,
+              0.4254
+            ],
+            "right_knee": [
+              1.3173,
+              -12.1425,
+              0.569
+            ],
+            "left_ankle": [
+              1.644,
+              -12.388,
+              0.0
+            ],
+            "right_ankle": [
+              1.222,
+              -11.952,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              788.83,
+              394.4,
+              0.258
+            ],
+            "left_eye": [
+              789.75,
+              389.05,
+              0.442
+            ],
+            "right_eye": [
+              792.38,
+              389.86,
+              0.022
+            ],
+            "left_ear": [
+              794.31,
+              394.61,
+              0.983
+            ],
+            "right_ear": [
+              808.07,
+              395.37,
+              0.178
+            ],
+            "left_shoulder": [
+              795.71,
+              438.97,
+              0.996
+            ],
+            "right_shoulder": [
+              814.95,
+              424.71,
+              0.983
+            ],
+            "left_elbow": [
+              775.97,
+              479.22,
+              0.991
+            ],
+            "right_elbow": [
+              785.57,
+              447.17,
+              0.926
+            ],
+            "left_wrist": [
+              752.33,
+              496.22,
+              0.993
+            ],
+            "right_wrist": [
+              758.59,
+              464.46,
+              0.99
+            ],
+            "left_hip": [
+              796.68,
+              517.44,
+              0.989
+            ],
+            "right_hip": [
+              800.48,
+              509.11,
+              0.987
+            ],
+            "left_knee": [
+              806.64,
+              569.83,
+              0.993
+            ],
+            "right_knee": [
+              772.5,
+              549.1,
+              0.995
+            ],
+            "left_ankle": [
+              810.69,
+              628.99,
+              0.986
+            ],
+            "right_ankle": [
+              748.36,
+              596.2,
+              0.996
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "both",
+          "status": "observed",
+          "age_frames": 0,
+          "grip_m": [
+            1.1377,
+            -12.0984,
+            1.122
+          ],
+          "axis_unit": [
+            -0.6936,
+            0.1706,
+            0.6998
+          ],
+          "confidence": 0.654,
+          "bbox": [
+            736.3,
+            438.82,
+            749.4,
+            494.32
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 22,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            779.6800000000001,
+            612.605
+          ],
+          "raw_feet_xyz_m": [
+            1.4379999999999997,
+            -12.172,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.4369999999999994,
+            -12.172,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            719.35,
+            372.69,
+            829.84,
+            645.1
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "left_eye": [
+              1.313,
+              -12.1415,
+              1.8569
+            ],
+            "left_ear": [
+              1.3453,
+              -12.1494,
+              1.8182
+            ],
+            "left_shoulder": [
+              1.3942,
+              -12.1615,
+              1.4878
+            ],
+            "right_shoulder": [
+              1.4969,
+              -12.1867,
+              1.6156
+            ],
+            "left_elbow": [
+              1.3008,
+              -12.1385,
+              1.144
+            ],
+            "right_elbow": [
+              1.3179,
+              -12.1427,
+              1.4255
+            ],
+            "left_wrist": [
+              1.1608,
+              -12.104,
+              0.9747
+            ],
+            "right_wrist": [
+              1.1505,
+              -12.1015,
+              1.2556
+            ],
+            "left_hip": [
+              1.4626,
+              -12.1783,
+              0.867
+            ],
+            "right_hip": [
+              1.4687,
+              -12.1798,
+              0.9417
+            ],
+            "left_knee": [
+              1.5865,
+              -12.2088,
+              0.4233
+            ],
+            "right_knee": [
+              1.3188,
+              -12.1429,
+              0.5788
+            ],
+            "left_ankle": [
+              1.642,
+              -12.392,
+              0.0
+            ],
+            "right_ankle": [
+              1.224,
+              -11.949,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              791.48,
+              393.88,
+              0.295
+            ],
+            "left_eye": [
+              792.49,
+              388.62,
+              0.467
+            ],
+            "right_eye": [
+              794.78,
+              389.42,
+              0.024
+            ],
+            "left_ear": [
+              796.72,
+              394.46,
+              0.98
+            ],
+            "right_ear": [
+              809.47,
+              395.23,
+              0.145
+            ],
+            "left_shoulder": [
+              798.56,
+              439.08,
+              0.996
+            ],
+            "right_shoulder": [
+              815.92,
+              424.29,
+              0.982
+            ],
+            "left_elbow": [
+              779.38,
+              480.83,
+              0.989
+            ],
+            "right_elbow": [
+              786.34,
+              445.7,
+              0.938
+            ],
+            "left_wrist": [
+              756.79,
+              498.85,
+              0.991
+            ],
+            "right_wrist": [
+              759.34,
+              464.13,
+              0.991
+            ],
+            "left_hip": [
+              797.85,
+              517.26,
+              0.99
+            ],
+            "right_hip": [
+              800.01,
+              508.49,
+              0.987
+            ],
+            "left_knee": [
+              807.15,
+              570.12,
+              0.994
+            ],
+            "right_knee": [
+              773.0,
+              548.02,
+              0.995
+            ],
+            "left_ankle": [
+              810.62,
+              629.28,
+              0.987
+            ],
+            "right_ankle": [
+              748.74,
+              595.93,
+              0.996
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "both",
+          "status": "observed",
+          "age_frames": 0,
+          "grip_m": [
+            1.1556,
+            -12.1028,
+            1.1152
+          ],
+          "axis_unit": [
+            -0.8484,
+            0.2091,
+            0.4863
+          ],
+          "confidence": 0.568,
+          "bbox": [
+            736.18,
+            446.64,
+            751.09,
+            497.66
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 23,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            779.775,
+            613.335
+          ],
+          "raw_feet_xyz_m": [
+            1.4369999999999994,
+            -12.182,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.4369999999999994,
+            -12.182,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            719.59,
+            372.79,
+            830.58,
+            645.13
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "nose": [
+              1.3168,
+              -12.1524,
+              1.8218
+            ],
+            "left_eye": [
+              1.3214,
+              -12.1535,
+              1.8604
+            ],
+            "left_ear": [
+              1.3566,
+              -12.1622,
+              1.8212
+            ],
+            "left_shoulder": [
+              1.3986,
+              -12.1725,
+              1.4957
+            ],
+            "right_shoulder": [
+              1.5027,
+              -12.1982,
+              1.6186
+            ],
+            "left_elbow": [
+              1.3079,
+              -12.1502,
+              1.1366
+            ],
+            "right_elbow": [
+              1.3124,
+              -12.1513,
+              1.449
+            ],
+            "left_wrist": [
+              1.1767,
+              -12.1179,
+              0.956
+            ],
+            "right_wrist": [
+              1.1459,
+              -12.1103,
+              1.2796
+            ],
+            "left_hip": [
+              1.4634,
+              -12.1885,
+              0.8736
+            ],
+            "right_hip": [
+              1.4727,
+              -12.1908,
+              0.9444
+            ],
+            "left_knee": [
+              1.5906,
+              -12.2198,
+              0.4261
+            ],
+            "right_knee": [
+              1.3155,
+              -12.1521,
+              0.5719
+            ],
+            "left_ankle": [
+              1.645,
+              -12.4,
+              0.0
+            ],
+            "right_ankle": [
+              1.222,
+              -11.96,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              792.61,
+              394.04,
+              0.334
+            ],
+            "left_eye": [
+              793.91,
+              388.89,
+              0.534
+            ],
+            "right_eye": [
+              795.81,
+              389.66,
+              0.024
+            ],
+            "left_ear": [
+              798.58,
+              394.87,
+              0.984
+            ],
+            "right_ear": [
+              810.26,
+              395.58,
+              0.112
+            ],
+            "left_shoulder": [
+              799.45,
+              438.79,
+              0.996
+            ],
+            "right_shoulder": [
+              816.98,
+              424.65,
+              0.985
+            ],
+            "left_elbow": [
+              780.36,
+              482.56,
+              0.99
+            ],
+            "right_elbow": [
+              786.0,
+              443.22,
+              0.95
+            ],
+            "left_wrist": [
+              758.83,
+              502.1,
+              0.99
+            ],
+            "right_wrist": [
+              759.08,
+              461.69,
+              0.99
+            ],
+            "left_hip": [
+              798.18,
+              517.22,
+              0.99
+            ],
+            "right_hip": [
+              800.72,
+              508.94,
+              0.987
+            ],
+            "left_knee": [
+              807.86,
+              570.63,
+              0.993
+            ],
+            "right_knee": [
+              772.5,
+              549.48,
+              0.994
+            ],
+            "left_ankle": [
+              811.01,
+              629.9,
+              0.986
+            ],
+            "right_ankle": [
+              748.54,
+              596.77,
+              0.995
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "both",
+          "status": "stale",
+          "age_frames": 1,
+          "grip_m": [
+            1.1613,
+            -12.1141,
+            1.1178
+          ],
+          "axis_unit": [
+            -0.8484,
+            0.2091,
+            0.4863
+          ],
+          "confidence": 0.568,
+          "bbox": [
+            736.18,
+            446.64,
+            751.09,
+            497.66
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 24,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            779.7,
+            613.79
+          ],
+          "raw_feet_xyz_m": [
+            1.436,
+            -12.188,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.4369999999999994,
+            -12.182,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            719.61,
+            373.42,
+            831.03,
+            644.93
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "nose": [
+              1.3297,
+              -12.1555,
+              1.8274
+            ],
+            "left_eye": [
+              1.3356,
+              -12.157,
+              1.8669
+            ],
+            "left_ear": [
+              1.3732,
+              -12.1663,
+              1.8287
+            ],
+            "left_shoulder": [
+              1.399,
+              -12.1726,
+              1.4973
+            ],
+            "right_shoulder": [
+              1.5139,
+              -12.201,
+              1.6265
+            ],
+            "left_elbow": [
+              1.323,
+              -12.1539,
+              1.1388
+            ],
+            "right_elbow": [
+              1.3278,
+              -12.1551,
+              1.507
+            ],
+            "left_wrist": [
+              1.21,
+              -12.126,
+              0.9245
+            ],
+            "right_wrist": [
+              1.1245,
+              -12.1049,
+              1.3718
+            ],
+            "left_hip": [
+              1.4586,
+              -12.1873,
+              0.8887
+            ],
+            "right_hip": [
+              1.4749,
+              -12.1913,
+              0.9617
+            ],
+            "left_knee": [
+              1.5944,
+              -12.2208,
+              0.4224
+            ],
+            "right_knee": [
+              1.3129,
+              -12.1514,
+              0.576
+            ],
+            "left_ankle": [
+              1.647,
+              -12.395,
+              0.0
+            ],
+            "right_ankle": [
+              1.219,
+              -11.965,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              794.64,
+              393.89,
+              0.336
+            ],
+            "left_eye": [
+              796.17,
+              388.63,
+              0.529
+            ],
+            "right_eye": [
+              797.86,
+              389.62,
+              0.021
+            ],
+            "left_ear": [
+              801.23,
+              394.53,
+              0.984
+            ],
+            "right_ear": [
+              812.53,
+              395.55,
+              0.098
+            ],
+            "left_shoulder": [
+              799.55,
+              438.98,
+              0.997
+            ],
+            "right_shoulder": [
+              818.81,
+              424.2,
+              0.983
+            ],
+            "left_elbow": [
+              782.56,
+              482.98,
+              0.99
+            ],
+            "right_elbow": [
+              789.2,
+              436.39,
+              0.897
+            ],
+            "left_wrist": [
+              763.08,
+              506.92,
+              0.991
+            ],
+            "right_wrist": [
+              757.24,
+              450.0,
+              0.977
+            ],
+            "left_hip": [
+              797.76,
+              515.77,
+              0.991
+            ],
+            "right_hip": [
+              801.35,
+              507.34,
+              0.986
+            ],
+            "left_knee": [
+              808.32,
+              571.56,
+              0.993
+            ],
+            "right_knee": [
+              772.18,
+              549.41,
+              0.994
+            ],
+            "left_ankle": [
+              811.18,
+              630.0,
+              0.984
+            ],
+            "right_ankle": [
+              748.22,
+              597.58,
+              0.995
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "both",
+          "status": "stale",
+          "age_frames": 2,
+          "grip_m": [
+            1.1673,
+            -12.1154,
+            1.1482
+          ],
+          "axis_unit": [
+            -0.8484,
+            0.2091,
+            0.4863
+          ],
+          "confidence": 0.568,
+          "bbox": [
+            736.18,
+            446.64,
+            751.09,
+            497.66
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": null,
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 25,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            780.21,
+            613.34
+          ],
+          "raw_feet_xyz_m": [
+            1.4399999999999995,
+            -12.182,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.4399999999999995,
+            -12.184,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            719.7,
+            373.28,
+            831.14,
+            644.8
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "nose": [
+              1.3314,
+              -12.1572,
+              1.8182
+            ],
+            "left_eye": [
+              1.3381,
+              -12.1588,
+              1.8587
+            ],
+            "left_ear": [
+              1.3796,
+              -12.1691,
+              1.8267
+            ],
+            "left_shoulder": [
+              1.4019,
+              -12.1746,
+              1.4915
+            ],
+            "right_shoulder": [
+              1.506,
+              -12.2003,
+              1.6313
+            ],
+            "left_elbow": [
+              1.3219,
+              -12.1548,
+              1.1297
+            ],
+            "right_elbow": [
+              1.3055,
+              -12.1508,
+              1.524
+            ],
+            "left_wrist": [
+              1.2082,
+              -12.1267,
+              0.9044
+            ],
+            "right_wrist": [
+              1.1116,
+              -12.1029,
+              1.4088
+            ],
+            "left_hip": [
+              1.4627,
+              -12.1896,
+              0.8811
+            ],
+            "right_hip": [
+              1.4814,
+              -12.1942,
+              0.9616
+            ],
+            "left_knee": [
+              1.5977,
+              -12.2229,
+              0.4235
+            ],
+            "right_knee": [
+              1.3122,
+              -12.1524,
+              0.6053
+            ],
+            "left_ankle": [
+              1.646,
+              -12.404,
+              0.0
+            ],
+            "right_ankle": [
+              1.227,
+              -11.96,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              794.72,
+              394.75,
+              0.385
+            ],
+            "left_eye": [
+              796.38,
+              389.39,
+              0.556
+            ],
+            "right_eye": [
+              797.44,
+              390.25,
+              0.023
+            ],
+            "left_ear": [
+              802.11,
+              394.51,
+              0.981
+            ],
+            "right_ear": [
+              811.33,
+              395.2,
+              0.083
+            ],
+            "left_shoulder": [
+              799.86,
+              439.34,
+              0.997
+            ],
+            "right_shoulder": [
+              817.67,
+              422.98,
+              0.986
+            ],
+            "left_elbow": [
+              782.25,
+              483.61,
+              0.991
+            ],
+            "right_elbow": [
+              786.16,
+              433.32,
+              0.941
+            ],
+            "left_wrist": [
+              762.52,
+              508.8,
+              0.991
+            ],
+            "right_wrist": [
+              755.88,
+              444.56,
+              0.988
+            ],
+            "left_hip": [
+              798.19,
+              516.26,
+              0.99
+            ],
+            "right_hip": [
+              802.25,
+              506.99,
+              0.987
+            ],
+            "left_knee": [
+              808.77,
+              570.99,
+              0.994
+            ],
+            "right_knee": [
+              772.55,
+              545.57,
+              0.995
+            ],
+            "left_ankle": [
+              811.23,
+              630.08,
+              0.986
+            ],
+            "right_ankle": [
+              749.19,
+              596.6,
+              0.995
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "left",
+          "status": "observed",
+          "age_frames": 0,
+          "grip_m": [
+            1.2082,
+            -12.1267,
+            0.9044
+          ],
+          "axis_unit": [
+            -0.8829,
+            0.2177,
+            0.4161
+          ],
+          "confidence": 0.669,
+          "bbox": [
+            734.64,
+            479.25,
+            754.26,
+            518.24
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": [
+        744.62,
+        450.56
+      ],
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 26,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            780.515,
+            613.46
+          ],
+          "raw_feet_xyz_m": [
+            1.4429999999999996,
+            -12.184,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.4409999999999998,
+            -12.184,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            719.22,
+            373.0,
+            831.43,
+            644.79
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "nose": [
+              1.3307,
+              -12.1567,
+              1.8328
+            ],
+            "left_eye": [
+              1.3386,
+              -12.1586,
+              1.871
+            ],
+            "left_ear": [
+              1.3806,
+              -12.169,
+              1.8327
+            ],
+            "left_shoulder": [
+              1.4063,
+              -12.1754,
+              1.4934
+            ],
+            "right_shoulder": [
+              1.4839,
+              -12.1946,
+              1.6385
+            ],
+            "left_elbow": [
+              1.32,
+              -12.154,
+              1.1198
+            ],
+            "right_elbow": [
+              1.2555,
+              -12.1381,
+              1.5656
+            ],
+            "left_wrist": [
+              1.2049,
+              -12.1256,
+              0.8709
+            ],
+            "right_wrist": [
+              1.0462,
+              -12.0863,
+              1.5181
+            ],
+            "left_hip": [
+              1.4743,
+              -12.1922,
+              0.8744
+            ],
+            "right_hip": [
+              1.4888,
+              -12.1958,
+              0.9573
+            ],
+            "left_knee": [
+              1.6017,
+              -12.2238,
+              0.408
+            ],
+            "right_knee": [
+              1.3037,
+              -12.15,
+              0.614
+            ],
+            "left_ankle": [
+              1.643,
+              -12.408,
+              0.0
+            ],
+            "right_ankle": [
+              1.231,
+              -11.954,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              795.18,
+              392.87,
+              0.374
+            ],
+            "left_eye": [
+              796.99,
+              387.83,
+              0.537
+            ],
+            "right_eye": [
+              797.86,
+              388.62,
+              0.022
+            ],
+            "left_ear": [
+              802.7,
+              393.83,
+              0.982
+            ],
+            "right_ear": [
+              811.44,
+              394.27,
+              0.089
+            ],
+            "left_shoulder": [
+              800.86,
+              439.3,
+              0.997
+            ],
+            "right_shoulder": [
+              814.85,
+              421.74,
+              0.988
+            ],
+            "left_elbow": [
+              782.13,
+              484.91,
+              0.992
+            ],
+            "right_elbow": [
+              779.73,
+              427.07,
+              0.916
+            ],
+            "left_wrist": [
+              761.87,
+              512.84,
+              0.99
+            ],
+            "right_wrist": [
+              748.08,
+              429.31,
+              0.973
+            ],
+            "left_hip": [
+              800.02,
+              517.39,
+              0.991
+            ],
+            "right_hip": [
+              803.53,
+              507.77,
+              0.988
+            ],
+            "left_knee": [
+              809.34,
+              572.9,
+              0.993
+            ],
+            "right_knee": [
+              771.81,
+              544.54,
+              0.995
+            ],
+            "left_ankle": [
+              811.24,
+              630.56,
+              0.984
+            ],
+            "right_ankle": [
+              749.79,
+              596.36,
+              0.996
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "left",
+          "status": "observed",
+          "age_frames": 0,
+          "grip_m": [
+            1.2049,
+            -12.1256,
+            0.8709
+          ],
+          "axis_unit": [
+            -0.9643,
+            0.2391,
+            0.1136
+          ],
+          "confidence": 0.71,
+          "bbox": [
+            733.72,
+            489.28,
+            752.91,
+            527.68
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": [
+        743.34,
+        437.08
+      ],
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 27,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            780.44,
+            613.885
+          ],
+          "raw_feet_xyz_m": [
+            1.4409999999999998,
+            -12.189,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.4419999999999993,
+            -12.186,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            718.95,
+            372.75,
+            831.25,
+            644.88
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "nose": [
+              1.3297,
+              -12.1582,
+              1.8429
+            ],
+            "left_eye": [
+              1.3377,
+              -12.1602,
+              1.878
+            ],
+            "left_ear": [
+              1.3797,
+              -12.1706,
+              1.836
+            ],
+            "left_shoulder": [
+              1.4073,
+              -12.1774,
+              1.4931
+            ],
+            "right_shoulder": [
+              1.4791,
+              -12.1952,
+              1.672
+            ],
+            "left_elbow": [
+              1.3209,
+              -12.156,
+              1.1069
+            ],
+            "right_elbow": [
+              1.2368,
+              -12.1352,
+              1.6616
+            ],
+            "left_wrist": [
+              1.2084,
+              -12.1282,
+              0.8597
+            ],
+            "right_wrist": [
+              1.0413,
+              -12.0869,
+              1.6611
+            ],
+            "left_hip": [
+              1.4756,
+              -12.1943,
+              0.8807
+            ],
+            "right_hip": [
+              1.4855,
+              -12.1968,
+              0.9732
+            ],
+            "left_knee": [
+              1.6058,
+              -12.2265,
+              0.4172
+            ],
+            "right_knee": [
+              1.2908,
+              -12.1486,
+              0.6341
+            ],
+            "left_ankle": [
+              1.645,
+              -12.412,
+              0.0
+            ],
+            "right_ankle": [
+              1.232,
+              -11.955,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              794.89,
+              391.76,
+              0.356
+            ],
+            "left_eye": [
+              796.66,
+              387.14,
+              0.486
+            ],
+            "right_eye": [
+              797.61,
+              387.65,
+              0.021
+            ],
+            "left_ear": [
+              802.31,
+              393.64,
+              0.979
+            ],
+            "right_ear": [
+              811.2,
+              393.23,
+              0.096
+            ],
+            "left_shoulder": [
+              800.7,
+              439.66,
+              0.997
+            ],
+            "right_shoulder": [
+              814.42,
+              417.51,
+              0.989
+            ],
+            "left_elbow": [
+              781.74,
+              486.84,
+              0.992
+            ],
+            "right_elbow": [
+              778.11,
+              414.35,
+              0.937
+            ],
+            "left_wrist": [
+              761.88,
+              514.58,
+              0.991
+            ],
+            "right_wrist": [
+              748.95,
+              410.73,
+              0.985
+            ],
+            "left_hip": [
+              800.02,
+              517.01,
+              0.992
+            ],
+            "right_hip": [
+              803.06,
+              506.13,
+              0.989
+            ],
+            "left_knee": [
+              809.79,
+              572.33,
+              0.993
+            ],
+            "right_knee": [
+              770.02,
+              542.36,
+              0.995
+            ],
+            "left_ankle": [
+              811.22,
+              631.11,
+              0.985
+            ],
+            "right_ankle": [
+              749.66,
+              596.66,
+              0.996
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "left",
+          "status": "observed",
+          "age_frames": 0,
+          "grip_m": [
+            1.2084,
+            -12.1282,
+            0.8597
+          ],
+          "axis_unit": [
+            -0.92,
+            0.2276,
+            -0.3192
+          ],
+          "confidence": 0.513,
+          "bbox": [
+            732.9,
+            498.85,
+            750.43,
+            536.4
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": [
+        740.99,
+        410.83
+      ],
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 28,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            780.48,
+            613.645
+          ],
+          "raw_feet_xyz_m": [
+            1.4419999999999993,
+            -12.186,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.4409999999999998,
+            -12.189,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": true,
+          "bbox": [
+            718.29,
+            371.61,
+            830.57,
+            644.91
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "nose": [
+              1.3283,
+              -12.1611,
+              1.8436
+            ],
+            "left_eye": [
+              1.3347,
+              -12.1627,
+              1.8791
+            ],
+            "left_ear": [
+              1.3712,
+              -12.1717,
+              1.837
+            ],
+            "left_shoulder": [
+              1.3969,
+              -12.1781,
+              1.4894
+            ],
+            "right_shoulder": [
+              1.4739,
+              -12.1971,
+              1.6848
+            ],
+            "left_elbow": [
+              1.3173,
+              -12.1584,
+              1.0974
+            ],
+            "right_elbow": [
+              1.2267,
+              -12.136,
+              1.742
+            ],
+            "left_wrist": [
+              1.1979,
+              -12.1289,
+              0.8245
+            ],
+            "right_wrist": [
+              1.0248,
+              -12.086,
+              1.805
+            ],
+            "left_hip": [
+              1.4737,
+              -12.1971,
+              0.8822
+            ],
+            "right_hip": [
+              1.4808,
+              -12.1989,
+              0.978
+            ],
+            "left_knee": [
+              1.6053,
+              -12.2297,
+              0.4248
+            ],
+            "right_knee": [
+              1.2688,
+              -12.1464,
+              0.6536
+            ],
+            "left_ankle": [
+              1.643,
+              -12.422,
+              0.0
+            ],
+            "right_ankle": [
+              1.231,
+              -11.95,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              794.91,
+              391.48,
+              0.328
+            ],
+            "left_eye": [
+              796.45,
+              386.77,
+              0.454
+            ],
+            "right_eye": [
+              797.54,
+              387.28,
+              0.023
+            ],
+            "left_ear": [
+              801.26,
+              393.18,
+              0.98
+            ],
+            "right_ear": [
+              811.32,
+              392.73,
+              0.129
+            ],
+            "left_shoulder": [
+              799.31,
+              439.77,
+              0.997
+            ],
+            "right_shoulder": [
+              814.08,
+              415.55,
+              0.991
+            ],
+            "left_elbow": [
+              781.29,
+              487.76,
+              0.992
+            ],
+            "right_elbow": [
+              778.04,
+              403.27,
+              0.945
+            ],
+            "left_wrist": [
+              760.1,
+              518.34,
+              0.99
+            ],
+            "right_wrist": [
+              748.64,
+              391.0,
+              0.979
+            ],
+            "left_hip": [
+              799.99,
+              516.6,
+              0.991
+            ],
+            "right_hip": [
+              802.68,
+              505.28,
+              0.989
+            ],
+            "left_knee": [
+              810.06,
+              571.27,
+              0.993
+            ],
+            "right_knee": [
+              767.47,
+              539.52,
+              0.995
+            ],
+            "left_ankle": [
+              811.32,
+              631.47,
+              0.981
+            ],
+            "right_ankle": [
+              749.64,
+              595.82,
+              0.996
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "left",
+          "status": "stale",
+          "age_frames": 1,
+          "grip_m": [
+            1.1979,
+            -12.1289,
+            0.8245
+          ],
+          "axis_unit": [
+            -0.92,
+            0.2276,
+            -0.3192
+          ],
+          "confidence": 0.513,
+          "bbox": [
+            732.9,
+            498.85,
+            750.43,
+            536.4
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": [
+        738.53,
+        386.59
+      ],
+      "ball_3d": null,
+      "ball_3d_preview": null
+    },
+    {
+      "frame": 29,
+      "players": [
+        {
+          "identity_id": "near",
+          "pixel": [
+            780.125,
+            613.97
+          ],
+          "raw_feet_xyz_m": [
+            1.439,
+            -12.19,
+            0.0
+          ],
+          "feet_xyz_m": [
+            1.439,
+            -12.19,
+            0.0
+          ],
+          "basis": "two_ankles_ground",
+          "predicted": false,
+          "position_smoothed": false,
+          "bbox": [
+            717.55,
+            354.35,
+            829.72,
+            644.89
+          ],
+          "identity_basis": "original_confirmed_track",
+          "identity_association_estimated": false,
+          "identity_seed_frame": null,
+          "identity_evidence": null,
+          "pose_source": "original_model",
+          "joints_m": {
+            "nose": [
+              1.3266,
+              -12.1622,
+              1.8488
+            ],
+            "left_eye": [
+              1.3323,
+              -12.1636,
+              1.8809
+            ],
+            "left_ear": [
+              1.3649,
+              -12.1717,
+              1.837
+            ],
+            "left_shoulder": [
+              1.3833,
+              -12.1762,
+              1.4885
+            ],
+            "right_shoulder": [
+              1.4657,
+              -12.1966,
+              1.7033
+            ],
+            "left_elbow": [
+              1.3081,
+              -12.1576,
+              1.0883
+            ],
+            "right_elbow": [
+              1.2416,
+              -12.1412,
+              1.8171
+            ],
+            "left_wrist": [
+              1.1834,
+              -12.1268,
+              0.8092
+            ],
+            "right_wrist": [
+              1.0492,
+              -12.0937,
+              1.953
+            ],
+            "left_hip": [
+              1.4684,
+              -12.1973,
+              0.8825
+            ],
+            "right_hip": [
+              1.4773,
+              -12.1995,
+              0.9831
+            ],
+            "left_knee": [
+              1.6049,
+              -12.231,
+              0.4195
+            ],
+            "right_knee": [
+              1.2503,
+              -12.1434,
+              0.6603
+            ],
+            "left_ankle": [
+              1.643,
+              -12.42,
+              0.0
+            ],
+            "right_ankle": [
+              1.226,
+              -11.955,
+              0.0
+            ]
+          },
+          "joints_2d": {
+            "nose": [
+              794.7,
+              391.02,
+              0.337
+            ],
+            "left_eye": [
+              796.08,
+              386.75,
+              0.433
+            ],
+            "right_eye": [
+              797.06,
+              386.87,
+              0.028
+            ],
+            "left_ear": [
+              800.29,
+              393.33,
+              0.97
+            ],
+            "right_ear": [
+              810.13,
+              392.0,
+              0.141
+            ],
+            "left_shoulder": [
+              797.27,
+              439.93,
+              0.997
+            ],
+            "right_shoulder": [
+              813.16,
+              413.21,
+              0.992
+            ],
+            "left_elbow": [
+              779.78,
+              489.02,
+              0.992
+            ],
+            "right_elbow": [
+              781.39,
+              393.71,
+              0.961
+            ],
+            "left_wrist": [
+              757.78,
+              520.2,
+              0.989
+            ],
+            "right_wrist": [
+              754.24,
+              371.56,
+              0.98
+            ],
+            "left_hip": [
+              799.22,
+              516.79,
+              0.992
+            ],
+            "right_hip": [
+              802.24,
+              504.91,
+              0.99
+            ],
+            "left_knee": [
+              809.88,
+              572.18,
+              0.994
+            ],
+            "right_knee": [
+              764.94,
+              538.74,
+              0.995
+            ],
+            "left_ankle": [
+              811.26,
+              631.55,
+              0.979
+            ],
+            "right_ankle": [
+              748.99,
+              596.39,
+              0.995
+            ]
+          },
+          "pose_basis": "camera_facing_2_5d_plane_not_measured_joint_depth",
+          "avatar": "pose_wireframe"
+        }
+      ],
+      "racquets": [
+        {
+          "identity_id": "near",
+          "hand": "left",
+          "status": "observed",
+          "age_frames": 0,
+          "grip_m": [
+            1.1834,
+            -12.1268,
+            0.8092
+          ],
+          "axis_unit": [
+            -0.6855,
+            0.1692,
+            -0.7081
+          ],
+          "confidence": 0.535,
+          "bbox": [
+            727.48,
+            511.23,
+            759.15,
+            548.13
+          ],
+          "association": "tracker_wrist_assignment",
+          "axis_basis": "wrist_to_box_centre_on_player_plane",
+          "length_m": 0.685
+        }
+      ],
+      "play_phase": {
+        "phase": "unresolved",
+        "basis": "insufficient_evidence"
+      },
+      "ball_observed_2d": [
+        739.94,
+        360.26
+      ],
+      "ball_3d": null,
+      "ball_3d_preview": null
+    }
+  ],
+  "events": [],
+  "shots": {
+    "method": "per_stroke_execution_v3",
+    "profiles": {
+      "near": {
+        "hand": "unknown",
+        "source": "insufficient_or_conflicting_evidence",
+        "votes": {
+          "left": 7
+        },
+        "majority_fraction": 1.0,
+        "role": "descriptive_only_not_a_stroke_constraint"
+      },
+      "far": {
+        "hand": "unknown",
+        "source": "insufficient_or_conflicting_evidence",
+        "votes": {},
+        "majority_fraction": 0.0,
+        "role": "descriptive_only_not_a_stroke_constraint"
+      }
+    },
+    "shots": [],
+    "counts": {},
+    "action_counts": {},
+    "by_player": {
+      "near": {},
+      "far": {}
+    },
+    "limitation": "Heuristic stroke and hand-use candidates, not measured grip or trained tennis classification. Player hand tendencies never restrict a stroke. Two-handed forehand/backhand remains unknown without adequate grip/orientation evidence or human review."
+  },
+  "flights": {
+    "status": "no_supported_flights",
+    "fits": [],
+    "skipped": [],
+    "confirmed_bounces": 0,
+    "limitation": "Airborne XYZ is estimated from an approximate single-camera calibration and gravity-only motion. Reviewed bounce timing does not make court calibration or XYZ ground truth. Drag/spin are not modeled; radial lens compensation is used only when supplied by the calibration, and camera/lens errors can remain."
+  },
+  "preview_flights": {
+    "schema_version": 1,
+    "algorithm": "conditional_landing_preview_1",
+    "status": "no_supported_previews",
+    "fits": [],
+    "skipped": [],
+    "limitation": "Dashed cyan paths are unvalidated single-camera estimates, conditional on possible bounce landings. They are partial observation windows, not complete shot reconstructions. Camera/depth and bounce errors remain possible despite pixel agreement; no event is confirmed, no missing detection is repaired, and unsupported intervals stay empty."
+  },
+  "court_lines": [
+    [
+      [
+        -5.485,
+        -11.885,
+        0
+      ],
+      [
+        5.485,
+        -11.885,
+        0
+      ]
+    ],
+    [
+      [
+        -5.485,
+        11.885,
+        0
+      ],
+      [
+        5.485,
+        11.885,
+        0
+      ]
+    ],
+    [
+      [
+        -5.485,
+        -11.885,
+        0
+      ],
+      [
+        -5.485,
+        11.885,
+        0
+      ]
+    ],
+    [
+      [
+        5.485,
+        -11.885,
+        0
+      ],
+      [
+        5.485,
+        11.885,
+        0
+      ]
+    ],
+    [
+      [
+        -4.115,
+        -11.885,
+        0
+      ],
+      [
+        -4.115,
+        11.885,
+        0
+      ]
+    ],
+    [
+      [
+        4.115,
+        -11.885,
+        0
+      ],
+      [
+        4.115,
+        11.885,
+        0
+      ]
+    ],
+    [
+      [
+        -4.115,
+        -6.4,
+        0
+      ],
+      [
+        4.115,
+        -6.4,
+        0
+      ]
+    ],
+    [
+      [
+        -4.115,
+        6.4,
+        0
+      ],
+      [
+        4.115,
+        6.4,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        -6.4,
+        0
+      ],
+      [
+        0,
+        6.4,
+        0
+      ]
+    ]
+  ],
+  "net_lines": [
+    [
+      [
+        -6.399,
+        0,
+        0
+      ],
+      [
+        6.399,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        -6.399,
+        0,
+        1.07
+      ],
+      [
+        0,
+        0,
+        0.914
+      ]
+    ],
+    [
+      [
+        0,
+        0,
+        0.914
+      ],
+      [
+        6.399,
+        0,
+        1.07
+      ]
+    ],
+    [
+      [
+        -6.399,
+        0,
+        0
+      ],
+      [
+        -6.399,
+        0,
+        1.07
+      ]
+    ],
+    [
+      [
+        6.399,
+        0,
+        0
+      ],
+      [
+        6.399,
+        0,
+        1.07
+      ]
+    ]
+  ],
+  "bones": [
+    [
+      "left_shoulder",
+      "right_shoulder"
+    ],
+    [
+      "left_shoulder",
+      "left_elbow"
+    ],
+    [
+      "left_elbow",
+      "left_wrist"
+    ],
+    [
+      "right_shoulder",
+      "right_elbow"
+    ],
+    [
+      "right_elbow",
+      "right_wrist"
+    ],
+    [
+      "left_shoulder",
+      "left_hip"
+    ],
+    [
+      "right_shoulder",
+      "right_hip"
+    ],
+    [
+      "left_hip",
+      "right_hip"
+    ],
+    [
+      "left_hip",
+      "left_knee"
+    ],
+    [
+      "left_knee",
+      "left_ankle"
+    ],
+    [
+      "right_hip",
+      "right_knee"
+    ],
+    [
+      "right_knee",
+      "right_ankle"
+    ],
+    [
+      "nose",
+      "left_shoulder"
+    ],
+    [
+      "nose",
+      "right_shoulder"
+    ]
+  ]
+}

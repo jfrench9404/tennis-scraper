@@ -1,0 +1,288 @@
+{
+  "schema_version": 1,
+  "package_id": "0526b3a394bc6390df5d681e0835530aed1106ce55e94f2cbae3933aba618b34",
+  "review_run_id": "9edf01292ea8e53b74014dca1d919836d83f84c714d555e44aab21c63b27adc3",
+  "frames": 30,
+  "fps": 30.0,
+  "width": 1280,
+  "height": 720,
+  "source_start_frame": 4740,
+  "input_run": "C:\\Users\\John\\Documents\\Codex\\2026-09-17\\can-x20\\outputs\\tennis-scraper\\project\\runs\\claude-longrun-dml-30",
+  "review_labels": null,
+  "classification_counts": {},
+  "handedness": {
+    "near": {
+      "hand": "unknown",
+      "source": "insufficient_or_conflicting_evidence",
+      "votes": {
+        "left": 7
+      },
+      "majority_fraction": 1.0,
+      "role": "descriptive_only_not_a_stroke_constraint"
+    },
+    "far": {
+      "hand": "unknown",
+      "source": "insufficient_or_conflicting_evidence",
+      "votes": {},
+      "majority_fraction": 0.0,
+      "role": "descriptive_only_not_a_stroke_constraint"
+    }
+  },
+  "event_review_counts": {},
+  "player_frames": {
+    "near": 30
+  },
+  "player_projection_omissions": {
+    "far_missing_or_ambiguous": 30
+  },
+  "confirmed_bounces": 0,
+  "visible_bounce_candidates": 0,
+  "player_identity_recovery": {
+    "basis": "backward_cached_association_from_confirmed_track",
+    "scope": "replay_only_not_shot_or_ball_evidence",
+    "recovered_frames": {
+      "near": 2,
+      "far": 0
+    },
+    "identities": {
+      "near": {
+        "seed_frame": 2,
+        "recovered": 2,
+        "stop_reason": "clip start"
+      },
+      "far": {
+        "seed_frame": null,
+        "recovered": 0,
+        "stop_reason": "no confirmed observed identity seed"
+      }
+    }
+  },
+  "far_player_refinement": {
+    "method": "identity_anchored_crop_pose_v1",
+    "counts": {
+      "no_observed_identity_anchor": 30
+    },
+    "before": {},
+    "after": {},
+    "limitation": "Fresh crop detections, not interpolated joints. Joint coverage is not accuracy. Missing identity anchors remain missing; no unrestricted referee/bystander reacquisition.",
+    "checkpoint_sha256": "ad33da8a29ea5772318c4c980844e47b56792d2b63815ad4e8e09c078c7d1abf",
+    "observation_sha256": "61075316940f2cb133269a42d357ea1fbcdf1f53867e2d40d2787b1331ba7e23"
+  },
+  "contact_detection": {
+    "method": "observed_turn_equipment_swing_v2",
+    "contacts": [],
+    "review_windows": [],
+    "by_player": {},
+    "limitation": "Candidate scores rank evidence, not calibrated confidence probabilities. Missing ball observations and uncertain identities cause abstention."
+  },
+  "contact_review_binding": "bf3fff848d06e6cf5c21f026eca8c445066261a30a4aff6f99f9f25fe54a2213",
+  "stroke_review_binding": "0526b3a394bc6390df5d681e0835530aed1106ce55e94f2cbae3933aba618b34",
+  "stroke_review": null,
+  "play_context": {
+    "method": "raw_play_context_v1",
+    "assessments": [],
+    "action_counts": {},
+    "phase_counts": {
+      "unresolved": 30
+    },
+    "outcome": "undetermined",
+    "limitation": "Heuristic play phases, not verified rally boundaries. Local activity is a no-shot hypothesis; missing ball observations never establish an ace, fault, winner, or return."
+  },
+  "avatar_counts": {
+    "pose_wireframe": 30
+  },
+  "racquet_display": {
+    "method": "racquet_box_wrist_display_v1",
+    "hold_frames": 6,
+    "counts": {
+      "observed": 17,
+      "stale": 4,
+      "box_without_supported_wrist": 2,
+      "hands": {
+        "both": 13,
+        "left": 4
+      }
+    },
+    "limitations": [
+      "Racquet boxes do not measure handle endpoints, grip, face orientation or string-bed contact.",
+      "Axis points from the supporting wrist toward the box centre on the 2.5D player plane; face orientation is a display choice.",
+      "Held up to 6 frames after the last observed box and labelled stale; hidden afterwards.",
+      "Rendered racquets are never contact evidence and do not create or confirm events."
+    ]
+  },
+  "observed_ball_frames": 5,
+  "missing_ball_frames": 25,
+  "supported_flight_fits": 0,
+  "camera_available": true,
+  "unvalidated_preview_segments": 0,
+  "unvalidated_preview_frames": 0,
+  "camera_focal_length_basis": "multi_point_radial_camera",
+  "camera_fit": {
+    "basis": "multi_point_radial_camera",
+    "status": "approximate_not_measurement_grade",
+    "landmarks": 15,
+    "radial_distortion": [
+      -0.4000228121537815,
+      0.15721867915146132,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "focal_length_px": 983.5971576429987,
+    "landmark_rmse_px": 1.4987856467680234,
+    "residuals_px": {
+      "near_left_doubles": 0.75,
+      "near_right_doubles": 1.911,
+      "far_right_doubles": 2.108,
+      "far_left_doubles": 1.389,
+      "near_left_singles": 1.355,
+      "near_right_singles": 0.161,
+      "far_left_singles": 2.699,
+      "far_right_singles": 0.688,
+      "near_service_left": 1.035,
+      "near_service_centre": 2.047,
+      "near_service_right": 1.434,
+      "far_service_left": 1.772,
+      "far_service_centre": 0.313,
+      "far_service_right": 1.5,
+      "near_baseline_centre": 0.825
+    },
+    "assumptions": "one fixed view; square pixels; centred principal point; k1/k2 radial distortion; no tangential distortion",
+    "limitation": "Residuals use fitted landmarks, not independent 3D validation. Review all projected court lines; a single view cannot fully validate camera intrinsics or airborne XYZ.",
+    "review_status": "draft",
+    "previous_landmark_rmse_px": 19.408929554342222
+  },
+  "calibration_review": {
+    "schema_version": 1,
+    "kind": "court_and_bounce_review",
+    "run_id": "9edf01292ea8e53b74014dca1d919836d83f84c714d555e44aab21c63b27adc3",
+    "image_size": [
+      1280,
+      720
+    ],
+    "calibration_frame": 0,
+    "calibration_status": "draft",
+    "landmark_source": "carried_from_reviewed_run_39449302177328c7_after_camera_check",
+    "landmarks": {
+      "near_left_doubles": [
+        3,
+        535
+      ],
+      "near_right_doubles": [
+        1188,
+        570
+      ],
+      "far_right_doubles": [
+        782,
+        133
+      ],
+      "far_left_doubles": [
+        427,
+        123
+      ],
+      "near_left_singles": [
+        119,
+        550
+      ],
+      "near_right_singles": [
+        1070,
+        579
+      ],
+      "far_left_singles": [
+        469,
+        124
+      ],
+      "far_right_singles": [
+        737,
+        131
+      ],
+      "near_service_left": [
+        289,
+        327
+      ],
+      "near_service_centre": [
+        595,
+        335
+      ],
+      "near_service_right": [
+        906,
+        346
+      ],
+      "far_service_left": [
+        441,
+        151
+      ],
+      "far_service_centre": [
+        602,
+        156
+      ],
+      "far_service_right": [
+        763,
+        162
+      ],
+      "near_baseline_centre": [
+        591,
+        590
+      ]
+    },
+    "bounce_edits": [],
+    "carried_from": {
+      "run_id": "39449302177328c739e679a953b51d001bf297e21541feb1cc38c76265aa9ab9",
+      "calibration_frame": 300,
+      "landmark_source": "assistant_visual_annotation_of_source_frame_300",
+      "status_there": "reviewed",
+      "file": "C:\\Users\\John\\Documents\\Codex\\2026-09-17\\can-x20\\outputs\\tennis-scraper\\project\\runs\\court-bounce-20260925-110335-545\\calibration-corrections.json"
+    },
+    "camera_check": {
+      "samples": [
+        {
+          "frame": 4740,
+          "time_s": 158.0,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        },
+        {
+          "frame": 4769,
+          "time_s": 158.97,
+          "score": 1.0,
+          "best_shift_px": [
+            0,
+            0
+          ],
+          "best_shift_score": 1.0
+        }
+      ],
+      "summary": {
+        "reference_score": 1.0,
+        "min_score": 1.0,
+        "median_score": 1.0,
+        "threshold": 0.85,
+        "failing_samples": [],
+        "verdict": "consistent",
+        "meaning": "Projected court lines of the reviewed calibration land on painted lines as well as in the calibration frame, with no better-fitting shift beyond the limit. Consistency, not accuracy."
+      },
+      "meaning": "Consistency of court-line positions with the reviewed calibration, not accuracy."
+    },
+    "notes": "Landmarks only. Bounce decisions and event ids from the source run are NOT carried. Draft until reviewed for this run in the calibration desk."
+  },
+  "limitations": [
+    "Heuristic stroke and hand-use candidates, not measured grip or trained tennis classification. Player hand tendencies never restrict a stroke. Two-handed forehand/backhand remains unknown without adequate grip/orientation evidence or human review.",
+    "Airborne XYZ is estimated from an approximate single-camera calibration and gravity-only motion. Reviewed bounce timing does not make court calibration or XYZ ground truth. Drag/spin are not modeled; radial lens compensation is used only when supplied by the calibration, and camera/lens errors can remain.",
+    "Dashed cyan paths are unvalidated single-camera estimates, conditional on possible bounce landings. They are partial observation windows, not complete shot reconstructions. Camera/depth and bounce errors remain possible despite pixel agreement; no event is confirmed, no missing detection is repaired, and unsupported intervals stay empty.",
+    "Player roots are estimated ground-plane foot positions, not measured jumping height. Missing ankles fall back to box bottom and are labelled.",
+    "Wireframes are 2.5D camera-facing pose constructions. Individual joint depth and body orientation are not recovered.",
+    "Delayed player initialization may be back-associated to cached person detections using adjacent motion, clothing and court-half gates. These identity assignments are estimates; the detector and original log are unchanged.",
+    "Dashed bounce-candidate rings are conditional ground locations IF the event is a bounce, not confirmed landings or reviewed-flight constraints. Only the separate preview channel may use them as hypotheses.",
+    "Camera calibration is approximate; consult camera_fit for its landmark, lens and review assumptions. Fitted residuals are not independent 3D accuracy measurements.",
+    "Reviewed-only mode hides unvalidated previews. Neither mode extends a ball path through unsupported intervals; unreviewed hypotheses never become confirmed observations.",
+    "An absent bounce detection is not sufficient evidence of a volley; uncertain classifications stay unknown.",
+    "Fresh crop detections, not interpolated joints. Joint coverage is not accuracy. Missing identity anchors remain missing; no unrestricted referee/bystander reacquisition.",
+    "Candidate scores rank evidence, not calibrated confidence probabilities. Missing ball observations and uncertain identities cause abstention.",
+    "Heuristic play phases, not verified rally boundaries. Local activity is a no-shot hypothesis; missing ball observations never establish an ace, fault, winner, or return."
+  ],
+  "seconds_processing": 4.55
+}

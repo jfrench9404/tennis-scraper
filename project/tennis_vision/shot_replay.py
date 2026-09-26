@@ -241,12 +241,21 @@ def build(run, review, output, court_path, labels_path=None, near_hand="auto", f
             config_dir.mkdir(exist_ok=True)
             os.environ['YOLO_CONFIG_DIR']=str(config_dir)
             os.environ['YOLO_OFFLINE']='true'
+            os.environ['YOLO_AUTOINSTALL']='false'
             from ultralytics import YOLO
             from ultralytics import settings
             settings.update({'sync':False})
             import torch
             torch.set_num_threads(min(4,torch.get_num_threads()))
-            replay_rows,refinement=refine_far_player(replay_rows,source_video,court,YOLO(str(model_path)),cuts)
+            if model_path.suffix=='.onnx':
+                # Exported copy of the same checkpoint (export_onnx.py), run on the
+                # GPU through DirectML; the cache binding records the ONNX hash.
+                from .longrun import enable_directml
+                enable_directml([model_path])
+                pose_model=YOLO(str(model_path),task='pose')
+            else:
+                pose_model=YOLO(str(model_path))
+            replay_rows,refinement=refine_far_player(replay_rows,source_video,court,pose_model,cuts)
             if cache_path:
                 cache_path.parent.mkdir(parents=True,exist_ok=True)
                 save_json(cache_path,{'binding':binding,'rows':replay_rows,'report':refinement})

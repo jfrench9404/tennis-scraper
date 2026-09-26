@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "algorithm": "conditional_landing_preview_1",
+  "status": "no_supported_previews",
+  "fits": [],
+  "skipped": [],
+  "limitation": "Dashed cyan paths are unvalidated single-camera estimates, conditional on possible bounce landings. They are partial observation windows, not complete shot reconstructions. Camera/depth and bounce errors remain possible despite pixel agreement; no event is confirmed, no missing detection is repaired, and unsupported intervals stay empty."
+}

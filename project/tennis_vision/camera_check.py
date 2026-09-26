@@ -66,7 +66,7 @@ def best_shift(mask, pixels, radius=8):
     return best
 
 
-def check(video, corrections, reference_frame, every_s=10.0, overlay_dir=None, min_ratio=0.85):
+def check(video, corrections, reference_frame, every_s=10.0, overlay_dir=None, min_ratio=0.85, frames=None):
     data = json.loads(Path(corrections).read_text(encoding="utf-8"))
     width, height = data["image_size"]
     _, camera, fit = fit_court(data["landmarks"], width, height)
@@ -87,7 +87,7 @@ def check(video, corrections, reference_frame, every_s=10.0, overlay_dir=None, m
         return frame
 
     samples = []
-    frames = list(range(0, total, max(1, int(round(every_s * fps)))))
+    frames = list(frames) if frames is not None else list(range(0, total, max(1, int(round(every_s * fps)))))
     for index in frames:
         frame = read(index)
         mask = line_mask(frame)
