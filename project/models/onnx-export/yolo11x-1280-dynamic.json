@@ -1,0 +1,16 @@
+{
+  "source_checkpoint": "C:\\Users\\John\\Documents\\Codex\\2026-09-17\\can-x20\\outputs\\tennis-scraper\\project\\yolo11x.pt",
+  "source_sha256": "7bc158aa95c0ebfdd87f70f01653c1131b93e92522dbe15c228bcd742e773a24",
+  "onnx": "yolo11x-1280-dynamic.onnx",
+  "onnx_sha256": "db4b0a3e7d026c2983bdacc85490909dd25d9d2617ca4b095aab2e7a4a228b72",
+  "export": {
+    "format": "onnx",
+    "imgsz": 1280,
+    "dynamic": true,
+    "simplify": false,
+    "half": false
+  },
+  "ultralytics": "8.4.163",
+  "torch": "2.14.0+cpu",
+  "note": "Format conversion of the same weights for ONNX Runtime GPU inference. Results differ slightly from PyTorch CPU; compare before treating runs as interchangeable."
+}

@@ -1,5 +1,7 @@
 # Tennis Vision MVP
 
+> **Latest (2026-09-26):** long-footage pipeline, 3D body meshes and racquets. Start with [CLAUDE-OVERNIGHT.md](CLAUDE-OVERNIGHT.md).
+
 **Newest: raw-footage play context and per-stroke hand use.** Open
 `runs/raw-play-ready/replay.html`. Shot candidates, uncertain contacts and likely
 non-play are separated; left/right/two-handed stroke execution is independent of

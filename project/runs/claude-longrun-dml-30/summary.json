@@ -1,0 +1,14 @@
+{
+  "input": "C:\\Users\\John\\Documents\\Codex\\2026-09-17\\can-x20\\outputs\\tennis-scraper\\project\\media\\sebbie-demo-shortest (1).mp4",
+  "frames": 30,
+  "fps": 30.0,
+  "width": 1280,
+  "height": 720,
+  "events": 1,
+  "shots": 0,
+  "flight3d_fits": 0,
+  "court_calibrated": true,
+  "court_source": "manual",
+  "court_confidence": 1.0,
+  "note": "Events, shots, and single-camera 3D fits are candidates; validate before use."
+}

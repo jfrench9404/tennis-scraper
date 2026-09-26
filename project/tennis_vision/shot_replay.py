@@ -39,9 +39,15 @@ def write_replay_page(output):
     """Refresh presentation only; preserve analysis and review source data."""
     output=Path(output)
     data=json.loads((output/"replay-data.json").read_text(encoding="utf-8"))
-    template=Path(__file__).with_name("shot_replay.html").read_text(encoding="utf-8")
+    here=Path(__file__).parent
+    template=here.joinpath("shot_replay.html").read_text(encoding="utf-8")
+    # Vendored three.js and the body-mesh script are inlined so the page stays a
+    # single offline file (no CDN, works from file://). Substitute them before
+    # the data so replay JSON can never be mistaken for a placeholder.
+    template=(template.replace('__THREE_JS__',here.joinpath('vendor','three-0.159.0.min.js').read_text(encoding='utf-8'))
+              .replace('__BODY_MESHES_JS__',here.joinpath('body_meshes.js').read_text(encoding='utf-8')))
     encoded=json.dumps(data,allow_nan=False,separators=(',',':')).replace('<','\\u003c')
-    (output/"replay.html").write_text(template.replace('__REPLAY_DATA__',encoded),encoding="utf-8")
+    (output/"replay.html").write_text(template.replace('__REPLAY_DATA__',encoded,1),encoding="utf-8")
 
 
 def feet_record(track, court):
@@ -235,12 +241,21 @@ def build(run, review, output, court_path, labels_path=None, near_hand="auto", f
             config_dir.mkdir(exist_ok=True)
             os.environ['YOLO_CONFIG_DIR']=str(config_dir)
             os.environ['YOLO_OFFLINE']='true'
+            os.environ['YOLO_AUTOINSTALL']='false'
             from ultralytics import YOLO
             from ultralytics import settings
             settings.update({'sync':False})
             import torch
             torch.set_num_threads(min(4,torch.get_num_threads()))
-            replay_rows,refinement=refine_far_player(replay_rows,source_video,court,YOLO(str(model_path)),cuts)
+            if model_path.suffix=='.onnx':
+                # Exported copy of the same checkpoint (export_onnx.py), run on the
+                # GPU through DirectML; the cache binding records the ONNX hash.
+                from .longrun import enable_directml
+                enable_directml([model_path])
+                pose_model=YOLO(str(model_path),task='pose')
+            else:
+                pose_model=YOLO(str(model_path))
+            replay_rows,refinement=refine_far_player(replay_rows,source_video,court,pose_model,cuts)
             if cache_path:
                 cache_path.parent.mkdir(parents=True,exist_ok=True)
                 save_json(cache_path,{'binding':binding,'rows':replay_rows,'report':refinement})
@@ -284,6 +299,9 @@ def build(run, review, output, court_path, labels_path=None, near_hand="auto", f
     shots = classify_shots(classification_rows,events,summary["fps"],profiles,cuts)
     print("Building feet anchors and 2.5D body wireframes...",flush=True)
     frames,omitted = build_players(replay_rows,court,camera,cuts)
+    # Display-only equipment geometry; never feeds events, contacts or shots.
+    from .racquet_replay import build_racquets
+    racquets = build_racquets(replay_rows,frames,camera,summary["fps"],cuts)
     print("Fitting flights using confirmed bounce constraints only...",flush=True)
     flight_events=[e for e in events if e['type']!='hit' or e['status']=='confirmed' or
                    (e.get('contact_support')!='review_window_only' and
@@ -333,6 +351,7 @@ def build(run, review, output, court_path, labels_path=None, near_hand="auto", f
               'stroke_review_binding':stroke_review_binding,'stroke_review':stroke_review,
               'play_context':{k:v for k,v in play.items() if k!='frames'} if play else None,
               "avatar_counts":dict(Counter(p["avatar"] for frame in frames for p in frame["players"])),
+              "racquet_display":racquets,
               "observed_ball_frames":sum(b is not None for b in balls),
               "missing_ball_frames":sum(b is None for b in balls),
               "supported_flight_fits":len(flights["fits"]),"camera_available":camera is not None,

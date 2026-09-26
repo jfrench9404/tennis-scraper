@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "kind": "court_and_bounce_review",
+  "run_id": "9edf01292ea8e53b74014dca1d919836d83f84c714d555e44aab21c63b27adc3",
+  "image_size": [
+    1280,
+    720
+  ],
+  "calibration_frame": 0,
+  "calibration_status": "draft",
+  "landmark_source": "carried_from_reviewed_run_39449302177328c7_after_camera_check",
+  "landmarks": {
+    "near_left_doubles": [
+      3,
+      535
+    ],
+    "near_right_doubles": [
+      1188,
+      570
+    ],
+    "far_right_doubles": [
+      782,
+      133
+    ],
+    "far_left_doubles": [
+      427,
+      123
+    ],
+    "near_left_singles": [
+      119,
+      550
+    ],
+    "near_right_singles": [
+      1070,
+      579
+    ],
+    "far_left_singles": [
+      469,
+      124
+    ],
+    "far_right_singles": [
+      737,
+      131
+    ],
+    "near_service_left": [
+      289,
+      327
+    ],
+    "near_service_centre": [
+      595,
+      335
+    ],
+    "near_service_right": [
+      906,
+      346
+    ],
+    "far_service_left": [
+      441,
+      151
+    ],
+    "far_service_centre": [
+      602,
+      156
+    ],
+    "far_service_right": [
+      763,
+      162
+    ],
+    "near_baseline_centre": [
+      591,
+      590
+    ]
+  },
+  "bounce_edits": [],
+  "carried_from": {
+    "run_id": "39449302177328c739e679a953b51d001bf297e21541feb1cc38c76265aa9ab9",
+    "calibration_frame": 300,
+    "landmark_source": "assistant_visual_annotation_of_source_frame_300",
+    "status_there": "reviewed",
+    "file": "C:\\Users\\John\\Documents\\Codex\\2026-09-17\\can-x20\\outputs\\tennis-scraper\\project\\runs\\court-bounce-20260925-110335-545\\calibration-corrections.json"
+  },
+  "camera_check": {
+    "samples": [
+      {
+        "frame": 4740,
+        "time_s": 158.0,
+        "score": 1.0,
+        "best_shift_px": [
+          0,
+          0
+        ],
+        "best_shift_score": 1.0
+      },
+      {
+        "frame": 4769,
+        "time_s": 158.97,
+        "score": 1.0,
+        "best_shift_px": [
+          0,
+          0
+        ],
+        "best_shift_score": 1.0
+      }
+    ],
+    "summary": {
+      "reference_score": 1.0,
+      "min_score": 1.0,
+      "median_score": 1.0,
+      "threshold": 0.85,
+      "failing_samples": [],
+      "verdict": "consistent",
+      "meaning": "Projected court lines of the reviewed calibration land on painted lines as well as in the calibration frame, with no better-fitting shift beyond the limit. Consistency, not accuracy."
+    },
+    "meaning": "Consistency of court-line positions with the reviewed calibration, not accuracy."
+  },
+  "notes": "Landmarks only. Bounce decisions and event ids from the source run are NOT carried. Draft until reviewed for this run in the calibration desk."
+}

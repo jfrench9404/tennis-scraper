@@ -1,0 +1,923 @@
+{
+  "schema_version": 1,
+  "algorithm": "conditional_landing_preview_1",
+  "status": "unvalidated_previews_available",
+  "fits": [
+    {
+      "start_frame": 86,
+      "end_frame": 121,
+      "airborne_xyz_status": "estimated_not_measured",
+      "bounce_center_xyz_m": [
+        4.868999999999999,
+        -1.7620000000000005,
+        0.0335
+      ],
+      "observed_frames": [
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121
+      ],
+      "median_reprojection_error_px": 5.947,
+      "p90_reprojection_error_px": 11.646,
+      "ray_system_condition": 20.57403802439411,
+      "trajectory_m": [
+        {
+          "frame": 86,
+          "point_m": [
+            -0.00454,
+            5.82144,
+            2.02247
+          ]
+        },
+        {
+          "frame": 87,
+          "point_m": [
+            0.1347,
+            5.60477,
+            2.15095
+          ]
+        },
+        {
+          "frame": 88,
+          "point_m": [
+            0.27395,
+            5.3881,
+            2.26852
+          ]
+        },
+        {
+          "frame": 89,
+          "point_m": [
+            0.41319,
+            5.17143,
+            2.37519
+          ]
+        },
+        {
+          "frame": 90,
+          "point_m": [
+            0.55243,
+            4.95476,
+            2.47096
+          ]
+        },
+        {
+          "frame": 91,
+          "point_m": [
+            0.69168,
+            4.73809,
+            2.55584
+          ]
+        },
+        {
+          "frame": 92,
+          "point_m": [
+            0.83092,
+            4.52142,
+            2.62981
+          ]
+        },
+        {
+          "frame": 93,
+          "point_m": [
+            0.97017,
+            4.30475,
+            2.69288
+          ]
+        },
+        {
+          "frame": 94,
+          "point_m": [
+            1.10941,
+            4.08808,
+            2.74505
+          ]
+        },
+        {
+          "frame": 95,
+          "point_m": [
+            1.24865,
+            3.87141,
+            2.78632
+          ]
+        },
+        {
+          "frame": 96,
+          "point_m": [
+            1.3879,
+            3.65474,
+            2.8167
+          ]
+        },
+        {
+          "frame": 97,
+          "point_m": [
+            1.52714,
+            3.43807,
+            2.83617
+          ]
+        },
+        {
+          "frame": 98,
+          "point_m": [
+            1.66639,
+            3.2214,
+            2.84474
+          ]
+        },
+        {
+          "frame": 99,
+          "point_m": [
+            1.80563,
+            3.00473,
+            2.84241
+          ]
+        },
+        {
+          "frame": 100,
+          "point_m": [
+            1.94487,
+            2.78806,
+            2.82918
+          ]
+        },
+        {
+          "frame": 101,
+          "point_m": [
+            2.08412,
+            2.57139,
+            2.80506
+          ]
+        },
+        {
+          "frame": 102,
+          "point_m": [
+            2.22336,
+            2.35472,
+            2.77003
+          ]
+        },
+        {
+          "frame": 103,
+          "point_m": [
+            2.36261,
+            2.13805,
+            2.7241
+          ]
+        },
+        {
+          "frame": 104,
+          "point_m": [
+            2.50185,
+            1.92138,
+            2.66727
+          ]
+        },
+        {
+          "frame": 105,
+          "point_m": [
+            2.64109,
+            1.70471,
+            2.59955
+          ]
+        },
+        {
+          "frame": 106,
+          "point_m": [
+            2.78034,
+            1.48805,
+            2.52092
+          ]
+        },
+        {
+          "frame": 107,
+          "point_m": [
+            2.91958,
+            1.27138,
+            2.43139
+          ]
+        },
+        {
+          "frame": 108,
+          "point_m": [
+            3.05883,
+            1.05471,
+            2.33096
+          ]
+        },
+        {
+          "frame": 109,
+          "point_m": [
+            3.19807,
+            0.83804,
+            2.21963
+          ]
+        },
+        {
+          "frame": 110,
+          "point_m": [
+            3.33732,
+            0.62137,
+            2.09741
+          ]
+        },
+        {
+          "frame": 111,
+          "point_m": [
+            3.47656,
+            0.4047,
+            1.96428
+          ]
+        },
+        {
+          "frame": 112,
+          "point_m": [
+            3.6158,
+            0.18803,
+            1.82025
+          ]
+        },
+        {
+          "frame": 113,
+          "point_m": [
+            3.75505,
+            -0.02864,
+            1.66532
+          ]
+        },
+        {
+          "frame": 114,
+          "point_m": [
+            3.89429,
+            -0.24531,
+            1.49949
+          ]
+        },
+        {
+          "frame": 115,
+          "point_m": [
+            4.03354,
+            -0.46198,
+            1.32277
+          ]
+        },
+        {
+          "frame": 116,
+          "point_m": [
+            4.17278,
+            -0.67865,
+            1.13514
+          ]
+        },
+        {
+          "frame": 117,
+          "point_m": [
+            4.31202,
+            -0.89532,
+            0.93661
+          ]
+        },
+        {
+          "frame": 118,
+          "point_m": [
+            4.45127,
+            -1.11199,
+            0.72718
+          ]
+        },
+        {
+          "frame": 119,
+          "point_m": [
+            4.59051,
+            -1.32866,
+            0.50686
+          ]
+        },
+        {
+          "frame": 120,
+          "point_m": [
+            4.72976,
+            -1.54533,
+            0.27563
+          ]
+        },
+        {
+          "frame": 121,
+          "point_m": [
+            4.869,
+            -1.762,
+            0.0335
+          ]
+        }
+      ],
+      "source": "gravity_preview_candidate_landing",
+      "review_status": "unvalidated_preview",
+      "candidate_bounce_event_id": "bounce_candidate-000122",
+      "endpoint_review_status": "confirmed",
+      "endpoint_constraint": "conditional_ground_projection_if_candidate_is_bounce",
+      "start_frame_basis": "observed_window_not_confirmed_contact",
+      "excluded_from_validated_flights": true,
+      "unobserved_frames": []
+    },
+    {
+      "start_frame": 122,
+      "end_frame": 149,
+      "airborne_xyz_status": "estimated_not_measured",
+      "bounce_center_xyz_m": [
+        6.508,
+        -5.239,
+        0.0335
+      ],
+      "observed_frames": [
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149
+      ],
+      "median_reprojection_error_px": 2.943,
+      "p90_reprojection_error_px": 6.952,
+      "ray_system_condition": 29.546700783405072,
+      "trajectory_m": [
+        {
+          "frame": 122,
+          "point_m": [
+            4.71998,
+            -2.89873,
+            0.10291
+          ]
+        },
+        {
+          "frame": 123,
+          "point_m": [
+            4.7862,
+            -2.98541,
+            0.24203
+          ]
+        },
+        {
+          "frame": 124,
+          "point_m": [
+            4.85243,
+            -3.07208,
+            0.37026
+          ]
+        },
+        {
+          "frame": 125,
+          "point_m": [
+            4.91865,
+            -3.15876,
+            0.48759
+          ]
+        },
+        {
+          "frame": 126,
+          "point_m": [
+            4.98487,
+            -3.24544,
+            0.59402
+          ]
+        },
+        {
+          "frame": 127,
+          "point_m": [
+            5.0511,
+            -3.33211,
+            0.68955
+          ]
+        },
+        {
+          "frame": 128,
+          "point_m": [
+            5.11732,
+            -3.41879,
+            0.77418
+          ]
+        },
+        {
+          "frame": 129,
+          "point_m": [
+            5.18354,
+            -3.50547,
+            0.84791
+          ]
+        },
+        {
+          "frame": 130,
+          "point_m": [
+            5.24976,
+            -3.59214,
+            0.91074
+          ]
+        },
+        {
+          "frame": 131,
+          "point_m": [
+            5.31599,
+            -3.67882,
+            0.96267
+          ]
+        },
+        {
+          "frame": 132,
+          "point_m": [
+            5.38221,
+            -3.7655,
+            1.0037
+          ]
+        },
+        {
+          "frame": 133,
+          "point_m": [
+            5.44843,
+            -3.85217,
+            1.03383
+          ]
+        },
+        {
+          "frame": 134,
+          "point_m": [
+            5.51466,
+            -3.93885,
+            1.05306
+          ]
+        },
+        {
+          "frame": 135,
+          "point_m": [
+            5.58088,
+            -4.02553,
+            1.06139
+          ]
+        },
+        {
+          "frame": 136,
+          "point_m": [
+            5.6471,
+            -4.1122,
+            1.05882
+          ]
+        },
+        {
+          "frame": 137,
+          "point_m": [
+            5.71332,
+            -4.19888,
+            1.04535
+          ]
+        },
+        {
+          "frame": 138,
+          "point_m": [
+            5.77955,
+            -4.28556,
+            1.02098
+          ]
+        },
+        {
+          "frame": 139,
+          "point_m": [
+            5.84577,
+            -4.37223,
+            0.98571
+          ]
+        },
+        {
+          "frame": 140,
+          "point_m": [
+            5.91199,
+            -4.45891,
+            0.93954
+          ]
+        },
+        {
+          "frame": 141,
+          "point_m": [
+            5.97822,
+            -4.54559,
+            0.88246
+          ]
+        },
+        {
+          "frame": 142,
+          "point_m": [
+            6.04444,
+            -4.63226,
+            0.81449
+          ]
+        },
+        {
+          "frame": 143,
+          "point_m": [
+            6.11066,
+            -4.71894,
+            0.73562
+          ]
+        },
+        {
+          "frame": 144,
+          "point_m": [
+            6.17689,
+            -4.80562,
+            0.64585
+          ]
+        },
+        {
+          "frame": 145,
+          "point_m": [
+            6.24311,
+            -4.89229,
+            0.54518
+          ]
+        },
+        {
+          "frame": 146,
+          "point_m": [
+            6.30933,
+            -4.97897,
+            0.43361
+          ]
+        },
+        {
+          "frame": 147,
+          "point_m": [
+            6.37555,
+            -5.06565,
+            0.31114
+          ]
+        },
+        {
+          "frame": 148,
+          "point_m": [
+            6.44178,
+            -5.15232,
+            0.17777
+          ]
+        },
+        {
+          "frame": 149,
+          "point_m": [
+            6.508,
+            -5.239,
+            0.0335
+          ]
+        }
+      ],
+      "source": "gravity_preview_candidate_landing",
+      "review_status": "unvalidated_preview",
+      "candidate_bounce_event_id": "bounce_candidate-000149",
+      "endpoint_review_status": "unreviewed",
+      "endpoint_constraint": "conditional_ground_projection_if_candidate_is_bounce",
+      "start_frame_basis": "observed_window_not_confirmed_contact",
+      "excluded_from_validated_flights": true,
+      "unobserved_frames": []
+    },
+    {
+      "start_frame": 508,
+      "end_frame": 518,
+      "airborne_xyz_status": "estimated_not_measured",
+      "bounce_center_xyz_m": [
+        0.524,
+        5.703999999999999,
+        0.0335
+      ],
+      "observed_frames": [
+        508,
+        509,
+        510,
+        511,
+        512,
+        513,
+        514,
+        515,
+        516,
+        517,
+        518
+      ],
+      "median_reprojection_error_px": 3.363,
+      "p90_reprojection_error_px": 6.657,
+      "ray_system_condition": 18.479722809811356,
+      "trajectory_m": [
+        {
+          "frame": 508,
+          "point_m": [
+            -1.2833,
+            -10.98345,
+            3.01583
+          ]
+        },
+        {
+          "frame": 509,
+          "point_m": [
+            -1.10257,
+            -9.3147,
+            2.76664
+          ]
+        },
+        {
+          "frame": 510,
+          "point_m": [
+            -0.92184,
+            -7.64596,
+            2.50656
+          ]
+        },
+        {
+          "frame": 511,
+          "point_m": [
+            -0.74111,
+            -5.97721,
+            2.23558
+          ]
+        },
+        {
+          "frame": 512,
+          "point_m": [
+            -0.56038,
+            -4.30847,
+            1.9537
+          ]
+        },
+        {
+          "frame": 513,
+          "point_m": [
+            -0.37965,
+            -2.63972,
+            1.66091
+          ]
+        },
+        {
+          "frame": 514,
+          "point_m": [
+            -0.19892,
+            -0.97098,
+            1.35723
+          ]
+        },
+        {
+          "frame": 515,
+          "point_m": [
+            -0.01819,
+            0.69777,
+            1.04265
+          ]
+        },
+        {
+          "frame": 516,
+          "point_m": [
+            0.16254,
+            2.36651,
+            0.71717
+          ]
+        },
+        {
+          "frame": 517,
+          "point_m": [
+            0.34327,
+            4.03526,
+            0.38078
+          ]
+        },
+        {
+          "frame": 518,
+          "point_m": [
+            0.524,
+            5.704,
+            0.0335
+          ]
+        }
+      ],
+      "source": "gravity_preview_candidate_landing",
+      "review_status": "unvalidated_preview",
+      "candidate_bounce_event_id": "bounce_candidate-000519",
+      "endpoint_review_status": "unreviewed",
+      "endpoint_constraint": "conditional_ground_projection_if_candidate_is_bounce",
+      "start_frame_basis": "observed_window_not_confirmed_contact",
+      "excluded_from_validated_flights": true,
+      "unobserved_frames": []
+    },
+    {
+      "start_frame": 570,
+      "end_frame": 580,
+      "airborne_xyz_status": "estimated_not_measured",
+      "bounce_center_xyz_m": [
+        -1.0540000000000003,
+        -10.834999999999999,
+        0.0335
+      ],
+      "observed_frames": [
+        570,
+        571,
+        572,
+        573,
+        574,
+        575,
+        576,
+        577,
+        578,
+        579,
+        580
+      ],
+      "median_reprojection_error_px": 2.367,
+      "p90_reprojection_error_px": 3.305,
+      "ray_system_condition": 63.85024596646165,
+      "trajectory_m": [
+        {
+          "frame": 570,
+          "point_m": [
+            -0.92357,
+            -12.11224,
+            1.59675
+          ]
+        },
+        {
+          "frame": 571,
+          "point_m": [
+            -0.93661,
+            -11.98452,
+            1.48947
+          ]
+        },
+        {
+          "frame": 572,
+          "point_m": [
+            -0.94965,
+            -11.85679,
+            1.3713
+          ]
+        },
+        {
+          "frame": 573,
+          "point_m": [
+            -0.9627,
+            -11.72907,
+            1.24222
+          ]
+        },
+        {
+          "frame": 574,
+          "point_m": [
+            -0.97574,
+            -11.60134,
+            1.10225
+          ]
+        },
+        {
+          "frame": 575,
+          "point_m": [
+            -0.98878,
+            -11.47362,
+            0.95137
+          ]
+        },
+        {
+          "frame": 576,
+          "point_m": [
+            -1.00183,
+            -11.3459,
+            0.7896
+          ]
+        },
+        {
+          "frame": 577,
+          "point_m": [
+            -1.01487,
+            -11.21817,
+            0.61692
+          ]
+        },
+        {
+          "frame": 578,
+          "point_m": [
+            -1.02791,
+            -11.09045,
+            0.43335
+          ]
+        },
+        {
+          "frame": 579,
+          "point_m": [
+            -1.04096,
+            -10.96272,
+            0.23887
+          ]
+        },
+        {
+          "frame": 580,
+          "point_m": [
+            -1.054,
+            -10.835,
+            0.0335
+          ]
+        }
+      ],
+      "source": "gravity_preview_candidate_landing",
+      "review_status": "unvalidated_preview",
+      "candidate_bounce_event_id": "bounce_candidate-000580",
+      "endpoint_review_status": "unreviewed",
+      "endpoint_constraint": "conditional_ground_projection_if_candidate_is_bounce",
+      "start_frame_basis": "observed_window_not_confirmed_contact",
+      "excluded_from_validated_flights": true,
+      "unobserved_frames": []
+    }
+  ],
+  "skipped": [
+    {
+      "candidate_bounce_event_id": "bounce_candidate-000242",
+      "reason": "Too few observations for a preview",
+      "failed_window_checks": {
+        "Too few observations for a preview": 18,
+        "Fit goes behind camera": 4,
+        "Observed pixels do not support a sufficiently consistent gravity arc": 1
+      }
+    },
+    {
+      "candidate_bounce_event_id": "bounce_candidate-000261",
+      "reason": "Too few observations for a preview",
+      "failed_window_checks": {
+        "Too few observations for a preview": 3
+      }
+    },
+    {
+      "candidate_bounce_event_id": "bounce_candidate-000286",
+      "reason": "Fit goes behind camera",
+      "failed_window_checks": {
+        "Fit goes behind camera": 13,
+        "Observed pixels do not support a sufficiently consistent gravity arc": 2
+      }
+    },
+    {
+      "candidate_bounce_event_id": "bounce_candidate-000301",
+      "reason": "Fit goes behind camera",
+      "failed_window_checks": {
+        "Fit goes behind camera": 5
+      }
+    },
+    {
+      "candidate_bounce_event_id": "bounce_candidate-000321",
+      "reason": "Fit goes behind camera",
+      "failed_window_checks": {
+        "Fit goes behind camera": 6,
+        "Observed pixels do not support a sufficiently consistent gravity arc": 3
+      }
+    }
+  ],
+  "limitation": "Dashed cyan paths are unvalidated single-camera estimates, conditional on possible bounce landings. They are partial observation windows, not complete shot reconstructions. Camera/depth and bounce errors remain possible despite pixel agreement; no event is confirmed, no missing detection is repaired, and unsupported intervals stay empty."
+}

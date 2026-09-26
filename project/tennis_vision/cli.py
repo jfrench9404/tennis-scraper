@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import argparse
 import json
 from pathlib import Path
@@ -50,6 +52,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--temporal-ball", action="store_true", help="Replace generic ball detections with the trained five-frame tennis model")
     parser.add_argument("--ball-model", type=Path, default=DEFAULT_MODEL, help="GridTrackNet ONNX file, used with --temporal-ball")
     parser.add_argument("--ball-threshold", type=float, default=.5, help="Temporal ball score threshold (not an accuracy percentage)")
+    parser.add_argument("--device", help="Inference device for YOLO, e.g. cpu or 0 (first CUDA GPU); default lets Ultralytics choose")
     return parser.parse_args()
 
 
@@ -67,8 +70,13 @@ def normalize(label: str) -> str | None:
     return LABELS.get(label.lower().replace(" ", "_")) or LABELS.get(label.lower())
 
 
-def detect(model: YOLO, frame: np.ndarray, confidence: float, include_players: bool = False, imgsz: int = 1280) -> list[Detection]:
-    result = model.predict(frame, conf=confidence, imgsz=imgsz, verbose=False)[0]
+def _device(device: str | None) -> dict[str, str]:
+    # Omit the argument entirely by default so legacy calls stay byte-identical.
+    return {"device": device} if device else {}
+
+
+def detect(model: YOLO, frame: np.ndarray, confidence: float, include_players: bool = False, imgsz: int = 1280, device: str | None = None) -> list[Detection]:
+    result = model.predict(frame, conf=confidence, imgsz=imgsz, verbose=False, **_device(device))[0]
     names: dict[int, str] = result.names
     rows: list[Detection] = []
     for box in result.boxes:
@@ -80,8 +88,8 @@ def detect(model: YOLO, frame: np.ndarray, confidence: float, include_players: b
     return rows
 
 
-def detect_pose(model: YOLO, frame: np.ndarray, confidence: float, imgsz: int = 1280) -> list[Detection]:
-    result = model.predict(frame, conf=confidence, imgsz=imgsz, verbose=False)[0]
+def detect_pose(model: YOLO, frame: np.ndarray, confidence: float, imgsz: int = 1280, device: str | None = None) -> list[Detection]:
+    result = model.predict(frame, conf=confidence, imgsz=imgsz, verbose=False, **_device(device))[0]
     if result.boxes is None or result.keypoints is None:
         return []
     keypoint_data = result.keypoints.data.cpu().tolist()
@@ -116,6 +124,90 @@ def draw(frame: np.ndarray, records: list[dict[str, Any]], events: list[dict[str
         cv2.putText(frame, event["type"].upper(), (20, 35 + i * 25), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 255), 2)
 
 
+class FrameAnalyzer:
+    """Per-frame detection, filtering, tracking and event logic for one run.
+
+    Every piece of cross-frame state lives on this object (see STATE_FIELDS) so a
+    long run can checkpoint it at a chunk boundary and resume with output that is
+    identical to one uninterrupted pass. Models are not state and are not saved.
+    """
+
+    STATE_FIELDS = ("court", "frames", "tracker", "engine", "detail", "scene", "recovery")
+
+    def __init__(self, args: argparse.Namespace, court: CourtMapper | None, fps: float, model: YOLO, pose_model: YOLO,
+                 racket_model: YOLO | None = None, scene_config: dict | None = None, temporal: bool = False) -> None:
+        self.args, self.fps, self.temporal = args, fps, temporal
+        self.model, self.pose_model, self.racket_model = model, pose_model, racket_model
+        self.device = getattr(args, "device", None)
+        self.court = court
+        self.frames = 0
+        self.tracker, self.engine = NearestTracker(), EventEngine(fps, court)
+        self.detail = DetailPass()
+        self.scene = SceneSelector(scene_config, fps)
+        self.recovery = MotionBallRecovery()
+
+    def state(self) -> dict[str, Any]:
+        return {name: getattr(self, name) for name in self.STATE_FIELDS}
+
+    def load_state(self, state: dict[str, Any]) -> None:
+        if set(state) != set(self.STATE_FIELDS):
+            raise ValueError("Checkpoint state does not match this analyzer version")
+        for name in self.STATE_FIELDS:
+            setattr(self, name, state[name])
+
+    def process(self, frame: np.ndarray, temporal_ball, temporal_stats) -> tuple[dict[str, Any], list[dict[str, Any]], list[dict[str, Any]]]:
+        """Analyze one decoded frame; returns (events.jsonl row, events, track records)."""
+        args, court = self.args, self.court
+        if court is None and not args.no_auto_court and self.frames < int(self.fps * 8):
+            court = self.court = estimate_court(frame)
+        self.engine.court = court
+        detect_objects = lambda image: detect(self.model, image, args.confidence, include_players=True, imgsz=args.imgsz, device=self.device)
+        detect_people = lambda image: detect_pose(self.pose_model, image, args.confidence, imgsz=args.imgsz, device=self.device)
+        detections = detect_objects(frame) + detect_people(frame)
+        detail_stats = {}
+        if not args.no_detail_pass:
+            detections, detail_stats = self.detail.update(
+                frame, detections, court, detect_objects, detect_people,
+                args.court_side_margin, args.court_baseline_margin)
+        if self.racket_model:
+            detections = [d for d in detections if d.label != "racket"]
+            detections.extend(d for d in detect(self.racket_model, frame, args.confidence, imgsz=args.imgsz, device=self.device) if d.label == "racket")
+        detections = merge(detections)
+        if self.temporal:
+            # No silent YOLO fallback: the comparison and exported source
+            # remain attributable to the dedicated tennis model.
+            detections = [d for d in detections if d.label != 'ball']
+            detections.extend(candidate_detections(temporal_ball,temporal_stats,frame.shape))
+            detail_stats['temporal_ball'] = temporal_stats
+        # Preserve pre-filter observations so missing detections can be
+        # distinguished from rejected ones without rerunning inference.
+        detail_stats['candidates'] = [{'label': d.label, 'bbox': list(d.bbox), 'confidence': float(d.confidence), 'keypoints': d.keypoints, 'source': d.source} for d in detections]
+        blockers = list(detections)
+        if not args.all_players and court is not None and court.source == 'manual':
+            detections, scene_stats = self.scene.update(frame, detections, court)
+            detail_stats['scene'] = scene_stats
+        if self.temporal:
+            balls = [d for d in detections if d.label=='ball']
+            chosen = max(balls,key=lambda d:d.confidence) if balls else None
+            detections = [d for d in detections if d.label!='ball'] + ([chosen] if chosen else [])
+            detail_stats['temporal_ball']['selected_pixel'] = list(chosen.center) if chosen else None
+            detail_stats['temporal_ball']['selected_score'] = chosen.confidence if chosen else None
+        if args.motion_ball:
+            players = [d for d in detections if d.label == 'player']
+            detections, detail_stats['motion_ball'] = self.recovery.update(
+                frame, detections, lambda p: self.scene.ball_allowed(p,frame.shape,court,players), blockers)
+        self.detail.feedback(detections)
+        rejected_players = sum(d.label == 'player' and not on_court(d, court, args.court_side_margin, args.court_baseline_margin) for d in detections)
+        detections = [d for d in detections if d.label != 'player' or on_court(d, court, args.court_side_margin, args.court_baseline_margin)]
+        tracks, filter_stats = filter_tracks(self.tracker.update(detections, self.frames), court, args.court_side_margin, args.court_baseline_margin)
+        filter_stats['off_court_players_before_tracking'] = rejected_players
+        events = self.engine.update([track for track in tracks if not track.predicted], self.frames)
+        records = [t.as_dict(court) for t in tracks]
+        row = {"frame": self.frames, "time_s": round(self.frames / self.fps, 4), "tracks": records, "events": events, "filters": filter_stats, "detail": detail_stats}
+        self.frames += 1
+        return row, events, records
+
+
 def main() -> None:
     args = parse_args()
     if args.temporal_ball and args.motion_ball:
@@ -146,67 +238,22 @@ def main() -> None:
         total_frames = min(total_frames, args.max_frames) if total_frames else args.max_frames
     width, height = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     writer = cv2.VideoWriter(str(args.output / "annotated.mp4"), cv2.VideoWriter_fourcc(*"mp4v"), fps, (width, height))
-    model, pose_model, tracker, engine = YOLO(args.weights), YOLO(args.pose_weights), NearestTracker(), EventEngine(fps, court)
+    model, pose_model = YOLO(args.weights), YOLO(args.pose_weights)
     racket_model = YOLO(args.racket_weights) if args.racket_weights else None
-    detail = DetailPass()
-    scene = SceneSelector(json.loads(args.scene.read_text()) if args.scene else None, fps)
-    recovery = MotionBallRecovery()
     if args.motion_ball and (args.all_players or court is None or court.source != 'manual'):
         cap.release(); writer.release()
         raise ValueError('--motion-ball requires manual --court calibration and scene selection (no --all-players).')
+    analyzer = FrameAnalyzer(args, court, fps, model, pose_model, racket_model,
+                             json.loads(args.scene.read_text()) if args.scene else None, temporal is not None)
     frames = event_count = 0
     raw_events: list[dict[str, Any]] = []
     progress = tqdm(total=total_frames, desc="Analyzing", unit="frame", dynamic_ncols=True, disable=args.no_progress)
     try:
         with (args.output / "events.jsonl").open("w", encoding="utf-8") as stream:
             for frame, temporal_ball, temporal_stats in frame_stream(cap,temporal,args.max_frames):
-                if court is None and not args.no_auto_court and frames < int(fps * 8):
-                    court = estimate_court(frame)
-                engine.court = court
-                detections = detect(model, frame, args.confidence, include_players=True, imgsz=args.imgsz) + detect_pose(pose_model, frame, args.confidence, imgsz=args.imgsz)
-                detail_stats = {}
-                if not args.no_detail_pass:
-                    detections, detail_stats = detail.update(
-                        frame, detections, court,
-                        lambda crop: detect(model, crop, args.confidence, include_players=True, imgsz=args.imgsz),
-                        lambda crop: detect_pose(pose_model, crop, args.confidence, imgsz=args.imgsz),
-                        args.court_side_margin, args.court_baseline_margin)
-                if racket_model:
-                    detections = [d for d in detections if d.label != "racket"]
-                    detections.extend(d for d in detect(racket_model, frame, args.confidence, imgsz=args.imgsz) if d.label == "racket")
-                detections = merge(detections)
-                if temporal is not None:
-                    # No silent YOLO fallback: the comparison and exported source
-                    # remain attributable to the dedicated tennis model.
-                    detections = [d for d in detections if d.label != 'ball']
-                    detections.extend(candidate_detections(temporal_ball,temporal_stats,frame.shape))
-                    detail_stats['temporal_ball'] = temporal_stats
-                # Preserve pre-filter observations so missing detections can be
-                # distinguished from rejected ones without rerunning inference.
-                detail_stats['candidates'] = [{'label': d.label, 'bbox': list(d.bbox), 'confidence': float(d.confidence), 'keypoints': d.keypoints, 'source': d.source} for d in detections]
-                blockers = list(detections)
-                if not args.all_players and court is not None and court.source == 'manual':
-                    detections, scene_stats = scene.update(frame, detections, court)
-                    detail_stats['scene'] = scene_stats
-                if temporal is not None:
-                    balls = [d for d in detections if d.label=='ball']
-                    chosen = max(balls,key=lambda d:d.confidence) if balls else None
-                    detections = [d for d in detections if d.label!='ball'] + ([chosen] if chosen else [])
-                    detail_stats['temporal_ball']['selected_pixel'] = list(chosen.center) if chosen else None
-                    detail_stats['temporal_ball']['selected_score'] = chosen.confidence if chosen else None
-                if args.motion_ball:
-                    players = [d for d in detections if d.label == 'player']
-                    detections, detail_stats['motion_ball'] = recovery.update(
-                        frame, detections, lambda p: scene.ball_allowed(p,frame.shape,court,players), blockers)
-                detail.feedback(detections)
-                rejected_players = sum(d.label == 'player' and not on_court(d, court, args.court_side_margin, args.court_baseline_margin) for d in detections)
-                detections = [d for d in detections if d.label != 'player' or on_court(d, court, args.court_side_margin, args.court_baseline_margin)]
-                tracks, filter_stats = filter_tracks(tracker.update(detections, frames), court, args.court_side_margin, args.court_baseline_margin)
-                filter_stats['off_court_players_before_tracking'] = rejected_players
-                events = engine.update([track for track in tracks if not track.predicted], frames)
+                row, events, records = analyzer.process(frame, temporal_ball, temporal_stats)
                 raw_events.extend(events)
-                records = [t.as_dict(court) for t in tracks]
-                stream.write(json.dumps({"frame": frames, "time_s": round(frames / fps, 4), "tracks": records, "events": events, "filters": filter_stats, "detail": detail_stats}) + "\n")
+                stream.write(json.dumps(row) + "\n")
                 draw(frame, records, events)
                 writer.write(frame)
                 frames += 1
@@ -217,6 +264,7 @@ def main() -> None:
         return
     finally:
         cap.release(); writer.release(); progress.close()
+    court = analyzer.court
     shots = build_shots(raw_events)
     (args.output / "shots.json").write_text(json.dumps(shots, indent=2), encoding="utf-8")
     flight = fit_shots(args.output / "events.jsonl", shots, from_court(court, width, height) if court else None)

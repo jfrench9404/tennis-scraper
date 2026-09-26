@@ -1,0 +1,31 @@
+{
+  "method": "temporal_candidate_fusion_v1",
+  "raw_candidate_counts": {
+    "contacts": 1,
+    "bounces": 0
+  },
+  "consolidated_counts": {
+    "contacts": 1,
+    "bounces": 0,
+    "shots": 0
+  },
+  "contacts": [
+    {
+      "type": "contact_candidate",
+      "frame": 25,
+      "time_s": 0.8333,
+      "pixel": [
+        744.6,
+        450.6
+      ],
+      "court_m": [
+        7.105,
+        2.16
+      ],
+      "racket_track_id": 3,
+      "distance_px": 48.2
+    }
+  ],
+  "bounces": [],
+  "shots": []
+}

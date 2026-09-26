@@ -1,0 +1,10 @@
+{
+  "name": "GridTrackNet",
+  "model": "C:\\Users\\John\\Documents\\Codex\\2026-09-17\\can-x20\\outputs\\tennis-scraper\\project\\models\\gridtracknet\\gridtracknet.onnx",
+  "sha256": "14a2b5f31d9c0f2f4edabcbbc4c058f824e0f9689081a0ddd69fe44b9c924ed8",
+  "threshold": 0.5,
+  "input_frames": 5,
+  "maximum_lookahead_frames": 4,
+  "interpolation": false,
+  "source": "gridtracknet"
+}

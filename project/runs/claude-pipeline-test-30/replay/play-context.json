@@ -1,0 +1,132 @@
+{
+  "method": "raw_play_context_v1",
+  "assessments": [],
+  "frames": [
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    },
+    {
+      "phase": "unresolved",
+      "basis": "insufficient_evidence"
+    }
+  ],
+  "action_counts": {},
+  "phase_counts": {
+    "unresolved": 30
+  },
+  "outcome": "undetermined",
+  "limitation": "Heuristic play phases, not verified rally boundaries. Local activity is a no-shot hypothesis; missing ball observations never establish an ace, fault, winner, or return."
+}

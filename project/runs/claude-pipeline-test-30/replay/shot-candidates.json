@@ -1,0 +1,29 @@
+{
+  "method": "per_stroke_execution_v3",
+  "profiles": {
+    "near": {
+      "hand": "unknown",
+      "source": "insufficient_or_conflicting_evidence",
+      "votes": {
+        "left": 7
+      },
+      "majority_fraction": 1.0,
+      "role": "descriptive_only_not_a_stroke_constraint"
+    },
+    "far": {
+      "hand": "unknown",
+      "source": "insufficient_or_conflicting_evidence",
+      "votes": {},
+      "majority_fraction": 0.0,
+      "role": "descriptive_only_not_a_stroke_constraint"
+    }
+  },
+  "shots": [],
+  "counts": {},
+  "action_counts": {},
+  "by_player": {
+    "near": {},
+    "far": {}
+  },
+  "limitation": "Heuristic stroke and hand-use candidates, not measured grip or trained tennis classification. Player hand tendencies never restrict a stroke. Two-handed forehand/backhand remains unknown without adequate grip/orientation evidence or human review."
+}

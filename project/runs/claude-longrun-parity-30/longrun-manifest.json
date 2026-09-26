@@ -1,0 +1,162 @@
+{
+  "version": 1,
+  "input": {
+    "path": "C:\\Users\\John\\Documents\\Codex\\2026-09-17\\can-x20\\outputs\\tennis-scraper\\project\\media\\sebbie-demo-shortest (1).mp4",
+    "sha256": "0eb4675b7e21a672d35b1ac8c017dde81b3cb175877c48ce60de0e34151b104b",
+    "fps": 30.0,
+    "frames": 5654,
+    "width": 1280,
+    "height": 720
+  },
+  "selection": {
+    "source_start_frame": 4740,
+    "source_end_frame_exclusive": 4770,
+    "frames": 30
+  },
+  "settings": {
+    "confidence": 0.15,
+    "imgsz": 1280,
+    "court_side_margin": 1.5,
+    "court_baseline_margin": 6.0,
+    "no_detail_pass": false,
+    "all_players": false,
+    "no_auto_court": false,
+    "temporal_ball": true,
+    "ball_threshold": 0.5,
+    "chunk_frames": 10,
+    "court": "image_corners:\n- - 3\n  - 535\n- - 1188\n  - 570\n- - 782\n  - 133\n- - 427\n  - 121\ncalibration_frame: 300\n",
+    "scene": {
+      "near_seed_polygon": [
+        [
+          0.08,
+          0.32
+        ],
+        [
+          0.86,
+          0.32
+        ],
+        [
+          0.99,
+          0.99
+        ],
+        [
+          0.01,
+          0.99
+        ]
+      ],
+      "far_seed_polygon": [
+        [
+          0.3,
+          0.09
+        ],
+        [
+          0.66,
+          0.09
+        ],
+        [
+          0.73,
+          0.27
+        ],
+        [
+          0.23,
+          0.27
+        ]
+      ],
+      "ball_polygon": [
+        [
+          0.01,
+          0.99
+        ],
+        [
+          0.99,
+          0.99
+        ],
+        [
+          0.84,
+          0.36
+        ],
+        [
+          0.68,
+          0.02
+        ],
+        [
+          0.28,
+          0.02
+        ],
+        [
+          0.14,
+          0.36
+        ]
+      ],
+      "yellow_ball_check": true,
+      "ball_exclusion_polygons": [
+        [
+          [
+            0.4297,
+            0.125
+          ],
+          [
+            0.4532,
+            0.125
+          ],
+          [
+            0.4532,
+            0.1598
+          ],
+          [
+            0.4297,
+            0.1598
+          ]
+        ]
+      ]
+    }
+  },
+  "models": {
+    "weights": {
+      "path": "yolo11x.pt",
+      "sha256": "7bc158aa95c0ebfdd87f70f01653c1131b93e92522dbe15c228bcd742e773a24"
+    },
+    "pose_weights": {
+      "path": "yolo26l-pose.pt",
+      "sha256": "ad33da8a29ea5772318c4c980844e47b56792d2b63815ad4e8e09c078c7d1abf"
+    },
+    "ball_model": {
+      "path": "models\\gridtracknet\\gridtracknet.onnx",
+      "sha256": "14a2b5f31d9c0f2f4edabcbbc4c058f824e0f9689081a0ddd69fe44b9c924ed8"
+    }
+  },
+  "code": {
+    "cli.py": "53c989433ce6c61e8559e52b6e93d22a9745681927774f085ef9ad3d7975884c",
+    "longrun.py": "28023a9c704a521709a13f1317da57315459ed89e940c7889239d348778f0b54",
+    "tracking.py": "cc8e671d47b5ca0c90541b69ffee0410b64ac2fa568a5b4513058b28ff526837",
+    "filters.py": "d7fe788bbbf93a1196f001da5f7e082db34d1ff6eb5a20090b0fbbb6cddc4eeb",
+    "detail.py": "1a47594355aad5d77e801b4cfefa8b5808a5f63a2c4be1a4c14327e6613f3834",
+    "scene.py": "ec765f8b0abe3b1be40622329b74492127ad718a97b0d392d727d3f4ed129703",
+    "events.py": "6eb3b5f296baf106f7027538efb158910cf21564fe4a7e34aef173e70a97b95c",
+    "court.py": "556edf16e455310ba7c9b0e9e064e77acd52468a5553c3fbb8d98b95c225781b",
+    "ball_motion.py": "ec54a59a1e9928e560da4541d302b810fb2685c2a512ccc4bd3359cf1e6af8af",
+    "temporal_ball.py": "7044ad819be28255579682aedb6a59fd6d6e52a8269157128ebbf905c79aaf24"
+  },
+  "device": "cpu",
+  "chunks": [
+    {
+      "index": 0,
+      "first_frame": 0,
+      "frames": 10,
+      "source_first_frame": 4740
+    },
+    {
+      "index": 1,
+      "first_frame": 10,
+      "frames": 10,
+      "source_first_frame": 4750
+    },
+    {
+      "index": 2,
+      "first_frame": 20,
+      "frames": 10,
+      "source_first_frame": 4760
+    }
+  ],
+  "fingerprint": "c12a4c1b9b8b8bc0b049fa02681a6f1c15ab3c90a9ebe81f8dc22e3bd6f54f06"
+}

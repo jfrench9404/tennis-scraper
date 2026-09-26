@@ -1,0 +1,20 @@
+{
+  "method": "identity_anchored_crop_pose_v1",
+  "counts": {
+    "inferred_frames": 600,
+    "no_supported_crop_detection": 270,
+    "replaced_pose_frames": 70,
+    "original_pose_retained": 260
+  },
+  "before": {
+    "body_joints": 5476,
+    "pose_frames": 472
+  },
+  "after": {
+    "body_joints": 5826,
+    "pose_frames": 497
+  },
+  "limitation": "Fresh crop detections, not interpolated joints. Joint coverage is not accuracy. Missing identity anchors remain missing; no unrestricted referee/bystander reacquisition.",
+  "checkpoint_sha256": "ad33da8a29ea5772318c4c980844e47b56792d2b63815ad4e8e09c078c7d1abf",
+  "observation_sha256": "078d9b61856494d248c0404aa319bde00ca13f84195d6296db63e57ef6b5c36f"
+}

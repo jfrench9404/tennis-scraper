@@ -1,0 +1,44 @@
+{
+  "overlap": {
+    "source_frames": [
+      4740,
+      4769
+    ],
+    "shared_frames": 30,
+    "frames_with_identical_tracks": 28,
+    "a": {
+      "run": "runs\\rally-neural-ball",
+      "near_player_frames": 28,
+      "near_body_joints": 329,
+      "near_frames_6plus_joints": 28,
+      "racquet_assigned": 23,
+      "ball_frames": 5,
+      "raw_contact_candidate": 1
+    },
+    "b": {
+      "run": "runs\\claude-longrun-dml-30",
+      "near_player_frames": 28,
+      "near_body_joints": 329,
+      "near_frames_6plus_joints": 28,
+      "racquet_assigned": 23,
+      "ball_frames": 5,
+      "raw_contact_candidate": 1
+    },
+    "meaning": "Observation coverage on identical source frames. Not accuracy; no ground truth used."
+  },
+  "b_windows": [
+    {
+      "source_seconds": [
+        150.0,
+        180.0
+      ],
+      "frames": 30,
+      "near_player_frames": 28,
+      "near_body_joints": 329,
+      "near_frames_6plus_joints": 28,
+      "racquet_assigned": 23,
+      "ball_frames": 5,
+      "raw_contact_candidate": 1
+    }
+  ]
+}

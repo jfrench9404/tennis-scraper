@@ -11,7 +11,9 @@ calibration, contact and shot candidates, and a portable HTML virtual replay.
 | `RETURN_TO_CODEX.md` | Report to fill in when work goes back to Codex |
 | `MANIFEST.json` | SHA-256 inventory of the full handoff package, including assets not in git |
 | `project/` | The Python package (`tennis_vision/`), tests, docs and reviewed run outputs |
-| `project/runs/raw-play-ready/replay.html` | Current working replay (20-second baseline) |
+| `project/CLAUDE-OVERNIGHT.md` | Overnight 2026-09-25 work: long-run pipeline, 3D bodies, racquets, how to run |
+| `project/runs/claude-baseline-racquets/replay.html` | Baseline replay with 3D body meshes and racquets |
+| `project/runs/raw-play-ready/replay.html` | Original 20-second baseline replay (unchanged) |
 
 Setup and regression checks are in `CLAUDE_HANDOFF.md` ("Setup and regression checks").
 

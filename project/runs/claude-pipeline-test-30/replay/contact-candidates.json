@@ -1,0 +1,7 @@
+{
+  "method": "observed_turn_equipment_swing_v2",
+  "contacts": [],
+  "review_windows": [],
+  "by_player": {},
+  "limitation": "Candidate scores rank evidence, not calibrated confidence probabilities. Missing ball observations and uncertain identities cause abstention."
+}
