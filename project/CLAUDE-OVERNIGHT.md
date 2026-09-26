@@ -3,6 +3,27 @@
 Branch `claude/overnight-2026-09-25` on github.com/jfrench9404/tennis-scraper.
 Everything ran locally. No footage, stills or model weights were uploaded.
 
+## What actually happened overnight (read first)
+
+Video 1 detection ran normally until about 02:30, then the laptop slept (the log has
+no progress from 02:31 to 05:30), and the process was stopped at 05:30 when the Claude
+session ended. **1,800 of 5,654 frames (6 of 19 chunks) are complete and valid.**
+Nothing needs redoing: the command below resumes at frame 1,800 (fingerprint verified).
+The review, replay, comparison and video 2 steps never started.
+
+Run it in **your own PowerShell window** (not inside Claude), with the laptop plugged
+in and the lid open. `--keep-awake` cannot override lid-close or battery sleep.
+
+```powershell
+cd C:\Users\John\Documents\Codex\2026-09-17\can-x20\outputs\tennis-scraper\project
+.\Run-Game.ps1 -Video "media\sebbie-demo-shortest (1).mp4" -Name claude-game-v1 -RunDir runs\claude-game-v1-full
+```
+
+It needs about 5.5 h more for detection (about 5 s/frame on the GPU), then about 30-45 min
+for review videos, far-player crop poses and the replay. It prints progress and ETA.
+If it stops, run the same line again. The result is
+`runs\claude-game-v1\replay\replay.html`.
+
 ## Open these first
 
 | What | File |
