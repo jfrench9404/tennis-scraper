@@ -290,6 +290,9 @@ def build(run, review, output, court_path, labels_path=None, near_hand="auto", f
     shots = classify_shots(classification_rows,events,summary["fps"],profiles,cuts)
     print("Building feet anchors and 2.5D body wireframes...",flush=True)
     frames,omitted = build_players(replay_rows,court,camera,cuts)
+    # Display-only equipment geometry; never feeds events, contacts or shots.
+    from .racquet_replay import build_racquets
+    racquets = build_racquets(replay_rows,frames,camera,summary["fps"],cuts)
     print("Fitting flights using confirmed bounce constraints only...",flush=True)
     flight_events=[e for e in events if e['type']!='hit' or e['status']=='confirmed' or
                    (e.get('contact_support')!='review_window_only' and
@@ -339,6 +342,7 @@ def build(run, review, output, court_path, labels_path=None, near_hand="auto", f
               'stroke_review_binding':stroke_review_binding,'stroke_review':stroke_review,
               'play_context':{k:v for k,v in play.items() if k!='frames'} if play else None,
               "avatar_counts":dict(Counter(p["avatar"] for frame in frames for p in frame["players"])),
+              "racquet_display":racquets,
               "observed_ball_frames":sum(b is not None for b in balls),
               "missing_ball_frames":sum(b is None for b in balls),
               "supported_flight_fits":len(flights["fits"]),"camera_available":camera is not None,

@@ -79,12 +79,32 @@
    if(W)sphere(id,W,.045,j[side+'_wrist']?solid:materials.completed);
    if(A)sphere(id,[A[0],A[1],Math.max(.035,A[2])],.075,j[side+'_ankle']?solid:materials.completed,.45);}
   return {placeholder:false,...counts};}
+ // Racquets: grip at the supporting wrist(s), axis toward the detected box centre.
+ // Handle/throat/head proportions and the face plane are display choices.
+ const unitRing=new THREE.TorusGeometry(1,.09,6,28),unitDisc=new THREE.CircleGeometry(1,24);
+ const racquetMaterial=(colour,opacity)=>new THREE.MeshLambertMaterial({color:colour,transparent:opacity<1,opacity,depthWrite:opacity>=1,side:THREE.DoubleSide});
+ const racquetMaterials={};
+ function racquetMat(kind,opacity){const key=kind+Math.round(opacity*10);return racquetMaterials[key]||(racquetMaterials[key]=racquetMaterial(kind==='strings'?'#cfdadd':kind==='stale'?'#a9b4b8':'#f3efe2',kind==='strings'?opacity*.35:opacity));}
+ function drawRacquet(r,delta){const grip=v3(add(r.grip_m,delta)),axis=v3(r.axis_unit).normalize(),L=r.length_m,stale=r.status==='stale';
+  const opacity=stale?.3:Math.max(.35,Math.min(1,r.confidence*1.6)),frame=racquetMat(stale?'stale':'frame',opacity),id='racquet-'+r.identity_id;
+  const butt=grip.clone().addScaledVector(axis,-.06),throat=grip.clone().addScaledVector(axis,.30);capsule(id,butt.toArray(),throat.toArray(),.016,frame);
+  // Face plane: contains the axis and faces the camera as far as possible (display choice, not measured).
+  const toCam=v3(view.eye).sub(grip).normalize(),normal=toCam.sub(axis.clone().multiplyScalar(toCam.dot(axis)));if(normal.lengthSq()<1e-6)normal.set(0,0,1);normal.normalize();
+  const width=new THREE.Vector3().crossVectors(axis,normal).normalize(),centre=grip.clone().addScaledVector(axis,L-.165);
+  const basis=new THREE.Matrix4().makeBasis(width,axis,normal);
+  const ring=take(id,unitRing,frame);ring.position.copy(centre);ring.quaternion.setFromRotationMatrix(basis);ring.scale.set(.125,.165,.125);
+  const strings=take(id,unitDisc,racquetMat('strings',opacity));strings.position.copy(centre);strings.quaternion.setFromRotationMatrix(basis);strings.scale.set(.12,.16,1);
+  for(const side of [-1,1]){const shoulder=centre.clone().addScaledVector(axis,-.15).addScaledVector(width,side*.055);capsule(id,throat.toArray(),shoulder.toArray(),.012,frame);}}
  function render(state){
   canvas3d.hidden=false;world.classList.add('overMesh');used={};
   for(const list of Object.values(pools))for(const m of list)m.visible=false;
   const notes=[];
   for(const p of state.players){const delta=sub($('smooth').checked?p.feet_xyz_m:p.raw_feet_xyz_m,p.feet_xyz_m),r=drawPlayer(p,delta);
-   notes.push(`${p.identity_id}: ${r.placeholder?(p.predicted?'predicted position, no pose (grey placeholder)':'no usable pose (translucent placeholder)'):`${r.observed} observed segments${r.completed?`, ${r.completed} completed (animation)`:''}`}`);}
+   let text=`${p.identity_id}: ${r.placeholder?(p.predicted?'predicted position, no pose (grey placeholder)':'no usable pose (translucent placeholder)'):`${r.observed} observed segments${r.completed?`, ${r.completed} completed (animation)`:''}`}`;
+   const racquet=(state.racquets||[]).find(q=>q.identity_id===p.identity_id);
+   if(racquet&&$('showRacquets').checked&&!r.placeholder){drawRacquet(racquet,delta);
+    text+=` · racquet ${racquet.status==='stale'?`held ${racquet.age_frames} frame(s) after last box (stale)`:`box observed (conf ${racquet.confidence.toFixed(2)})`}, ${racquet.hand==='both'?'both hands':racquet.hand+' hand'}, orientation estimated`;}
+   notes.push(text);}
   $('meshNote').textContent=`3D meshes · ${notes.join(' / ')||'no players at this frame'} · depth, orientation and limb thickness are not measured.`;
   cam.position.set(...view.eye);cam.up.set(...view.up);cam.lookAt(...add(view.eye,view.forward));
   renderer.render(scene,cam);}
@@ -92,6 +112,6 @@
  meshRenderer={enabled(){const on=$('bodyRenderer').value==='mesh';if(!on)off();return on;},render,scene,materials};
  $('bodyRenderer').onchange=drawWorld;
  $('meshWireframe').onchange=()=>{for(const m of Object.values(materials))m.wireframe=$('meshWireframe').checked;drawWorld();};
- $('completeLimbs').onchange=drawWorld;
+ $('completeLimbs').onchange=drawWorld;$('showRacquets').onchange=drawWorld;
  drawWorld();
 })();
