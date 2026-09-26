@@ -1,0 +1,38 @@
+name: tests
+
+# Runs the regression suites on every push and pull request. No footage or model
+# weights exist here (they never leave John's PC), so tests must not need them.
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: project
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Install test dependencies (versions match the baseline environment)
+        run: python -m pip install numpy==2.5.3 opencv-python-headless==4.13.0.92 PyYAML==6.0.3 tqdm==4.67.3
+      - name: Python unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Shot replay UI logic (fake DOM)
+        run: node tests/test_shot_replay_ui.cjs
+      - name: Player shots UI logic (fake DOM)
+        run: node tests/test_player_shots_ui.cjs runs/raw-play-ready/replay.html
+      - name: Calibration review UI logic (fake DOM)
+        run: node tests/test_calibration_review_ui.cjs runs/court-bounce-ready/calibration.html
+      - name: Event review UI logic (fake DOM)
+        run: node tests/test_event_review_ui.cjs

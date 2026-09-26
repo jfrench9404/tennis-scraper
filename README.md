@@ -7,6 +7,8 @@ calibration, contact and shot candidates, and a portable HTML virtual replay.
 
 | Path | What it is |
 | --- | --- |
+| `CLAUDE.md` | Rules Claude follows in this repo (data safety, environment, tests, PRs) |
+| `docs/WORKING-WITH-CLAUDE.md` | The day/night cadence: tasks as issues, work as PRs, morning review |
 | `START_HERE.md`, `CLAUDE_HANDOFF.md`, `CLAUDE_PROMPT.md` | 2026-09-25 handoff: current state, constraints and next priorities |
 | `RETURN_TO_CODEX.md` | Report to fill in when work goes back to Codex |
 | `MANIFEST.json` | SHA-256 inventory of the full handoff package, including assets not in git |
