@@ -39,9 +39,15 @@ def write_replay_page(output):
     """Refresh presentation only; preserve analysis and review source data."""
     output=Path(output)
     data=json.loads((output/"replay-data.json").read_text(encoding="utf-8"))
-    template=Path(__file__).with_name("shot_replay.html").read_text(encoding="utf-8")
+    here=Path(__file__).parent
+    template=here.joinpath("shot_replay.html").read_text(encoding="utf-8")
+    # Vendored three.js and the body-mesh script are inlined so the page stays a
+    # single offline file (no CDN, works from file://). Substitute them before
+    # the data so replay JSON can never be mistaken for a placeholder.
+    template=(template.replace('__THREE_JS__',here.joinpath('vendor','three-0.159.0.min.js').read_text(encoding='utf-8'))
+              .replace('__BODY_MESHES_JS__',here.joinpath('body_meshes.js').read_text(encoding='utf-8')))
     encoded=json.dumps(data,allow_nan=False,separators=(',',':')).replace('<','\\u003c')
-    (output/"replay.html").write_text(template.replace('__REPLAY_DATA__',encoded),encoding="utf-8")
+    (output/"replay.html").write_text(template.replace('__REPLAY_DATA__',encoded,1),encoding="utf-8")
 
 
 def feet_record(track, court):
