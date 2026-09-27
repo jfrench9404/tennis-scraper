@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Break Interval Proposals</title>
+<style>
+:root{--bg:#fcfcfb;--panel:#ffffff;--border:#dcdbd6;--text:#0b0b0b;--muted:#52514e;--cell:#2a78d6;--proposal:#eb6834;--unknown:#b9b8b2;--grid:#e6e5e0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1a19;--panel:#222221;--border:#3d3d3a;--text:#ffffff;--muted:#c3c2b7;--cell:#3987e5;--proposal:#d95926;--unknown:#5d5d59;--grid:#2e2e2c}}
+:root[data-theme="dark"]{--bg:#1a1a19;--panel:#222221;--border:#3d3d3a;--text:#ffffff;--muted:#c3c2b7;--cell:#3987e5;--proposal:#d95926;--unknown:#5d5d59;--grid:#2e2e2c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,sans-serif}
+main{max-width:1200px;margin:auto;padding:24px 16px}h1{font-size:26px;letter-spacing:-.5px;margin:0 0 4px}h2{font-size:17px;margin:0 0 10px}
+.muted{color:var(--muted)}.eyebrow{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:2px}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;margin:16px 0}
+.stats{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.stats span{border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:14px}
+.warn{border-left:4px solid var(--proposal);padding:8px 12px;margin:12px 0}
+.scroll{overflow-x:auto}svg{display:block}svg text{fill:var(--muted);font:12px system-ui,sans-serif;pointer-events:none}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted);margin-top:8px}.sw{display:inline-block;width:14px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:top}th{color:var(--muted);font-weight:600}td.num{font-variant-numeric:tabular-nums}
+.table-wrap{overflow-x:auto}#proposals{min-width:900px}#proposals td:nth-child(5){min-width:280px}#proposals td:first-child,#proposals td.num{white-space:nowrap}#tip{position:fixed;pointer-events:none;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+details summary{cursor:pointer;color:var(--muted)}[hidden]{display:none!important}
+</style></head><body><main>
+<div class="eyebrow">Tennis vision / proposals for review</div>
+<h1>Possible changeovers and breaks</h1>
+<p class="muted" id="meaning"></p>
+<div class="warn" id="partialNote" hidden></div>
+<div class="stats" id="stats"></div>
+<section class="panel" aria-label="Presence timeline"><h2>Observed presence per second</h2>
+<p class="muted">Each cell is one source second. Darker means the item was observed in more of that second's frames. Orange bars are proposed intervals, not confirmed boundaries.</p>
+<div class="scroll"><svg id="timeline" role="img" aria-label="Per-second observed presence of near player, far player and ball, with proposed intervals"></svg></div>
+<div class="legend"><span><span class="sw" style="background:var(--cell)"></span>Observed in every frame of the second</span><span><span class="sw" style="background:var(--cell);opacity:.15"></span>Not observed</span><span><span class="sw" style="background:var(--unknown)"></span>Not analysed (unknown)</span><span><span class="sw" style="background:var(--proposal)"></span>Proposed interval</span></div>
+</section>
+<section class="panel"><h2>Proposed intervals</h2><div class="table-wrap"><table id="proposals"><thead><tr><th>ID</th><th>Source seconds</th><th>Source frames</th><th>Duration</th><th>Why proposed</th><th>Observed frames in interval (near / far / ball of analysed)</th></tr></thead><tbody></tbody></table></div>
+<p id="none" class="muted" hidden>No interval met the thresholds. That is not evidence that no break happened; the thresholds or detector coverage may hide one.</p></section>
+<section class="panel"><h2>Thresholds used</h2><div class="table-wrap"><table id="thresholds"><tbody></tbody></table></div>
+<p class="muted">Tunable defaults, not decisions. Rerun with other values to see how proposals change.</p></section>
+<section class="panel"><details><summary>Per-second table</summary><div class="table-wrap"><table id="seconds"><thead><tr><th>Second</th><th>Frames</th><th>Analysed</th><th>Near</th><th>Far</th><th>Ball</th></tr></thead><tbody></tbody></table></div></details></section>
+</main><div id="tip" role="status" hidden></div>
+<script id="segments-data" type="application/json">__SEGMENTS_DATA__</script><script>
+'use strict';
+const data=JSON.parse(document.getElementById('segments-data').textContent);
+const $=id=>document.getElementById(id), NS='http://www.w3.org/2000/svg';
+const el=(tag,attrs,parent)=>{const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;};
+const td=(tr,text,cls)=>{const c=document.createElement('td');c.textContent=text;if(cls)c.className=cls;tr.appendChild(c);return c;};
+const clock=s=>{s=Math.round(Math.max(0,s)*10)/10;const m=Math.floor(s/60),r=Math.round((s-m*60)*10)/10;return m+':'+(r<10?'0':'')+r.toFixed(r%1?1:0);};
+const secs=([a,b])=>a.toFixed(1)+'–'+b.toFixed(1)+' s ('+clock(a)+'–'+clock(b)+')';
+const pct=(n,d)=>d?Math.round(100*n/d)+'%':'–';
+$('meaning').textContent=data.meaning;
+const stats=['Run: '+data.run,'Rows: '+data.source,'Source '+secs(data.source_seconds),data.rows_read+' frames read','fps '+data.fps];
+if(data.missing_frames_in_span)stats.push(data.missing_frames_in_span+' frames in span not analysed');
+if(data.chunks)stats.push('Chunks complete: '+data.chunks.complete+'/'+data.chunks.planned);
+for(const s of stats){const e=document.createElement('span');e.textContent=s;$('stats').appendChild(e);}
+if(data.partial){$('partialNote').hidden=false;$('partialNote').textContent='Partial run: only '+data.rows_read+' of '+data.selection_frames+' selected frames have been analysed so far. Intervals flagged "continues past the data" may be longer.';}
+// Timeline
+const rows=[['near','Near player'],['far','Far player'],['ball','Ball']];
+const secondsList=data.per_second, first=secondsList.length?secondsList[0].second:0, n=secondsList.length;
+const cw=Math.max(3,Math.min(14,Math.floor(1000/Math.max(1,n)))), left=92, rowsTop=34, rh=22, gap=4;
+const width=left+n*cw+24, height=rowsTop+rows.length*(rh+gap)+26;
+const svg=$('timeline');svg.setAttribute('viewBox','0 0 '+width+' '+height);svg.setAttribute('width',width);svg.setAttribute('height',height);
+const x=s=>left+(s-first)*cw;
+data.proposals.forEach(p=>{const x0=left+(p.source_seconds[0]-first)*cw,x1=left+(p.source_seconds[1]-first)*cw;
+ const band=el('rect',{x:x0,y:6,width:Math.max(2,x1-x0),height:14,rx:3,fill:'var(--proposal)','data-proposal':p.id},svg);
+ band.addEventListener('mousemove',ev=>tip(ev,p.id+' · '+p.label+'\n'+secs(p.source_seconds)+'\n'+p.reason_text.join('; ')));band.addEventListener('mouseleave',hide);
+ el('rect',{x:x0,y:rowsTop-4,width:Math.max(2,x1-x0),height:rows.length*(rh+gap)+4,fill:'none',stroke:'var(--proposal)','stroke-width':1.5,'stroke-dasharray':'4 3','pointer-events':'none'},svg);
+ if(x1-x0>28){const t=el('text',{x:x0+4,y:17},svg);t.textContent=p.id.replace('proposal-','P');t.style.fill='var(--bg)';}});
+rows.forEach(([key,label],r)=>{const y=rowsTop+r*(rh+gap);const t=el('text',{x:0,y:y+rh/2+4},svg);t.textContent=label;
+ secondsList.forEach(b=>{const known=b.analysed>0,frac=known?b[key]/b.analysed:0;
+  const cell=el('rect',{x:x(b.second)+.5,y:y,width:Math.max(1,cw-1),height:rh,fill:known?'var(--cell)':'var(--unknown)','fill-opacity':known?(0.15+0.85*frac).toFixed(3):1,'data-row':key,'data-second':b.second},svg);
+  cell.addEventListener('mousemove',ev=>tip(ev,label+' · second '+b.second+' ('+clock(b.second)+')\n'+(known?b[key]+' of '+b.analysed+' analysed frames observed ('+pct(b[key],b.analysed)+')':'not analysed')));
+  cell.addEventListener('mouseleave',hide);});});
+const step=[5,10,15,30,60,120,300,600].find(s=>s*cw>=60)||600;
+for(let s=Math.ceil(first/step)*step;s<=first+n;s+=step){const tx=x(s);el('line',{x1:tx,x2:tx,y1:rowsTop+rows.length*(rh+gap)-2,y2:rowsTop+rows.length*(rh+gap)+4,stroke:'var(--muted)'},svg);
+ const t=el('text',{x:tx,y:height-6,'text-anchor':'middle'},svg);t.textContent=clock(s);}
+function tip(ev,text){const e=$('tip');e.hidden=false;e.textContent='';text.split('\n').forEach((line,i)=>{if(i)e.appendChild(document.createElement('br'));e.appendChild(document.createTextNode(line));});
+ const w=e.offsetWidth||200;e.style.left=Math.min(window.innerWidth-w-8,ev.clientX+12)+'px';e.style.top=(ev.clientY+14)+'px';}
+function hide(){$('tip').hidden=true;}
+// Proposals table
+const body=$('proposals').tBodies[0];
+data.proposals.forEach(p=>{const tr=document.createElement('tr');const ev=p.evidence;
+ td(tr,p.id);td(tr,secs(p.source_seconds),'num');td(tr,p.source_frames[0]+'–'+p.source_frames[1],'num');td(tr,p.duration_s.toFixed(1)+' s','num');
+ const edges=[p.open_start?'starts at the edge of the analysed data':'',p.open_end?'continues past the analysed data':''].filter(Boolean);
+ td(tr,p.label+': '+p.reason_text.join('; ')+(edges.length?' ('+edges.join(', ')+')':''));
+ td(tr,ev.near_observed_frames+' / '+ev.far_observed_frames+' / '+ev.ball_observed_frames+' of '+ev.analysed_frames,'num');body.appendChild(tr);});
+$('none').hidden=data.proposals.length>0;
+for(const [k,v] of Object.entries(data.thresholds)){const tr=document.createElement('tr');td(tr,k.replace(/_/g,' '));td(tr,v+' s','num');$('thresholds').tBodies[0].appendChild(tr);}
+const sb=$('seconds').tBodies[0];
+secondsList.forEach(b=>{const tr=document.createElement('tr');td(tr,b.second+' ('+clock(b.second)+')','num');td(tr,b.frames,'num');td(tr,b.analysed,'num');
+ for(const k of ['near','far','ball'])td(tr,b[k]+' ('+pct(b[k],b.analysed)+')','num');sb.appendChild(tr);});
+</script></body></html>
