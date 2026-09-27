@@ -13,6 +13,7 @@ param(
     [string]$Scene = 'sebbie-scene.json',
     # Reviewed calibration to carry as a DRAFT after a camera-consistency check.
     [string]$Corrections = 'runs\court-bounce-20260925-110335-545\calibration-corrections.json',
+    # FFmpeg for review videos. Default: first capable of PATH, opencv-env, Downloads.
     [string]$Ffmpeg = '',
     # Continue an existing detection folder (e.g. runs\claude-game-v1-full) instead of runs\NAME\run.
     [string]$RunDir = '',
@@ -22,12 +23,42 @@ $ErrorActionPreference = 'Stop'
 $projectRoot = $PSScriptRoot
 $python = Join-Path $projectRoot '.venv\Scripts\python.exe'
 if (-not (Test-Path -LiteralPath $python)) { throw 'Missing .venv. See CLAUDE-OVERNIGHT.md "Environment".' }
-if (-not $Ffmpeg) {
-    $found = Get-Command ffmpeg -ErrorAction SilentlyContinue
-    $Ffmpeg = if ($found) { $found.Source } else { Join-Path $env:USERPROFILE 'Downloads\ffmpeg\ffmpeg.exe' }
+
+# Same check event_review runs before it creates review\ (-fps_mode needs FFmpeg 5.1+, plus libx264).
+# Prints one JSON line on stdout; exit code 0 means capable. Runs from the project root.
+function Test-Ffmpeg([string]$Candidate) {
+    $line = @(& $python -m tennis_vision.event_review --check-ffmpeg $Candidate)[-1]
+    $code = $LASTEXITCODE
+    try { $result = $line | ConvertFrom-Json } catch { $result = $null }
+    if (-not $result) { $result = [pscustomobject]@{ path = $Candidate; version = $null; reason = "check did not run (exit $code): $line" } }
+    [pscustomobject]@{ Ok = ($code -eq 0); Path = $result.path; Version = $result.version; Reason = $result.reason }
 }
+
 Push-Location -LiteralPath $projectRoot
 try {
+    # Check FFmpeg now, not after hours of detection: review rendering is stage 2.
+    if ($Ffmpeg) {
+        $check = Test-Ffmpeg $Ffmpeg
+        if (-not $check.Ok) { throw "-Ffmpeg $Ffmpeg cannot render review videos: $($check.Reason)" }
+        $Ffmpeg = $check.Path
+    } else {
+        # First capable candidate: PATH, then the opencv-env copy (7.1), then the Downloads copy.
+        $candidates = @()
+        $onPath = Get-Command ffmpeg -ErrorAction SilentlyContinue
+        if ($onPath) { $candidates += $onPath.Source }
+        $candidates += (Join-Path $env:USERPROFILE 'miniconda3\envs\opencv-env\Library\bin\ffmpeg.exe')
+        $candidates += (Join-Path $env:USERPROFILE 'Downloads\ffmpeg\ffmpeg.exe')
+        $rejected = @()
+        foreach ($candidate in $candidates) {
+            if (-not (Test-Path -LiteralPath $candidate)) { $rejected += "$candidate : not found"; continue }
+            $check = Test-Ffmpeg $candidate
+            if ($check.Ok) { $Ffmpeg = $check.Path; break }
+            $rejected += "$candidate : $($check.Reason)"
+        }
+        foreach ($skipped in $rejected) { Write-Host "Skipped FFmpeg $skipped" }
+        if (-not $Ffmpeg) { throw "No capable FFmpeg found; pass -Ffmpeg PATH. Checked:`n$($rejected -join "`n")" }
+    }
+    Write-Host "Using FFmpeg $($check.Version): $Ffmpeg"
     $arguments = @('-m','tennis_vision.game_pipeline','--input',$Video,'--output-root',(Join-Path 'runs' $Name),
         '--court',$Court,'--scene',$Scene,'--corrections',$Corrections,'--ffmpeg',$Ffmpeg,'--keep-awake')
     if ($Cpu) {
