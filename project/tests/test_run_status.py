@@ -154,22 +154,33 @@ class PartialRunTest(unittest.TestCase):
 
 
 class NewTimingFieldsTest(unittest.TestCase):
-    """Fields added by the long-run timing task are used when present."""
+    """Fields added by the long-run timing task (#9, PR #20) are used when present."""
 
     def test_timestamps_and_pauses_are_used(self):
         with tempfile.TemporaryDirectory() as directory:
             output, manifest = make_run(Path(directory))
             iso = lambda dt: dt.isoformat(timespec="seconds")
             pause = {"start": iso(T0 + timedelta(seconds=70)), "end": iso(T0 + timedelta(seconds=3670)),
-                     "seconds": 3600.0}
+                     "seconds": 3600.0, "frame": 12, "source_frame": 12}
             complete_chunk(output, manifest, 0, T0, 50.0, {"started_at": iso(T0), "finished_at": iso(T0 + timedelta(seconds=50))})
-            complete_chunk(output, manifest, 1, T0, 3650.0, {"started_at": iso(T0 + timedelta(seconds=60)),
-                                                               "finished_at": iso(T0 + timedelta(seconds=3710)),
-                                                               "pauses": [pause]})
+            # The monotonic "seconds" may leave the sleep out: the wall-clock span is used instead.
+            for index, seconds in ((1, 50.0), (1, 3650.0)):
+                folder = longrun.chunk_dir(output, manifest["chunks"][index])
+                if folder.exists():
+                    for child in folder.iterdir():
+                        child.unlink()
+                    folder.rmdir()
+                complete_chunk(output, manifest, 1, T0, seconds, {
+                    "started_at": iso(T0 + timedelta(seconds=60)), "finished_at": iso(T0 + timedelta(seconds=3710)),
+                    "pause_threshold_s": 60.0, "pauses": [pause], "paused_seconds": 3600.0})
+                self.assertAlmostEqual(run_status.chunk_record(output, manifest["chunks"][1], manifest["fingerprint"],
+                                                               False)["active_seconds"], 50.0)
             complete_chunk(output, manifest, 2, T0, 50.0, {"started_at": iso(T0 + timedelta(hours=2)),
                                                              "finished_at": iso(T0 + timedelta(hours=2, seconds=50))})
-            (output / "progress.json").write_text(json.dumps({"frames_done": 30, "frames_total": 100,
-                                                              "updated_at": iso(T0 + timedelta(hours=2, seconds=51))}))
+            (output / "progress.json").write_text(json.dumps({
+                "frames_done": 30, "frames_total": 100, "updated_at": iso(T0 + timedelta(hours=2, seconds=51)),
+                "session_started_at": iso(T0 + timedelta(hours=2)), "session_active_s": 50.0,
+                "session_paused_s": 0.0, "pause_threshold_s": 60.0, "session_pauses": []}))
             result = run_status.status(output, logs=[], now=T0 + timedelta(hours=2, minutes=5))
             self.assertEqual(result["state"], "running")
             self.assertEqual(result["last_progress_basis"], "progress.json updated_at")
@@ -178,19 +189,29 @@ class NewTimingFieldsTest(unittest.TestCase):
             [pause_out] = result["pauses"]
             self.assertEqual(pause_out["minutes"], 60.0)
             [gap] = result["gaps"]
-            self.assertEqual(gap["source"], "between chunks (chunk.json timestamps)")
+            self.assertEqual(gap["source"], "between chunks (recorded timestamps)")
             self.assertEqual(gap["chunks"], [2, 3])
 
-    def test_report_pauses_are_listed(self):
+    def test_report_timing_and_pauses_without_chunk_folders(self):
         with tempfile.TemporaryDirectory() as directory:
-            output, manifest = make_run(Path(directory), frames=10)
-            complete_chunk(output, manifest, 0, T0, 50.0)
+            output, manifest = make_run(Path(directory), frames=20)  # chunks/ removed after the merge
+            pause = {"start": "2026-09-26T02:30:30+01:00", "end": "2026-09-26T05:29:30+01:00", "seconds": 10740.0,
+                     "frame": 14, "chunk": 1}
+            timing = {"pause_threshold_s": 60.0, "paused_seconds_total": 10740.0, "chunks_without_timing": 1, "chunks": [
+                {"index": 0, "seconds": 50.0, "started_at": None, "finished_at": None, "paused_seconds": None,
+                 "timing_recorded": False},
+                {"index": 1, "seconds": 10790.0, "started_at": "2026-09-26T02:30:00+01:00",
+                 "finished_at": "2026-09-26T05:29:50+01:00", "paused_seconds": 10740.0, "timing_recorded": True}]}
             (output / "longrun-report.json").write_text(json.dumps({
-                "fingerprint": manifest["fingerprint"], "chunk_seconds": [50.0],
-                "pauses": [{"start": "2026-09-26T02:31:00+01:00", "end": "2026-09-26T05:30:00+01:00"}]}))
-            result = run_status.status(output, logs=[], now=T0)
+                "fingerprint": manifest["fingerprint"], "chunk_seconds": [50.0, 10790.0],
+                "started_at": "2026-09-26T02:00:00+01:00", "finished_at": "2026-09-26T05:31:00+01:00",
+                "timing": timing, "pauses": [pause]}))
+            result = run_status.status(output, logs=[], now=T0 + timedelta(hours=6))
             self.assertEqual(result["state"], "complete")
-            self.assertEqual(result["pauses"][0]["minutes"], 179.0)
+            self.assertEqual(result["chunks_complete"], 2)
+            self.assertAlmostEqual(result["rate_fps"], 20 / 100)
+            self.assertEqual([p["minutes"] for p in result["pauses"]], [179.0])
+            self.assertIn("Pause:", run_status.render(result))
 
 
 class LogTest(unittest.TestCase):

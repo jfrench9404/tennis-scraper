@@ -9,9 +9,11 @@ Strictly read-only: it only reads the run folder written by ``longrun.py``
 moves or locks a file, so it is safe to use while a run is going.
 
 Works on never-started, partial and complete runs. Newer timing fields
-(``started_at``/``finished_at``/``pauses`` in chunk.json, ``updated_at`` in
-progress.json, ``pauses`` in longrun-report.json) are used when present; older
-runs fall back to file modified times, and the output says which source it used.
+(``started_at``/``finished_at``/``pauses``/``paused_seconds`` in chunk.json,
+``updated_at`` in progress.json, ``pauses`` and ``timing`` in longrun-report.json)
+are used when present; older runs fall back to file modified times, and the
+output says which source it used. With timestamps, a chunk's processing time is
+its wall-clock span minus recorded pauses (one clock for both).
 
 "Stalled" means no progress was written for longer than the threshold. A
 stopped process, a sleeping laptop and a hung process look the same from the
@@ -90,6 +92,22 @@ def pause_seconds(record: dict[str, Any]) -> float:
                 seconds = (end - start).total_seconds() if start and end else 0
             total += max(float(seconds), 0.0)
     return total
+
+
+def active_seconds(record: dict[str, Any]) -> float | None:
+    """Processing time of one chunk with recorded pauses left out.
+
+    With ``started_at``/``finished_at`` the wall-clock span minus the recorded
+    pauses is used, so both come from the same clock (the monotonic ``seconds``
+    may or may not include time asleep). Otherwise ``seconds`` as measured.
+    """
+    paused = record.get("paused_seconds")
+    paused = float(paused) if isinstance(paused, (int, float)) else pause_seconds(record)
+    started, finished = parse_iso(record.get("started_at")), parse_iso(record.get("finished_at"))
+    if started and finished and finished > started:
+        return max((finished - started).total_seconds() - paused, 0.0)
+    seconds = record.get("seconds")
+    return max(float(seconds) - paused, 0.0) if isinstance(seconds, (int, float)) else None
 
 
 def pause_list(record: dict[str, Any], where: str) -> list[dict[str, Any]]:
@@ -248,7 +266,9 @@ def chunk_record(output: Path, chunk: dict[str, Any], fingerprint: str | None, v
         record["complete"] = True
     record["frames"] = status.get("frames", chunk["frames"])
     record["seconds"] = status.get("seconds") if isinstance(status.get("seconds"), (int, float)) else None
-    record["paused_seconds"] = pause_seconds(status)
+    record["active_seconds"] = active_seconds(status)
+    paused = status.get("paused_seconds")
+    record["paused_seconds"] = float(paused) if isinstance(paused, (int, float)) else pause_seconds(status)
     record["pauses"] = pause_list(status, f"chunk {chunk['index'] + 1} chunk.json")
     finished, started = parse_iso(status.get("finished_at")), parse_iso(status.get("started_at"))
     record["finished_basis"] = "chunk.json finished_at" if finished else "chunk.json modified time"
@@ -325,9 +345,17 @@ def status(run: Path, stall_minutes: float = DEFAULT_STALL_MINUTES, gap_minutes:
         # Finished runs may have had their chunks/ working folder removed (it is not
         # kept in git); the report is the record that every chunk completed.
         chunk_seconds = report.get("chunk_seconds") or []
-        leading = [{"index": c["index"], "frames": c["frames"], "complete": True,
-                    "seconds": chunk_seconds[i] if i < len(chunk_seconds) else None, "paused_seconds": 0.0,
-                    "pauses": [], "finished": None} for i, c in enumerate(chunks)]
+        timing = {t.get("index"): t for t in (report.get("timing") or {}).get("chunks") or [] if isinstance(t, dict)}
+        leading = []
+        for i, c in enumerate(chunks):
+            entry = dict(timing.get(c["index"]) or {"seconds": chunk_seconds[i] if i < len(chunk_seconds) else None})
+            leading.append({"index": c["index"], "frames": c["frames"], "complete": True,
+                            "seconds": entry.get("seconds"), "active_seconds": active_seconds(entry),
+                            "paused_seconds": entry.get("paused_seconds") or 0.0, "pauses": [],
+                            "finished": parse_iso(entry.get("finished_at")),
+                            "finished_basis": "longrun-report.json timing finished_at",
+                            "started": parse_iso(entry.get("started_at")),
+                            "started_basis": "longrun-report.json timing started_at"})
         later, broken, in_progress = [], [], None
         result["notes"].append("chunk folders absent or incomplete; counts taken from longrun-report.json")
     frames_done = sum(r["frames"] for r in leading)
@@ -365,12 +393,12 @@ def status(run: Path, stall_minutes: float = DEFAULT_STALL_MINUTES, gap_minutes:
         result["since_progress_s"] = max((now - last).total_seconds(), 0.0)
 
     # Rate: processing time of completed chunks, recorded pauses excluded.
-    timed = [r for r in leading if r.get("seconds")]
-    work_s = sum(r["seconds"] - r.get("paused_seconds", 0.0) for r in timed)
+    timed = [r for r in leading if r.get("active_seconds")]
+    work_s = sum(r["active_seconds"] for r in timed)
     if timed and work_s > 0:
-        paused = sum(r.get("paused_seconds", 0.0) for r in timed)
+        paused = sum(r.get("paused_seconds") or 0.0 for r in timed)
         result["rate_fps"] = sum(r["frames"] for r in timed) / work_s
-        result["rate_basis"] = (f"{len(timed)} completed chunk(s), chunk.json/report seconds"
+        result["rate_basis"] = (f"{len(timed)} completed chunk(s), chunk.json/report timing"
                                 + (f", {paused / 60:.1f} min of recorded pauses excluded" if paused else ""))
     elif isinstance(progress, dict) and progress.get("measured_frames_per_s"):
         result["rate_fps"] = float(progress["measured_frames_per_s"])
@@ -387,7 +415,7 @@ def status(run: Path, stall_minutes: float = DEFAULT_STALL_MINUTES, gap_minutes:
             if idle > gap_s:
                 approx = "approx." in after.get("started_basis", "") or "modified" in before.get("finished_basis", "")
                 result["gaps"].append({"source": "between chunks " + ("(file modified times, approx.)" if approx
-                                                                      else "(chunk.json timestamps)"),
+                                                                      else "(recorded timestamps)"),
                                        "start": before["finished"].isoformat(timespec="seconds"),
                                        "end": after["started"].isoformat(timespec="seconds"),
                                        "minutes": round(idle / 60, 1),
@@ -487,7 +515,8 @@ def render(result: dict[str, Any]) -> str:
             out.append(f"      before: {gap['before']}")
             out.append(f"      after:  {gap['after']}")
     for pause in result.get("pauses") or []:
-        out.append(f"Pause:          {pause['start']} -> {pause['end']}  {pause['minutes']:g} min [{pause['source']}]")
+        out.append(f"Pause:          {str(pause['start']).replace('T', ' ')} -> {str(pause['end']).replace('T', ' ')}  "
+                   f"{duration(pause['minutes'] * 60)}  [{pause['source']}]")
     logs = result.get("logs")
     if logs is not None:
         out.append("Logs read:      " + (", ".join(log["path"] for log in logs) if logs else "none found (pass --log)"))
