@@ -39,6 +39,8 @@ The latest state is described in `project/CLAUDE-OVERNIGHT.md`.
 - Node for JS suites: `C:\Users\John\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe`
 - FFmpeg: `C:\Users\John\Downloads\ffmpeg\ffmpeg.exe`
 - Git over HTTPS needs `git -c http.sslBackend=schannel` (set in this repo's config).
+- GitHub CLI: `& "C:\Program Files\GitHub CLI\gh.exe"` (logged in as jfrench9404; the
+  app's PATH may not include it). The token can't change repo settings, by design.
 - Disk is tight (a few GB free). Check `(Get-PSDrive C).Free` before large installs or
   outputs; never delete John's files to make room. Ask instead.
 - GPU: Quadro RTX 3000 via DirectML only (the CUDA torch build does not fit on disk).
@@ -90,5 +92,22 @@ things here) → John promotes `dev` → **`main`** (stable) with his own PR.
   is unverified or a decision is pending. Reference the issue (`Closes #N`).
 - If a task turns out bigger or riskier than the issue suggests, stop at a safe point,
   push what works, and explain in the PR instead of pushing through.
-- `gh` may not be installed. If it isn't, push the branch and give John the
+- Open PRs with `gh pr create --base dev --body-file <file>` (template filled in), then
+  comment the PR link on the issue. If `gh` fails, push the branch and give John the
   `https://github.com/jfrench9404/tennis-scraper/compare/dev...<branch>?expand=1` link.
+
+## Parallel nights (one agent per issue)
+
+On nights with several agents, each agent works one `tonight` issue in its **own git
+worktree**, alongside other agents that share this laptop:
+
+- Touch only the files the issue lists under **Files this task owns** (plus new test
+  files). If you must change anything else, keep it minimal and call it out in the PR.
+- Worktrees don't contain `.venv`, footage or weights. Use the main checkout's
+  interpreter by absolute path:
+  `C:\Users\John\Documents\Codex\2026-09-17\can-x20\outputs\tennis-scraper\project\.venv\Scripts\python.exe`.
+  For browser checks, read (never write) `source.mp4` files from the main checkout's `project/runs/`.
+- No GPU, no inference, no new package installs, no long-running servers left behind.
+  Use a unique port if you serve pages (8800 + issue number).
+- Finish with a PR into `dev` (draft if anything is unverified), then post a short
+  comment on the night's summary issue: PR link, verified, not verified, decisions needed.
