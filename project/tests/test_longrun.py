@@ -1,7 +1,9 @@
 """Long-run chunking, resume and merge contracts, without running any model."""
+from datetime import datetime
 import importlib
+import io
 import json
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import pickle
 import sys
 import tempfile
@@ -179,6 +181,227 @@ class MergeTest(unittest.TestCase):
             status_path.write_text(json.dumps(status))
             with self.assertRaises(RuntimeError):
                 longrun.merge_run(output, manifest, None, None)
+
+
+VIDEO1_MANIFEST = Path(__file__).resolve().parent.parent / "runs" / "claude-game-v1-full" / "longrun-manifest.json"
+# chunk.json keys written before wall-clock timing existed (resume must keep accepting these).
+LEGACY_CHUNK_KEYS = {"status", "index", "fingerprint", "first_frame", "frames", "source_first_frame",
+                     "source_last_frame", "last_frame_sha256", "events_sha256", "state_sha256", "seconds"}
+TIMING_CHUNK_KEYS = {"started_at", "finished_at", "pause_threshold_s", "pauses", "paused_seconds"}
+
+
+class WindowsPath(PureWindowsPath):
+    """The video-1 manifest was built on Windows; resolve() must keep that path as-is."""
+
+    def resolve(self):
+        return self
+
+
+class FakeClock:
+    """Wall clock that only moves when the test says so."""
+
+    def __init__(self, start=1_790_000_000.0):
+        self.now = start
+
+    def __call__(self):
+        return self.now
+
+
+class SleepyAnalyzer(CountingAnalyzer):
+    """Each frame takes 1 s of wall time; selected frames also 'sleep' first."""
+
+    clock, sleeps = None, {}
+
+    def process(self, frame, ball, stats):
+        self.clock.now += 1.0 + self.sleeps.get(self.frames, 0.0)
+        return super().process(frame, ball, stats)
+
+
+def parse_local_iso(text):
+    value = datetime.fromisoformat(text)
+    if value.utcoffset() is None:
+        raise AssertionError(f"{text} has no UTC offset")
+    return value
+
+
+class ResumeCompatibilityTest(unittest.TestCase):
+    """John's video-1 run (runs/claude-game-v1-full) must still resume after this change."""
+
+    def load(self):
+        return json.loads(VIDEO1_MANIFEST.read_text(encoding="utf-8"))
+
+    def test_video1_manifest_fingerprint_rebuilds_from_the_same_arguments(self):
+        stored = self.load()
+        self.assertEqual(longrun.LONGRUN_VERSION, stored["version"])
+        self.assertEqual(longrun.fingerprint(stored), stored["fingerprint"])
+        # Orchestration code (this file) is deliberately not fingerprinted.
+        self.assertEqual(longrun.CODE_FILES, tuple(stored["code"]))
+        self.assertNotIn("longrun.py", longrun.CODE_FILES)
+        # Rebuild through build_manifest with the arguments that run used. Input and
+        # weights are not in the repo, so their hashes come from the manifest; the
+        # analysis-code hashes are checked separately below.
+        hashes = {stored["input"]["path"]: stored["input"]["sha256"],
+                  **{m["path"]: m["sha256"] for m in stored["models"].values()}}
+        with tempfile.TemporaryDirectory() as directory:
+            court_path, scene_path = Path(directory) / "court.yaml", Path(directory) / "scene.json"
+            court_path.write_bytes(stored["settings"]["court"].encode("utf-8"))
+            scene_path.write_text(json.dumps(stored["settings"]["scene"]), encoding="utf-8")
+            settings = stored["settings"]
+            args = types.SimpleNamespace(
+                input=WindowsPath(stored["input"]["path"]), court=court_path, scene=scene_path,
+                weights=PureWindowsPath(stored["models"]["weights"]["path"]),
+                pose_weights=PureWindowsPath(stored["models"]["pose_weights"]["path"]),
+                ball_model=PureWindowsPath(stored["models"]["ball_model"]["path"]), device=None,
+                **{k: settings[k] for k in ("confidence", "imgsz", "court_side_margin", "court_baseline_margin",
+                                            "no_detail_pass", "all_players", "no_auto_court", "temporal_ball",
+                                            "ball_threshold", "chunk_frames", "backend")})
+            info = {k: stored["input"][k] for k in ("fps", "frames", "width", "height")}
+            selection = stored["selection"]
+            with patch.object(longrun, "file_sha256", side_effect=lambda p: hashes[str(p)]), \
+                 patch.object(longrun, "code_hashes", return_value=dict(stored["code"])):
+                built = longrun.build_manifest(args, info, selection["source_start_frame"],
+                                               selection["source_end_frame_exclusive"])
+        self.assertEqual(built["fingerprint"], stored["fingerprint"])
+        self.assertEqual(built, stored)  # Same chunk plan and device too.
+
+    def test_current_analysis_code_still_matches_video1_manifest(self):
+        stored = self.load()
+        current = longrun.code_hashes()
+        changed = sorted(name for name in stored["code"] if current[name] != stored["code"][name])
+        if changed:
+            # Not this change's contract: analysis code may legitimately move on in dev,
+            # which (by design) makes that run refuse to resume from this checkout.
+            self.skipTest(f"analysis code changed since video-1 started: {changed}")
+        self.assertEqual(current, stored["code"])
+
+    def test_chunks_without_timing_fields_still_count_as_complete(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            video = root / "clip.avi"
+            make_video(video, 40)
+            manifest = manifest_for(video, 0, 40, 10)
+            one = root / "one"; one.mkdir()
+            run(one, manifest)
+            output = root / "run"; output.mkdir()
+            run(output, manifest, stop=2)
+            for chunk in manifest["chunks"][:2]:
+                path = longrun.chunk_dir(output, chunk) / "chunk.json"
+                status = json.loads(path.read_text())
+                self.assertEqual(set(status), LEGACY_CHUNK_KEYS | TIMING_CHUNK_KEYS)
+                # Rewrite exactly as the pre-timing code did.
+                longrun.save_json(path, {k: v for k, v in status.items() if k in LEGACY_CHUNK_KEYS})
+            self.assertEqual(len(longrun.completed_chunks(output, manifest)), 2)
+            session = run(output, manifest)
+            self.assertEqual((session["resumed_chunks"], session["processed_chunks"]), (2, 2))
+            self.assertEqual(rows(output, manifest), rows(one, manifest))
+            timing = longrun.timing_report(output, manifest)
+            self.assertEqual([c["timing_recorded"] for c in timing["chunks"]], [False, False, True, True])
+            self.assertEqual(timing["chunks_without_timing"], 2)
+            self.assertIsNone(timing["chunks"][0]["paused_seconds"])  # Unknown, not zero.
+            self.assertIsNone(timing["chunks"][0]["started_at"])
+            self.assertIsNotNone(timing["chunks"][0]["seconds"])
+
+
+class TimingTest(unittest.TestCase):
+    def run_sleepy(self, output, manifest, clock, sleeps, stop=None):
+        SleepyAnalyzer.clock, SleepyAnalyzer.sleeps = clock, sleeps
+        with patch.object(longrun, "wall_clock", clock):
+            return longrun.run_chunks(None, manifest, output, SleepyAnalyzer, None,
+                                      progress_stream=io.StringIO(), stop_after_chunks=stop)
+
+    def test_chunks_record_wall_clock_and_pauses_without_changing_rows(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            video = root / "clip.avi"
+            make_video(video, 30)
+            manifest = manifest_for(video, 0, 30, 10)
+            plain = root / "plain"; plain.mkdir()
+            run(plain, manifest)
+            output = root / "run"; output.mkdir()
+            clock = FakeClock()
+            # A 3 h sleep before frame 13, and a 59 s stall (below threshold) before frame 25.
+            self.run_sleepy(output, manifest, clock, {13: 3 * 3600.0, 25: 59.0 - 1.0})
+            self.assertEqual(rows(output, manifest), rows(plain, manifest))
+            statuses = [json.loads((longrun.chunk_dir(output, c) / "chunk.json").read_text())
+                        for c in manifest["chunks"]]
+            for status in statuses:
+                started, finished = parse_local_iso(status["started_at"]), parse_local_iso(status["finished_at"])
+                self.assertLessEqual(started, finished)
+                self.assertEqual(status["pause_threshold_s"], longrun.PAUSE_THRESHOLD_S)
+            self.assertEqual([s["pauses"] for s in statuses[::2]], [[], []])
+            (pause,) = statuses[1]["pauses"]
+            self.assertEqual((pause["frame"], pause["source_frame"]), (13, 13))
+            self.assertEqual(pause["seconds"], 3 * 3600.0 + 1.0)
+            self.assertEqual(statuses[1]["paused_seconds"], pause["seconds"])
+            gap = parse_local_iso(pause["end"]) - parse_local_iso(pause["start"])
+            self.assertAlmostEqual(gap.total_seconds(), pause["seconds"], delta=1.0)
+            chunk_span = parse_local_iso(statuses[1]["finished_at"]) - parse_local_iso(statuses[1]["started_at"])
+            self.assertGreaterEqual(chunk_span.total_seconds(), pause["seconds"])
+            self.assertEqual(statuses[2]["paused_seconds"], 0.0)  # The 59 s stall is not a pause.
+
+            progress = json.loads((output / "progress.json").read_text())
+            parse_local_iso(progress["updated_at"])
+            parse_local_iso(progress["session_started_at"])
+            self.assertEqual(progress["session_paused_s"], pause["seconds"])
+            self.assertEqual(len(progress["session_pauses"]), 1)
+            # 30 frames of ~1 s (plus the 58 s stall); the 3 h pause is excluded from the rate.
+            self.assertAlmostEqual(progress["session_active_s"], 30 + 58.0, delta=1.0)
+            self.assertGreater(progress["measured_frames_per_s"], .3)
+
+            timing = longrun.timing_report(output, manifest)
+            self.assertEqual(timing["chunks_without_timing"], 0)
+            self.assertEqual(timing["paused_seconds_total"], pause["seconds"])
+            self.assertEqual(timing["pauses"], [dict(pause, chunk=1)])
+            self.assertEqual([c["started_at"] for c in timing["chunks"]], [s["started_at"] for s in statuses])
+
+    def test_resume_start_up_is_not_a_pause(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            video = root / "clip.avi"
+            make_video(video, 20)
+            manifest = manifest_for(video, 0, 20, 10)
+            output = root / "run"; output.mkdir()
+            clock = FakeClock()
+            self.run_sleepy(output, manifest, clock, {}, stop=1)
+            clock.now += 8 * 3600.0  # Overnight between the two sessions.
+            real_open_at = longrun.open_at
+
+            def slow_open_at(*args):
+                clock.now += 600.0  # Sequential decoding to the resume point of a long file.
+                return real_open_at(*args)
+
+            with patch.object(longrun, "open_at", side_effect=slow_open_at):
+                self.run_sleepy(output, manifest, clock, {})
+            timing = longrun.timing_report(output, manifest)
+            self.assertEqual(timing["pauses"], [])
+            first, second = timing["chunks"]
+            gap = parse_local_iso(second["started_at"]) - parse_local_iso(first["finished_at"])
+            self.assertGreaterEqual(gap.total_seconds(), 8 * 3600.0)
+
+    def test_eta_excludes_pauses(self):
+        clock = FakeClock()
+        with patch.object(longrun, "wall_clock", clock):
+            progress = longrun.Progress(total=100, done=0, stream=io.StringIO())
+            for frame in range(10):
+                clock.now += 2.0
+                self.assertIsNone(progress.update(frame=frame))
+            clock.now += 2 * 3600.0
+            pause = progress.update(frame=10)
+            self.assertEqual(pause["seconds"], 2 * 3600.0)
+            self.assertEqual(pause["frame"], 10)
+            snapshot = progress.snapshot()
+        self.assertEqual(snapshot["session_paused_s"], 7200.0)
+        self.assertEqual(snapshot["session_elapsed_s"], 7220.0)
+        self.assertEqual(snapshot["session_active_s"], 20.0)
+        # 11 frames in 20 active seconds; 89 left.
+        self.assertAlmostEqual(snapshot["eta_s"], 89 / (11 / 20.0), delta=.1)
+        self.assertIn("pauses excluded", snapshot["eta_basis"])
+
+    def test_iso_time_is_local_with_offset(self):
+        text = longrun.iso_time(1_790_000_000.0)
+        value = parse_local_iso(text)
+        self.assertEqual(value.timestamp(), 1_790_000_000.0)
+        self.assertRegex(text, r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d[+-]\d\d:\d\d$")
 
 
 class AnalyzerStateTest(unittest.TestCase):
