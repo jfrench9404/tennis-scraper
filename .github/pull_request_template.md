@@ -1,3 +1,5 @@
+<!-- Base branch: dev (John promotes dev -> main himself). -->
+
 ## Summary
 
 <!-- One or two sentences: what changed and why. Link the task: Closes #N -->

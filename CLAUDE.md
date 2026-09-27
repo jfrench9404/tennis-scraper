@@ -74,9 +74,16 @@ say in the PR what you did and did not see.
 
 ## Git and pull requests
 
-- Never push to `main`, never force-push shared branches, never merge your own PR.
+Branch model: `claude/*` feature branches → PR into **`dev`** (integration; John tries
+things here) → John promotes `dev` → **`main`** (stable) with his own PR.
+
+- Never push directly to `main` or `dev`, never force-push shared branches, never merge
+  your own PR, and never open or merge the `dev` → `main` promotion PR yourself.
 - One task = one branch = one PR. Branch name: `claude/<issue-number>-<short-slug>`
-  (or `claude/<slug>` without an issue). Base on `main` unless the task says otherwise.
+  (or `claude/<slug>` without an issue). Branch from the latest `origin/dev` and target
+  `dev`, unless the task says otherwise.
+- If `dev` moved after your PR opened, merge the latest `dev` into your branch (don't
+  rebase a branch John may already have checked out) and re-run the tests.
 - Small, reviewable commits with messages that say what and why. End commit messages
   with the Co-Authored-By line the harness provides.
 - Fill in `.github/pull_request_template.md` completely. Open as **draft** if anything
@@ -84,4 +91,4 @@ say in the PR what you did and did not see.
 - If a task turns out bigger or riskier than the issue suggests, stop at a safe point,
   push what works, and explain in the PR instead of pushing through.
 - `gh` may not be installed. If it isn't, push the branch and give John the
-  `https://github.com/jfrench9404/tennis-scraper/compare/main...<branch>` link.
+  `https://github.com/jfrench9404/tennis-scraper/compare/dev...<branch>?expand=1` link.
