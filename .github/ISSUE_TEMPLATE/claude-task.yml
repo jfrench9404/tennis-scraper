@@ -1,0 +1,65 @@
+name: Task for Claude
+description: One well-scoped feature or fix that Claude can finish as a single pull request.
+title: "[task] "
+labels: ["claude-task"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        One issue = one branch = one PR. Smaller tasks come back reviewable by morning.
+        Anything that needs hours of GPU inference: say so under "Compute"; Claude will
+        prepare the command for you to run instead of running it in its session.
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What should be different when this is done? Why does it matter?
+      placeholder: e.g. Let me jump between shot candidates with keyboard shortcuts in the replay.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance checks
+      description: How will we both know it's done? Prefer checks a test or a command can prove.
+      placeholder: |
+        - [ ] N / P keys move to the next / previous shot candidate
+        - [ ] Existing replay tests still pass; a new test covers the shortcut logic
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Inputs and context
+      description: Files, runs, videos (by path, never uploaded), screenshots, prior PRs.
+  - type: dropdown
+    id: compute
+    attributes:
+      label: Compute
+      options:
+        - Code only (tests are enough)
+        - Needs cached data already in runs/ (no inference)
+        - Needs new inference on local footage (John runs the command)
+    validations:
+      required: true
+  - type: textarea
+    id: decisions
+    attributes:
+      label: Decisions reserved for John
+      description: Things Claude must ask about rather than guess (boundaries, labels, uploads, UI choices).
+      placeholder: e.g. Game boundaries for video 2. Don't auto-confirm any bounce.
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of scope
+      placeholder: e.g. No changes to the calibration desk.
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority for tonight
+      options:
+        - "1 - do first"
+        - "2 - if time"
+        - "3 - later"
+    validations:
+      required: true
