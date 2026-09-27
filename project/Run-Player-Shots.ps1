@@ -1,3 +1,15 @@
+# Rebuild the sample rally's 3D replay with focused crop poses, contact candidates and
+# the reviewed court calibration. Reads runs\rally-neural-ball and
+# runs\rally-event-review-verified, reuses runs\pose-cache-<hash>.json when it matches
+# (pose inference runs otherwise), writes a NEW runs\player-shots-<timestamp>\ folder
+# and opens its replay.html. The input runs are never modified.
+#
+#   .\Run-Player-Shots.ps1
+#   .\Run-Player-Shots.ps1 -CalibrationRun runs\court-bounce-20260925-110335-545 -NearHand right
+#   .\Run-Player-Shots.ps1 -ContactReview contact-review.json -StrokeReview stroke-review.json
+#
+# Python: project\.venv (see CLAUDE-OVERNIGHT.md "Environment"); falls back to the
+# legacy .venv-player if .venv is missing. Never creates environments or installs packages.
 param(
     [string]$CalibrationRun = 'runs\court-bounce-20260925-110335-545',
     [string]$ContactReview,
@@ -7,8 +19,15 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $projectRoot = $PSScriptRoot
-$pythonPath = Join-Path $projectRoot '.venv-player\Scripts\python.exe'
-if (-not (Test-Path -LiteralPath $pythonPath)) { throw 'Missing .venv-player inference environment. See PLAYER-SHOTS.md.' }
+$pythonPath = Join-Path $projectRoot '.venv\Scripts\python.exe'
+if (-not (Test-Path -LiteralPath $pythonPath)) {
+    $legacyPython = Join-Path $projectRoot '.venv-player\Scripts\python.exe'
+    if (-not (Test-Path -LiteralPath $legacyPython)) {
+        throw "No Python environment found. Expected $pythonPath (or the legacy .venv-player). Set up project\.venv as described in CLAUDE-OVERNIGHT.md ""Environment""; this script does not create environments or install packages."
+    }
+    Write-Warning "project\.venv not found; using the legacy environment $legacyPython"
+    $pythonPath = $legacyPython
+}
 Push-Location -LiteralPath $projectRoot
 try {
     $correctionPath = Join-Path $CalibrationRun 'calibration-corrections.json'
