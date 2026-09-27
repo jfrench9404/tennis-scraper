@@ -46,11 +46,12 @@ const THREE={Vector3,Scene:Object3D,
 
 // ---- Fake DOM with the template's own control defaults. ----
 class Element{
- constructor(id){this.id=id;this.children=[];this.handlers={};this.value='';this.textContent='';this.width=1000;this.height=562;this.currentTime=0;this.readyState=1;this.paused=true;this.checked=false;this.hidden=false;this.disabled=false;this.draws=[];
+ constructor(id){this.id=id;this.children=[];this.handlers={};this.value='';this.textContent='';this.width=1000;this.height=562;this.currentTime=0;this.readyState=1;this.paused=true;this.checked=false;this.hidden=false;this.disabled=false;this.draws=[];this.attributes={};
   const classes=new Set();this.classList={add:c=>classes.add(c),remove:c=>classes.delete(c),contains:c=>classes.has(c),toggle:(c,on)=>((on??!classes.has(c))?classes.add(c):classes.delete(c))};}
  get value(){return this._value;}set value(v){this._value=String(v);}
  append(...v){this.children.push(...v);}replaceChildren(...v){this.children=v;}
- addEventListener(type,handler){this.handlers[type]=handler;}click(){return this.onclick?.();}
+ addEventListener(type,handler){this.handlers[type]=handler;}removeEventListener(type){delete this.handlers[type];}click(){return this.onclick?.();}
+ setAttribute(name,value){this.attributes[name]=String(value);}getAttribute(name){return this.attributes[name]??null;}removeAttribute(name){delete this.attributes[name];}
  getContext(){return new Proxy({},{get:(o,k)=>k in o?o[k]:((...args)=>this.draws.push({fn:k,args,stroke:o.strokeStyle})),set:(o,k,v)=>(o[k]=v,true)});}
  pause(){this.paused=true;this.handlers.pause?.();}play(){this.paused=false;this.handlers.play?.();return Promise.resolve();}setPointerCapture(){}
 }
@@ -60,13 +61,15 @@ function load({failWebGL=false}={}){
  for(const m of template.matchAll(/<input id="(\w+)" type="checkbox"( checked)?>/g))get(m[1]).checked=!!m[2];
  for(const m of template.matchAll(/<select id="(\w+)">([\s\S]*?)<\/select>/g)){const options=[...m[2].matchAll(/<option value="([^"]*)"( selected)?/g)];get(m[1]).value=(options.find(o=>o[2])||options[0])[1];}
  get('replay-data').textContent=JSON.stringify(payload);
- const context=vm.createContext({document:{getElementById:get,createElement:name=>new Element(name)},window:{devicePixelRatio:1},
+ // Page-level listeners (e.g. keyboard shortcuts) are recorded, not dispatched, unless a check calls them.
+ const listeners={document:{},window:{}},target=kind=>({addEventListener:(type,handler)=>{(listeners[kind][type]??=[]).push(handler);},removeEventListener:(type,handler)=>{listeners[kind][type]=(listeners[kind][type]||[]).filter(h=>h!==handler);}});
+ const context=vm.createContext({document:{getElementById:get,createElement:name=>new Element(name),...target('document')},window:{devicePixelRatio:1,...target('window')},
   localStorage:{getItem:()=>null,setItem(){}},Blob,URL:{createObjectURL:()=>'fake',revokeObjectURL(){}},setTimeout:f=>f(),requestAnimationFrame(){},console});
  vm.runInContext(mainCode,context);
  const run=s=>vm.runInContext(s,context);
  assert.equal(run('meshRenderer'),null,'canvas renderer until the mesh script runs');
  context.THREE=THREE;vm.runInContext(meshCode,context);
- return {get,run,context};
+ return {get,run,context,listeners};
 }
 
 // ---- Independent expectations (the documented rules, not the implementation). ----
