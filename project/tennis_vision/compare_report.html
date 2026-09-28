@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Run coverage comparison</title>
+<style>
+:root{color-scheme:light;--bg:#f4f4f1;--surface:#fcfcfb;--border:#dcdbd6;--grid:#e6e5e0;--text:#0b0b0b;--text2:#52514e;--muted:#6b6a66;--note-bg:#fff4d6;--note-border:#b77a00;--note-text:#3d2a00;--same:#52514e;--diff:#0b0b0b;
+--s-near:#2a78d6;--s-far:#eb6834;--s-ball:#1baf7a;--s-racquet:#eda100}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#111110;--surface:#1a1a19;--border:#3a3a37;--grid:#2c2c2a;--text:#ffffff;--text2:#c3c2b7;--muted:#9d9c93;--note-bg:#3a2c08;--note-border:#e0a526;--note-text:#fff1cc;--same:#c3c2b7;--diff:#ffffff;
+--s-near:#3987e5;--s-far:#d95926;--s-ball:#199e70;--s-racquet:#c98500}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#111110;--surface:#1a1a19;--border:#3a3a37;--grid:#2c2c2a;--text:#ffffff;--text2:#c3c2b7;--muted:#9d9c93;--note-bg:#3a2c08;--note-border:#e0a526;--note-text:#fff1cc;--same:#c3c2b7;--diff:#ffffff;
+--s-near:#3987e5;--s-far:#d95926;--s-ball:#199e70;--s-racquet:#c98500}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1100px;margin:0 auto;padding:24px 16px 48px}
+h1{font-size:26px;letter-spacing:-.4px;margin:0 0 4px}
+h2{font-size:18px;margin:0 0 6px}
+p{margin:6px 0}
+.eyebrow{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1.5px}
+.runs{color:var(--text2);overflow-wrap:anywhere}
+.runs b{color:var(--text);font-weight:600}
+.note{margin:18px 0;padding:14px 16px;border:2px solid var(--note-border);border-left-width:8px;border-radius:8px;background:var(--note-bg);color:var(--note-text)}
+.note strong{display:block;font-size:17px;margin-bottom:2px}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin:18px 0}
+.hint{color:var(--text2);font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:18px 0}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px}
+.stat-label{display:block;color:var(--text2);font-size:13px}
+.stat-value{display:block;font-size:22px;font-weight:600;font-variant-numeric:tabular-nums}
+.table-wrap{overflow-x:auto;margin-top:10px}
+table.data{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+table.data th,table.data td{padding:7px 10px;border-bottom:1px solid var(--grid);text-align:left;vertical-align:top}
+table.data thead th{color:var(--text2);font-weight:600;font-size:13px;border-bottom:1px solid var(--border)}
+table.data .num,table.data .nowrap{text-align:right;white-space:nowrap}table.data .nowrap{text-align:left}
+table.data tbody th{font-weight:500}
+table.data tr.group th{padding-top:14px;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+table.data code{display:block;color:var(--muted);font:12px ui-monospace,monospace}
+td.same{color:var(--same)}td.diff{color:var(--diff);font-weight:700}
+.legend{list-style:none;display:flex;flex-wrap:wrap;gap:6px 18px;padding:0;margin:10px 0 4px;color:var(--text2);font-size:14px}
+.legend li{display:flex;align-items:center;gap:6px}
+.legend .key{display:inline-block;width:18px;height:0;border-top-width:2px;border-top-style:solid}
+.chart-scroll{overflow-x:auto}.chart-wrap{position:relative;min-width:600px}
+#chart{display:block;width:100%;height:auto;overflow:visible}
+#chart .grid line{stroke:var(--grid);stroke-width:1}
+#chart .xaxis line{stroke:var(--border);stroke-width:1}
+#chart text{fill:var(--text2);font-size:12px}
+#chart .axis-title{fill:var(--muted)}
+#chart .series polyline{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+#chart .series circle{stroke:var(--surface);stroke-width:2}
+#chart .end-labels text{fill:var(--text);font-size:13px}
+#chart .end-labels .val{fill:var(--text2)}
+#chart .end-labels line{stroke-width:2;stroke-linecap:round}
+#chart .hits rect{fill:transparent;cursor:crosshair;outline:none}
+#chart .hits rect:focus-visible{stroke:var(--text2);stroke-width:1}
+#chart .crosshair{stroke:var(--text2);stroke-width:1}
+.s-near polyline,.key.s-near{stroke:var(--s-near);border-color:var(--s-near)}.s-near circle{fill:var(--s-near)}
+.s-far polyline,.key.s-far{stroke:var(--s-far);border-color:var(--s-far)}.s-far circle{fill:var(--s-far)}
+.s-ball polyline,.key.s-ball{stroke:var(--s-ball);border-color:var(--s-ball)}.s-ball circle{fill:var(--s-ball)}
+.s-racquet polyline,.key.s-racquet{stroke:var(--s-racquet);border-color:var(--s-racquet)}.s-racquet circle{fill:var(--s-racquet)}
+.tooltip{position:absolute;pointer-events:none;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;box-shadow:0 4px 14px rgba(0,0,0,.18);min-width:190px;z-index:2}
+.tooltip .tt-head{color:var(--text2);margin-bottom:4px}
+.tooltip .tt-row{display:flex;align-items:center;gap:8px}
+.tooltip .tt-row b{min-width:38px;text-align:right;font-variant-numeric:tabular-nums}
+.tooltip .tt-row .key{display:inline-block;width:14px;height:0;border-top-width:2px;border-top-style:solid}
+.tooltip .tt-row small{color:var(--muted)}
+.empty{color:var(--muted);font-style:italic}
+footer{color:var(--muted);font-size:13px;margin-top:24px}
+footer code{overflow-wrap:anywhere}
+[hidden]{display:none!important}
+@media (max-width:640px){h1{font-size:22px}.panel{padding:14px}.stat-value{font-size:19px}table.data th,table.data td{padding:6px 4px}main{padding:18px 12px 40px}}
+</style></head><body><main>
+<header>
+<div class="eyebrow">Tennis vision / run comparison</div>
+<h1>Run coverage comparison</h1>
+<p class="runs">Run A (reference): <b>@@RUN_A@@</b><br>Run B (compared): <b>@@RUN_B@@</b></p>
+</header>
+<aside class="note" id="accuracyNote" role="note"><strong>Coverage is not accuracy. No ground truth was used.</strong>@@NOTE@@</aside>
+<section class="stats" aria-label="Overlap summary">@@SUMMARY@@</section>
+<section class="panel" aria-labelledby="overlapHeading">
+<h2 id="overlapHeading">Same source frames: run A vs run B</h2>
+<p class="hint">Counts over the source frames both runs processed. Identical numbers mean the two runs observed the same amount, not that either is correct. Candidate events are unreviewed and are not shots, bounces or contacts.</p>
+<div class="table-wrap">@@OVERLAP_TABLE@@</div>
+</section>
+<section class="panel" aria-labelledby="windowHeading">
+<h2 id="windowHeading">Run B coverage over source time</h2>
+<p class="hint">Each window's count divided by the frames in that window, drawn across the window's source-time span. 1.00 means one detection per frame; racquets can exceed 1.00 when both players' racquets are detected. Hover or tab through the windows for exact values.</p>
+<ul class="legend" aria-label="Series">@@LEGEND@@</ul>
+<div class="chart-scroll"><div class="chart-wrap" id="chartWrap">@@CHART@@<div class="tooltip" id="tooltip" role="status" hidden></div></div></div>
+<h2 style="margin-top:18px">Per-window counts</h2>
+<div class="table-wrap">@@WINDOW_TABLE@@</div>
+</section>
+<footer>
+<p>Generated from <code>@@SOURCE@@</code> by <code>python -m tennis_vision.compare_report</code>. The page only re-presents counts already in that file.</p>
+<p>Meaning recorded in the JSON: <em>@@MEANING@@</em></p>
+</footer>
+</main>
+<script id="window-data" type="application/json">@@DATA@@</script>
+<script id="series-data" type="application/json">@@SERIES@@</script>
+<script>
+'use strict';
+(function(){
+  const chart=document.getElementById('chart');
+  if(!chart)return;
+  const points=JSON.parse(document.getElementById('window-data').textContent);
+  const series=JSON.parse(document.getElementById('series-data').textContent);
+  const wrap=document.getElementById('chartWrap'),tip=document.getElementById('tooltip'),cross=document.getElementById('crosshair');
+  const fmt=v=>v===null?'n/a':v.toFixed(2);
+  function show(rect){
+    const p=points[Number(rect.dataset.index)];if(!p)return;
+    tip.replaceChildren();
+    const head=document.createElement('div');head.className='tt-head';
+    head.textContent=`${p.start}–${p.end} s · ${p.frames} frames`;tip.append(head);
+    for(const s of series){
+      const row=document.createElement('div');row.className='tt-row';
+      const key=document.createElement('span');key.className='key s-'+s.css;
+      const val=document.createElement('b');val.textContent=fmt(p.rates[s.key]);
+      const name=document.createElement('span');name.textContent=s.name+' ';
+      const count=document.createElement('small');count.textContent=`(${p.counts[s.key]})`;
+      name.append(count);row.append(key,val,name);tip.append(row);
+    }
+    const mid=Number(rect.getAttribute('x'))+Number(rect.getAttribute('width'))/2;
+    cross.setAttribute('x1',mid);cross.setAttribute('x2',mid);cross.setAttribute('visibility','visible');
+    tip.hidden=false;
+    const r=rect.getBoundingClientRect(),w=wrap.getBoundingClientRect();
+    const cx=r.left+r.width/2-w.left;
+    const left=cx+12+tip.offsetWidth>w.width?cx-12-tip.offsetWidth:cx+12;
+    tip.style.left=Math.max(0,left)+'px';tip.style.top='8px';
+  }
+  function hide(){tip.hidden=true;cross.setAttribute('visibility','hidden');}
+  for(const rect of chart.querySelectorAll('.hits rect')){
+    rect.addEventListener('pointerenter',()=>show(rect));
+    rect.addEventListener('focus',()=>show(rect));
+    rect.addEventListener('blur',hide);
+  }
+  chart.addEventListener('pointerleave',hide);
+})();
+</script>
+</body></html>

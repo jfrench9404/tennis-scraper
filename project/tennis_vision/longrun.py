@@ -15,6 +15,11 @@ event review and the replay builder work unchanged. Differences:
 * Memory is bounded: frames stream through; rows go straight to disk.
 * Rows keep run-relative ``frame``/``time_s`` (the existing contract) and add
   ``source_frame`` so every observation maps back to the original file.
+* Wall-clock timing is recorded next to the results, never inside rows or the
+  fingerprint: ``chunk.json`` gets ``started_at``/``finished_at`` and any pause
+  (wall-clock gap of more than PAUSE_THRESHOLD_S between consecutive frames,
+  e.g. laptop sleep or a stalled decoder), ``progress.json`` gets ``updated_at``,
+  and ``longrun-report.json`` lists every recorded pause. ETA excludes pauses.
 """
 import argparse
 import hashlib
@@ -24,6 +29,7 @@ import pickle
 import shutil
 import sys
 import time
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -42,6 +48,18 @@ BLOCK = 5  # GridTrackNet consumes non-overlapping five-frame blocks from the ru
 # that alter chunk semantics must bump LONGRUN_VERSION instead.
 CODE_FILES = ("cli.py", "tracking.py", "filters.py", "detail.py", "scene.py", "events.py",
               "court.py", "ball_motion.py", "temporal_ball.py")
+# A wall-clock gap between two consecutive processed frames longer than this is
+# recorded as a pause (sleep/hibernate, a stalled decoder or GPU, a paused console).
+# Normal frames take about 5 s (GPU) to 15 s (CPU).
+PAUSE_THRESHOLD_S = 60.0
+# Wall clock (seconds since the epoch). Sleep always shows up here, whereas some
+# monotonic clocks stop while the machine is suspended. Tests replace it.
+wall_clock = time.time
+
+
+def iso_time(timestamp: float) -> str:
+    """ISO 8601 in local time with its UTC offset, e.g. 2026-09-27T01:02:03+01:00."""
+    return datetime.fromtimestamp(timestamp).astimezone().isoformat(timespec="seconds")
 
 
 def file_sha256(path: Path, chunk: int = 1 << 22) -> str:
@@ -213,30 +231,62 @@ class KeepAwake:
 
 
 class Progress:
-    """Frame progress with elapsed time and ETA measured in this session only."""
+    """Frame progress with elapsed time and ETA measured in this session only.
+
+    All times come from ``wall_clock``. A gap longer than PAUSE_THRESHOLD_S
+    between consecutive frames is recorded as a pause and left out of the
+    measured rate, so one night of sleep does not inflate the ETA.
+    """
 
     def __init__(self, total: int, done: int, stream=sys.stderr, every_s: float = 10.0):
         self.total, self.done, self.stream, self.every_s = total, done, stream, every_s
-        self.session_start_done, self.started = done, time.perf_counter()
+        self.session_start_done, self.started = done, wall_clock()
         self.last_print = 0.0
+        self.last_frame_at = self.started
+        self.pauses: list[dict[str, Any]] = []
+        self.paused_s = 0.0
+
+    def mark(self) -> None:
+        """Restart the between-frame gap measurement (e.g. after positioning the decoder)."""
+        self.last_frame_at = wall_clock()
+
+    def active_elapsed(self, now: float | None = None) -> float:
+        return max(0.0, (wall_clock() if now is None else now) - self.started - self.paused_s)
 
     def rate(self) -> float | None:
-        elapsed = time.perf_counter() - self.started
+        elapsed = self.active_elapsed()
         processed = self.done - self.session_start_done
         return processed / elapsed if processed and elapsed > 0 else None
 
     def snapshot(self) -> dict[str, Any]:
         rate = self.rate()
+        now = wall_clock()
         return {"frames_done": self.done, "frames_total": self.total,
                 "percent": round(100 * self.done / self.total, 2),
-                "session_elapsed_s": round(time.perf_counter() - self.started, 1),
+                "session_elapsed_s": round(now - self.started, 1),
+                "session_active_s": round(self.active_elapsed(now), 1),
+                "session_paused_s": round(self.paused_s, 1),
                 "measured_frames_per_s": round(rate, 3) if rate else None,
                 "eta_s": round((self.total - self.done) / rate, 1) if rate else None,
-                "eta_basis": "frames processed in this session only; resumed frames excluded"}
+                "eta_basis": "frames processed in this session only; resumed frames and pauses excluded"}
 
-    def update(self, count: int = 1, force: bool = False) -> None:
+    def update(self, count: int = 1, force: bool = False, frame: int | None = None) -> dict[str, Any] | None:
+        """Count processed frames. Returns the pause that ended with them, if any.
+
+        ``frame`` is the run-relative index of the frame just processed; it is
+        stored with a pause so the gap can be placed in the run.
+        """
         self.done += count
-        now = time.perf_counter()
+        now = wall_clock()
+        gap, pause = now - self.last_frame_at, None
+        if gap > PAUSE_THRESHOLD_S:
+            pause = {"start": iso_time(self.last_frame_at), "end": iso_time(now), "seconds": round(gap, 1),
+                     "frame": frame}
+            self.pauses.append(pause)
+            self.paused_s += gap
+            print(f"[longrun] pause: {gap / 60:.1f} min wall-clock gap before frame {frame} "
+                  f"({pause['start']} to {pause['end']}); excluded from ETA", file=self.stream, flush=True)
+        self.last_frame_at = now
         if force or now - self.last_print >= self.every_s:
             self.last_print = now
             s = self.snapshot()
@@ -244,6 +294,7 @@ class Progress:
             rate = f"{s['measured_frames_per_s']:.2f} fps" if s["measured_frames_per_s"] else "-"
             print(f"[longrun] {s['frames_done']}/{s['frames_total']} frames ({s['percent']:.1f}%), "
                   f"{s['session_elapsed_s'] / 60:.1f} min elapsed, {rate}, ETA {eta}", file=self.stream, flush=True)
+        return pause
 
 
 def enable_directml(model_paths) -> None:
@@ -303,7 +354,8 @@ def run_chunks(args, manifest, output, analyzer_factory, temporal=None, progress
     remaining = manifest["chunks"][len(done):]
     total = manifest["selection"]["frames"]
     progress = Progress(total, sum(c["frames"] for c in done), progress_stream)
-    session = {"resumed_chunks": len(done), "processed_chunks": 0, "positioning": []}
+    session = {"resumed_chunks": len(done), "processed_chunks": 0, "positioning": [],
+               "started_at": iso_time(progress.started)}
     if not remaining:
         return session
     analyzer = analyzer_factory()
@@ -317,6 +369,7 @@ def run_chunks(args, manifest, output, analyzer_factory, temporal=None, progress
             raise RuntimeError("Checkpoint frame counter does not match the next chunk")
     cap, how = open_at(Path(manifest["input"]["path"]), remaining[0]["source_first_frame"], previous_hash)
     session["positioning"].append(how)
+    progress.mark()  # Loading models and positioning the decoder are not between-frame pauses.
     fps = manifest["input"]["fps"]
     try:
         for chunk in remaining:
@@ -325,6 +378,8 @@ def run_chunks(args, manifest, output, analyzer_factory, temporal=None, progress
                 shutil.rmtree(folder)  # Incomplete leftovers from an interrupted chunk.
             folder.mkdir(parents=True)
             started = time.perf_counter()
+            started_at = iso_time(wall_clock())
+            pauses = []
             last_hash = None
             count = 0
             with (folder / "events.jsonl.partial").open("w", encoding="utf-8") as stream:
@@ -337,7 +392,9 @@ def run_chunks(args, manifest, output, analyzer_factory, temporal=None, progress
                     stream.write(json.dumps(row) + "\n")
                     last_hash = frame_hash(frame)
                     count += 1
-                    progress.update()
+                    pause = progress.update(frame=relative)
+                    if pause is not None:
+                        pauses.append(dict(pause, source_frame=row["source_frame"]))
             if count != chunk["frames"]:
                 raise RuntimeError(f"Video ended early: chunk {chunk['index']} got {count}/{chunk['frames']} frames")
             os.replace(folder / "events.jsonl.partial", folder / "events.jsonl")
@@ -352,11 +409,20 @@ def run_chunks(args, manifest, output, analyzer_factory, temporal=None, progress
                 "source_last_frame": chunk["source_first_frame"] + count - 1,
                 "last_frame_sha256": last_hash, "events_sha256": file_sha256(folder / "events.jsonl"),
                 "state_sha256": file_sha256(folder / "state.pkl"),
-                "seconds": round(time.perf_counter() - started, 2)})
+                "seconds": round(time.perf_counter() - started, 2),
+                # Timing only; completed_chunks() never reads these, so older
+                # chunk.json files without them still count as complete.
+                "started_at": started_at, "finished_at": iso_time(wall_clock()),
+                "pause_threshold_s": PAUSE_THRESHOLD_S, "pauses": pauses,
+                "paused_seconds": round(sum(p["seconds"] for p in pauses), 1)})
             session["processed_chunks"] += 1
             snapshot = progress.snapshot()
             save_json(output / "progress.json", dict(snapshot, chunks_done=chunk["index"] + 1,
-                                                    chunks_total=len(manifest["chunks"])))
+                                                    chunks_total=len(manifest["chunks"]),
+                                                    updated_at=iso_time(wall_clock()),
+                                                    session_started_at=session["started_at"],
+                                                    pause_threshold_s=PAUSE_THRESHOLD_S,
+                                                    session_pauses=progress.pauses))
             print(f"[longrun] chunk {chunk['index'] + 1}/{len(manifest['chunks'])} complete: frames "
                   f"{chunk['first_frame']}-{chunk['first_frame'] + count - 1} (source "
                   f"{chunk['source_first_frame']}-{chunk['source_first_frame'] + count - 1}, "
@@ -367,6 +433,27 @@ def run_chunks(args, manifest, output, analyzer_factory, temporal=None, progress
     finally:
         cap.release()
     return session
+
+
+def timing_report(output: Path, manifest: dict[str, Any]) -> dict[str, Any]:
+    """Per-chunk wall-clock timing and every recorded pause, read from chunk.json.
+
+    Chunks written before timing was recorded have no ``started_at``/``pauses``;
+    they are listed with ``timing_recorded: false`` (unknown, not "no pauses").
+    """
+    chunks, pauses = [], []
+    for chunk in manifest["chunks"]:
+        path = chunk_dir(output, chunk) / "chunk.json"
+        status = json.loads(path.read_text(encoding="utf-8")) if path.is_file() else {}
+        recorded = "pauses" in status
+        chunks.append({"index": chunk["index"], "seconds": status.get("seconds"),
+                       "started_at": status.get("started_at"), "finished_at": status.get("finished_at"),
+                       "paused_seconds": status.get("paused_seconds") if recorded else None,
+                       "timing_recorded": recorded})
+        pauses += [dict(p, chunk=chunk["index"]) for p in status.get("pauses", [])]
+    return {"pause_threshold_s": PAUSE_THRESHOLD_S, "chunks": chunks, "pauses": pauses,
+            "paused_seconds_total": round(sum(p["seconds"] for p in pauses), 1),
+            "chunks_without_timing": sum(not c["timing_recorded"] for c in chunks)}
 
 
 def merge_run(output: Path, manifest: dict[str, Any], ball_model: Path | None, court) -> dict[str, Any]:
@@ -484,6 +571,7 @@ def main(argv=None) -> None:
     print(f"[longrun] {args.input.name}: source frames {start}-{end - 1} ({(end - start) / info['fps']:.1f} s) "
           f"in {len(manifest['chunks'])} chunks -> {output}", file=sys.stderr, flush=True)
     started = time.perf_counter()
+    started_at = iso_time(wall_clock())
     if args.keep_awake:
         with KeepAwake():
             session = run_chunks(args, manifest, output, factory, temporal, stop_after_chunks=args.stop_after_chunks)
@@ -497,10 +585,13 @@ def main(argv=None) -> None:
     with (chunk_dir(output, last) / "state.pkl").open("rb") as stream:
         court = pickle.load(stream)["court"]
     summary = merge_run(output, manifest, args.ball_model if args.temporal_ball else None, court)
+    timing = timing_report(output, manifest)
+    pauses = timing.pop("pauses")
     report = {"fingerprint": manifest["fingerprint"], "session": session,
               "session_seconds": round(time.perf_counter() - started, 1),
-              "chunk_seconds": [json.loads((chunk_dir(output, c) / "chunk.json").read_text())["seconds"]
-                                for c in manifest["chunks"]],
+              "started_at": started_at, "finished_at": iso_time(wall_clock()),
+              "chunk_seconds": [c["seconds"] for c in timing["chunks"]],
+              "timing": timing, "pauses": pauses,
               "device": manifest["device"], "summary": summary}
     try:
         import torch
