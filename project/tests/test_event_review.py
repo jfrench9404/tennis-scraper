@@ -1,10 +1,16 @@
+import contextlib
 import copy
+import io
 import json
+import re
 from pathlib import Path
+import subprocess
 import tempfile
 import unittest
+from unittest import mock
 
 from tennis_vision.event_analysis import observed_balls, detect_events, fill_short_gaps, proximity
+from tennis_vision import event_review
 from tennis_vision.event_review import load_run
 
 
@@ -132,6 +138,120 @@ class EventReviewTests(unittest.TestCase):
             (run/"events.jsonl").write_text(json.dumps({"frame": 0, "time_s": 0})+'\n'+json.dumps({"frame": 2, "time_s": 1/30}))
             with self.assertRaisesRegex(ValueError, "alignment"):
                 load_run(run)
+
+
+# Fake FFmpeg outputs (no real binary is run). Formats follow real builds.
+VERSION_71 = "ffmpeg version 7.1-full_build-www.gyan.dev Copyright (c) 2000-2024 the FFmpeg developers\n"
+VERSION_50 = "ffmpeg version 5.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2022 the FFmpeg developers\n"
+VERSION_GIT = "ffmpeg version N-112233-gabcdef0123 Copyright (c) 2000-2024 the FFmpeg developers\n"
+ENCODERS_X264 = ("Encoders:\n V..... = Video\n ------\n V....D libx264              libx264 H.264 / AVC / MPEG-4 AVC (codec h264)\n"
+                 " V....D libx264rgb           libx264 H.264 RGB (codec h264)\n V....D mpeg4                MPEG-4 part 2\n")
+ENCODERS_NO_X264 = " V....D libx264rgb           libx264 H.264 RGB (codec h264)\n V....D mpeg4                MPEG-4 part 2\n"
+HELP_51 = ("Advanced Video options:\n-vsync                           set video sync method globally; deprecated, use -fps_mode\n"
+           "-fps_mode[:<stream_spec>] <mode>  set framerate mode for matching video streams; overrides vsync\n")
+HELP_50 = "Advanced Video options:\n-vsync              video sync method\n-vf filter_graph    set video filters\n"
+
+
+def fake_ffmpeg(version, encoders=ENCODERS_X264, help_text=HELP_51, calls=None):
+    def run(cmd, **kwargs):
+        if calls is not None:
+            calls.append(cmd)
+        out = {"-version": version, "-encoders": encoders, "-h": help_text}[cmd[2]]
+        return subprocess.CompletedProcess(cmd, 0, out.encode(), b"")
+    return run
+
+
+class FfmpegCapabilityTests(unittest.TestCase):
+    def check(self, *outputs, which="/opt/ffmpeg/bin/ffmpeg", **kwargs):
+        with mock.patch.object(event_review.shutil, "which", return_value=which), \
+             mock.patch.object(event_review.subprocess, "run", side_effect=fake_ffmpeg(*outputs, **kwargs)):
+            return event_review.check_ffmpeg("ffmpeg")
+
+    def test_version_parsing(self):
+        self.assertEqual(event_review.ffmpeg_version(VERSION_71), "7.1")
+        self.assertEqual(event_review.ffmpeg_version(VERSION_50), "5.0.1")
+        self.assertEqual(event_review.ffmpeg_version("ffmpeg version n5.1.2 Copyright"), "5.1.2")
+        self.assertEqual(event_review.ffmpeg_version(VERSION_GIT), "N-112233-gabcdef0123")
+        self.assertIsNone(event_review.ffmpeg_version("not ffmpeg"))
+
+    def test_capable_ffmpeg_passes(self):
+        calls = []
+        result = self.check(VERSION_71, calls=calls)
+        self.assertTrue(result["ok"])
+        self.assertEqual((result["path"], result["version"], result["missing"]), ("/opt/ffmpeg/bin/ffmpeg", "7.1", []))
+        self.assertIsNone(result["reason"])
+        self.assertEqual([c[0] for c in calls], ["/opt/ffmpeg/bin/ffmpeg"]*3)
+
+    def test_ffmpeg_50_names_found_and_needed_version(self):
+        result = self.check(VERSION_50, help_text=HELP_50)
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["missing"], ["-fps_mode option"])
+        self.assertIn("version 5.0.1", result["reason"])
+        self.assertIn("5.1+", result["reason"])
+        self.assertIn("-fps_mode", result["reason"])
+
+    def test_missing_libx264_fails_even_if_only_libx264rgb(self):
+        result = self.check(VERSION_71, encoders=ENCODERS_NO_X264)
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["missing"], ["libx264 encoder"])
+        result = self.check(VERSION_50, encoders=ENCODERS_NO_X264, help_text=HELP_50)
+        self.assertEqual(result["missing"], ["-fps_mode option", "libx264 encoder"])
+
+    def test_git_build_is_judged_by_its_options_not_its_version_string(self):
+        self.assertTrue(self.check(VERSION_GIT)["ok"])
+        self.assertIn("N-112233", self.check(VERSION_GIT, help_text=HELP_50)["reason"])
+
+    def test_missing_or_broken_binary(self):
+        with mock.patch.object(event_review.shutil, "which", return_value=None):
+            result = event_review.check_ffmpeg("C:/nope/ffmpeg.exe")
+        self.assertFalse(result["ok"])
+        self.assertIn("not found", result["reason"])
+        with mock.patch.object(event_review.shutil, "which", return_value="/x/ffmpeg"), \
+             mock.patch.object(event_review.subprocess, "run", side_effect=OSError("bad exe")):
+            self.assertIn("bad exe", event_review.check_ffmpeg("/x/ffmpeg")["reason"])
+        self.assertFalse(self.check("garbage")["ok"])
+
+    def test_require_raises_value_error_with_versions(self):
+        with mock.patch.object(event_review.shutil, "which", return_value="/f"), \
+             mock.patch.object(event_review.subprocess, "run", side_effect=fake_ffmpeg(VERSION_50, help_text=HELP_50)):
+            with self.assertRaisesRegex(ValueError, r"version 5\.0\.1.*5\.1\+"):
+                event_review.require_ffmpeg("/f")
+        with mock.patch.object(event_review.shutil, "which", return_value="/f"), \
+             mock.patch.object(event_review.subprocess, "run", side_effect=fake_ffmpeg(VERSION_71)):
+            self.assertEqual(event_review.require_ffmpeg("ffmpeg"), "/f")
+
+    def test_build_review_checks_before_creating_output(self):
+        with tempfile.TemporaryDirectory() as temp:
+            run, output = Path(temp)/"run", Path(temp)/"review"
+            run.mkdir()
+            (run/"summary.json").write_text(json.dumps({"fps": 30, "frames": 2, "input": "x.mp4"}))
+            (run/"source-offset.json").write_text(json.dumps({"source_start_frame": 0, "source_start_seconds": 0}))
+            (run/"events.jsonl").write_text('\n'.join(json.dumps(r) for r in rows_for([(1, 1), (2, 2)])))
+            with mock.patch.object(event_review.shutil, "which", return_value="/f"), \
+                 mock.patch.object(event_review.subprocess, "run", side_effect=fake_ffmpeg(VERSION_50, help_text=HELP_50)), \
+                 mock.patch.object(event_review, "detect_cuts", side_effect=AssertionError("ran past the check")):
+                with self.assertRaisesRegex(ValueError, "5.0.1"):
+                    event_review.build_review(run, output, ffmpeg="ffmpeg")
+            self.assertFalse(output.exists())
+
+    def test_check_cli_prints_one_json_line_and_exit_code(self):
+        for version, help_text, code in ((VERSION_71, HELP_51, 0), (VERSION_50, HELP_50, 1)):
+            stdout = io.StringIO()
+            with mock.patch.object(event_review.shutil, "which", return_value="/f"), \
+                 mock.patch.object(event_review.subprocess, "run", side_effect=fake_ffmpeg(version, help_text=help_text)), \
+                 contextlib.redirect_stdout(stdout):
+                self.assertEqual(event_review.main(["--check-ffmpeg", "/f"]), code)
+            lines = stdout.getvalue().splitlines()
+            self.assertEqual(len(lines), 1)
+            self.assertEqual(json.loads(lines[0])["ok"], code == 0)
+
+    def test_render_commands_use_only_checked_new_options(self):
+        # A new post-4.x option or another encoder in the render commands must be added to the check.
+        source = Path(event_review.__file__).read_text(encoding="utf-8")
+        self.assertIn('"-fps_mode"', source)
+        for option in event_review.FFMPEG_REQUIRED_OPTIONS:
+            self.assertIn(f'"{option}"', source)
+        self.assertEqual(set(re.findall(r'"-c:v", "([^"]+)"', source)), set(event_review.FFMPEG_REQUIRED_ENCODERS))
 
 
 if __name__ == "__main__":

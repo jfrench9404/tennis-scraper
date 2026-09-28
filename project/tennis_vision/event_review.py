@@ -4,8 +4,10 @@ from collections import Counter
 import hashlib
 import json
 from pathlib import Path
+import re
 import shutil
 import subprocess
+import sys
 import time
 
 import cv2
@@ -15,6 +17,78 @@ import yaml
 
 from .court import CourtMapper
 from .event_analysis import VERSION, observed_balls, detect_events, fill_short_gaps
+
+
+# What review rendering needs from FFmpeg. Every other option the render commands
+# pass (-nostdin, -n, rawvideo input, -r, -an, -threads, -movflags, trim/setpts)
+# predates FFmpeg 4; only -fps_mode is newer (added in FFmpeg 5.1, replacing -vsync).
+FFMPEG_NEEDED_VERSION = "5.1"
+FFMPEG_REQUIRED_OPTIONS = ("-fps_mode",)
+FFMPEG_REQUIRED_ENCODERS = ("libx264",)
+
+
+class FfmpegCapabilityError(ValueError):
+    """The FFmpeg binary cannot render the review videos."""
+
+
+def _ffmpeg_output(ffmpeg, *args):
+    result = subprocess.run([ffmpeg, "-hide_banner", *args], capture_output=True, timeout=30)
+    return result.returncode, (result.stdout or b"").decode(errors="replace")
+
+
+def ffmpeg_version(text):
+    """Version string from `ffmpeg -version` output ("7.1", "5.0.1", or a git build id)."""
+    match = re.search(r"ffmpeg version (\S+)", text or "")
+    if not match:
+        return None
+    token = match.group(1)
+    numeric = re.match(r"n?(\d+\.\d+(?:\.\d+)?)", token)
+    return numeric.group(1) if numeric else token
+
+
+def check_ffmpeg(ffmpeg="ffmpeg"):
+    """Probe an FFmpeg binary for everything review rendering uses.
+
+    Returns {"ok", "path", "version", "missing", "reason"}. Never raises for an
+    unusable binary; `require_ffmpeg` turns a failed check into an error.
+    """
+    path = shutil.which(str(ffmpeg))
+    result = {"ok": False, "path": path or str(ffmpeg), "version": None, "missing": [], "reason": None,
+              "needed": f"FFmpeg {FFMPEG_NEEDED_VERSION}+ with " + ", ".join(
+                  [*(f"{o} option" for o in FFMPEG_REQUIRED_OPTIONS),
+                   *(f"{e} encoder" for e in FFMPEG_REQUIRED_ENCODERS)])}
+    if not path:
+        result["reason"] = f"FFmpeg not found: {ffmpeg}"
+        return result
+    try:
+        code, text = _ffmpeg_output(path, "-version")
+        result["version"] = ffmpeg_version(text)
+        if code or not result["version"]:
+            result["reason"] = f"{path} did not report an FFmpeg version (exit code {code})"
+            return result
+        _, encoders = _ffmpeg_output(path, "-encoders")
+        _, options = _ffmpeg_output(path, "-h", "full")
+    except (OSError, subprocess.SubprocessError) as error:
+        result["reason"] = f"Could not run {path}: {error}"
+        return result
+    result["missing"] = [f"{o} option" for o in FFMPEG_REQUIRED_OPTIONS
+                         if not re.search(rf"(?m)^\s*{re.escape(o)}(?![\w-])", options)]
+    result["missing"] += [f"{e} encoder" for e in FFMPEG_REQUIRED_ENCODERS
+                          if not re.search(rf"(?m)^\s*V\S*\s+{re.escape(e)}\s", encoders)]
+    if result["missing"]:
+        result["reason"] = (f"FFmpeg at {path} is version {result['version']}; review rendering needs "
+                            f"{result['needed']} (missing: {', '.join(result['missing'])})")
+    else:
+        result["ok"] = True
+    return result
+
+
+def require_ffmpeg(ffmpeg="ffmpeg"):
+    """Resolved path of a capable FFmpeg, or FfmpegCapabilityError naming found vs needed."""
+    result = check_ffmpeg(ffmpeg)
+    if not result["ok"]:
+        raise FfmpegCapabilityError(result["reason"] + ". Supply --ffmpeg PATH to a capable build or use --data-only")
+    return result["path"]
 
 
 def _save(path, data):
@@ -227,12 +301,8 @@ def build_review(run, output, court_path=None, ffmpeg="ffmpeg", data_only=False)
             raise ValueError("Invalid manual court corners")
         court = CourtMapper(corners)
     if not data_only:
-        ffmpeg = shutil.which(str(ffmpeg))
-        if not ffmpeg:
-            raise ValueError("FFmpeg is required for browser-compatible H.264 videos; supply --ffmpeg PATH or use --data-only")
-        encoder_check = subprocess.run([ffmpeg, "-hide_banner", "-encoders"], capture_output=True, timeout=15)
-        if encoder_check.returncode or b"libx264" not in encoder_check.stdout:
-            raise ValueError("FFmpeg must include the libx264 encoder")
+        # Before the output folder exists: an incapable FFmpeg must not leave a half-built review/.
+        ffmpeg = require_ffmpeg(ffmpeg)
     cuts = detect_cuts(summary, start)
     balls = observed_balls(rows)
     events = detect_events(rows, balls, summary["fps"], court, cuts)
@@ -277,16 +347,25 @@ def build_review(run, output, court_path=None, ffmpeg="ffmpeg", data_only=False)
     return report
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--run", type=Path, required=True)
-    parser.add_argument("--output", type=Path, required=True, help="Must be a new folder")
+    parser.add_argument("--run", type=Path)
+    parser.add_argument("--output", type=Path, help="Must be a new folder")
     parser.add_argument("--court", type=Path, help="Manual calibration; required for bounce candidates")
     parser.add_argument("--ffmpeg", default="ffmpeg")
     parser.add_argument("--data-only", action="store_true", help="Skip video/HTML export, but still validate source/cuts")
-    args = parser.parse_args()
+    parser.add_argument("--check-ffmpeg", metavar="FFMPEG",
+                        help="Only check this FFmpeg for review rendering: one JSON line on stdout, exit 0 if capable")
+    args = parser.parse_args(argv)
+    if args.check_ffmpeg is not None:
+        result = check_ffmpeg(args.check_ffmpeg)
+        print(json.dumps(result), flush=True)  # stdout only: Run-Game.ps1 parses it
+        return 0 if result["ok"] else 1
+    if args.run is None or args.output is None:
+        parser.error("--run and --output are required")
     build_review(args.run, args.output, args.court, args.ffmpeg, args.data_only)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
