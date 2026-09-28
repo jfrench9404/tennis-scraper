@@ -25,13 +25,18 @@ Paths below are relative to `project/` in John's main checkout:
     end-to-end pipeline test, and the camera check on both long videos. Also the
     baseline replay rebuilt with bodies (`runs/claude-mesh-baseline`) and with
     bodies + racquets (`runs/claude-baseline-racquets`).
-  - **In progress, resumable (NOT done):** the full video 1 run.
-    - The last recorded state (CLAUDE-OVERNIGHT.md, commit `781067e`,
-      2026-09-26 07:00) is **1,800 of 5,654 frames (6 of 19 chunks)** in
-      `runs\claude-game-v1-full`.
-    - Only `longrun-manifest.json` of that folder is in git. Whether John has
-      resumed it since cannot be seen from the repo; check
-      `runs\claude-game-v1-full\progress.json` on the laptop.
+  - **Detection done, rest NOT done:** the full video 1 run.
+    - **Detection is complete:** 5,654 of 5,654 frames, 19 of 19 chunks in
+      `runs\claude-game-v1-full`, last progress 2026-09-26 13:09 -04:00. Source:
+      John ran `Get-RunStatus.ps1` (PR #21) on the laptop on 2026-09-28.
+    - The pipeline then stopped at stage 2 (event review) with
+      `Unrecognized option 'fps_mode'`, because `Run-Game.ps1` fell back to
+      FFmpeg 5.0 (issue #13, PR #18).
+    - The same status run shows one wall-clock gap between chunks 6 and 7
+      (about 02:15 to 07:03 on 2026-09-26, from file modified times; the log has
+      no timestamps). That is the laptop-sleep stall.
+    - Only `longrun-manifest.json` of that folder is in git; `chunks/`,
+      `progress.json` and logs are laptop-only.
     - Review, draft calibration, replay and comparison for video 1 have not been
       produced. Nothing was started for video 2.
   - **Not done / planned:**
@@ -55,12 +60,18 @@ Paths below are relative to `project/` in John's main checkout:
   1. **Before starting, check that no run is active.** Look for a recent
      `[longrun]` line in `runs\*.log` or a `runs\<run>\progress.json` that is
      still growing.
-  2. **Resume video 1.** This needs about 5.5 h more detection at the 1,800-frame
-     point, then about 30-45 min for review videos, crop poses and the replay
-     (estimates from CLAUDE-OVERNIGHT.md). If it stops, rerun the same line.
+  2. **Finish video 1.** Detection is complete, so the pipeline skips stage 1
+     and goes to review, draft calibration and replay: about 30-45 min
+     (estimate from CLAUDE-OVERNIGHT.md). If it stops, rerun the same line.
+     - First move any half-built `runs\claude-game-v1\review` aside
+       (`Rename-Item runs\claude-game-v1\review review-failed-ffmpeg5`); the
+       pipeline refuses to reuse an incomplete review folder.
+     - Stage 2 needs FFmpeg 5.1+ with libx264. Until PR #18 is merged, pass it
+       explicitly as below; after #18, `-Ffmpeg` can be dropped (it picks a
+       capable one and says which).
      ```powershell
      cd C:\Users\John\Documents\Codex\2026-09-17\can-x20\outputs\tennis-scraper\project
-     .\Run-Game.ps1 -Video "media\sebbie-demo-shortest (1).mp4" -Name claude-game-v1 -RunDir runs\claude-game-v1-full
+     .\Run-Game.ps1 -Video "media\sebbie-demo-shortest (1).mp4" -Name claude-game-v1 -RunDir runs\claude-game-v1-full -Ffmpeg "$env:USERPROFILE\miniconda3\envs\opencv-env\Library\bin\ffmpeg.exe"
      ```
      - **Resume conditions.** The fingerprint covers the absolute input path,
        input SHA-256, selection, settings (including the `court.yaml` text, the
@@ -91,6 +102,9 @@ Paths below are relative to `project/` in John's main checkout:
      - This command comes from the `calibration_review.py` CLI. It accepts
        `draft` status (`court_refinement.py`).
      - It has not been run on a carried draft or on a full-length run.
+     - PR #25 (not merged when this was written) adds a dedicated draft desk:
+       `--draft runs\claude-game-v1\calibration-draft.json --replay runs\claude-game-v1\replay`.
+       Prefer it once merged; its description has the exact command.
      - It writes frame stills, which are local only and gitignored.
 
 ## Changes
@@ -222,7 +236,7 @@ Paths below are relative to `project/` in John's main checkout:
   | `runs/claude-camera-check` | `camera-check.json` for both long videos | `camera_check.py`; reproduce into a new folder with the command below |
   | `runs/claude-mesh-baseline` | Baseline replay page rebuilt with body meshes (replay data unchanged) | Stage 2 commit `fd090f5` |
   | `runs/claude-baseline-racquets` | Baseline with bodies + racquets (cached poses, no inference) | Baseline rebuild command below |
-  | `runs/claude-game-v1-full` | Full video 1 detection, **partial** | Only `longrun-manifest.json` is in git; `chunks/`, `progress.json` and logs are laptop-only |
+  | `runs/claude-game-v1-full` | Full video 1 detection, **complete** (19/19 chunks, per `Get-RunStatus.ps1` on the laptop, 2026-09-28) | Only `longrun-manifest.json` is in git; `chunks/`, `progress.json` and logs are laptop-only |
   | `runs/claude-game-v1/` | Review, draft calibration, replay for video 1 | Not yet produced |
 
   All commands run from `project/` in PowerShell:
@@ -371,7 +385,8 @@ Paths below are relative to `project/` in John's main checkout:
   labelled ground truth for these videos. All counts above are coverage or
   agreement between runs, not accuracy.
 - **Known failures, limitations and remaining priorities:**
-  1. **Finish the full video 1 run** (resumable; not complete). Then build the
+  1. **Finish the full video 1 run** (detection complete; review, calibration
+     draft and replay not built yet). Then build the
      comparison and inspect `runs\claude-game-v1\replay\replay.html` and
      `review\review.html` in a browser, including seeking and file:// playback.
   2. **The full-run calibration is a draft** until John reviews it in the
