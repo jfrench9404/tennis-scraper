@@ -205,6 +205,7 @@ python -m tennis_vision.score_labels --labels <labels.json> --run <run or replay
 - The source-video hash of the run is taken from its `longrun-manifest.json`, or from the
   long-run folder named by `source_run` / `input_run` (checked to cover the same frames).
   A legacy run that recorded no hash needs `--video <file>`, which is hashed locally.
+- `--output` must be a new file (an existing file, or the labels file itself, is refused).
 - Every statement names the sample and its file, e.g. *"Hit candidates: accuracy on 12
   labelled shots from labels.json (source frames 4740-5339): precision 0.800 (8/10),
   recall 0.667 (8/12)"*. Nothing is claimed outside the covered span.
