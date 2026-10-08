@@ -1,0 +1,297 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tennis · Label points</title>
+<style>
+:root{color-scheme:dark;--bg:#101c21;--panel:#192a31;--line:#35505b;--text:#ecf3f3;--muted:#a7bec6;--mint:#abedc4;--orange:#ffb75b;--blue:#83c8ff;--pink:#f59ac0;--grey:#8a9aa0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 system-ui,sans-serif}
+main{max-width:1600px;margin:auto;padding:20px 16px}h1{font-size:26px;letter-spacing:-.6px;margin:0}h2{font-size:16px;margin:0 0 8px}p{margin:6px 0}
+.muted{color:var(--muted)}.fine{font-size:12px;color:var(--muted)}.eyebrow{color:var(--mint);text-transform:uppercase;letter-spacing:2px;font-size:11px}
+header{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:14px}.headerActions{display:flex;gap:8px;flex-wrap:wrap}
+.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,1fr);gap:16px}@media(max-width:900px){.layout{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px}
+video{width:100%;display:block;aspect-ratio:16/9;background:#090d0f;border-radius:5px}
+#timeline{width:100%;height:64px;display:block;background:#0c1519;border-radius:5px;margin-top:8px;cursor:pointer}
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+button,label.button{font:inherit;padding:5px 10px;background:#2b414b;border:1px solid #506e7a;color:var(--text);border-radius:5px;cursor:pointer}
+button:hover{background:#3b5864}button.primary{background:var(--mint);color:#163524;border-color:var(--mint)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+input,select,textarea{font:inherit;background:#0f1a1e;color:var(--text);border:1px solid var(--line);border-radius:5px;padding:4px 7px}
+textarea{width:100%;min-height:44px}kbd{font:12px ui-monospace,monospace;border:1px solid #6b8792;border-bottom-width:2px;border-radius:4px;padding:0 5px;background:#0f1a1e}
+#readout{font:13px ui-monospace,monospace}#prompt{border-left:3px solid var(--orange);padding:8px 12px;background:#302c22;border-radius:4px;margin:8px 0}
+#hint{border-left:3px dashed var(--grey);padding:6px 12px;background:#1d2629;border-radius:4px;margin:8px 0}
+#notice{min-height:22px;color:var(--mint)}#notice.warn{color:var(--orange)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:6px 0}.row label{display:flex;gap:6px;align-items:center}
+.list{display:flex;flex-direction:column;gap:3px;max-height:220px;overflow:auto}
+.item{text-align:left;background:#20333b;border:1px solid #35505b}.item.selected{border-color:var(--mint);background:#2a4650}
+.item.hint{border-style:dashed;color:var(--muted);background:transparent}
+.counts{display:flex;gap:8px;flex-wrap:wrap}.counts span{border:1px solid var(--line);border-radius:6px;padding:3px 9px}
+#shortcutHelp{position:fixed;top:16px;right:16px;z-index:10;width:min(560px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;box-shadow:0 10px 34px #000a}
+#shortcutHelp .helpHead{display:flex;justify-content:space-between;align-items:center}#shortcutHelp table{border-collapse:collapse}#shortcutHelp td{padding:3px 12px 3px 0;vertical-align:top}#shortcutHelp td:first-child{white-space:nowrap}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+</style></head><body><main>
+<header><div><div class="eyebrow">Ground truth · your decisions only</div><h1>Label points, shots and bounces</h1>
+<p class="muted" id="runInfo"></p></div>
+<div class="headerActions"><button id="shortcutsButton" aria-controls="shortcutHelp" aria-expanded="false" title="Keyboard shortcuts (?)">Keyboard shortcuts <kbd>?</kbd></button>
+<label class="button" for="importFile" title="Continue from a labels.json exported earlier for this run">Load earlier export</label><input id="importFile" type="file" accept=".json,application/json" hidden>
+<button id="export" class="primary">Export labels.json</button></div></header>
+<section id="shortcutHelp" class="panel" hidden aria-labelledby="shortcutTitle"><div class="helpHead"><h2 id="shortcutTitle">Keyboard shortcuts</h2><button id="closeShortcuts" aria-label="Close keyboard shortcuts">Close</button></div>
+<p class="fine">Proposed bindings, pending John's approval. Keys are ignored while typing in a text box.</p>
+<table><tbody>
+<tr><td><kbd>Space</kbd></td><td>Play / pause</td></tr>
+<tr><td><kbd>&larr;</kbd> <kbd>&rarr;</kbd></td><td>Previous / next frame (hold to repeat)</td></tr>
+<tr><td><kbd>Shift</kbd>+<kbd>&larr;</kbd> <kbd>&rarr;</kbd></td><td>Back / forward one second</td></tr>
+<tr><td><kbd>H</kbd></td><td>Mark shot contact at this frame, then hitter <kbd>N</kbd> near / <kbd>F</kbd> far, then type <kbd>1</kbd> serve <kbd>2</kbd> forehand <kbd>3</kbd> backhand <kbd>4</kbd> volley <kbd>5</kbd> overhead <kbd>6</kbd> other <kbd>7</kbd> unsure</td></tr>
+<tr><td><kbd>B</kbd></td><td>Mark bounce at this frame, then <kbd>I</kbd> in / <kbd>O</kbd> out / <kbd>U</kbd> unsure</td></tr>
+<tr><td><kbd>[</kbd></td><td>Point starts at this frame, then server <kbd>N</kbd> near / <kbd>F</kbd> far / <kbd>U</kbd> unknown</td></tr>
+<tr><td><kbd>]</kbd></td><td>Point ends at this frame, then winner <kbd>N</kbd> near / <kbd>F</kbd> far / <kbd>U</kbd> unknown</td></tr>
+<tr><td><kbd>T</kbd></td><td>Type score text for the selected (or last) point; <kbd>Enter</kbd> saves</td></tr>
+<tr><td><kbd>C</kbd></td><td>Fully-labelled span: first press starts it here, second press ends it here (kinds from the checkboxes)</td></tr>
+<tr><td><kbd>Z</kbd> or <kbd>Ctrl</kbd>+<kbd>Z</kbd></td><td>Undo the last change</td></tr>
+<tr><td><kbd>Delete</kbd></td><td>Remove the selected label</td></tr>
+<tr><td><kbd>.</kbd> <kbd>,</kbd></td><td>Jump to next / previous machine candidate (a hint only; it labels nothing)</td></tr>
+<tr><td><kbd>Esc</kbd></td><td>Cancel the current prompt / close this help</td></tr>
+<tr><td><kbd>?</kbd></td><td>Show / hide this help</td></tr>
+</tbody></table></section>
+<div class="layout"><div>
+<section class="panel"><video id="video" preload="auto" playsinline muted></video>
+<canvas id="timeline" width="1200" height="64" aria-label="Timeline: click to seek"></canvas>
+<div class="legend"><span><i class="sw" style="background:#2f6f55"></i>fully-labelled span</span><span><i class="sw" style="background:#4b3f6b"></i>point</span><span><i class="sw" style="background:var(--orange)"></i>shot</span><span><i class="sw" style="background:var(--blue)"></i>bounce</span><span><i class="sw" style="background:var(--grey)"></i>machine candidate (hint)</span></div>
+<div class="controls"><button id="play">Play</button><button id="previousFrame" title="Previous frame (&larr;)">&larr; frame</button><button id="nextFrame" title="Next frame (&rarr;)">frame &rarr;</button>
+<label>Speed <select id="speed"><option value="0.25">0.25×</option><option value="0.5" selected>0.5×</option><option value="1">1×</option></select></label>
+<span id="readout"></span></div>
+<div id="videoProblem" hidden><p class="muted" id="videoProblemText"></p><input id="videoFile" type="file" accept="video/*"></div>
+<div id="prompt" hidden></div><div id="hint" hidden></div><p id="notice" role="status"></p>
+<div class="controls"><button id="markShot">Shot (H)</button><button id="markBounce">Bounce (B)</button><button id="pointStart">Point start ([)</button><button id="pointEnd">Point end (])</button><button id="coverageToggle">Span start/end (C)</button><button id="undo">Undo (Z)</button></div>
+<div class="row"><span class="fine">Span covers:</span><label><input type="checkbox" id="covShots" checked>shots</label><label><input type="checkbox" id="covBounces" checked>bounces</label><label><input type="checkbox" id="covPoints" checked>points</label></div>
+<p class="fine">A span means every shot / bounce / point of the ticked kinds between its start and end frames has a label; an unlabelled frame inside it says "nothing happened here". Mark spans only where that is true.</p>
+</section></div>
+<div>
+<section class="panel"><h2>Labeller</h2><div class="row"><label>Name <input id="labellerName" autocomplete="name" placeholder="required for export"></label><label>Date <input id="labellerDate" type="date"></label></div>
+<label class="fine" for="fileNotes">Notes for the whole file (optional)</label><textarea id="fileNotes"></textarea>
+<div class="counts" id="counts"></div><p class="fine" id="draftState"></p></section>
+<section class="panel" id="editor" hidden><h2 id="editorTitle">Selected label</h2><div id="editorFields"></div>
+<div class="row"><button id="deleteSelected">Remove (Delete)</button></div></section>
+<section class="panel"><h2>Points</h2><div class="list" id="pointList"></div></section>
+<section class="panel"><h2>Shots</h2><div class="list" id="shotList"></div></section>
+<section class="panel"><h2>Bounces</h2><div class="list" id="bounceList"></div></section>
+<section class="panel"><h2>Fully-labelled spans</h2><div class="list" id="coverageList"></div></section>
+<section class="panel"><h2>Machine candidates <span class="fine">(unconfirmed hints)</span></h2><p class="fine" id="candidateNote"></p><div class="list" id="candidateList"></div></section>
+</div></div></main>
+<script type="application/json" id="label-data">__LABEL_DATA__</script>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const D=JSON.parse($('label-data').textContent);
+const fps=D.fps,START=D.source_start_frame,N=D.frames,LAST=START+N-1;
+const DRAFT_KEY='tennis-labels-draft:'+D.run_id,NAME_KEY='tennis-labeller-name';
+const TYPE_KEYS={'1':'serve','2':'forehand','3':'backhand','4':'volley','5':'overhead','6':'other','7':'unsure'};
+const SIDE_KEYS={n:'near',f:'far',u:'unknown'},CALL_KEYS={i:'in',o:'out',u:'unsure'};
+const video=$('video');
+const blank=()=>({shots:[],bounces:[],points:[],coverage:[],open:{point:null,coverage:null},nextId:1});
+let L=blank(),undoStack=[],prompt=null,selected=null,hintId=null,stopAt=null;
+
+// ---------------------------------------------------------------- storage (draft only)
+function store(key,value){try{localStorage.setItem(key,value);return true;}catch(e){return false;}}
+function fetchStored(key){try{return localStorage.getItem(key);}catch(e){return null;}}
+function saveDraft(){const ok=store(DRAFT_KEY,JSON.stringify({labels:L,file_notes:$('fileNotes').value,saved:new Date().toISOString()}));
+ $('draftState').textContent=ok?'Draft autosaved in this browser only. A draft is not an export: use Export labels.json.':'Draft autosave unavailable in this browser; export to keep your work.';}
+function restoreDraft(){const raw=fetchStored(DRAFT_KEY);if(!raw)return false;try{const d=JSON.parse(raw);if(!d||!d.labels||!Array.isArray(d.labels.shots))return false;L=Object.assign(blank(),d.labels);L.open=Object.assign({point:null,coverage:null},L.open||{});$('fileNotes').value=d.file_notes||'';return true;}catch(e){return false;}}
+
+// ---------------------------------------------------------------- frames
+// The video is the run's review clip: its frame 0 is run frame 0 = source frame START.
+function runFrame(){return Math.max(0,Math.min(N-1,Math.floor(video.currentTime*fps+1e-6)));}
+function srcNow(){return runFrame()+START;}
+function seekRun(f){video.pause();stopAt=null;video.currentTime=(Math.max(0,Math.min(N-1,f))+.1)/fps;render();}
+function seekSource(sf){seekRun(sf-START);}
+function fmtTime(sf){return ((sf-START)/fps).toFixed(2)+'s';}
+
+// ---------------------------------------------------------------- state changes
+function notice(text,warn=false){$('notice').textContent=text;$('notice').className=warn?'warn':'';}
+function commit(change,message){undoStack.push(JSON.stringify(L));change();saveDraft();render();if(message)notice(message);}
+function undo(){if(prompt){cancelPrompt();return;}if(!undoStack.length){notice('Nothing to undo.',true);return;}L=JSON.parse(undoStack.pop());if(selected&&!findLabel(selected))selected=null;saveDraft();render();notice('Undid the last change.');}
+function newId(kind){return `${kind}-${L.nextId++}`;}
+function findLabel(sel){return sel&&(L[sel.list]||[]).find(x=>x.id===sel.id);}
+const overlaps=(a,b,c,d)=>a<=d&&c<=b;
+function pointAt(sf){return L.points.find(p=>overlaps(p.source_start_frame,p.source_end_frame,sf,sf));}
+
+function setPrompt(p,text){prompt=p;$('prompt').hidden=false;$('prompt').textContent=text+' · Esc cancels';}
+function cancelPrompt(){if(!prompt)return;prompt=null;$('prompt').hidden=true;notice('Cancelled; nothing was labelled.');}
+function clearPrompt(){prompt=null;$('prompt').hidden=true;}
+
+function startShot(){const sf=srcNow();if(L.shots.some(s=>s.source_frame===sf)){notice(`A shot is already labelled at source frame ${sf}.`,true);return;}
+ setPrompt({kind:'shot-hitter',frame:sf},`Shot at source frame ${sf}: hitter? N near / F far`);}
+function startBounce(){const sf=srcNow();if(L.bounces.some(b=>b.source_frame===sf)){notice(`A bounce is already labelled at source frame ${sf}.`,true);return;}
+ setPrompt({kind:'bounce',frame:sf},`Bounce at source frame ${sf}: I in / O out / U unsure`);}
+function startPoint(){const sf=srcNow();if(L.open.point){notice(`A point is already open from source frame ${L.open.point.source_start_frame}; press ] to end it (Z undoes the start).`,true);return;}
+ const inside=pointAt(sf);if(inside){notice(`Source frame ${sf} is inside ${inside.id}; points may not overlap.`,true);return;}
+ setPrompt({kind:'point-server',frame:sf},`Point starts at source frame ${sf}: server? N near / F far / U unknown`);}
+function endPoint(){const sf=srcNow(),open=L.open.point;if(!open){notice('No open point: press [ at the start of a point first.',true);return;}
+ if(sf<open.source_start_frame){notice(`End frame ${sf} is before the point's start (${open.source_start_frame}).`,true);return;}
+ const clash=L.points.find(p=>overlaps(p.source_start_frame,p.source_end_frame,open.source_start_frame,sf));if(clash){notice(`A point ending at ${sf} would overlap ${clash.id}.`,true);return;}
+ setPrompt({kind:'point-winner',frame:sf},`Point ends at source frame ${sf}: winner? N near / F far / U unknown`);}
+function coverageKinds(){return [['shots','covShots'],['bounces','covBounces'],['points','covPoints']].filter(([,id])=>$(id).checked).map(([k])=>k);}
+function toggleCoverage(){const sf=srcNow(),open=L.open.coverage;
+ if(!open){commit(()=>{L.open.coverage={source_start_frame:sf};},`Fully-labelled span started at source frame ${sf}. Press C again where it ends.`);return;}
+ if(sf<open.source_start_frame){notice(`Span end ${sf} is before its start (${open.source_start_frame}).`,true);return;}
+ const kinds=coverageKinds();if(!kinds.length){notice('Tick at least one kind (shots, bounces, points) the span fully covers.',true);return;}
+ const clash=L.coverage.find(c=>c.kinds.some(k=>kinds.includes(k))&&overlaps(c.source_start_frame,c.source_end_frame,open.source_start_frame,sf));
+ if(clash){notice(`This span would overlap span ${clash.source_start_frame}-${clash.source_end_frame} for the same kind.`,true);return;}
+ const span={id:newId('span'),source_start_frame:open.source_start_frame,source_end_frame:sf,kinds};
+ commit(()=>{L.coverage.push(span);L.coverage.sort((a,b)=>a.source_start_frame-b.source_start_frame);L.open.coverage=null;},`Fully-labelled span ${span.source_start_frame}-${sf} (${kinds.join(', ')}) saved.`);}
+
+function answerPrompt(lower){const p=prompt;
+ if(p.kind==='shot-hitter'){if(lower!=='n'&&lower!=='f')return false;setPrompt({kind:'shot-type',frame:p.frame,hitter:SIDE_KEYS[lower]},`Shot at ${p.frame}, ${SIDE_KEYS[lower]} player: type? 1 serve 2 forehand 3 backhand 4 volley 5 overhead 6 other 7 unsure`);return true;}
+ if(p.kind==='shot-type'){const type=TYPE_KEYS[lower];if(!type)return false;clearPrompt();const shot={id:newId('shot'),source_frame:p.frame,hitter:p.hitter,shot_type:type,decision:'human'};
+  commit(()=>{L.shots.push(shot);L.shots.sort((a,b)=>a.source_frame-b.source_frame);selected={list:'shots',id:shot.id};},`Shot labelled: ${p.hitter} ${type} at source frame ${p.frame}.`);return true;}
+ if(p.kind==='bounce'){const call=CALL_KEYS[lower];if(!call)return false;clearPrompt();const b={id:newId('bounce'),source_frame:p.frame,call,decision:'human'};
+  commit(()=>{L.bounces.push(b);L.bounces.sort((a,b)=>a.source_frame-b.source_frame);selected={list:'bounces',id:b.id};},`Bounce labelled: ${call} at source frame ${p.frame}.`);return true;}
+ if(p.kind==='point-server'){const side=SIDE_KEYS[lower];if(!side)return false;clearPrompt();commit(()=>{L.open.point={source_start_frame:p.frame,server:side};},`Point open from source frame ${p.frame} (server: ${side}). Press ] where it ends.`);return true;}
+ if(p.kind==='point-winner'){const side=SIDE_KEYS[lower];if(!side)return false;clearPrompt();const open=L.open.point;
+  const point={id:newId('point'),source_start_frame:open.source_start_frame,source_end_frame:p.frame,server:open.server,winner:side,decision:'human'};
+  commit(()=>{L.points.push(point);L.points.sort((a,b)=>a.source_start_frame-b.source_start_frame);L.open.point=null;selected={list:'points',id:point.id};},`Point ${point.source_start_frame}-${p.frame} saved (winner: ${side}). Press T to add score text.`);return true;}
+ return false;}
+
+function removeSelected(){const item=findLabel(selected);if(!item){notice('Select a label first.',true);return;}const list=selected.list;
+ commit(()=>{L[list]=L[list].filter(x=>x.id!==item.id);selected=null;},`Removed ${item.id}${list==='coverage'?' span':''}.`);}
+function editScore(){let point=selected?.list==='points'&&findLabel(selected);if(!point){point=L.points[L.points.length-1];if(point)selected={list:'points',id:point.id};}
+ if(!point){notice('No point to add score text to yet.',true);return;}render();const box=$('edit-score_text');box?.focus?.();}
+
+// ---------------------------------------------------------------- candidates (hints only)
+const candidates=[...D.candidates].sort((a,b)=>a.source_frame-b.source_frame);
+function candidateText(c){return `${c.kind==='hit'?'hit candidate':'bounce candidate'} · ${c.player_id||'player ?'}${c.shot_type?' · '+c.shot_type:''}`;}
+function jumpCandidate(direction){const sf=srcNow(),list=direction>0?candidates.filter(c=>c.source_frame>sf):candidates.filter(c=>c.source_frame<sf).reverse();
+ const c=list[0];if(!c){notice(candidates.length?`No ${direction>0?'later':'earlier'} machine candidate.`:'This run has no machine candidates.',true);return;}
+ hintId=c.id;seekSource(c.source_frame);notice(`Jumped to a machine candidate (hint only). Nothing was labelled; press H or B to label what you see.`);}
+
+// ---------------------------------------------------------------- export / import
+function today(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function clean(entry,fields){const out={};for(const f of fields)if(entry[f]!==undefined&&entry[f]!==null&&!(typeof entry[f]==='string'&&f.match(/notes|score_text/)&&!entry[f].trim()))out[f]=entry[f];return out;}
+function labelsPayload(){const name=$('labellerName').value.trim(),date=$('labellerDate').value;
+ if(!name)throw Error('Enter the labeller name before exporting.');
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(date))throw Error('Enter the labelling date (YYYY-MM-DD) before exporting.');
+ if(L.open.point)throw Error(`A point is still open from source frame ${L.open.point.source_start_frame}: press ] to end it or Z to undo its start.`);
+ if(L.open.coverage)throw Error(`A fully-labelled span is still open from source frame ${L.open.coverage.source_start_frame}: press C to end it or Z to undo its start.`);
+ const payload={schema_version:D.labels_schema_version,kind:'tennis_ground_truth_labels',
+  binding:{run_id:D.run_id,source_video_sha256:D.source_video_sha256,fps:D.fps},
+  labeller:{name,date},shot_types:[...D.shot_types],
+  coverage:L.coverage.map(c=>({source_start_frame:c.source_start_frame,source_end_frame:c.source_end_frame,kinds:[...c.kinds]})),
+  shots:L.shots.map(s=>clean(s,['id','source_frame','hitter','shot_type','decision','notes'])),
+  bounces:L.bounces.map(b=>clean(b,['id','source_frame','call','decision','notes'])),
+  points:L.points.map(p=>clean(p,['id','source_start_frame','source_end_frame','server','winner','score_text','decision','notes']))};
+ const notes=$('fileNotes').value.trim();if(notes)payload.notes=notes;
+ checkPayload(payload);return payload;}
+// Mirrors the main rules of tennis_vision/labels.py; that validator stays the authority.
+function checkPayload(p){const ints=v=>Number.isInteger(v)&&v>=0,ids=new Set();
+ if(p.binding.run_id!==D.run_id||p.binding.source_video_sha256!==D.source_video_sha256||Math.abs(p.binding.fps-D.fps)>.01)throw Error('These labels are bound to another run or video.');
+ if(JSON.stringify(p.shot_types)!==JSON.stringify(D.shot_types))throw Error('Shot-type list differs from this page\'s list.');
+ const spans={shots:[],bounces:[],points:[]};
+ for(const c of p.coverage){if(!ints(c.source_start_frame)||!ints(c.source_end_frame)||c.source_end_frame<c.source_start_frame||!c.kinds.length)throw Error('Invalid fully-labelled span.');
+  for(const k of c.kinds){if(!spans[k])throw Error('Invalid span kind '+k);if(spans[k].some(([a,b])=>overlaps(a,b,c.source_start_frame,c.source_end_frame)))throw Error(`Fully-labelled ${k} spans overlap.`);spans[k].push([c.source_start_frame,c.source_end_frame]);}}
+ for(const [list,check] of [['shots',s=>ints(s.source_frame)&&D.hitters.includes(s.hitter)&&D.shot_types.includes(s.shot_type)],
+  ['bounces',b=>ints(b.source_frame)&&D.bounce_calls.includes(b.call)],
+  ['points',q=>ints(q.source_start_frame)&&ints(q.source_end_frame)&&q.source_end_frame>=q.source_start_frame&&D.point_sides.includes(q.server)&&D.point_sides.includes(q.winner)]]){
+  const frames=new Set();for(const e of p[list]){if(!e.id||ids.has(e.id))throw Error('Duplicate or empty label id '+e.id);ids.add(e.id);
+   if(e.decision!=='human'||!check(e))throw Error(`Invalid ${list} label ${e.id}.`);
+   if(list!=='points'){if(frames.has(e.source_frame))throw Error(`Two ${list} at source frame ${e.source_frame}.`);frames.add(e.source_frame);}}}
+ const pts=[...p.points].sort((a,b)=>a.source_start_frame-b.source_start_frame);for(let i=1;i<pts.length;i++)if(pts[i].source_start_frame<=pts[i-1].source_end_frame)throw Error(`Points ${pts[i-1].id} and ${pts[i].id} overlap.`);
+ return p;}
+function exportLabels(){let payload;try{payload=labelsPayload();}catch(e){notice(e.message,true);if(/labeller name/.test(e.message))$('labellerName').focus?.();return null;}
+ const url=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)+'\n'],{type:'application/json'})),a=document.createElement('a');
+ a.href=url;a.download=`labels-${D.run_id.slice(0,8)}-${payload.labeller.date}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ notice(`Exported ${payload.shots.length} shots, ${payload.bounces.length} bounces, ${payload.points.length} points, ${payload.coverage.length} span(s). Check it with: python -m tennis_vision.labels <file> --run <replay folder>`);return payload;}
+function importLabels(data){if(!data||data.kind!=='tennis_ground_truth_labels'||data.schema_version!==D.labels_schema_version)throw Error('Not a schema v1 labels.json.');
+ checkPayload(data);const next=blank();next.coverage=data.coverage.map((c,i)=>({...c,id:'span-import-'+i,kinds:[...c.kinds]}));
+ for(const k of ['shots','bounces','points'])next[k]=data[k].map(e=>({...e}));
+ let max=0;for(const k of ['shots','bounces','points'])for(const e of next[k]){const m=/-(\d+)$/.exec(e.id);if(m)max=Math.max(max,+m[1]);}next.nextId=max+1;
+ commit(()=>{L=next;selected=null;},`Loaded ${data.shots.length} shots, ${data.bounces.length} bounces, ${data.points.length} points from the earlier export. Undo (Z) restores the previous state.`);
+ if(data.labeller?.name&&!$('labellerName').value)$('labellerName').value=data.labeller.name;if(data.notes&&!$('fileNotes').value)$('fileNotes').value=data.notes;}
+$('importFile').onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{importLabels(JSON.parse(await file.text()));}catch(error){notice('Not loaded: '+error.message,true);}e.target.value='';};
+
+// ---------------------------------------------------------------- rendering
+function item(text,cls,onclick){const b=document.createElement('button');b.className='item'+(cls?' '+cls:'');b.textContent=text;b.onclick=onclick;return b;}
+function select(list,id){selected={list,id};const x=findLabel(selected);if(x)seekSource(x.source_frame??x.source_start_frame);render();}
+function renderLists(){
+ const sel=(list,x)=>selected?.list===list&&selected.id===x.id?'selected':'';
+ $('pointList').replaceChildren(...L.points.map(p=>item(`${p.id} · ${p.source_start_frame}-${p.source_end_frame} · serve ${p.server} · won ${p.winner}${p.score_text?' · '+p.score_text:''}`,sel('points',p),()=>select('points',p.id))));
+ if(L.open.point)$('pointList').append(item(`open point from ${L.open.point.source_start_frame} · serve ${L.open.point.server} · press ] to end`,'',()=>seekSource(L.open.point.source_start_frame)));
+ $('shotList').replaceChildren(...L.shots.map(s=>item(`${s.id} · ${s.source_frame} (${fmtTime(s.source_frame)}) · ${s.hitter} · ${s.shot_type}`,sel('shots',s),()=>select('shots',s.id))));
+ $('bounceList').replaceChildren(...L.bounces.map(b=>item(`${b.id} · ${b.source_frame} (${fmtTime(b.source_frame)}) · ${b.call}`,sel('bounces',b),()=>select('bounces',b.id))));
+ $('coverageList').replaceChildren(...L.coverage.map(c=>item(`${c.source_start_frame}-${c.source_end_frame} · ${c.kinds.join(', ')}`,sel('coverage',c),()=>{selected={list:'coverage',id:c.id};seekSource(c.source_start_frame);})));
+ if(L.open.coverage)$('coverageList').append(item(`open span from ${L.open.coverage.source_start_frame} · press C to end`,'',()=>seekSource(L.open.coverage.source_start_frame)));
+ $('candidateList').replaceChildren(...candidates.map(c=>item(`${c.source_frame} (${fmtTime(c.source_frame)}) · ${candidateText(c)}`,'hint'+(hintId===c.id?' selected':''),()=>{hintId=c.id;seekSource(c.source_frame);})));
+ for(const id of ['pointList','shotList','bounceList','coverageList','candidateList'])if(!$(id).children.length)$(id).textContent=id==='candidateList'?'No machine candidates in this run.':'None yet.';
+ $('counts').replaceChildren(...[['shots',L.shots.length],['bounces',L.bounces.length],['points',L.points.length],['spans',L.coverage.length]].map(([k,v])=>{const s=document.createElement('span');s.textContent=`${v} ${k}`;return s;}));}
+function field(label,key,value,options){const wrap=document.createElement('label');wrap.textContent=label+' ';let input;
+ if(options){input=document.createElement('select');for(const o of options){const opt=document.createElement('option');opt.value=o;opt.textContent=o;input.append(opt);}}else input=document.createElement('input');
+ input.id='edit-'+key;input.value=value??'';input.onchange=()=>{const x=findLabel(selected);if(!x)return;const v=input.value;if((x[key]??'')===v)return;
+  commit(()=>{const y=findLabel(selected);if(!v&&!options)delete y[key];else y[key]=v;},`${x.id}: ${key.replace('_',' ')} set to ${v||'(empty)'}.`);};
+ if(!options)input.onkeydown=e=>{if(e.key==='Enter'){input.onchange();input.blur?.();}};
+ wrap.append(input);return wrap;}
+function renderEditor(){const x=findLabel(selected);$('editor').hidden=!x;if(!x)return;$('editorTitle').textContent='Selected: '+(selected.list==='coverage'?`span ${x.source_start_frame}-${x.source_end_frame}`:x.id);
+ const f=[];if(selected.list==='shots')f.push(field('Hitter','hitter',x.hitter,D.hitters),field('Type','shot_type',x.shot_type,D.shot_types));
+ if(selected.list==='bounces')f.push(field('Call','call',x.call,D.bounce_calls));
+ if(selected.list==='points')f.push(field('Server','server',x.server,D.point_sides),field('Winner','winner',x.winner,D.point_sides),field('Score text','score_text',x.score_text));
+ if(selected.list!=='coverage')f.push(field('Notes','notes',x.notes));
+ const row=document.createElement('div');row.className='row';row.append(...f);$('editorFields').replaceChildren(row);}
+function drawTimeline(){const c=$('timeline'),g=c.getContext('2d');if(!g)return;const W=c.width,H=c.height,x=sf=>(sf-START+.5)/N*W;
+ g.clearRect(0,0,W,H);g.fillStyle='#2f6f55';for(const s of L.coverage)g.fillRect(x(s.source_start_frame-.5),0,Math.max(2,x(s.source_end_frame+.5)-x(s.source_start_frame-.5)),12);
+ if(L.open.coverage){g.fillStyle='#2f6f5588';g.fillRect(x(L.open.coverage.source_start_frame-.5),0,Math.max(2,x(srcNow())-x(L.open.coverage.source_start_frame-.5)),12);}
+ g.fillStyle='#4b3f6b';for(const p of L.points)g.fillRect(x(p.source_start_frame-.5),14,Math.max(2,x(p.source_end_frame+.5)-x(p.source_start_frame-.5)),12);
+ if(L.open.point){g.fillStyle='#4b3f6b88';g.fillRect(x(L.open.point.source_start_frame-.5),14,Math.max(2,x(srcNow())-x(L.open.point.source_start_frame-.5)),12);}
+ g.fillStyle='#8a9aa0';for(const k of candidates)g.fillRect(x(k.source_frame)-1,k.kind==='hit'?30:46,2,8);
+ g.fillStyle='#ffb75b';for(const s of L.shots)g.fillRect(x(s.source_frame)-1.5,28,3,14);
+ g.fillStyle='#83c8ff';for(const b of L.bounces)g.fillRect(x(b.source_frame)-1.5,44,3,14);
+ g.fillStyle='#ecf3f3';g.fillRect(x(srcNow())-1,0,2,H);}
+function renderHint(){const sf=srcNow(),here=candidates.filter(c=>Math.abs(c.source_frame-sf)<=1);$('hint').hidden=!here.length;
+ if(here.length)$('hint').textContent=`Machine candidate near this frame (unconfirmed hint, not a label): ${here.map(c=>`${candidateText(c)} at ${c.source_frame}`).join('; ')}. Label only what you see.`;}
+function render(){const rf=runFrame();$('readout').textContent=`source frame ${rf+START} · run frame ${rf}/${N-1} · ${(rf/fps).toFixed(2)}s`;
+ $('play').textContent=video.paused===false?'Pause':'Play';renderLists();renderEditor();renderHint();drawTimeline();}
+
+// ---------------------------------------------------------------- video
+$('runInfo').textContent=`Run ${D.run_id.slice(0,16)}… · source frames ${START}-${LAST} (${N} frames, ${fps} fps) · video SHA-256 ${D.source_video_sha256.slice(0,12)}… · all exported frames are source-video frames`;
+$('candidateNote').textContent=D.candidate_limitation;
+function videoProblem(text){$('videoProblem').hidden=false;$('videoProblemText').textContent=text;}
+video.addEventListener('error',()=>videoProblem(`Could not load the review video (${D.video_src}). Choose this run's review source.mp4 (it starts at source frame ${START}); it is played locally and never uploaded.`));
+video.addEventListener('loadedmetadata',()=>{const frames=video.duration*fps;video.playbackRate=+$('speed').value;
+ if(Number.isFinite(frames)&&Math.abs(frames-N)>2)videoProblem(`Warning: this video lasts ${frames.toFixed(0)} frames but the run has ${N}. Labels would be misaligned; choose the run's review source.mp4.`);
+ else $('videoProblem').hidden=true;render();});
+video.addEventListener('timeupdate',()=>{if(stopAt!==null&&video.currentTime>=stopAt){video.pause();stopAt=null;}render();});
+video.addEventListener('play',render);video.addEventListener('pause',render);
+$('videoFile').onchange=e=>{const f=e.target.files?.[0];if(f){video.src=URL.createObjectURL(f);video.load?.();}};
+if(D.video_check?.status==='missing')videoProblem(D.video_check.note);
+video.src=D.video_src;
+$('speed').onchange=()=>{video.playbackRate=+$('speed').value;};
+$('play').onclick=()=>{if(video.paused===false)video.pause();else video.play()?.catch?.(()=>notice('The browser blocked playback; click Play again.',true));render();};
+$('previousFrame').onclick=()=>seekRun(runFrame()-1);$('nextFrame').onclick=()=>seekRun(runFrame()+1);
+$('timeline').onclick=e=>{const c=$('timeline'),r=c.getBoundingClientRect?.();if(!r||!r.width)return;seekRun(Math.floor((e.clientX-r.left)/r.width*N));};
+$('markShot').onclick=startShot;$('markBounce').onclick=startBounce;$('pointStart').onclick=startPoint;$('pointEnd').onclick=endPoint;
+$('coverageToggle').onclick=toggleCoverage;$('undo').onclick=undo;$('deleteSelected').onclick=removeSelected;$('export').onclick=exportLabels;
+$('fileNotes').onchange=saveDraft;
+$('labellerName').onchange=()=>store(NAME_KEY,$('labellerName').value.trim());
+function toggleShortcutHelp(show=$('shortcutHelp').hidden){$('shortcutHelp').hidden=!show;$('shortcutsButton').setAttribute('aria-expanded',String(show));}
+$('shortcutsButton').onclick=()=>toggleShortcutHelp();$('closeShortcuts').onclick=()=>toggleShortcutHelp(false);
+
+// ---------------------------------------------------------------- keyboard (same rules as shot_replay.html)
+function shortcutBlocked(e){const t=e.target,tag=(t?.tagName||'').toLowerCase();return e.metaKey||e.altKey||e.defaultPrevented||tag==='input'||tag==='select'||tag==='textarea'||!!t?.isContentEditable;}
+function handleShortcut(e){
+ if(shortcutBlocked(e))return;
+ const key=e.key,lower=key.length===1?key.toLowerCase():key;let act=null;
+ if(e.ctrlKey){if(lower==='z'&&!e.repeat){e.preventDefault();undo();}return;}
+ if(key==='ArrowLeft'||key==='ArrowRight'){const step=(key==='ArrowRight'?1:-1)*(e.shiftKey?Math.round(fps):1);act=()=>seekRun(runFrame()+step);}
+ else if(e.repeat)return;// Held keys repeat only frame stepping, never a label.
+ else if(key==='Escape')act=()=>{if(prompt)cancelPrompt();else toggleShortcutHelp(false);};
+ else if(key==='?')act=()=>toggleShortcutHelp();
+ else if(prompt){if(key===' '||e.code==='Space')act=()=>$('play').onclick();else if(lower==='z')act=undo;else{e.preventDefault();if(!answerPrompt(lower))notice(`"${key}" is not an answer here. ${$('prompt').textContent}`,true);return;}}
+ else if(key===' '||e.code==='Space')act=()=>$('play').onclick();
+ else if(lower==='h')act=startShot;else if(lower==='b')act=startBounce;
+ else if(key==='[')act=startPoint;else if(key===']')act=endPoint;
+ else if(lower==='c')act=toggleCoverage;else if(lower==='t')act=editScore;else if(lower==='z')act=undo;
+ else if(key==='Delete'||key==='Backspace')act=removeSelected;
+ else if(key==='.')act=()=>jumpCandidate(1);else if(key===',')act=()=>jumpCandidate(-1);
+ if(!act)return;e.preventDefault();act();
+}
+document.addEventListener('keydown',handleShortcut);
+
+// ---------------------------------------------------------------- start
+$('labellerDate').value=today();$('labellerName').value=fetchStored(NAME_KEY)||'';
+if(restoreDraft())notice('Restored an unexported draft from this browser. It is not a labels file until you export it.');
+saveDraft();render();
+</script></body></html>
