@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Match Desk</title>
+<!-- Offline page: no CDN scripts, no web fonts. The shot table is inlined below. -->
+<style>
+:root{
+  --bg:#f3f5f1; --panel:#fbfcfa; --ink:#131a17; --ink-2:#4c5752; --ink-3:#6f7a74; --rule:#d7ddd7; --rule-2:#e6eae5;
+  --court:#e3eae3; --court-line:#ffffff; --net:#56635c;
+  --near:#2a78d6; --far:#eb6834; --nobody:#8a948f;
+  --seq-1:#cde2fb; --seq-2:#9ec5f4; --seq-3:#6da7ec; --seq-4:#3987e5; --seq-5:#256abf; --seq-6:#184f95;
+  --chip:#e9eee8; --chip-on:#131a17; --chip-on-ink:#fbfcfa;
+  --note-bg:#eef3fb; --note-ink:#1f3a5c; --note-edge:#b9cdea;
+  --focus:#256abf; --link:#256abf;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#121614; --panel:#191e1c; --ink:#eef2ef; --ink-2:#b8c2bc; --ink-3:#8e9993; --rule:#2d3532; --rule-2:#232a27;
+    --court:#1f2a26; --court-line:#cfd8d2; --net:#9aa7a0;
+    --near:#3987e5; --far:#d95926; --nobody:#7d8883;
+    --seq-1:#1c3150; --seq-2:#184f95; --seq-3:#256abf; --seq-4:#3987e5; --seq-5:#6da7ec; --seq-6:#b7d3f6;
+    --chip:#232a27; --chip-on:#eef2ef; --chip-on-ink:#121614;
+    --note-bg:#17233a; --note-ink:#c9daf3; --note-edge:#2c4369;
+    --focus:#6da7ec; --link:#8dbbf0;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#121614; --panel:#191e1c; --ink:#eef2ef; --ink-2:#b8c2bc; --ink-3:#8e9993; --rule:#2d3532; --rule-2:#232a27;
+  --court:#1f2a26; --court-line:#cfd8d2; --net:#9aa7a0;
+  --near:#3987e5; --far:#d95926; --nobody:#7d8883;
+  --seq-1:#1c3150; --seq-2:#184f95; --seq-3:#256abf; --seq-4:#3987e5; --seq-5:#6da7ec; --seq-6:#b7d3f6;
+  --chip:#232a27; --chip-on:#eef2ef; --chip-on-ink:#121614;
+  --note-bg:#17233a; --note-ink:#c9daf3; --note-edge:#2c4369;
+  --focus:#6da7ec; --link:#8dbbf0;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;padding:20px 16px 48px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:20px}
+h1,h2,h3{font-weight:650;margin:0;text-wrap:balance}
+h1{font-size:2.2rem;line-height:1.05;letter-spacing:-.01em}
+h2{font-size:1.25rem;line-height:1.2}
+h3{font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+p{margin:0}
+.num,.mono{font-family:ui-monospace,"Cascadia Mono","Segoe UI Mono",Consolas,Menlo,monospace;font-variant-numeric:tabular-nums}
+.muted{color:var(--ink-3)} .small{font-size:.85rem}
+a{color:var(--link)}
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px}
+.eyebrow{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);margin-bottom:6px}
+.prov{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.82rem;color:var(--ink-2);margin-top:8px}
+.prov b{font-weight:600;color:var(--ink)}
+.note{background:var(--note-bg);color:var(--note-ink);border:1px solid var(--note-edge);border-radius:6px;padding:10px 14px;font-size:.88rem;max-width:560px}
+.strip{display:flex;flex-wrap:wrap;gap:6px 20px;align-items:baseline}
+.strip .who{display:inline-flex;align-items:center;gap:8px;font-size:1.15rem;font-weight:600}
+.swatch{width:12px;height:12px;border-radius:50%;display:inline-block;flex:none}
+.sw-near{background:var(--near)} .sw-far{background:var(--far)} .sw-nobody{background:var(--nobody)}
+.filters{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;padding:12px 14px;background:var(--panel);border:1px solid var(--rule);border-radius:8px}
+.group{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.group-label{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin-right:2px}
+button.chip{font:500 .85rem system-ui,-apple-system,"Segoe UI",sans-serif;border:1px solid var(--rule);background:var(--chip);color:var(--ink);border-radius:999px;padding:4px 11px;cursor:pointer}
+button.chip[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-ink);border-color:var(--chip-on)}
+button:focus-visible,input:focus-visible,tr:focus-visible,a:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+label.toggle{display:flex;gap:6px;align-items:center;font-size:.85rem;color:var(--ink-2);cursor:pointer}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.tile{background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:12px 14px;display:grid;gap:2px;align-content:start}
+.tile .big{font-size:1.8rem;font-weight:650;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile .lab{font-size:.8rem;color:var(--ink-3)}
+.bar-split{display:flex;height:8px;border-radius:4px;overflow:hidden;gap:2px;margin-top:6px;background:var(--rule-2)}
+.bar-split i{display:block;height:100%}
+.main{display:grid;grid-template-columns:minmax(280px,380px) 1fr;gap:20px;align-items:start}
+@media (max-width:820px){.main{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:14px;display:grid;gap:10px;min-width:0;align-content:start}
+.main>*,.grid3>*,.twocol>*,.tiles>*{min-width:0}
+.panel-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 12px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.82rem;color:var(--ink-2);align-items:center}
+.legend .k{display:inline-flex;gap:6px;align-items:center}
+svg text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.court-wrap{display:flex;justify-content:center}
+.court-wrap svg{width:100%;max-width:330px;height:auto;display:block}
+.table-wrap{overflow:auto;max-height:420px;border:1px solid var(--rule-2);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:.86rem}
+th,td{padding:6px 10px;text-align:left;border-bottom:1px solid var(--rule-2);white-space:nowrap;vertical-align:top}
+th{position:sticky;top:0;background:var(--panel);font-weight:600;color:var(--ink-2);font-size:.76rem;text-transform:uppercase;letter-spacing:.05em;z-index:1}
+td.r,th.r{text-align:right}
+#points tbody tr{cursor:pointer}
+#points tbody tr:hover{background:var(--rule-2)}
+tbody tr[aria-selected="true"]{background:var(--chip)}
+tbody tr[aria-selected="true"] td:first-child{box-shadow:inset 3px 0 0 var(--ink)}
+.src{display:inline-block;font-size:.72rem;line-height:1.3;padding:0 6px;border-radius:999px;border:1px solid var(--rule);color:var(--ink-3);margin-left:4px;vertical-align:1px}
+.src-human_confirmed{color:var(--ink);border-color:var(--ink-2)}
+.src-estimated{border-style:dashed}
+.seq ol{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.seq li{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:baseline;font-size:.86rem}
+.seq .n{color:var(--ink-3);text-align:right}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:20px;align-items:start}
+.hbars{display:grid;gap:10px}
+.hrow{display:grid;grid-template-columns:88px 1fr;gap:10px;align-items:center}
+.hrow .t{font-size:.85rem;color:var(--ink-2)}
+.pair{display:grid;gap:3px}
+.hb{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--ink-2)}
+.hb i{display:block;height:10px;border-radius:0 4px 4px 0;min-width:2px}
+.hb.dim{opacity:.3}
+.chart svg{width:100%;height:auto;display:block}
+.ptable td,.ptable th{white-space:normal}
+.twocol{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:20px}
+.empty{font-size:.88rem;color:var(--ink-3);padding:8px 0}
+ul.lim{margin:0;padding-left:18px;display:grid;gap:4px;color:var(--ink-2);font-size:.88rem}
+details summary{cursor:pointer;font-weight:600}
+.theme{margin-left:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">tennis-scraper · match dashboard</div>
+      <h1>Match Desk</h1>
+      <div class="prov" id="prov"></div>
+    </div>
+    <div class="note" role="note">Every value is tagged with its source: <b>confirmed</b> (John decided it), <b>observed</b> (detector pixel through a reviewed calibration; not a measurement), <b>estimated</b> or <b>unknown</b>. Counts below are coverage, not accuracy.</div>
+  </header>
+
+  <div class="strip" id="strip"></div>
+
+  <div class="filters" role="group" aria-label="Filters">
+    <div class="group" id="fHitter"><span class="group-label">Hitter</span></div>
+    <div class="group" id="fType"><span class="group-label">Shot</span></div>
+    <label class="toggle"><input type="checkbox" id="showEst" checked> Show estimated values</label>
+    <button class="chip theme" id="theme" type="button" aria-label="Colour theme">Theme: auto</button>
+  </div>
+
+  <div class="tiles" id="tiles"></div>
+
+  <div class="main">
+    <section class="panel" aria-labelledby="courtTitle">
+      <div class="panel-head">
+        <h2 id="courtTitle">Where shots landed</h2>
+        <span class="small muted" id="courtCount"></span>
+      </div>
+      <div class="legend">
+        <span class="k"><span class="swatch sw-near"></span>Near</span>
+        <span class="k"><span class="swatch sw-far"></span>Far</span>
+        <span class="k"><span class="swatch sw-nobody"></span>Hitter unknown</span>
+      </div>
+      <div class="legend">
+        <span class="k"><svg width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="4.5" fill="var(--ink-2)"/></svg>Confirmed landing</span>
+        <span class="k"><svg width="12" height="12" aria-hidden="true"><rect x="2" y="2" width="8" height="8" transform="rotate(45 6 6)" fill="var(--ink-2)"/></svg>Observed (confirmed bounce)</span>
+        <span class="k"><svg width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="4" fill="none" stroke="var(--ink-2)" stroke-width="1.6"/></svg>Estimated</span>
+      </div>
+      <div class="court-wrap" id="court"></div>
+      <p class="small muted" id="courtNote"></p>
+    </section>
+
+    <section class="panel" aria-labelledby="ptsTitle">
+      <div class="panel-head">
+        <h2 id="ptsTitle">Points</h2>
+        <button class="chip" id="clearSel" type="button" hidden>Clear selection</button>
+      </div>
+      <p class="small muted" id="ptsNote"></p>
+      <div class="table-wrap" id="ptsWrap">
+        <table id="points" aria-describedby="ptsTitle">
+          <thead><tr><th>Point</th><th class="r">Start</th><th>Score</th><th>Server</th><th class="r">Shots</th><th>Won by</th><th class="r">Confirmed landings</th></tr></thead>
+          <tbody id="pointsBody"></tbody>
+        </table>
+      </div>
+      <div class="seq" id="seq" hidden></div>
+      <details id="shotsBox">
+        <summary id="shotsSummary">Shots in view</summary>
+        <div class="table-wrap" style="margin-top:8px">
+          <table id="shots">
+            <thead><tr><th class="r">Frame</th><th>Hitter</th><th>Shot</th><th>Landing</th><th>Point</th><th>Replay</th></tr></thead>
+            <tbody id="shotsBody"></tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+  </div>
+
+  <div class="grid3">
+    <section class="panel chart" aria-labelledby="mixTitle">
+      <h3 id="mixTitle">Shot mix by player</h3>
+      <div class="legend"><span class="k"><span class="swatch sw-near"></span>Near</span><span class="k"><span class="swatch sw-far"></span>Far</span><span class="k"><span class="swatch sw-nobody"></span>Hitter unknown</span></div>
+      <div class="hbars" id="mix"></div>
+      <p class="small muted" id="mixNote"></p>
+    </section>
+    <section class="panel chart" aria-labelledby="rlTitle">
+      <h3 id="rlTitle">Rally length (shots per labelled point)</h3>
+      <div id="rally"></div>
+      <p class="small muted" id="rallyNote"></p>
+    </section>
+    <section class="panel chart" aria-labelledby="heatTitle">
+      <h3 id="heatTitle">Where the hitter stood at contact</h3>
+      <div class="court-wrap" id="heat"></div>
+      <p class="small muted" id="heatNote"></p>
+    </section>
+  </div>
+
+  <section class="panel" aria-labelledby="patTitle">
+    <div class="panel-head">
+      <h2 id="patTitle">Patterns</h2>
+      <span class="small muted">Every figure shows its sample size. "Won" uses only labelled winners and servers. Zone names are proposed defaults (John's decision).</span>
+    </div>
+    <div class="twocol">
+      <div>
+        <h3 style="margin-bottom:8px">First shot direction → point</h3>
+        <div class="table-wrap" style="max-height:none"><table class="ptable"><thead><tr><th>First shot landed</th><th class="r">Points</th><th class="r">Server won</th><th class="r">Avg shots</th></tr></thead><tbody id="serveBody"></tbody></table></div>
+      </div>
+      <div>
+        <h3 style="margin-bottom:8px">Rally length → who won</h3>
+        <div class="table-wrap" style="max-height:none"><table class="ptable"><thead><tr><th>Rally</th><th class="r">Points</th><th class="r">Server won</th><th class="r">Receiver won</th></tr></thead><tbody id="lenBody"></tbody></table></div>
+      </div>
+      <div>
+        <h3 style="margin-bottom:8px">Landing depth by hitter</h3>
+        <div class="table-wrap" style="max-height:none"><table class="ptable"><thead><tr><th>Depth</th><th class="r">Near</th><th class="r">Far</th></tr></thead><tbody id="depthBody"></tbody></table></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="limTitle">
+    <h2 id="limTitle">Provenance and limits</h2>
+    <ul class="lim" id="limits"></ul>
+  </section>
+</div>
+
+<script type="application/json" id="dashboard-data">__DASHBOARD_DATA__</script>
+<script>
+"use strict";
+// ------------------------------------------------------------------ pure logic (no DOM)
+var MD = (function(){
+  var SHOT_STATES = ["labelled_shot", "confirmed_shot", "shot_candidate"];
+  var TRUSTED = ["human_confirmed", "observed"];
+  var COURT = {width:10.97, length:23.77, net:11.885, singlesInset:1.37, service:6.40};
+  var VIEW = {xmin:-3, xmax:13.97, ymin:-4.5, ymax:28.27};
+  var HEAT = {cw:1.5, ch:2};
+  var TYPE_LABEL = {serve:"Serve", forehand:"Forehand", backhand:"Backhand", volley:"Volley", overhead:"Overhead", other:"Other"};
+  var SOURCE_LABEL = {human_confirmed:"confirmed", observed:"observed", estimated:"estimated", unknown:"unknown"};
+  var RALLY_BUCKETS = [["1–3",1,3],["4–6",4,6],["7–9",7,9],["10+",10,Infinity]];
+
+  function isShot(r){ return SHOT_STATES.indexOf(r.shot_status) >= 0; }
+  function src(r, field){ return r[field + "_source"]; }
+  // A value can be used when it is known, and (when estimated values are hidden) not estimated.
+  function usable(r, field, state){
+    var s = src(r, field);
+    return s !== "unknown" && (state.showEst || s !== "estimated");
+  }
+  function hitterOf(r, state){ return usable(r, "hitter", state) ? r.hitter : null; }
+  function typeOf(r, state){ return usable(r, "shot_type", state) ? r.shot_type : null; }
+  function typeLabel(t){ return t == null ? "Type unknown" : (TYPE_LABEL[t] || String(t).replace(/_/g, " ")); }
+  function zoneLabel(z){ return z == null ? "unknown" : String(z).replace(/_/g, " "); }
+
+  function shotTypes(data){
+    var seen = [];
+    data.shots.forEach(function(r){ if(isShot(r) && r.shot_type != null && seen.indexOf(r.shot_type) < 0) seen.push(r.shot_type); });
+    var order = Object.keys(TYPE_LABEL);
+    seen.sort(function(a, b){
+      var ia = order.indexOf(a), ib = order.indexOf(b);
+      return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib) || (a < b ? -1 : a > b ? 1 : 0);
+    });
+    return seen;
+  }
+
+  // Shots (not contacts) that pass the hitter, shot-type and estimated filters.
+  function inView(r, state){
+    if(!isShot(r)) return false;
+    if(!state.showEst && src(r, "shot_status") === "estimated") return false;
+    if(state.hitter !== "all" && hitterOf(r, state) !== state.hitter) return false;
+    if(state.type !== "all"){
+      var t = typeOf(r, state);
+      if(state.type === "unknown" ? t !== null : t !== state.type) return false;
+    }
+    return true;
+  }
+  function shotsInView(data, state){ return data.shots.filter(function(r){ return inView(r, state); }); }
+  function defaultFilters(state){ return state.hitter === "all" && state.type === "all" && state.showEst; }
+
+  function shotsOfPoint(data, pid){
+    return data.shots.filter(function(r){ return isShot(r) && r.point_id === pid; }).sort(function(a, b){
+      var ia = a.rally_shot_index == null ? Infinity : a.rally_shot_index;
+      var ib = b.rally_shot_index == null ? Infinity : b.rally_shot_index;
+      return ia - ib || a.contact_frame - b.contact_frame;
+    });
+  }
+
+  function landing(r, state){
+    var s = src(r, "landing");
+    if(s === "unknown") return {kind:"unknown"};
+    if(s === "estimated" && !state.showEst) return {kind:"hidden"};
+    return {kind:s, x:r.landing_x_m, y:r.landing_y_m};
+  }
+  function contactPos(r, state){
+    return usable(r, "hitter_position", state) ? {x:r.hitter_position_x_m, y:r.hitter_position_y_m, kind:src(r, "hitter_position")} : null;
+  }
+
+  // Landing marks for the court map: either the shots in view, or one point's shots in order.
+  function courtMarks(data, state){
+    var list = state.sel != null ? shotsOfPoint(data, state.sel).filter(function(r){ return state.showEst || src(r, "shot_status") !== "estimated"; })
+                                 : shotsInView(data, state);
+    var out = {marks:[], counts:{human_confirmed:0, observed:0, estimated:0, unknown:0, hidden:0}, total:list.length};
+    list.forEach(function(r, i){
+      var l = landing(r, state);
+      out.counts[l.kind]++;
+      out.marks.push({shot:r, order:i + 1, hitter:hitterOf(r, state), landing:l.kind === "unknown" || l.kind === "hidden" ? null : l,
+                      contact:state.sel != null ? contactPos(r, state) : null});
+    });
+    return out;
+  }
+
+  function landingCounts(rows){
+    var c = {human_confirmed:0, observed:0, estimated:0, unknown:0};
+    rows.forEach(function(r){ c[src(r, "landing")]++; });
+    return c;
+  }
+
+  function pointShotCount(p, state){ return usable(p, "shot_count", state) ? p.shot_count : null; }
+
+  // Points list rows. With non-default filters only points with at least one shot in view are listed.
+  function pointRows(data, state){
+    var view = shotsInView(data, state);
+    return data.points.filter(function(p){
+      return defaultFilters(state) || view.some(function(r){ return r.point_id === p.point_id; });
+    }).map(function(p){
+      var shots = shotsOfPoint(data, p.point_id);
+      var lc = landingCounts(shots);
+      return {id:p.point_id, start_time_s:p.start_time_s, start_frame:p.start_frame,
+              score:src(p, "score_text") === "human_confirmed" ? p.score_text : null,
+              server:src(p, "server") === "human_confirmed" ? p.server : null,
+              shots:pointShotCount(p, state), shots_source:src(p, "shot_count"),
+              winner:src(p, "winner") === "human_confirmed" ? p.winner : null,
+              confirmed:lc.human_confirmed, observed:lc.observed, n:shots.length};
+    });
+  }
+
+  function shotMix(data, state){
+    var base = data.shots.filter(function(r){ return inView(r, {hitter:state.hitter, type:"all", showEst:state.showEst}); });
+    var types = shotTypes(data).slice();
+    var rows = {}, hitters = {near:0, far:0, unknown:0};
+    base.forEach(function(r){
+      var t = typeOf(r, state), h = hitterOf(r, state) || "unknown", key = t == null ? "__unknown" : t;
+      if(t != null && types.indexOf(t) < 0) types.push(t);
+      rows[key] = rows[key] || {near:0, far:0, unknown:0};
+      rows[key][h]++; hitters[h]++;
+    });
+    var keys = types.filter(function(t){ return rows[t]; });
+    if(rows.__unknown) keys.push("__unknown");
+    return {rows:keys.map(function(k){ return {type:k === "__unknown" ? null : k, counts:rows[k]}; }), totals:hitters, n:base.length};
+  }
+
+  function pointsInView(data, state){
+    var ids = pointRows(data, state).map(function(p){ return p.id; });
+    return data.points.filter(function(p){ return ids.indexOf(p.point_id) >= 0; });
+  }
+
+  function rallyHistogram(data, state){
+    var pts = pointsInView(data, state), buckets = [], zero = 0, unknown = 0, estimated = 0;
+    for(var i = 1; i <= 12; i++) buckets.push({label:i < 12 ? String(i) : "12+", n:0});
+    pts.forEach(function(p){
+      var c = pointShotCount(p, state);
+      if(c == null){ unknown++; return; }
+      if(src(p, "shot_count") === "estimated") estimated++;
+      if(c === 0){ zero++; return; }
+      buckets[Math.min(12, c) - 1].n++;
+    });
+    return {buckets:buckets, points:pts.length, zero:zero, unknown:unknown, estimated:estimated};
+  }
+
+  function heatGrid(data, state){
+    var cells = {}, n = 0, outside = 0, unknown = 0, estimated = 0, shots = shotsInView(data, state);
+    shots.forEach(function(r){
+      var p = contactPos(r, state);
+      if(!p){ unknown++; return; }
+      if(p.x < VIEW.xmin || p.x >= VIEW.xmax || p.y < VIEW.ymin || p.y >= VIEW.ymax){ outside++; return; }
+      if(p.kind === "estimated") estimated++;
+      var c = Math.floor((p.x - VIEW.xmin) / HEAT.cw), w = Math.floor((p.y - VIEW.ymin) / HEAT.ch), k = c + "," + w;
+      cells[k] = (cells[k] || 0) + 1; n++;
+    });
+    var max = 0; Object.keys(cells).forEach(function(k){ max = Math.max(max, cells[k]); });
+    return {cells:cells, plotted:n, outside:outside, unknown:unknown, estimated:estimated, max:max, shots:shots.length};
+  }
+
+  function labelledOutcome(p){
+    return src(p, "winner") === "human_confirmed" && src(p, "server") === "human_confirmed";
+  }
+  function ratio(a, b){ return b ? a + " of " + b + " (" + Math.round(100 * a / b) + "%)" : "n = 0"; }
+
+  function patterns(data, state){
+    var pts = pointsInView(data, state);
+    // First shot of each point (rally index 1): its landing direction.
+    var dirs = {}, dirOrder = [];
+    pts.forEach(function(p){
+      var first = shotsOfPoint(data, p.point_id).filter(function(r){ return r.rally_shot_index === 1 && usable(r, "rally_shot_index", state); })[0];
+      var d = first && usable(first, "direction", state) ? first.direction : null;
+      var key = d == null ? "__unknown" : d;
+      if(!dirs[key]){ dirs[key] = []; dirOrder.push(key); }
+      dirs[key].push(p);
+    });
+    var preferred = ["cross_court", "middle", "down_the_line"];
+    dirOrder.sort(function(a, b){
+      var ia = a === "__unknown" ? 98 : preferred.indexOf(a), ib = b === "__unknown" ? 98 : preferred.indexOf(b);
+      return (ia < 0 ? 50 : ia) - (ib < 0 ? 50 : ib);
+    });
+    var serve = dirOrder.map(function(k){
+      var L = dirs[k], lab = L.filter(labelledOutcome), won = lab.filter(function(p){ return p.winner === p.server; }).length;
+      var counted = L.map(function(p){ return pointShotCount(p, state); }).filter(function(c){ return c != null; });
+      var avg = counted.length ? (counted.reduce(function(a, b){ return a + b; }, 0) / counted.length) : null;
+      return {direction:k === "__unknown" ? null : k, points:L.length, server_won:won, labelled:lab.length,
+              avg_shots:avg, avg_n:counted.length};
+    });
+    var lengths = RALLY_BUCKETS.map(function(b){
+      var L = pts.filter(function(p){ var c = pointShotCount(p, state); return c != null && c >= b[1] && c <= b[2]; });
+      var lab = L.filter(labelledOutcome), sw = lab.filter(function(p){ return p.winner === p.server; }).length;
+      return {label:b[0], points:L.length, labelled:lab.length, server_won:sw, receiver_won:lab.length - sw};
+    });
+    var depth = {}, depthOrder = ["short", "mid", "deep", "service_box", "back_court", "hitter_side_of_net", "beyond_baseline"], keys = [];
+    shotsInView(data, state).forEach(function(r){
+      var h = hitterOf(r, state);
+      if(!h) return;
+      var d = usable(r, "depth", state) ? r.depth : "__unknown";
+      if(!depth[d]){ depth[d] = {near:0, far:0}; keys.push(d); }
+      depth[d][h]++;
+    });
+    keys.sort(function(a, b){
+      var ia = a === "__unknown" ? 98 : depthOrder.indexOf(a), ib = b === "__unknown" ? 98 : depthOrder.indexOf(b);
+      return (ia < 0 ? 50 : ia) - (ib < 0 ? 50 : ib);
+    });
+    var totals = {near:0, far:0};
+    keys.forEach(function(k){ totals.near += depth[k].near; totals.far += depth[k].far; });
+    return {serve:serve, lengths:lengths, points:pts.length, labelled:pts.filter(labelledOutcome).length,
+            depth:keys.map(function(k){ return {depth:k === "__unknown" ? null : k, near:depth[k].near, far:depth[k].far}; }),
+            depth_totals:totals};
+  }
+
+  function winnerStrip(data){
+    var c = {near:0, far:0, unlabelled:0};
+    data.points.forEach(function(p){ if(src(p, "winner") === "human_confirmed") c[p.winner]++; else c.unlabelled++; });
+    return c;
+  }
+
+  function replayHref(data, r){
+    var link = data.replay_link && data.replay_link.href;
+    return link && r.contact_frame != null ? link + "#frame=" + r.contact_frame : null;
+  }
+
+  function contactsNotShots(data){ return data.shots.filter(function(r){ return !isShot(r); }).length; }
+
+  return {SHOT_STATES:SHOT_STATES, TRUSTED:TRUSTED, COURT:COURT, VIEW:VIEW, HEAT:HEAT, SOURCE_LABEL:SOURCE_LABEL,
+          isShot:isShot, usable:usable, hitterOf:hitterOf, typeOf:typeOf, typeLabel:typeLabel, zoneLabel:zoneLabel,
+          shotTypes:shotTypes, inView:inView, shotsInView:shotsInView, shotsOfPoint:shotsOfPoint, courtMarks:courtMarks,
+          landingCounts:landingCounts, pointRows:pointRows, shotMix:shotMix, rallyHistogram:rallyHistogram,
+          heatGrid:heatGrid, patterns:patterns, ratio:ratio, winnerStrip:winnerStrip, replayHref:replayHref,
+          contactsNotShots:contactsNotShots, defaultFilters:defaultFilters};
+})();
+
+// ------------------------------------------------------------------ rendering
+var DATA = JSON.parse(document.getElementById("dashboard-data").textContent);
+var state = {hitter:"all", type:"all", showEst:true, sel:null};
+var STORE = "matchdesk.filters";
+try {
+  var saved = JSON.parse(localStorage.getItem(STORE) || "null");
+  if(saved){
+    if(["all", "near", "far"].indexOf(saved.hitter) >= 0) state.hitter = saved.hitter;
+    if(saved.type === "all" || saved.type === "unknown" || MD.shotTypes(DATA).indexOf(saved.type) >= 0) state.type = saved.type;
+    state.showEst = saved.showEst !== false;
+  }
+} catch(e) {}
+function persist(){ try { localStorage.setItem(STORE, JSON.stringify({hitter:state.hitter, type:state.type, showEst:state.showEst})); } catch(e) {} }
+
+var SVG = "http://www.w3.org/2000/svg";
+function $(id){ return document.getElementById(id); }
+function h(tag, attrs){
+  var e = document.createElement(tag);
+  for(var k in (attrs || {})){
+    if(k === "text") e.textContent = attrs[k];
+    else if(attrs[k] != null) e.setAttribute(k, attrs[k]);
+  }
+  for(var i = 2; i < arguments.length; i++){
+    var c = arguments[i];
+    if(c == null) continue;
+    e.appendChild(typeof c === "string" || typeof c === "number" ? document.createTextNode(String(c)) : c);
+  }
+  return e;
+}
+function s(tag, attrs, parent){
+  var e = document.createElementNS(SVG, tag);
+  for(var k in attrs) if(attrs[k] != null) e.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(e);
+  return e;
+}
+function title(node, text){ var t = s("title", {}, node); t.textContent = text; return node; }
+function srcTag(source){ return h("span", {"class":"src src-" + source, text:MD.SOURCE_LABEL[source] || source}); }
+function who(hitter){ return hitter === "near" ? "Near" : hitter === "far" ? "Far" : "Hitter unknown"; }
+function colour(hitter){ return hitter === "near" ? "var(--near)" : hitter === "far" ? "var(--far)" : "var(--nobody)"; }
+function clock(sec){ if(sec == null) return "—"; var m = Math.floor(sec / 60); return m + ":" + String(Math.floor(sec % 60)).padStart(2, "0"); }
+function swatch(hitter){ return h("span", {"class":"swatch " + (hitter === "near" ? "sw-near" : hitter === "far" ? "sw-far" : "sw-nobody"), style:"width:8px;height:8px;margin-right:6px"}); }
+function landingText(r){
+  if(r.landing_source === "unknown") return "landing unknown";
+  var parts = [];
+  if(r.direction_source !== "unknown" && (state.showEst || r.direction_source !== "estimated")) parts.push(MD.zoneLabel(r.direction));
+  if(r.depth_source !== "unknown" && (state.showEst || r.depth_source !== "estimated")) parts.push(MD.zoneLabel(r.depth));
+  var where = parts.length ? parts.join(", ") : "(" + r.landing_x_m + ", " + r.landing_y_m + ") m";
+  if(r.landing_call_source === "human_confirmed") where += ", called " + r.landing_call;
+  return where;
+}
+
+// Court geometry: table metres (origin near-left doubles corner, y towards the far baseline), far end drawn at top.
+var PX = 18, V = MD.VIEW, CW = (V.xmax - V.xmin) * PX, CH = (V.ymax - V.ymin) * PX;
+function X(x){ return +((x - V.xmin) * PX).toFixed(1); }
+function Y(y){ return +((V.ymax - y) * PX).toFixed(1); }
+function drawCourt(svg){
+  var C = MD.COURT;
+  s("rect", {x:0, y:0, width:CW, height:CH, fill:"var(--court)", rx:6}, svg);
+  var g = s("g", {stroke:"var(--court-line)", "stroke-width":2, fill:"none"}, svg);
+  s("rect", {x:X(0), y:Y(C.length), width:C.width * PX, height:C.length * PX}, g);
+  s("rect", {x:X(C.singlesInset), y:Y(C.length), width:(C.width - 2 * C.singlesInset) * PX, height:C.length * PX}, g);
+  s("line", {x1:X(C.singlesInset), x2:X(C.width - C.singlesInset), y1:Y(C.net + C.service), y2:Y(C.net + C.service)}, g);
+  s("line", {x1:X(C.singlesInset), x2:X(C.width - C.singlesInset), y1:Y(C.net - C.service), y2:Y(C.net - C.service)}, g);
+  s("line", {x1:X(C.width / 2), x2:X(C.width / 2), y1:Y(C.net + C.service), y2:Y(C.net - C.service)}, g);
+  s("line", {x1:X(C.width / 2), x2:X(C.width / 2), y1:Y(C.length), y2:Y(C.length - .3)}, g);
+  s("line", {x1:X(C.width / 2), x2:X(C.width / 2), y1:Y(0), y2:Y(.3)}, g);
+  s("line", {x1:X(-.5), x2:X(C.width + .5), y1:Y(C.net), y2:Y(C.net), stroke:"var(--net)", "stroke-width":2.5, "stroke-dasharray":"4 3"}, svg);
+}
+function courtLabels(svg){
+  s("text", {x:8, y:18, fill:"var(--ink-3)", "font-size":11}, svg).textContent = "FAR";
+  s("text", {x:8, y:CH - 8, fill:"var(--ink-3)", "font-size":11}, svg).textContent = "NEAR · camera";
+}
+
+function renderProvenance(){
+  var r = DATA.replay || {}, cal = DATA.calibration || {}, lab = DATA.labels;
+  var bits = [
+    ["Replay", r.folder || "unknown"], ["Run", (r.review_run_id || "unknown").slice(0, 12)],
+    ["Table", DATA.table.folder + " · sha256 " + DATA.table.sha256.slice(0, 12)],
+    ["Calibration", cal.status || "unknown"],
+    ["Labels", lab ? (lab.file + (lab.labeller ? " by " + lab.labeller : "") + (lab.labelled_on ? ", " + lab.labelled_on : "")) : "none (points, servers and winners need labels)"]
+  ];
+  var box = $("prov"); box.replaceChildren();
+  bits.forEach(function(b){ box.appendChild(h("span", {}, h("b", {text:b[0] + ": "}), b[1])); });
+}
+
+function renderStrip(){
+  var c = MD.winnerStrip(DATA), box = $("strip"); box.replaceChildren();
+  if(!DATA.points.length){
+    box.appendChild(h("span", {"class":"small muted", text:"No labelled points in this table: winners, servers, scores and rally lengths come only from John's point labels (point proposals are not points)."}));
+    return;
+  }
+  box.appendChild(h("span", {"class":"who"}, swatch("near"), "Near won ", h("span", {"class":"num", text:String(c.near)})));
+  box.appendChild(h("span", {"class":"who"}, swatch("far"), "Far won ", h("span", {"class":"num", text:String(c.far)})));
+  box.appendChild(h("span", {"class":"small muted", text:"labelled winners in " + (c.near + c.far) + " of " + DATA.points.length + " labelled points" + (c.unlabelled ? " · " + c.unlabelled + " with winner not labelled" : "")}));
+}
+
+function chips(boxId, options, key){
+  var box = $(boxId);
+  options.forEach(function(o){
+    var b = h("button", {"class":"chip", type:"button", "data-v":o[0], "aria-pressed":"false", text:o[1]});
+    b.addEventListener("click", function(){ state[key] = o[0]; state.sel = null; persist(); renderAll(); });
+    box.appendChild(b);
+  });
+}
+function syncChips(){
+  [["fHitter", "hitter"], ["fType", "type"]].forEach(function(p){
+    Array.prototype.forEach.call($(p[0]).children, function(b){
+      if(b.getAttribute("data-v") != null) b.setAttribute("aria-pressed", b.getAttribute("data-v") === state[p[1]] ? "true" : "false");
+    });
+  });
+  $("showEst").checked = state.showEst;
+}
+
+function renderTiles(){
+  var view = MD.shotsInView(DATA, state), lc = MD.landingCounts(view), n = view.length;
+  var hidden = state.showEst ? 0 : lc.estimated;
+  var box = $("tiles"); box.replaceChildren();
+  box.appendChild(h("div", {"class":"tile"}, h("span", {"class":"big", text:String(n)}),
+    h("span", {"class":"lab", text:"shots in view · " + MD.contactsNotShots(DATA) + " contacts in the table are not shots and are left out"})));
+  var labelledWinners = DATA.points.filter(function(p){ return p.winner_source === "human_confirmed"; }).length;
+  box.appendChild(h("div", {"class":"tile"}, h("span", {"class":"big", text:String(DATA.points.length)}),
+    h("span", {"class":"lab", text:"labelled points · " + labelledWinners + " with a labelled winner"})));
+  var split = h("div", {"class":"bar-split", role:"img", "aria-label":lc.human_confirmed + " confirmed, " + lc.observed + " observed, " + lc.estimated + " estimated, " + lc.unknown + " unknown"});
+  [["var(--ink)", lc.human_confirmed], ["var(--ink-2)", lc.observed], ["var(--ink-3)", lc.estimated]].forEach(function(p){
+    if(p[1]) split.appendChild(h("i", {style:"background:" + p[0] + ";width:" + (100 * p[1] / Math.max(1, n)) + "%"}));
+  });
+  box.appendChild(h("div", {"class":"tile"}, h("span", {"class":"big", text:(lc.human_confirmed + lc.observed) + " / " + n}),
+    h("span", {"class":"lab", text:"landings from confirmed bounces (coverage, not accuracy)"}), split,
+    h("span", {"class":"lab", text:lc.human_confirmed + " confirmed · " + lc.observed + " observed · " + lc.estimated + " estimated" + (hidden ? " (hidden)" : "") + " · " + lc.unknown + " unknown"})));
+  var cal = DATA.calibration || {};
+  box.appendChild(h("div", {"class":"tile"}, h("span", {"class":"big", style:"font-size:1.3rem", text:cal.status || "unknown"}),
+    h("span", {"class":"lab", text:"court calibration · " + (cal.reviewed ? "reviewed by John; positions are single-camera ground projections" : "not reviewed: metres are estimated")})));
+}
+
+function renderCourt(){
+  var box = $("court"); box.replaceChildren();
+  var svg = s("svg", {viewBox:"0 0 " + CW + " " + CH, role:"img", "aria-label":"Court diagram with shot landing positions"});
+  drawCourt(svg);
+  var m = MD.courtMarks(DATA, state), g = s("g", {}, svg), sel = state.sel != null;
+  if(sel){
+    var defs = s("defs", {}, svg);
+    ["near", "far", "nobody"].forEach(function(k){
+      var mk = s("marker", {id:"arr-" + k, viewBox:"0 0 10 10", refX:8, refY:5, markerWidth:6, markerHeight:6, orient:"auto-start-reverse"}, defs);
+      s("path", {d:"M0,0 L10,5 L0,10 z", fill:colour(k === "nobody" ? null : k)}, mk);
+    });
+  }
+  m.marks.forEach(function(mark){
+    var r = mark.shot, c = colour(mark.hitter), l = mark.landing, p = mark.contact;
+    var text = (sel ? "Shot " + mark.order + ": " : "") + who(mark.hitter) + " " + MD.typeLabel(MD.typeOf(r, state)).toLowerCase() +
+               " · frame " + r.contact_frame + " · landing " + (l ? MD.SOURCE_LABEL[l.kind] + ": " + r.landing_basis : "not plotted");
+    if(sel && p && l) s("line", {x1:X(p.x), y1:Y(p.y), x2:X(l.x), y2:Y(l.y), stroke:c, "stroke-width":2, opacity:.9,
+                                  "stroke-dasharray":p.kind === "estimated" || l.kind === "estimated" ? "5 3" : null,
+                                  "marker-end":"url(#arr-" + (mark.hitter || "nobody") + ")"}, g);
+    if(sel && p){
+      s("circle", {cx:X(p.x), cy:Y(p.y), r:3.5, fill:"var(--panel)", stroke:c, "stroke-width":1.5, "stroke-dasharray":l ? null : "2 2"}, g);
+      s("text", {x:X(p.x) + 6, y:Y(p.y) - 5, fill:"var(--ink)", "font-size":11, "font-weight":600}, g).textContent = String(mark.order);
+    }
+    if(!l) return;
+    var node;
+    if(l.kind === "human_confirmed") node = s("circle", {cx:X(l.x), cy:Y(l.y), r:5, fill:c, stroke:"var(--panel)", "stroke-width":1.5, "data-source":l.kind}, g);
+    else if(l.kind === "observed") node = s("rect", {x:X(l.x) - 4.5, y:Y(l.y) - 4.5, width:9, height:9, fill:c, stroke:"var(--panel)", "stroke-width":1.5,
+                                                    transform:"rotate(45 " + X(l.x) + " " + Y(l.y) + ")", "data-source":l.kind}, g);
+    else node = s("circle", {cx:X(l.x), cy:Y(l.y), r:4.5, fill:"var(--panel)", stroke:c, "stroke-width":2, "data-source":l.kind}, g);
+    title(node, text);
+    if(sel && !p) s("text", {x:X(l.x) + 6, y:Y(l.y) - 5, fill:"var(--ink)", "font-size":11, "font-weight":600}, g).textContent = String(mark.order);
+  });
+  courtLabels(svg);
+  box.appendChild(svg);
+  var c = m.counts, plotted = c.human_confirmed + c.observed + c.estimated;
+  $("courtCount").textContent = (sel ? "Point " + state.sel + " · " : "") + plotted + " plotted · " + c.unknown + " unknown (not plotted)" + (c.hidden ? " · " + c.hidden + " estimated hidden" : "");
+  $("courtNote").textContent = sel
+    ? "Shots in order, contact (hitter's feet at contact) → landing. Dashed = an estimated end. A dashed ring alone = landing unknown."
+    : (m.total === 0 ? "No shots match the filters." : "Unknown landings are counted, never plotted. " + (DATA.points.length ? "Click a point in the list to draw its shots in order." : "No labelled points to select."));
+}
+
+function renderPoints(){
+  var rows = MD.pointRows(DATA, state), tb = $("pointsBody"); tb.replaceChildren();
+  $("ptsWrap").hidden = !DATA.points.length;
+  $("ptsNote").textContent = !DATA.points.length
+    ? "No labelled points. Points exist only from John's labels (point proposals are not points), so there is nothing to list or select. Game numbers are not in the shot table."
+    : rows.length + " of " + DATA.points.length + " labelled points" + (MD.defaultFilters(state) ? "" : " with a shot matching the filters") + ". Game numbers are not in the shot table.";
+  rows.forEach(function(p){
+    var tr = h("tr", {tabindex:"0", "aria-selected":state.sel === p.id ? "true" : "false", "data-point":p.id},
+      h("td", {"class":"num", text:p.id}),
+      h("td", {"class":"r num", text:clock(p.start_time_s)}),
+      h("td", {text:p.score == null ? "—" : p.score}),
+      h("td", {}, p.server ? swatch(p.server) : null, p.server ? who(p.server) : "not labelled"),
+      h("td", {"class":"r num"}, p.shots == null ? "—" : String(p.shots), p.shots != null && p.shots_source === "estimated" ? srcTag("estimated") : null),
+      h("td", {}, p.winner ? swatch(p.winner) : null, p.winner ? who(p.winner) : "not labelled"),
+      h("td", {"class":"r num", text:p.confirmed + "/" + p.n + (p.observed ? " (+" + p.observed + " observed)" : "")}));
+    function choose(){ state.sel = state.sel === p.id ? null : p.id; renderAll(); }
+    tr.addEventListener("click", choose);
+    tr.addEventListener("keydown", function(ev){ if(ev.key === "Enter" || ev.key === " "){ ev.preventDefault(); choose(); } });
+    tb.appendChild(tr);
+  });
+  var seq = $("seq"); seq.replaceChildren();
+  $("clearSel").hidden = state.sel == null;
+  if(state.sel == null){ seq.hidden = true; return; }
+  var point = DATA.points.filter(function(p){ return p.point_id === state.sel; })[0];
+  var shots = MD.shotsOfPoint(DATA, state.sel);
+  var row = rows.filter(function(p){ return p.id === state.sel; })[0] || {};
+  seq.appendChild(h("h3", {text:"Point " + state.sel + ": " + (row.server ? who(row.server) + " serving" : "server not labelled") + (row.score ? ", " + row.score : "")}));
+  var ol = h("ol", {});
+  shots.forEach(function(r, i){ ol.appendChild(shotItem(r, i + 1)); });
+  if(!shots.length) ol.appendChild(h("li", {}, h("span", {"class":"n", text:"–"}), h("span", {"class":"muted", text:"No shots from the table inside this labelled point."})));
+  seq.appendChild(ol);
+  seq.appendChild(h("p", {"class":"small muted", text:(row.winner ? "Won by " + who(row.winner) + " (labelled)" : "Winner not labelled") +
+    " · " + clock(point.start_time_s) + "–" + clock(point.end_time_s) + " in the replay (frames " + point.start_frame + "–" + point.end_frame + ")."}));
+  if(DATA.replay_link && DATA.replay_link.seek) seq.appendChild(h("p", {"class":"small muted", text:DATA.replay_link.seek}));
+  seq.hidden = false;
+}
+
+function replayLink(r){
+  var href = MD.replayHref(DATA, r);
+  return href ? h("a", {href:href, title:"Open replay.html (go to frame " + r.contact_frame + ")", text:"replay · frame " + r.contact_frame}) : null;
+}
+function speedText(r){ return r.ball_speed_source !== "unknown" && state.showEst ? " · ~" + r.ball_speed_kmh + " km/h (estimated)" : ""; }
+function shotItem(r, order){
+  var hitter = MD.hitterOf(r, state), t = MD.typeOf(r, state);
+  return h("li", {"data-shot":r.shot_id}, h("span", {"class":"n", text:String(r.rally_shot_index != null ? r.rally_shot_index : order)}),
+    h("span", {}, swatch(hitter), who(hitter) + " " + MD.typeLabel(t).toLowerCase(), r.shot_type_source !== "unknown" ? srcTag(r.shot_type_source) : null,
+      " → " + landingText(r), srcTag(r.landing_source), speedText(r), " ", replayLink(r)));
+}
+
+function renderShots(){
+  var view = MD.shotsInView(DATA, state), tb = $("shotsBody"); tb.replaceChildren();
+  $("shotsSummary").textContent = "Shots in view (" + view.length + ")" + (DATA.replay_link && DATA.replay_link.href ? "" : " · no replay links: " + (DATA.replay_link ? DATA.replay_link.status : "replay not found"));
+  view.forEach(function(r){
+    var hitter = MD.hitterOf(r, state);
+    tb.appendChild(h("tr", {"data-shot":r.shot_id},
+      h("td", {"class":"r num", text:String(r.contact_frame)}),
+      h("td", {}, swatch(hitter), who(hitter), r.hitter_source !== "unknown" ? srcTag(r.hitter_source) : null),
+      h("td", {}, MD.typeLabel(MD.typeOf(r, state)), r.shot_type_source !== "unknown" ? srcTag(r.shot_type_source) : null),
+      h("td", {}, landingText(r), srcTag(r.landing_source), speedText(r)),
+      h("td", {text:r.point_id == null ? "—" : r.point_id}),
+      h("td", {}, replayLink(r) || "—")));
+  });
+}
+
+function renderMix(){
+  var mix = MD.shotMix(DATA, state), box = $("mix"); box.replaceChildren();
+  var max = 0;
+  mix.rows.forEach(function(r){ max = Math.max(max, r.counts.near, r.counts.far, r.counts.unknown); });
+  if(!mix.rows.length) box.appendChild(h("p", {"class":"empty", text:"No shots match the filters."}));
+  mix.rows.forEach(function(r){
+    var pair = h("div", {"class":"pair"});
+    ["near", "far", "unknown"].forEach(function(k){
+      if(k === "unknown" && !mix.totals.unknown) return;
+      if(state.hitter !== "all" && state.hitter !== k) return;
+      var v = r.counts[k], dim = state.type !== "all" && (state.type === "unknown" ? r.type !== null : state.type !== r.type);
+      var bar = h("div", {"class":"hb" + (dim ? " dim" : ""), title:who(k === "unknown" ? null : k) + " · " + MD.typeLabel(r.type) + ": " + v + " of " + mix.totals[k] + " shots"},
+        h("i", {style:"width:" + (max ? 100 * v / max * .82 : 0) + "%;background:" + colour(k === "unknown" ? null : k)}), h("span", {"class":"num", text:String(v)}));
+      pair.appendChild(bar);
+    });
+    box.appendChild(h("div", {"class":"hrow", "data-type":r.type == null ? "unknown" : r.type}, h("span", {"class":"t", text:MD.typeLabel(r.type)}), pair));
+  });
+  var est = DATA.shots.filter(function(r){ return MD.inView(r, {hitter:state.hitter, type:"all", showEst:state.showEst}) && r.shot_type_source === "estimated"; }).length;
+  $("mixNote").textContent = "n = " + mix.n + " shots (near " + mix.totals.near + ", far " + mix.totals.far + (mix.totals.unknown ? ", hitter unknown " + mix.totals.unknown : "") + ")" +
+    (est ? ". " + est + " shot types are rule estimates, not labels." : ".") + " A swing is not a shot: contacts the table does not call shots are left out.";
+}
+
+function renderRally(){
+  var hist = MD.rallyHistogram(DATA, state), box = $("rally"); box.replaceChildren();
+  if(!hist.points){
+    box.appendChild(h("p", {"class":"empty", text:DATA.points.length ? "No labelled points match the filters." : "No labelled points: rally lengths need John's point labels."}));
+    $("rallyNote").textContent = ""; return;
+  }
+  var max = 0; hist.buckets.forEach(function(b){ max = Math.max(max, b.n); });
+  var top = Math.max(2, Math.ceil(max / 2) * 2), w = 320, ht = 170, ml = 26, mb = 22, mt = 8, bw = (w - ml - 4) / hist.buckets.length;
+  var svg = s("svg", {viewBox:"0 0 " + w + " " + ht, role:"img", "aria-label":"Histogram of rally lengths"});
+  var step = Math.max(1, Math.round(top / 4));
+  for(var t = 0; t <= top; t += step){
+    var y = ht - mb - (ht - mb - mt) * t / top;
+    s("line", {x1:ml, x2:w - 2, y1:y, y2:y, stroke:"var(--rule-2)", "stroke-width":1}, svg);
+    s("text", {x:ml - 6, y:y + 4, "text-anchor":"end", "font-size":10, fill:"var(--ink-3)"}, svg).textContent = String(t);
+  }
+  hist.buckets.forEach(function(b, i){
+    var bh = (ht - mb - mt) * b.n / top, x = ml + i * bw + 1, y = ht - mb - bh;
+    if(b.n > 0){
+      var r = Math.min(4, bh);
+      title(s("path", {d:"M" + x + "," + (ht - mb) + "V" + (y + r) + "q0,-" + r + " " + r + ",-" + r + "H" + (x + bw - 2 - r) + "q" + r + ",0 " + r + "," + r + "V" + (ht - mb) + "Z", fill:"var(--seq-4)"}, svg),
+            b.label + " shot" + (b.label === "1" ? "" : "s") + ": " + b.n + " point" + (b.n === 1 ? "" : "s"));
+    }
+    s("text", {x:x + (bw - 2) / 2, y:ht - 6, "text-anchor":"middle", "font-size":10, fill:"var(--ink-3)"}, svg).textContent = b.label;
+  });
+  s("line", {x1:ml, x2:w - 2, y1:ht - mb, y2:ht - mb, stroke:"var(--ink-3)", "stroke-width":1}, svg);
+  box.appendChild(svg);
+  var counted = hist.points - hist.unknown - hist.zero;
+  $("rallyNote").textContent = "n = " + counted + " of " + hist.points + " labelled points" +
+    (hist.estimated ? "; " + hist.estimated + " counts are unreviewed shot candidates (estimated)" : "") +
+    (hist.zero ? "; " + hist.zero + " with no shots in the table" : "") + (hist.unknown ? "; " + hist.unknown + " hidden (estimated count)" : "") +
+    (MD.defaultFilters(state) ? "." : ". Filtered: points with at least one shot in view.");
+}
+
+function renderHeat(){
+  var grid = MD.heatGrid(DATA, state), box = $("heat"); box.replaceChildren();
+  var svg = s("svg", {viewBox:"0 0 " + CW + " " + CH, role:"img", "aria-label":"Heatmap of hitter positions at contact"});
+  drawCourt(svg);
+  var steps = ["--seq-1", "--seq-2", "--seq-3", "--seq-4", "--seq-5", "--seq-6"], g = s("g", {}, svg);
+  Object.keys(grid.cells).forEach(function(k){
+    var p = k.split(",").map(Number), v = grid.cells[k], step = steps[Math.min(5, Math.floor(5.999 * v / grid.max))];
+    var x = V.xmin + p[0] * MD.HEAT.cw, y = V.ymin + p[1] * MD.HEAT.ch;
+    title(s("rect", {x:X(x) + 1, y:Y(y + MD.HEAT.ch) + 1, width:MD.HEAT.cw * PX - 2, height:MD.HEAT.ch * PX - 2, rx:3, fill:"var(" + step + ")", opacity:.92, "data-count":v}, g),
+          v + " shot" + (v === 1 ? "" : "s") + " · x " + x.toFixed(1) + "–" + (x + MD.HEAT.cw).toFixed(1) + " m, y " + y.toFixed(1) + "–" + (y + MD.HEAT.ch).toFixed(1) + " m");
+  });
+  courtLabels(svg);
+  box.appendChild(svg);
+  $("heatNote").textContent = "n = " + grid.plotted + " of " + grid.shots + " shots in view" + (grid.estimated ? " (" + grid.estimated + " estimated positions)" : "") +
+    (grid.unknown ? "; " + grid.unknown + " without a usable position" : "") + (grid.outside ? "; " + grid.outside + " outside the drawn area" : "") +
+    ". Feet projected to the ground at the contact frame; 1.5 × 2 m cells, darker = more shots.";
+}
+
+function cell(text, cls){ return h("td", {"class":cls || "", text:text}); }
+function renderPatterns(){
+  var pat = MD.patterns(DATA, state);
+  var sb = $("serveBody"), lb = $("lenBody"), db = $("depthBody");
+  sb.replaceChildren(); lb.replaceChildren(); db.replaceChildren();
+  if(!pat.points){
+    sb.appendChild(h("tr", {}, h("td", {colspan:"4", "class":"empty", text:"No labelled points (n = 0)."})));
+    lb.appendChild(h("tr", {}, h("td", {colspan:"4", "class":"empty", text:"No labelled points (n = 0)."})));
+  }
+  pat.serve.forEach(function(r){
+    sb.appendChild(h("tr", {}, cell(r.direction == null ? "unknown" : MD.zoneLabel(r.direction)), cell(String(r.points), "r num"),
+      cell(MD.ratio(r.server_won, r.labelled), "r num"), cell(r.avg_shots == null ? "n = 0" : r.avg_shots.toFixed(1) + " (n = " + r.avg_n + ")", "r num")));
+  });
+  if(pat.points) pat.lengths.forEach(function(r){
+    lb.appendChild(h("tr", {}, cell(r.label + " shots"), cell(String(r.points), "r num"), cell(MD.ratio(r.server_won, r.labelled), "r num"), cell(MD.ratio(r.receiver_won, r.labelled), "r num")));
+  });
+  if(!pat.depth.length) db.appendChild(h("tr", {}, h("td", {colspan:"3", "class":"empty", text:"No shots with a usable hitter (n = 0)."})));
+  pat.depth.forEach(function(r){
+    db.appendChild(h("tr", {}, cell(r.depth == null ? "unknown (no landing)" : MD.zoneLabel(r.depth)), cell(MD.ratio(r.near, pat.depth_totals.near), "r num"), cell(MD.ratio(r.far, pat.depth_totals.far), "r num")));
+  });
+}
+
+function renderLimits(){
+  var box = $("limits"); box.replaceChildren();
+  var items = (DATA.limitations || []).concat([
+    "This page adds no tennis facts: it filters and counts the shot table's rows. Spin and RPM are never shown; ball speed appears only where the table has it, as an estimate.",
+    "Game numbers are not in the shot table, so the points list has no game column (game boundaries are John's decision).",
+    "Replay links: " + (DATA.replay_link ? DATA.replay_link.status : "none") + (DATA.replay_link && DATA.replay_link.seek ? ". " + DATA.replay_link.seek : "") + " Links are relative to this file; moving the folder breaks them.",
+    "Zone names (direction, depth) are the table's proposed defaults and are John's decision."
+  ]);
+  items.forEach(function(t){ box.appendChild(h("li", {text:t})); });
+}
+
+var THEMES = ["auto", "light", "dark"], theme = "auto";
+try { var savedTheme = localStorage.getItem("matchdesk.theme"); if(THEMES.indexOf(savedTheme) >= 0) theme = savedTheme; } catch(e) {}
+function applyTheme(){
+  if(theme === "auto") document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme", theme);
+  $("theme").textContent = "Theme: " + theme;
+}
+$("theme").addEventListener("click", function(){
+  theme = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
+  try { localStorage.setItem("matchdesk.theme", theme); } catch(e) {}
+  applyTheme();
+});
+
+chips("fHitter", [["all", "Both"], ["near", "Near"], ["far", "Far"]], "hitter");
+chips("fType", [["all", "All"]].concat(MD.shotTypes(DATA).map(function(t){ return [t, MD.typeLabel(t)]; })).concat([["unknown", "Type unknown"]]), "type");
+$("showEst").addEventListener("change", function(){ state.showEst = $("showEst").checked; state.sel = null; persist(); renderAll(); });
+$("clearSel").addEventListener("click", function(){ state.sel = null; renderAll(); });
+function renderAll(){ syncChips(); renderTiles(); renderCourt(); renderPoints(); renderShots(); renderMix(); renderRally(); renderHeat(); renderPatterns(); }
+applyTheme(); renderProvenance(); renderStrip(); renderLimits(); renderAll();
+</script>
+</body>
+</html>
