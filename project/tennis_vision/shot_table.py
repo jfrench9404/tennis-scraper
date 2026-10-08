@@ -29,10 +29,9 @@ Rules this module follows (CLAUDE.md rules 3-5):
   labels. Point proposals are not points. Winners are never inferred.
 * No spin or RPM. Ball speed only from a validated flight, labelled estimated.
 
-The ``--labels`` reader below is a small, isolated reader of the label format
-defined in issue #27 (``docs/labels-schema.md``, read from its unmerged branch).
-It does not import #27's code and must be re-checked once #27 is merged. See
-``read_labels``.
+``--labels`` is read through ``tennis_vision.labels`` (schema v1 validator and
+run/video binding, ``docs/labels-schema.md``), the same reader ``score_labels``
+uses. See ``read_labels``.
 """
 import argparse
 import csv
@@ -41,6 +40,10 @@ import json
 from pathlib import Path
 
 import numpy as np
+
+from .labels import COVERAGE_KINDS, LABEL_ABSTAIN_SHOT_TYPES, SCHEMA_VERSION as LABELS_SCHEMA_VERSION, LabelsError
+from .labels import check_binding, load_labels
+from .score_labels import _source_run_manifest
 
 SCHEMA_VERSION = 1
 SOURCES = ("observed", "estimated", "human_confirmed", "unknown")
@@ -185,124 +188,77 @@ def calibration_state(report, corrections):
             "landmark_rmse_px": fit.get("landmark_rmse_px"), "fit_status": fit.get("status")}
 
 
-LABEL_KIND = "tennis_ground_truth_labels"
-LABEL_TOP_KEYS = {"schema_version", "kind", "binding", "labeller", "shot_types", "coverage", "shots", "bounces",
-                  "points", "notes"}
-LABEL_ENTRY_KEYS = {
-    "shots": ({"id", "source_frame", "hitter", "shot_type", "decision"}, {"notes"}),
-    "bounces": ({"id", "source_frame", "call", "decision"}, {"notes"}),
-    "points": ({"id", "source_start_frame", "source_end_frame", "server", "winner", "decision"},
-               {"score_text", "notes"}),
-}
-LABEL_ABSTAIN_TYPE = "unsure"
+def read_labels(path, report, video=None, folder=None):
+    """Read John's ``labels.json`` through ``tennis_vision.labels`` and bind it to this replay.
 
+    ``labels.load_labels`` validates the whole file against schema v1
+    (``docs/labels-schema.md``) and ``labels.check_binding`` rejects labels made for
+    another run (``binding.run_id`` must be this replay's ``review_run_id``), another fps
+    or another source video. The source-video SHA-256 is compared whenever it is known:
+    from ``video`` (``--video``, hashed locally) and from the ``longrun-manifest.json`` of
+    the run this replay was built from (found the way ``score_labels`` finds it). A replay
+    folder's ``source.mp4`` is a review clip, not the original video, so it is never used.
 
-def read_labels(path, report, video=None):
-    """Isolated reader for the issue #27 ``labels.json`` (schema v1, ``docs/labels-schema.md``).
-
-    Written against the schema pushed on ``claude/27-labels-scorer`` before #27 merged.
-    It does NOT import #27's validator and must be re-checked once #27 is merged.
-    Reads only the documented fields (unknown fields are rejected, as #27 does)::
-
-        {"schema_version": 1, "kind": "tennis_ground_truth_labels",
-         "binding": {"run_id": "<review_run_id>", "source_video_sha256": "<64 hex>", "fps": 30.0},
-         "labeller": {"name": "John", "date": "YYYY-MM-DD"}, "shot_types": [...],
-         "coverage": [{"source_start_frame": a, "source_end_frame": b, "kinds": ["shots", "bounces", "points"]}],
-         "shots":   [{"id", "source_frame", "hitter": near|far, "shot_type", "decision": "human", "notes"?}],
-         "bounces": [{"id", "source_frame", "call": in|out|unsure, "decision": "human", "notes"?}],
-         "points":  [{"id", "source_start_frame", "source_end_frame", "server": near|far|unknown,
-                      "winner": near|far|unknown, "score_text"?, "decision": "human", "notes"?}]}
-
-    Label frames are SOURCE-video frames; they are converted to replay-local frames
-    with ``source_start_frame``. Entries outside the replay's frames are counted and
-    ignored. The file is read, never modified.
+    Label frames are SOURCE-video frames; they (and coverage spans) are converted to
+    replay-local frames with ``source_start_frame``. Entries outside the replay's frames
+    are counted and ignored. The file is read, never modified.
     """
-    labels = _read_json(path)
-    if not isinstance(labels, dict) or labels.get("schema_version") != 1 or labels.get("kind") != LABEL_KIND:
-        raise ValueError(f"Labels need schema_version 1 and kind {LABEL_KIND!r}")
-    if set(labels) - LABEL_TOP_KEYS or not {"binding", "labeller", "shot_types", "coverage"} <= set(labels):
-        raise ValueError("Labels have unknown or missing top-level fields")
-    binding = labels["binding"]
-    if not isinstance(binding, dict) or binding.get("run_id") != report.get("review_run_id"):
-        raise ValueError("Labels are bound to a different run (binding.run_id is not this replay's review_run_id)")
-    if not isinstance(binding.get("fps"), (int, float)) or abs(float(binding["fps"]) - float(report["fps"])) > 1e-6:
-        raise ValueError("Labels fps does not match the replay")
-    if video is not None:
-        if _sha256(video) != binding.get("source_video_sha256"):
-            raise ValueError("Labels are bound to a different source video")
-        video_check = "matched"
-    else:
-        # A replay folder's source.mp4 is a review clip, not the original video, so it
-        # cannot be compared with source_video_sha256. The run_id binding still applies.
-        video_check = "not_checked (pass --video with the original file to check it)"
+    labels, digest = load_labels(path)
+    run_id, fps = report.get("review_run_id"), float(report["fps"])
     offset, frames = int(report.get("source_start_frame") or 0), int(report["frames"])
-    if not isinstance(labels["shot_types"], list):
-        raise ValueError("shot_types must be a list")
-
-    def local(value):
-        if type(value) is not int or value < 0:
-            raise ValueError(f"Invalid source frame {value!r}")
-        return value - offset
+    if not isinstance(run_id, str):
+        raise LabelsError("This replay records no review_run_id, so labels cannot be bound to it")
+    known = []
+    if video is not None:
+        known.append((_sha256(video), "matched"))
+    found = _source_run_manifest(Path(folder), report.get("input_run"), offset, frames, fps) if folder else None
+    if found:
+        known.append((found[1]["input"]["sha256"],
+                      f"matched (longrun-manifest.json of source run {found[0].name}, same source frames)"))
+    for sha, _ in known:
+        check_binding(labels, run_id, sha, fps)
+    if known:
+        video_check = "; ".join(check for _, check in known)
+    else:
+        # Nothing here records the original video's hash: run id and fps are still checked.
+        check_binding(labels, run_id, labels["binding"]["source_video_sha256"], fps)
+        video_check = "not_checked (pass --video with the original file to check it)"
 
     def in_replay(*values):
         return all(0 <= v < frames for v in values)
 
-    seen, outside = set(), {"shots": 0, "bounces": 0, "points": 0}
-    parsed = {"shots": [], "bounces": [], "points": []}
-    for kind, (required, optional) in LABEL_ENTRY_KEYS.items():
-        entries = labels.get(kind, [])
-        if not isinstance(entries, list):
-            raise ValueError(f"{kind} must be a list")
-        for e in entries:
-            if (not isinstance(e, dict) or not required <= set(e) or set(e) - required - optional
-                    or e.get("decision") != "human" or not isinstance(e.get("id"), str) or e["id"] in seen):
-                raise ValueError(f"Invalid labelled {kind[:-1]} {e!r}")
-            seen.add(e["id"])
+    parsed = {kind: [] for kind in COVERAGE_KINDS}
+    outside = {kind: 0 for kind in COVERAGE_KINDS}
+    for kind in COVERAGE_KINDS:
+        for e in labels[kind]:
             if kind == "shots":
-                if e["hitter"] not in ("near", "far") or e["shot_type"] not in labels["shot_types"]:
-                    raise ValueError(f"Invalid labelled shot {e!r}")
-                item = {"id": e["id"], "frame": local(e["source_frame"]), "hitter": e["hitter"],
+                item = {"id": e["id"], "frame": e["source_frame"] - offset, "hitter": e["hitter"],
                         "shot_type": e["shot_type"]}
                 keep = in_replay(item["frame"])
             elif kind == "bounces":
-                if e["call"] not in ("in", "out", "unsure"):
-                    raise ValueError(f"Invalid labelled bounce {e!r}")
-                item = {"id": e["id"], "frame": local(e["source_frame"]), "call": e["call"]}
+                item = {"id": e["id"], "frame": e["source_frame"] - offset, "call": e["call"]}
                 keep = in_replay(item["frame"])
             else:
-                if (e["server"] not in ("near", "far", "unknown") or e["winner"] not in ("near", "far", "unknown")
-                        or e["source_start_frame"] > e["source_end_frame"]):
-                    raise ValueError(f"Invalid labelled point {e!r}")
-                item = {"id": e["id"], "start_frame": local(e["source_start_frame"]),
-                        "end_frame": local(e["source_end_frame"]), "server": e["server"], "winner": e["winner"],
+                item = {"id": e["id"], "start_frame": e["source_start_frame"] - offset,
+                        "end_frame": e["source_end_frame"] - offset, "server": e["server"], "winner": e["winner"],
                         "score_text": e.get("score_text")}
                 keep = in_replay(item["start_frame"], item["end_frame"])
             if keep:
                 parsed[kind].append(item)
             else:
                 outside[kind] += 1
-    points = sorted(parsed["points"], key=lambda p: p["start_frame"])
-    for a, b in zip(points, points[1:]):
-        if b["start_frame"] <= a["end_frame"]:
-            raise ValueError("Labelled points overlap")
-    coverage = {"shots": [], "bounces": [], "points": []}
-    if not isinstance(labels["coverage"], list):
-        raise ValueError("coverage must be a list")
+    coverage = {kind: [] for kind in COVERAGE_KINDS}
     for span in labels["coverage"]:
-        kinds = span.get("kinds") if isinstance(span, dict) else None
-        if (not isinstance(kinds, list) or not kinds or set(kinds) - set(coverage)
-                or type(span.get("source_start_frame")) is not int or type(span.get("source_end_frame")) is not int
-                or span["source_start_frame"] > span["source_end_frame"]):
-            raise ValueError(f"Invalid coverage span {span!r}")
-        for kind in kinds:
+        for kind in span["kinds"]:
             coverage[kind].append((span["source_start_frame"] - offset, span["source_end_frame"] - offset))
-    labeller = labels["labeller"] if isinstance(labels["labeller"], dict) else {}
+    labeller = labels["labeller"]
     return {"shots": sorted(parsed["shots"], key=lambda s: s["frame"]),
             "bounces": sorted(parsed["bounces"], key=lambda b: b["frame"]),
-            "points": points, "coverage": coverage,
-            "meta": {"file": Path(path).name, "sha256": _sha256(path), "run_binding": "review_run_id",
-                     "video_check": video_check, "labeller": labeller.get("name"), "labelled_on": labeller.get("date"),
-                     "reader": "isolated reader of docs/labels-schema.md v1 (issue #27); re-check after #27 merges",
+            "points": sorted(parsed["points"], key=lambda p: p["start_frame"]), "coverage": coverage,
+            "meta": {"file": Path(path).name, "sha256": digest, "run_binding": "review_run_id",
+                     "video_check": video_check, "labeller": labeller["name"], "labelled_on": labeller["date"],
+                     "reader": f"tennis_vision.labels (schema v{LABELS_SCHEMA_VERSION} validator and run binding; "
+                               "docs/labels-schema.md)",
                      "frames": "label source frames converted to replay frames with source_start_frame",
                      "coverage_replay_frames": coverage,
                      "counts_in_replay": {k: len(v) for k, v in parsed.items()},
@@ -477,7 +433,7 @@ def build_table(replay, labels=None, frame_tolerance=DEFAULT_FRAME_TOLERANCE, de
             _set(row, "shot_status", [state], "estimated", basis)
         status = row["shot_status"]
         # Shot type and its basis.
-        if label and label["shot_type"] == LABEL_ABSTAIN_TYPE:
+        if label and label["shot_type"] in LABEL_ABSTAIN_SHOT_TYPES:
             _set(row, "shot_type", [], "unknown", "labelled 'unsure' (human abstention)")
         elif label:
             _set(row, "shot_type", [label["shot_type"]], "human_confirmed", "labelled")
@@ -707,7 +663,8 @@ def write_outputs(output, table, replay, labels, frame_tolerance, depth_scheme):
             "Shot types are heuristic candidates unless labelled or stroke-reviewed; a swing is not a shot.",
             "Landings are attributed only to the first human-confirmed bounce before the next contact candidate.",
             "Points, servers, winners and rally indices come only from labels; point proposals are not used.",
-            "The --labels reader follows the unmerged issue #27 schema (docs/labels-schema.md) and must be re-checked once it merges.",
+            "--labels is validated and bound to this replay's run by tennis_vision.labels (docs/labels-schema.md); "
+            "the source-video hash is checked only when --video or the source run's manifest gives it (see labels.video_check).",
         ]}
     (output / "shot-table.json").write_text(json.dumps(payload, indent=2, allow_nan=False), encoding="utf-8")
     return payload
@@ -727,7 +684,7 @@ def run(replay_folder, output, labels_path=None, frame_tolerance=DEFAULT_FRAME_T
     if video is not None and not labels_path:
         raise ValueError("--video only checks the labels binding; pass --labels too")
     replay = load_replay(replay_folder)
-    labels = read_labels(labels_path, replay["report"], video) if labels_path else None
+    labels = read_labels(labels_path, replay["report"], video, replay["folder"]) if labels_path else None
     table = build_table(replay, labels, frame_tolerance, depth_scheme)
     return write_outputs(output, table, replay, labels, frame_tolerance, depth_scheme)
 
@@ -735,7 +692,7 @@ def run(replay_folder, output, labels_path=None, frame_tolerance=DEFAULT_FRAME_T
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--replay", type=Path, required=True, help="Completed replay folder (replay-data.json and siblings)")
-    parser.add_argument("--labels", type=Path, help="John's labels.json (issue #27 schema v1; read, never modified)")
+    parser.add_argument("--labels", type=Path, help="John's labels.json (schema v1, docs/labels-schema.md; read, never modified)")
     parser.add_argument("--video", type=Path,
                         help="Original source video, hashed locally to check the labels' source_video_sha256")
     parser.add_argument("--output", type=Path, required=True, help="NEW folder for shots.csv, points.csv, shot-table.json")
