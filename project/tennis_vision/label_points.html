@@ -86,7 +86,7 @@ const TYPE_KEYS={'1':'serve','2':'forehand','3':'backhand','4':'volley','5':'ove
 const SIDE_KEYS={n:'near',f:'far',u:'unknown'},CALL_KEYS={i:'in',o:'out',u:'unsure'};
 const video=$('video');
 const blank=()=>({shots:[],bounces:[],points:[],coverage:[],open:{point:null,coverage:null},nextId:1});
-let L=blank(),undoStack=[],prompt=null,selected=null,hintId=null,stopAt=null;
+let L=blank(),undoStack=[],prompt=null,selected=null,hintId=null,stopAt=null,wantTime=null;
 
 // ---------------------------------------------------------------- storage (draft only)
 function store(key,value){try{localStorage.setItem(key,value);return true;}catch(e){return false;}}
@@ -99,7 +99,7 @@ function restoreDraft(){const raw=fetchStored(DRAFT_KEY);if(!raw)return false;tr
 // The video is the run's review clip: its frame 0 is run frame 0 = source frame START.
 function runFrame(){return Math.max(0,Math.min(N-1,Math.floor(video.currentTime*fps+1e-6)));}
 function srcNow(){return runFrame()+START;}
-function seekRun(f){video.pause();stopAt=null;video.currentTime=(Math.max(0,Math.min(N-1,f))+.1)/fps;render();}
+function seekRun(f){video.pause();stopAt=null;wantTime=(Math.max(0,Math.min(N-1,f))+.1)/fps;video.currentTime=wantTime;render();}
 function seekSource(sf){seekRun(sf-START);}
 function fmtTime(sf){return ((sf-START)/fps).toFixed(2)+'s';}
 
@@ -156,7 +156,7 @@ function editScore(){let point=selected?.list==='points'&&findLabel(selected);if
 
 // ---------------------------------------------------------------- candidates (hints only)
 const candidates=[...D.candidates].sort((a,b)=>a.source_frame-b.source_frame);
-function candidateText(c){return `${c.kind==='hit'?'hit candidate':'bounce candidate'} · ${c.player_id||'player ?'}${c.shot_type?' · '+c.shot_type:''}`;}
+function candidateText(c){return c.kind==='hit'?`hit candidate · ${c.player_id||'player ?'}${c.shot_type?' · '+c.shot_type:''}`:'bounce candidate';}
 function jumpCandidate(direction){const sf=srcNow(),list=direction>0?candidates.filter(c=>c.source_frame>sf):candidates.filter(c=>c.source_frame<sf).reverse();
  const c=list[0];if(!c){notice(candidates.length?`No ${direction>0?'later':'earlier'} machine candidate.`:'This run has no machine candidates.',true);return;}
  hintId=c.id;seekSource(c.source_frame);notice(`Jumped to a machine candidate (hint only). Nothing was labelled; press H or B to label what you see.`);}
@@ -253,6 +253,8 @@ video.addEventListener('error',()=>videoProblem(`Could not load the review video
 video.addEventListener('loadedmetadata',()=>{const frames=video.duration*fps;video.playbackRate=+$('speed').value;
  if(Number.isFinite(frames)&&Math.abs(frames-N)>2)videoProblem(`Warning: this video lasts ${frames.toFixed(0)} frames but the run has ${N}. Labels would be misaligned; choose the run's review source.mp4.`);
  else $('videoProblem').hidden=true;render();});
+// A server without HTTP range support leaves the picture where it was; never label on a frame that is not shown.
+video.addEventListener('seeked',()=>{if(wantTime!==null&&Math.abs(video.currentTime-wantTime)>.5/fps)videoProblem(`The video did not move to the requested frame (it shows ${(video.currentTime).toFixed(2)}s, asked for ${wantTime.toFixed(2)}s). The page server probably lacks range requests; open label.html straight from disk instead. The frame readout always shows the frame on screen.`);wantTime=null;render();});
 video.addEventListener('timeupdate',()=>{if(stopAt!==null&&video.currentTime>=stopAt){video.pause();stopAt=null;}render();});
 video.addEventListener('play',render);video.addEventListener('pause',render);
 $('videoFile').onchange=e=>{const f=e.target.files?.[0];if(f){video.src=URL.createObjectURL(f);video.load?.();}};

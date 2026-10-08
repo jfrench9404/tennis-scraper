@@ -104,6 +104,13 @@ press(' '); assert.equal(video.paused, false); press(' '); assert.equal(video.pa
 get('nextFrame').click(); assert.equal(src(), START + 1); get('previousFrame').click(); assert.equal(src(), START);
 // Frame <-> time: seeking puts the playhead inside the frame, not on its boundary.
 goto(START + 123); assert.equal(src(), START + 123); assert.equal(run('runFrame()'), 123);
+assert.equal(get('videoProblem').hidden, D.video_check.status !== 'missing', 'a missing video asks for the file');
+get('videoProblem').hidden = true;
+video.handlers.seeked(); assert.equal(get('videoProblem').hidden, true, 'a seek that lands is fine');
+// A seek that does not land (e.g. a server without range requests) is reported, and the readout shows the real frame.
+goto(START + 40); video.currentTime = 0; video.handlers.seeked();
+assert.equal(get('videoProblem').hidden, false); assert.match(get('videoProblemText').textContent, /did not move/);
+assert.equal(src(), START); get('videoProblem').hidden = true;
 goto(START);
 
 // ---- machine candidates are hints only
