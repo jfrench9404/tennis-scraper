@@ -3,7 +3,6 @@ import json
 import re
 import shutil
 import subprocess
-import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -11,8 +10,72 @@ from pathlib import Path
 from tennis_vision import match_dashboard as md
 from tennis_vision import shot_table as st
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))  # helpers shared with the shot-table tests
-from test_shot_table import FPS, bounce, gravity_fit, hit, label_bounce, label_point, label_shot, player, shot, write_labels
+# Self-contained synthetic inputs (no imports from other test modules). They follow the replay folder layout
+# shot_table reads and the issue #27 labels schema v1 strictly (64-hex run id, exact shot_types list), so they
+# are valid for both the isolated #30 labels reader and tennis_vision.labels.
+FPS = 30.0
+OFFSET = 1000  # synthetic source_start_frame; labels use SOURCE frames
+RUN_ID = "ab" * 32
+SHOT_TYPES = ["serve", "forehand", "backhand", "volley", "overhead", "other", "unsure"]
+
+
+def player(identity, x, y):
+    """x, y in court metres (near-left origin); stored centred like the replay's raw_feet_xyz_m."""
+    raw = [x - 5.485, y - 11.885, 0.0]
+    return {"identity_id": identity, "raw_feet_xyz_m": raw, "feet_xyz_m": raw, "basis": "two_ankles_ground",
+            "predicted": False, "identity_association_estimated": False, "identity_basis": "original_confirmed_track"}
+
+
+def hit(eid, frame, who):
+    return {"id": eid, "type": "hit", "status": "unreviewed", "frame": frame, "time_s": frame / FPS, "player_id": who,
+            "pixel": [1, 1], "pixel_basis": "observed_ball_at_reviewed_frame", "court_m": None,
+            "candidate_court_m": None, "geometry_issue": None}
+
+
+def bounce(eid, frame, status, court=None, candidate=None, basis="observed_ball_at_reviewed_frame"):
+    return {"id": eid, "type": "bounce", "status": status, "frame": frame, "time_s": frame / FPS, "player_id": None,
+            "pixel": [1, 1], "pixel_basis": basis, "court_m": court, "candidate_court_m": candidate,
+            "geometry_issue": None}
+
+
+def shot(eid, frame, who, state="shot_candidate", classification="unknown"):
+    return {"event_id": eid, "frame": frame, "time_s": frame / FPS, "event_status": "unreviewed", "player_id": who,
+            "classification": classification, "classification_status": "candidate", "support": "moderate",
+            "reasons": ["synthetic reason"], "action_state": state, "contact_support": "limited",
+            "play_assessment": {"action_state": state, "reason": "synthetic assessment"}}
+
+
+def gravity_fit(start_id, bounce_id, a, b, velocity):
+    points = [{"frame": f, "point_m": [velocity[0] * (f - a) / FPS, velocity[1] * (f - a) / FPS,
+                                       1.0 + velocity[2] * (f - a) / FPS - 4.905 * ((f - a) / FPS) ** 2]}
+              for f in range(a, b + 1)]
+    return {"start_frame": a, "end_frame": b, "airborne_xyz_status": "estimated_not_measured",
+            "start_event_id": start_id, "bounce_event_id": bounce_id, "trajectory_m": points,
+            "source": "gravity_fit_reviewed_bounce"}
+
+
+def label_shot(lid, frame, hitter, shot_type):
+    return {"id": lid, "source_frame": frame + OFFSET, "hitter": hitter, "shot_type": shot_type, "decision": "human"}
+
+
+def label_bounce(lid, frame, call):
+    return {"id": lid, "source_frame": frame + OFFSET, "call": call, "decision": "human"}
+
+
+def label_point(lid, start, end, server, winner, **extra):
+    return dict({"id": lid, "source_start_frame": start + OFFSET, "source_end_frame": end + OFFSET,
+                 "server": server, "winner": winner, "decision": "human"}, **extra)
+
+
+def write_labels(path, **entries):
+    labels = {"schema_version": 1, "kind": "tennis_ground_truth_labels",
+              "binding": {"run_id": RUN_ID, "source_video_sha256": "0" * 64, "fps": FPS},
+              "labeller": {"name": "test", "date": "2026-09-28"}, "shot_types": SHOT_TYPES,
+              "coverage": [], "shots": [], "bounces": [], "points": []}
+    labels.update(entries)
+    path.write_text(json.dumps(labels))
+    return path
+
 
 HERE = Path(__file__).resolve().parent
 PROJECT = HERE.parent
@@ -43,10 +106,10 @@ def make_match_replay(folder):
                        shot("h200", 200, "near", state="uncertain_contact"),
                        shot("h280", 280, "near", classification="forehand")]}
     flights = {"status": "ok", "fits": [gravity_fit("h10", "b25", 10, 25, [3.0, 20.0, 2.0])], "skipped": []}
-    corrections = {"schema_version": 1, "kind": "court_and_bounce_review", "run_id": "run-x",
+    corrections = {"schema_version": 1, "kind": "court_and_bounce_review", "run_id": RUN_ID,
                    "calibration_status": "reviewed", "landmark_source": "synthetic", "landmarks": {},
                    "bounce_edits": []}
-    report = {"schema_version": 1, "package_id": "pkg-x", "review_run_id": "run-x", "frames": 300, "fps": FPS,
+    report = {"schema_version": 1, "package_id": "pkg-x", "review_run_id": RUN_ID, "frames": 300, "fps": FPS,
               "source_start_frame": 1000,
               "camera_fit": {"basis": "multi_point_radial_camera", "review_status": "reviewed",
                              "status": "approximate_not_measurement_grade", "landmark_rmse_px": 1.5},
@@ -55,7 +118,7 @@ def make_match_replay(folder):
     (folder / "replay-data.json").write_text(json.dumps({"report": report, "frames": frames, "events": events,
                                                          "shots": shots, "flights": flights}))
     (folder / "build-status.json").write_text(json.dumps({"status": "complete"}))
-    (folder / "reviewed-events.json").write_text(json.dumps({"run_id": "run-x", "events": events}))
+    (folder / "reviewed-events.json").write_text(json.dumps({"run_id": RUN_ID, "events": events}))
     (folder / "shot-candidates.json").write_text(json.dumps(shots))
     (folder / "validated-flight3d.json").write_text(json.dumps(flights))
     (folder / "calibration-corrections.json").write_text(json.dumps(corrections))
