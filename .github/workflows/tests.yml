@@ -38,3 +38,5 @@ jobs:
         run: node tests/test_event_review_ui.cjs
       - name: 3D body meshes and racquets (fake three.js)
         run: node tests/test_body_meshes.cjs
+      - name: Label points page logic (fake DOM)
+        run: node tests/test_label_points_ui.cjs
