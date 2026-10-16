@@ -17,6 +17,7 @@ input,select,textarea{font:inherit;background:#0f1a1e;color:var(--text);border:1
 textarea{width:100%;min-height:44px}kbd{font:12px ui-monospace,monospace;border:1px solid #6b8792;border-bottom-width:2px;border-radius:4px;padding:0 5px;background:#0f1a1e}
 #readout{font:13px ui-monospace,monospace}#prompt{border-left:3px solid var(--orange);padding:8px 12px;background:#302c22;border-radius:4px;margin:8px 0}
 #hint{border-left:3px dashed var(--grey);padding:6px 12px;background:#1d2629;border-radius:4px;margin:8px 0}
+#sides{margin:8px 0;padding:6px 12px;border:1px solid var(--line);border-radius:6px;font-weight:600}#sides .near{color:var(--orange)}#sides .far{color:var(--blue)}#sides.missing{border-color:var(--orange);color:var(--orange);font-weight:400}#playersPanel.attention{border-color:var(--orange)}
 #notice{min-height:22px;color:var(--mint)}#notice.warn{color:var(--orange)}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:6px 0}.row label{display:flex;gap:6px;align-items:center}
 .list{display:flex;flex-direction:column;gap:3px;max-height:220px;overflow:auto}
@@ -40,8 +41,9 @@ textarea{width:100%;min-height:44px}kbd{font:12px ui-monospace,monospace;border:
 <tr><td><kbd>Shift</kbd>+<kbd>&larr;</kbd> <kbd>&rarr;</kbd></td><td>Back / forward one second</td></tr>
 <tr><td><kbd>H</kbd></td><td>Mark shot contact at this frame, then hitter <kbd>N</kbd> near / <kbd>F</kbd> far, then type <kbd>1</kbd> serve <kbd>2</kbd> forehand <kbd>3</kbd> backhand <kbd>4</kbd> volley <kbd>5</kbd> overhead <kbd>6</kbd> other <kbd>7</kbd> unsure</td></tr>
 <tr><td><kbd>B</kbd></td><td>Mark bounce at this frame, then <kbd>I</kbd> in / <kbd>O</kbd> out / <kbd>U</kbd> unsure</td></tr>
-<tr><td><kbd>[</kbd></td><td>Point starts at this frame, then server <kbd>N</kbd> near / <kbd>F</kbd> far / <kbd>U</kbd> unknown</td></tr>
-<tr><td><kbd>]</kbd></td><td>Point ends at this frame, then winner <kbd>N</kbd> near / <kbd>F</kbd> far / <kbd>U</kbd> unknown</td></tr>
+<tr><td><kbd>[</kbd></td><td>Point starts at this frame, then server <kbd>N</kbd> near player / <kbd>F</kbd> far player / <kbd>U</kbd> unknown (both players must be named first)</td></tr>
+<tr><td><kbd>]</kbd></td><td>Point ends at this frame, then winner <kbd>N</kbd> near player / <kbd>F</kbd> far player (shown by name; a winner is required)</td></tr>
+<tr><td><kbd>S</kbd></td><td>Swap sides (changeover): who is near and who is far from the next point on</td></tr>
 <tr><td><kbd>T</kbd></td><td>Type score text for the selected (or last) point; <kbd>Enter</kbd> saves</td></tr>
 <tr><td><kbd>C</kbd></td><td>Fully-labelled span: first press starts it here, second press ends it here (kinds from the checkboxes)</td></tr>
 <tr><td><kbd>Z</kbd> or <kbd>Ctrl</kbd>+<kbd>Z</kbd></td><td>Undo the last change</td></tr>
@@ -54,16 +56,19 @@ textarea{width:100%;min-height:44px}kbd{font:12px ui-monospace,monospace;border:
 <section class="panel"><video id="video" preload="auto" playsinline muted></video>
 <canvas id="timeline" width="1200" height="64" aria-label="Timeline: click to seek"></canvas>
 <div class="legend"><span><i class="sw" style="background:#2f6f55"></i>fully-labelled span</span><span><i class="sw" style="background:#4b3f6b"></i>point</span><span><i class="sw" style="background:var(--orange)"></i>shot</span><span><i class="sw" style="background:var(--blue)"></i>bounce</span><span><i class="sw" style="background:var(--grey)"></i>machine candidate (hint)</span></div>
+<div id="sides" role="status"></div>
 <div class="controls"><button id="play">Play</button><button id="previousFrame" title="Previous frame (&larr;)">&larr; frame</button><button id="nextFrame" title="Next frame (&rarr;)">frame &rarr;</button>
 <label>Speed <select id="speed"><option value="0.25">0.25×</option><option value="0.5" selected>0.5×</option><option value="1">1×</option></select></label>
 <span id="readout"></span></div>
 <div id="videoProblem" hidden><p class="muted" id="videoProblemText"></p><input id="videoFile" type="file" accept="video/*"></div>
 <div id="prompt" hidden></div><div id="hint" hidden></div><p id="notice" role="status"></p>
-<div class="controls"><button id="markShot">Shot (H)</button><button id="markBounce">Bounce (B)</button><button id="pointStart">Point start ([)</button><button id="pointEnd">Point end (])</button><button id="coverageToggle">Span start/end (C)</button><button id="undo">Undo (Z)</button></div>
-<div class="row"><span class="fine">Span covers:</span><label><input type="checkbox" id="covShots" checked>shots</label><label><input type="checkbox" id="covBounces" checked>bounces</label><label><input type="checkbox" id="covPoints" checked>points</label></div>
+<div class="controls"><button id="markShot">Shot (H)</button><button id="markBounce">Bounce (B)</button><button id="pointStart">Point start ([)</button><button id="pointEnd">Point end (])</button><button id="swapSides">Swap sides (S)</button><button id="coverageToggle">Span start/end (C)</button><button id="undo">Undo (Z)</button></div>
+<div class="row"><span class="fine">Span covers:</span><label><input type="checkbox" id="covShots">shots</label><label><input type="checkbox" id="covBounces">bounces</label><label><input type="checkbox" id="covPoints">points</label></div>
 <p class="fine">A span means every shot / bounce / point of the ticked kinds between its start and end frames has a label; an unlabelled frame inside it says "nothing happened here". Mark spans only where that is true.</p>
 </section></div>
 <div>
+<section class="panel" id="playersPanel"><h2>Players</h2><p class="fine">Name both players once per session. Each point records who was near and who won, by name.</p>
+<div class="row"><label>Player A <input id="playerAName" placeholder="name"></label><label>Player B <input id="playerBName" placeholder="name"></label></div></section>
 <section class="panel"><h2>Labeller</h2><div class="row"><label>Name <input id="labellerName" autocomplete="name" placeholder="required for export"></label><label>Date <input id="labellerDate" type="date"></label></div>
 <label class="fine" for="fileNotes">Notes for the whole file (optional)</label><textarea id="fileNotes"></textarea>
 <div class="counts" id="counts"></div><p class="fine" id="draftState"></p></section>
@@ -83,9 +88,10 @@ const D=JSON.parse($('label-data').textContent);
 const fps=D.fps,START=D.source_start_frame,N=D.frames,LAST=START+N-1;
 const DRAFT_KEY='tennis-labels-draft:'+D.run_id,NAME_KEY='tennis-labeller-name';
 const TYPE_KEYS={'1':'serve','2':'forehand','3':'backhand','4':'volley','5':'overhead','6':'other','7':'unsure'};
-const SIDE_KEYS={n:'near',f:'far',u:'unknown'},CALL_KEYS={i:'in',o:'out',u:'unsure'};
+const SIDE_KEYS={n:'near',f:'far',u:'unknown'},WINNER_KEYS={n:'near',f:'far'},CALL_KEYS={i:'in',o:'out',u:'unsure'};
 const video=$('video');
-const blank=()=>({shots:[],bounces:[],points:[],coverage:[],open:{point:null,coverage:null},nextId:1});
+const blank=()=>({shots:[],bounces:[],points:[],coverage:[],open:{point:null,coverage:null},nextId:1,
+ players:[{id:'player_a',name:''},{id:'player_b',name:''}],nearPlayer:'player_a'});
 let L=blank(),undoStack=[],prompt=null,selected=null,hintId=null,stopAt=null,wantTime=null;
 
 // ---------------------------------------------------------------- storage (draft only)
@@ -106,11 +112,21 @@ function fmtTime(sf){return ((sf-START)/fps).toFixed(2)+'s';}
 // ---------------------------------------------------------------- state changes
 function notice(text,warn=false){$('notice').textContent=text;$('notice').className=warn?'warn':'';}
 function commit(change,message){undoStack.push(JSON.stringify(L));change();saveDraft();render();if(message)notice(message);}
-function undo(){if(prompt){cancelPrompt();return;}if(!undoStack.length){notice('Nothing to undo.',true);return;}L=JSON.parse(undoStack.pop());if(selected&&!findLabel(selected))selected=null;saveDraft();render();notice('Undid the last change.');}
+function undo(){if(prompt){cancelPrompt();return;}if(!undoStack.length){notice('Nothing to undo.',true);return;}const names=L.players;L=JSON.parse(undoStack.pop());L.players=names;if(selected&&!findLabel(selected))selected=null;saveDraft();render();notice('Undid the last change.');}
 function newId(kind){return `${kind}-${L.nextId++}`;}
 function findLabel(sel){return sel&&(L[sel.list]||[]).find(x=>x.id===sel.id);}
 const overlaps=(a,b,c,d)=>a<=d&&c<=b;
 function pointAt(sf){return L.points.find(p=>overlaps(p.source_start_frame,p.source_end_frame,sf,sf));}
+// Players: named once per session; sides are recorded per point because they swap at changeovers.
+const playerName=id=>(L.players.find(p=>p.id===id)?.name||'').trim();
+const otherPlayer=id=>L.players.find(p=>p.id!==id).id;
+function namesReady(){return L.players.every(p=>p.name.trim())&&playerName('player_a')!==playerName('player_b');}
+function sidePlayer(side,near=L.nearPlayer){return side==='near'?near:side==='far'?otherPlayer(near):null;}
+function sideText(side,near=L.nearPlayer){const id=sidePlayer(side,near);return id?`${playerName(id)} (${side})`:'unknown';}
+function askForNames(){$('playersPanel').className='panel attention';(L.players[0].name.trim()?$('playerBName'):$('playerAName')).focus?.();
+ notice('Name both players first (two different names): each point records who was near and who won, by name.',true);}
+function swapSides(){if(!namesReady()){askForNames();return;}if(L.open.point){notice('Sides can only swap between points: end the open point first.',true);return;}
+ const near=otherPlayer(L.nearPlayer);commit(()=>{L.nearPlayer=near;},`Sides swapped: near is now ${playerName(near)}, far is ${playerName(otherPlayer(near))}.`);}
 
 function setPrompt(p,text){prompt=p;$('prompt').hidden=false;$('prompt').textContent=text+' · Esc cancels';}
 function cancelPrompt(){if(!prompt)return;prompt=null;$('prompt').hidden=true;notice('Cancelled; nothing was labelled.');}
@@ -120,13 +136,13 @@ function startShot(){const sf=srcNow();if(L.shots.some(s=>s.source_frame===sf)){
  setPrompt({kind:'shot-hitter',frame:sf},`Shot at source frame ${sf}: hitter? N near / F far`);}
 function startBounce(){const sf=srcNow();if(L.bounces.some(b=>b.source_frame===sf)){notice(`A bounce is already labelled at source frame ${sf}.`,true);return;}
  setPrompt({kind:'bounce',frame:sf},`Bounce at source frame ${sf}: I in / O out / U unsure`);}
-function startPoint(){const sf=srcNow();if(L.open.point){notice(`A point is already open from source frame ${L.open.point.source_start_frame}; press ] to end it (Z undoes the start).`,true);return;}
+function startPoint(){const sf=srcNow();if(!namesReady()){askForNames();return;}if(L.open.point){notice(`A point is already open from source frame ${L.open.point.source_start_frame}; press ] to end it (Z undoes the start).`,true);return;}
  const inside=pointAt(sf);if(inside){notice(`Source frame ${sf} is inside ${inside.id}; points may not overlap.`,true);return;}
- setPrompt({kind:'point-server',frame:sf},`Point starts at source frame ${sf}: server? N near / F far / U unknown`);}
+ setPrompt({kind:'point-server',frame:sf},`Point starts at source frame ${sf}: server? N ${sideText('near')} / F ${sideText('far')} / U unknown`);}
 function endPoint(){const sf=srcNow(),open=L.open.point;if(!open){notice('No open point: press [ at the start of a point first.',true);return;}
  if(sf<open.source_start_frame){notice(`End frame ${sf} is before the point's start (${open.source_start_frame}).`,true);return;}
  const clash=L.points.find(p=>overlaps(p.source_start_frame,p.source_end_frame,open.source_start_frame,sf));if(clash){notice(`A point ending at ${sf} would overlap ${clash.id}.`,true);return;}
- setPrompt({kind:'point-winner',frame:sf},`Point ends at source frame ${sf}: winner? N near / F far / U unknown`);}
+ const near=open.near_player;setPrompt({kind:'point-winner',frame:sf},`Point ends at source frame ${sf}: winner? N ${sideText('near',near)} / F ${sideText('far',near)}`);}
 function coverageKinds(){return [['shots','covShots'],['bounces','covBounces'],['points','covPoints']].filter(([,id])=>$(id).checked).map(([k])=>k);}
 function toggleCoverage(){const sf=srcNow(),open=L.open.coverage;
  if(!open){commit(()=>{L.open.coverage={source_start_frame:sf};},`Fully-labelled span started at source frame ${sf}. Press C again where it ends.`);return;}
@@ -143,10 +159,12 @@ function answerPrompt(lower){const p=prompt;
   commit(()=>{L.shots.push(shot);L.shots.sort((a,b)=>a.source_frame-b.source_frame);selected={list:'shots',id:shot.id};},`Shot labelled: ${p.hitter} ${type} at source frame ${p.frame}.`);return true;}
  if(p.kind==='bounce'){const call=CALL_KEYS[lower];if(!call)return false;clearPrompt();const b={id:newId('bounce'),source_frame:p.frame,call,decision:'human'};
   commit(()=>{L.bounces.push(b);L.bounces.sort((a,b)=>a.source_frame-b.source_frame);selected={list:'bounces',id:b.id};},`Bounce labelled: ${call} at source frame ${p.frame}.`);return true;}
- if(p.kind==='point-server'){const side=SIDE_KEYS[lower];if(!side)return false;clearPrompt();commit(()=>{L.open.point={source_start_frame:p.frame,server:side};},`Point open from source frame ${p.frame} (server: ${side}). Press ] where it ends.`);return true;}
- if(p.kind==='point-winner'){const side=SIDE_KEYS[lower];if(!side)return false;clearPrompt();const open=L.open.point;
-  const point={id:newId('point'),source_start_frame:open.source_start_frame,source_end_frame:p.frame,server:open.server,winner:side,decision:'human'};
-  commit(()=>{L.points.push(point);L.points.sort((a,b)=>a.source_start_frame-b.source_start_frame);L.open.point=null;selected={list:'points',id:point.id};},`Point ${point.source_start_frame}-${p.frame} saved (winner: ${side}). Press T to add score text.`);return true;}
+ if(p.kind==='point-server'){const side=SIDE_KEYS[lower];if(!side)return false;clearPrompt();const near=L.nearPlayer;
+  commit(()=>{L.open.point={source_start_frame:p.frame,server:side,near_player:near};},`Point open from source frame ${p.frame}. Server: ${sideText(side,near)}. Press ] where it ends.`);return true;}
+ if(p.kind==='point-winner'){const side=WINNER_KEYS[lower];if(!side)return false;clearPrompt();const open=L.open.point,near=open.near_player;
+  const point={id:newId('point'),source_start_frame:open.source_start_frame,source_end_frame:p.frame,server:open.server,winner:side,
+   near_player:near,winner_player:sidePlayer(side,near),decision:'human'};
+  commit(()=>{L.points.push(point);L.points.sort((a,b)=>a.source_start_frame-b.source_start_frame);L.open.point=null;selected={list:'points',id:point.id};},`Point ${point.source_start_frame}-${p.frame} saved. Winner: ${sideText(side,near)}. Press T to add score text.`);return true;}
  return false;}
 
 function removeSelected(){const item=findLabel(selected);if(!item){notice('Select a label first.',true);return;}const list=selected.list;
@@ -175,7 +193,9 @@ function labelsPayload(){const name=$('labellerName').value.trim(),date=$('label
   coverage:L.coverage.map(c=>({source_start_frame:c.source_start_frame,source_end_frame:c.source_end_frame,kinds:[...c.kinds]})),
   shots:L.shots.map(s=>clean(s,['id','source_frame','hitter','shot_type','decision','notes'])),
   bounces:L.bounces.map(b=>clean(b,['id','source_frame','call','decision','notes'])),
-  points:L.points.map(p=>clean(p,['id','source_start_frame','source_end_frame','server','winner','score_text','decision','notes']))};
+  points:L.points.map(p=>clean(p,['id','source_start_frame','source_end_frame','server','winner','near_player','winner_player','score_text','decision','notes']))};
+ if(namesReady())payload.players=L.players.map(p=>({id:p.id,name:p.name.trim()}));
+ else if(L.points.length)throw Error('Name both players before exporting: every point records its winner by name.');
  const notes=$('fileNotes').value.trim();if(notes)payload.notes=notes;
  checkPayload(payload);return payload;}
 // Mirrors the main rules of tennis_vision/labels.py; that validator stays the authority.
@@ -191,6 +211,12 @@ function checkPayload(p){const ints=v=>Number.isInteger(v)&&v>=0,ids=new Set();
   const frames=new Set();for(const e of p[list]){if(!e.id||ids.has(e.id))throw Error('Duplicate or empty label id '+e.id);ids.add(e.id);
    if(e.decision!=='human'||!check(e))throw Error(`Invalid ${list} label ${e.id}.`);
    if(list!=='points'){if(frames.has(e.source_frame))throw Error(`Two ${list} at source frame ${e.source_frame}.`);frames.add(e.source_frame);}}}
+ if(p.players){if(p.players.length!==2||new Set(p.players.map(x=>x.id)).size!==2||p.players.some(x=>!x.id||!String(x.name||'').trim()))throw Error('Players need two ids and two names.');
+  const ids2=p.players.map(x=>x.id);
+  for(const q of p.points){if(!ids2.includes(q.near_player)||!ids2.includes(q.winner_player))throw Error(`${q.id}: set who was near and who won (by name) before exporting.`);
+   if(!['near','far'].includes(q.winner))throw Error(`${q.id}: a point's winner must be a person (near or far).`);
+   if(q.winner_player!==(q.winner==='near'?q.near_player:ids2.find(x=>x!==q.near_player)))throw Error(`${q.id}: winner side and winner name disagree.`);}}
+ else if(p.points.some(q=>'near_player' in q||'winner_player' in q))throw Error('Points name players but the file has no players list.');
  const pts=[...p.points].sort((a,b)=>a.source_start_frame-b.source_start_frame);for(let i=1;i<pts.length;i++)if(pts[i].source_start_frame<=pts[i-1].source_end_frame)throw Error(`Points ${pts[i-1].id} and ${pts[i].id} overlap.`);
  return p;}
 function exportLabels(){let payload;try{payload=labelsPayload();}catch(e){notice(e.message,true);if(/labeller name/.test(e.message))$('labellerName').focus?.();return null;}
@@ -200,9 +226,11 @@ function exportLabels(){let payload;try{payload=labelsPayload();}catch(e){notice
 function importLabels(data){if(!data||data.kind!=='tennis_ground_truth_labels'||data.schema_version!==D.labels_schema_version)throw Error('Not a schema v1 labels.json.');
  checkPayload(data);const next=blank();next.coverage=data.coverage.map((c,i)=>({...c,id:'span-import-'+i,kinds:[...c.kinds]}));
  for(const k of ['shots','bounces','points'])next[k]=data[k].map(e=>({...e}));
+ if(data.players)next.players=data.players.map(x=>({id:x.id,name:x.name}));else next.players=L.players;
+ const lastPoint=next.points[next.points.length-1];if(lastPoint?.near_player&&next.players.some(x=>x.id===lastPoint.near_player))next.nearPlayer=lastPoint.near_player;
  let max=0;for(const k of ['shots','bounces','points'])for(const e of next[k]){const m=/-(\d+)$/.exec(e.id);if(m)max=Math.max(max,+m[1]);}next.nextId=max+1;
  commit(()=>{L=next;selected=null;},`Loaded ${data.shots.length} shots, ${data.bounces.length} bounces, ${data.points.length} points from the earlier export. Undo (Z) restores the previous state.`);
- if(data.labeller?.name&&!$('labellerName').value)$('labellerName').value=data.labeller.name;if(data.notes&&!$('fileNotes').value)$('fileNotes').value=data.notes;}
+ syncNames();if(data.labeller?.name&&!$('labellerName').value)$('labellerName').value=data.labeller.name;if(data.notes&&!$('fileNotes').value)$('fileNotes').value=data.notes;}
 $('importFile').onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{importLabels(JSON.parse(await file.text()));}catch(error){notice('Not loaded: '+error.message,true);}e.target.value='';};
 
 // ---------------------------------------------------------------- rendering
@@ -210,8 +238,8 @@ function item(text,cls,onclick){const b=document.createElement('button');b.class
 function select(list,id){selected={list,id};const x=findLabel(selected);if(x)seekSource(x.source_frame??x.source_start_frame);render();}
 function renderLists(){
  const sel=(list,x)=>selected?.list===list&&selected.id===x.id?'selected':'';
- $('pointList').replaceChildren(...L.points.map(p=>item(`${p.id} · ${p.source_start_frame}-${p.source_end_frame} · serve ${p.server} · won ${p.winner}${p.score_text?' · '+p.score_text:''}`,sel('points',p),()=>select('points',p.id))));
- if(L.open.point)$('pointList').append(item(`open point from ${L.open.point.source_start_frame} · serve ${L.open.point.server} · press ] to end`,'',()=>seekSource(L.open.point.source_start_frame)));
+ $('pointList').replaceChildren(...L.points.map(p=>item(`${p.id} · ${p.source_start_frame}-${p.source_end_frame} · serve ${p.near_player?sideText(p.server,p.near_player):p.server} · won ${p.winner_player?playerName(p.winner_player)+' ('+p.winner+')':p.winner+' (no name: set it)'}${p.score_text?' · '+p.score_text:''}`,sel('points',p),()=>select('points',p.id))));
+ if(L.open.point)$('pointList').append(item(`open point from ${L.open.point.source_start_frame} · serve ${sideText(L.open.point.server,L.open.point.near_player)} · press ] to end`,'',()=>seekSource(L.open.point.source_start_frame)));
  $('shotList').replaceChildren(...L.shots.map(s=>item(`${s.id} · ${s.source_frame} (${fmtTime(s.source_frame)}) · ${s.hitter} · ${s.shot_type}`,sel('shots',s),()=>select('shots',s.id))));
  $('bounceList').replaceChildren(...L.bounces.map(b=>item(`${b.id} · ${b.source_frame} (${fmtTime(b.source_frame)}) · ${b.call}`,sel('bounces',b),()=>select('bounces',b.id))));
  $('coverageList').replaceChildren(...L.coverage.map(c=>item(`${c.source_start_frame}-${c.source_end_frame} · ${c.kinds.join(', ')}`,sel('coverage',c),()=>{selected={list:'coverage',id:c.id};seekSource(c.source_start_frame);})));
@@ -219,16 +247,23 @@ function renderLists(){
  $('candidateList').replaceChildren(...candidates.map(c=>item(`${c.source_frame} (${fmtTime(c.source_frame)}) · ${candidateText(c)}`,'hint'+(hintId===c.id?' selected':''),()=>{hintId=c.id;seekSource(c.source_frame);})));
  for(const id of ['pointList','shotList','bounceList','coverageList','candidateList'])if(!$(id).children.length)$(id).textContent=id==='candidateList'?'No machine candidates in this run.':'None yet.';
  $('counts').replaceChildren(...[['shots',L.shots.length],['bounces',L.bounces.length],['points',L.points.length],['spans',L.coverage.length]].map(([k,v])=>{const s=document.createElement('span');s.textContent=`${v} ${k}`;return s;}));}
-function field(label,key,value,options){const wrap=document.createElement('label');wrap.textContent=label+' ';let input;
- if(options){input=document.createElement('select');for(const o of options){const opt=document.createElement('option');opt.value=o;opt.textContent=o;input.append(opt);}}else input=document.createElement('input');
- input.id='edit-'+key;input.value=value??'';input.onchange=()=>{const x=findLabel(selected);if(!x)return;const v=input.value;if((x[key]??'')===v)return;
-  commit(()=>{const y=findLabel(selected);if(!v&&!options)delete y[key];else y[key]=v;},`${x.id}: ${key.replace('_',' ')} set to ${v||'(empty)'}.`);};
+function field(label,key,value,options,labels){const wrap=document.createElement('label');wrap.textContent=label+' ';let input;
+ if(options){input=document.createElement('select');const all=options.includes(value)||value==null?options:['',...options];
+  for(const o of all){const opt=document.createElement('option');opt.value=o;opt.textContent=o===''?'(choose)':labels?labels(o):o;input.append(opt);}}else input=document.createElement('input');
+ input.id='edit-'+key;input.value=value??'';input.onchange=()=>{const x=findLabel(selected);if(!x)return;const v=input.value;if((x[key]??'')===v||(options&&!v))return;
+  commit(()=>{const y=findLabel(selected);if(!v&&!options)delete y[key];else y[key]=v;
+   // Keep the winner's name consistent with the side and the near player.
+   if(selected.list==='points'&&['winner','near_player'].includes(key)&&y.near_player&&['near','far'].includes(y.winner))y.winner_player=sidePlayer(y.winner,y.near_player);},
+   `${x.id}: ${key.replace('_',' ')} set to ${v||'(empty)'}.`);};
  if(!options)input.onkeydown=e=>{if(e.key==='Enter'){input.onchange();input.blur?.();}};
  wrap.append(input);return wrap;}
 function renderEditor(){const x=findLabel(selected);$('editor').hidden=!x;if(!x)return;$('editorTitle').textContent='Selected: '+(selected.list==='coverage'?`span ${x.source_start_frame}-${x.source_end_frame}`:x.id);
  const f=[];if(selected.list==='shots')f.push(field('Hitter','hitter',x.hitter,D.hitters),field('Type','shot_type',x.shot_type,D.shot_types));
  if(selected.list==='bounces')f.push(field('Call','call',x.call,D.bounce_calls));
- if(selected.list==='points')f.push(field('Server','server',x.server,D.point_sides),field('Winner','winner',x.winner,D.point_sides),field('Score text','score_text',x.score_text));
+ if(selected.list==='points'){const ids=L.players.map(p=>p.id);
+  f.push(field('Near player','near_player',x.near_player,ids,id=>playerName(id)||id),
+   field('Server','server',x.server,D.point_sides,s=>x.near_player?sideText(s,x.near_player):s),
+   field('Winner','winner',x.winner,['near','far'],s=>x.near_player?sideText(s,x.near_player):s),field('Score text','score_text',x.score_text));}
  if(selected.list!=='coverage')f.push(field('Notes','notes',x.notes));
  const row=document.createElement('div');row.className='row';row.append(...f);$('editorFields').replaceChildren(row);}
 function drawTimeline(){const c=$('timeline'),g=c.getContext('2d');if(!g)return;const W=c.width,H=c.height,x=sf=>(sf-START+.5)/N*W;
@@ -242,7 +277,11 @@ function drawTimeline(){const c=$('timeline'),g=c.getContext('2d');if(!g)return;
  g.fillStyle='#ecf3f3';g.fillRect(x(srcNow())-1,0,2,H);}
 function renderHint(){const sf=srcNow(),here=candidates.filter(c=>Math.abs(c.source_frame-sf)<=1);$('hint').hidden=!here.length;
  if(here.length)$('hint').textContent=`Machine candidate near this frame (unconfirmed hint, not a label): ${here.map(c=>`${candidateText(c)} at ${c.source_frame}`).join('; ')}. Label only what you see.`;}
-function render(){const rf=runFrame();$('readout').textContent=`source frame ${rf+START} · run frame ${rf}/${N-1} · ${(rf/fps).toFixed(2)}s`;
+function renderSides(){const el=$('sides');if(!namesReady()){el.className='missing';el.textContent='Players not named yet: name Player A and Player B (right) before labelling points.';return;}
+ $('playersPanel').className='panel';const near=L.open.point?L.open.point.near_player:L.nearPlayer;el.className='';
+ el.replaceChildren(...[['near',`Near: ${playerName(near)}`],['far',`Far: ${playerName(otherPlayer(near))}`]].map(([c,t])=>{const s=document.createElement('span');s.className=c;s.textContent=t;return s;}));
+ el.append(L.open.point?' · this point (sides fixed until it ends)':' · S swaps at a changeover');}
+function render(){const rf=runFrame();renderSides();$('readout').textContent=`source frame ${rf+START} · run frame ${rf}/${N-1} · ${(rf/fps).toFixed(2)}s`;
  $('play').textContent=video.paused===false?'Pause':'Play';renderLists();renderEditor();renderHint();drawTimeline();}
 
 // ---------------------------------------------------------------- video
@@ -265,8 +304,10 @@ $('play').onclick=()=>{if(video.paused===false)video.pause();else video.play()?.
 $('previousFrame').onclick=()=>seekRun(runFrame()-1);$('nextFrame').onclick=()=>seekRun(runFrame()+1);
 $('timeline').onclick=e=>{const c=$('timeline'),r=c.getBoundingClientRect?.();if(!r||!r.width)return;seekRun(Math.floor((e.clientX-r.left)/r.width*N));};
 $('markShot').onclick=startShot;$('markBounce').onclick=startBounce;$('pointStart').onclick=startPoint;$('pointEnd').onclick=endPoint;
-$('coverageToggle').onclick=toggleCoverage;$('undo').onclick=undo;$('deleteSelected').onclick=removeSelected;$('export').onclick=exportLabels;
+$('coverageToggle').onclick=toggleCoverage;$('swapSides').onclick=swapSides;$('undo').onclick=undo;$('deleteSelected').onclick=removeSelected;$('export').onclick=exportLabels;
 $('fileNotes').onchange=saveDraft;
+function syncNames(){$('playerAName').value=L.players[0].name;$('playerBName').value=L.players[1].name;}
+for(const [i,id] of [[0,'playerAName'],[1,'playerBName']])$(id).oninput=()=>{L.players[i].name=$(id).value;saveDraft();render();};
 $('labellerName').onchange=()=>store(NAME_KEY,$('labellerName').value.trim());
 function toggleShortcutHelp(show=$('shortcutHelp').hidden){$('shortcutHelp').hidden=!show;$('shortcutsButton').setAttribute('aria-expanded',String(show));}
 $('shortcutsButton').onclick=()=>toggleShortcutHelp();$('closeShortcuts').onclick=()=>toggleShortcutHelp(false);
@@ -285,7 +326,7 @@ function handleShortcut(e){
  else if(key===' '||e.code==='Space')act=()=>$('play').onclick();
  else if(lower==='h')act=startShot;else if(lower==='b')act=startBounce;
  else if(key==='[')act=startPoint;else if(key===']')act=endPoint;
- else if(lower==='c')act=toggleCoverage;else if(lower==='t')act=editScore;else if(lower==='z')act=undo;
+ else if(lower==='c')act=toggleCoverage;else if(lower==='s')act=swapSides;else if(lower==='t')act=editScore;else if(lower==='z')act=undo;
  else if(key==='Delete'||key==='Backspace')act=removeSelected;
  else if(key==='.')act=()=>jumpCandidate(1);else if(key===',')act=()=>jumpCandidate(-1);
  if(!act)return;e.preventDefault();act();
@@ -295,5 +336,5 @@ document.addEventListener('keydown',handleShortcut);
 // ---------------------------------------------------------------- start
 $('labellerDate').value=today();$('labellerName').value=fetchStored(NAME_KEY)||'';
 if(restoreDraft())notice('Restored an unexported draft from this browser. It is not a labels file until you export it.');
-saveDraft();render();
+syncNames();saveDraft();render();
 </script></body></html>

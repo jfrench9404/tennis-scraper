@@ -172,6 +172,16 @@ class LabelPointsBuildTests(unittest.TestCase):
             code = labels_module.main([str(exported), "--run", str(self.replay)])
         self.assertEqual(code, 0, err.getvalue())
         self.assertIn("binding matches run", stdout.getvalue())
+        # Named players (additive v1 extension): every point's winner is a named person.
+        self.assertEqual([p["name"] for p in labels["players"]], ["Alice", "Bobby"])
+        names = {p["id"]: p["name"] for p in labels["players"]}
+        self.assertTrue(all(p["winner"] in ("near", "far") and p["winner_player"] in names for p in labels["points"]))
+        # The scorer (unchanged) reads the extended file.
+        from tennis_vision import score_labels
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()) as err:
+            code = score_labels.main(["--labels", str(exported), "--run", str(self.replay),
+                                      "--output", str(self.root / "score.json")])
+        self.assertEqual(code, 0, err.getvalue())
 
 
 if __name__ == "__main__":

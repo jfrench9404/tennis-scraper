@@ -59,6 +59,11 @@ const get = id => {
 get('label-data').textContent = JSON.stringify(D);
 get('speed').value = '0.5';
 for (const id of ['shortcutHelp', 'prompt', 'hint', 'videoProblem', 'editor']) get(id).hidden = true; // hidden in the HTML
+// John decided the span-kind boxes start unticked: check the HTML, then mirror it in the fake DOM.
+for (const id of ['covShots', 'covBounces', 'covPoints']) {
+  assert.match(html, new RegExp(`id="${id}">`), `${id} must start unticked`);
+  get(id).checked = false;
+}
 const saved = new Map();
 let download = null, downloadName = null;
 const docHandlers = {};
@@ -166,24 +171,53 @@ goto(START + 62); press('b'); press('u');
 assert.deepEqual(L().bounces.map(b => [b.source_frame, b.call]), [[START + 60, 'in'], [START + 61, 'out'], [START + 62, 'unsure']]);
 goto(START + 60); press('b'); assert.match(notice(), /already labelled/);
 
-// ---- points: start/server, end/winner, score text
+// ---- players: named once per session, required before any point
+const typeName = (id, name) => { get(id).value = name; get(id).oninput(); };
+assert.match(get('sides').textContent, /not named/);
+goto(START + 5); press('['); assert.equal(get('prompt').hidden, true); assert.match(notice(), /Name both players/);
+press('s'); assert.match(notice(), /Name both players/);
+typeName('playerAName', 'Alice'); typeName('playerBName', 'Alice');
+press('['); assert.match(notice(), /two different names/);
+typeName('playerBName', 'Bob');
+assert.equal(get('sides').children.slice(0, 2).map(c => c.textContent).join('|'), 'Near: Alice|Far: Bob');
+
+// ---- points: start/server, end/winner (by name), score text
 press(']'); assert.match(notice(), /No open point/);
-goto(START + 5); press('['); press('n');
-assert.deepEqual(L().open.point, {source_start_frame: START + 5, server: 'near'});
+goto(START + 5); press('['); assert.match(get('prompt').textContent, /N Alice \(near\) \/ F Bob \(far\) \/ U unknown/);
+press('n'); assert.match(notice(), /Server: Alice \(near\)/);
+assert.deepEqual(L().open.point, {source_start_frame: START + 5, server: 'near', near_player: 'player_a'});
+press('s'); assert.match(notice(), /between points/); assert.equal(run('L.nearPlayer'), 'player_a');
 press('['); assert.match(notice(), /already open/);
 goto(START + 3); press(']'); assert.match(notice(), /before the point's start/);
 // Export is refused while a point is open.
 get('labellerName').value = 'Synthetic tester';
 get('export').click(); assert.equal(download, null); assert.match(notice(), /still open/);
-goto(START + 100); press(']'); press('f');
+goto(START + 100); press(']'); assert.match(get('prompt').textContent, /winner\? N Alice \(near\) \/ F Bob \(far\)$|winner\? N Alice \(near\) \/ F Bob \(far\) ·/);
+press('u'); assert.match(notice(), /not an answer/); assert.equal(L().points.length, 0, 'unknown is not a winner');
+press('f'); assert.match(notice(), /Winner: Bob \(far\)/);
 assert.equal(L().points.length, 1);
 assert.deepEqual(L().points[0], {id: L().points[0].id, source_start_frame: START + 5, source_end_frame: START + 100,
-  server: 'near', winner: 'far', decision: 'human'});
+  server: 'near', winner: 'far', near_player: 'player_a', winner_player: 'player_b', decision: 'human'});
 assert.equal(L().open.point, null);
 goto(START + 50); press('['); assert.match(notice(), /inside point/);
 // Overlap on the way out: a point started before an existing one cannot end inside it.
-goto(START + 101); press('['); press('u'); goto(START + 150); press(']'); press('u');
-assert.equal(L().points[1].server, 'unknown'); assert.equal(L().points[1].winner, 'unknown');
+// Changeover: S swaps sides (undoable); the next point records Bob as near.
+press('s'); assert.match(notice(), /near is now Bob, far is Alice/);
+assert.equal(get('sides').children.slice(0, 2).map(c => c.textContent).join('|'), 'Near: Bob|Far: Alice');
+press('z'); assert.equal(run('L.nearPlayer'), 'player_a'); press('S'); assert.equal(run('L.nearPlayer'), 'player_b');
+goto(START + 101); press('['); press('u'); goto(START + 150); press(']'); press('n');
+assert.equal(L().points[1].server, 'unknown');
+assert.deepEqual([L().points[1].winner, L().points[1].near_player, L().points[1].winner_player], ['near', 'player_b', 'player_b']);
+// Editing the winner side in the editor keeps the winner's name consistent.
+run(`select('points','${L().points[1].id}')`);
+get('edit-winner').value = 'far'; get('edit-winner').onchange();
+assert.equal(L().points[1].winner_player, 'player_a');
+get('edit-near_player').value = 'player_a'; get('edit-near_player').onchange();
+assert.equal(L().points[1].winner_player, 'player_b', 'far player is Bob once Alice is near');
+press('z'); press('z'); assert.equal(L().points[1].winner_player, 'player_b'); assert.equal(L().points[1].winner, 'near');
+// Names typed after a change survive an undo.
+typeName('playerBName', 'Bobby'); press('s'); press('z'); assert.equal(get('playerBName').value, 'Bobby');
+assert.equal(run("playerName('player_b')"), 'Bobby');
 press('t'); assert.equal(get('edit-score_text').focused, true);
 get('edit-score_text').value = '15-0'; get('edit-score_text').onchange();
 assert.equal(L().points[1].score_text, '15-0');
@@ -226,7 +260,9 @@ assert.ok(created.some(e => e.download && /^labels-[0-9a-f]{8}-\d{4}-\d{2}-\d{2}
   assert.equal(payload.shots.length, 6); assert.equal(payload.bounces.length, 3); assert.equal(payload.points.length, 2);
   assert.ok(payload.shots.every(s => s.decision === 'human' && s.source_frame >= START && s.source_frame < START + N));
   assert.ok(payload.coverage.every(c => !('id' in c)), 'internal span ids are not exported');
-  assert.ok(payload.points.every(p => Object.keys(p).every(k => ['id', 'source_start_frame', 'source_end_frame', 'server', 'winner', 'score_text', 'decision', 'notes'].includes(k))));
+  assert.ok(payload.points.every(p => Object.keys(p).every(k => ['id', 'source_start_frame', 'source_end_frame', 'server', 'winner', 'near_player', 'winner_player', 'score_text', 'decision', 'notes'].includes(k))));
+  assert.deepEqual(payload.players, [{id: 'player_a', name: 'Alice'}, {id: 'player_b', name: 'Bobby'}]);
+  assert.deepEqual(payload.points.map(p => [p.near_player, p.winner, p.winner_player]), [['player_a', 'far', 'player_b'], ['player_b', 'near', 'player_b']]);
   const ids = [...payload.shots, ...payload.bounces, ...payload.points].map(e => e.id);
   assert.equal(new Set(ids).size, ids.length, 'ids unique across lists');
   assert.ok(!text.includes('candidate'), 'no machine candidate is exported');
@@ -236,10 +272,15 @@ assert.ok(created.some(e => e.download && /^labels-[0-9a-f]{8}-\d{4}-\d{2}-\d{2}
   context.fixture.binding.run_id = 'c'.repeat(64); assert.throws(() => run('checkPayload(fixture)'), /another run/);
   context.fixture = JSON.parse(text); context.fixture.shots.push({...context.fixture.shots[0], id: 'dup-frame'});
   assert.throws(() => run('checkPayload(fixture)'), /Two shots/);
+  context.fixture = JSON.parse(text); context.fixture.points[0].winner_player = 'player_a';
+  assert.throws(() => run('checkPayload(fixture)'), /disagree/);
+  context.fixture = JSON.parse(text); context.fixture.points[0].winner = 'unknown';
+  assert.throws(() => run('checkPayload(fixture)'), /must be a person/);
   // Import an export into a fresh state; it round-trips and is undoable.
   run('commit(()=>{L=blank();})'); assert.equal(L().shots.length, 0);
   context.fixture = JSON.parse(text); run('importLabels(fixture)');
   assert.equal(L().shots.length, 6); assert.equal(L().points[1].score_text, '15-0');
+  assert.equal(get('playerAName').value, 'Alice'); assert.equal(run('L.nearPlayer'), 'player_b', 'sides resume from the last point');
   goto(START + 200); press('h'); press('n'); press('7');
   assert.ok(!payload.shots.some(s => s.id === L().shots.at(-1).id), 'new ids after import do not collide');
   press('z');
