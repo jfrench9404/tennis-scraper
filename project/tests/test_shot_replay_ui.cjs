@@ -162,6 +162,39 @@ get('replay').click();assert.equal(get('video').paused,false);run('video.current
  assert.equal(reviewState(),reviewBefore,'shortcuts never change review data');
  get('shotList').children[0].click();
 }
+// Deep link #frame=N (issue #32): replay-local frame, on load and on hashchange; clamped; invalid values ignored.
+{
+ const boot=(globals={},pre=()=>{})=>{const els=new Map(),g=id=>{if(!els.has(id))els.set(id,new Element(id));return els.get(id);};
+  g('replay-data').textContent=JSON.stringify(payload);g('speed').value='.5';pre(g);const docH={};
+  const ctx=vm.createContext({document:{getElementById:g,createElement:name=>new Element(name),addEventListener:(type,handler)=>{docH[type]=handler;}},
+   localStorage:{getItem:()=>undefined,setItem(){}},Blob,URL:{createObjectURL:()=>'fake',revokeObjectURL(){}},setTimeout:f=>f(),requestAnimationFrame(){},console,...globals});
+  vm.runInContext(code,ctx);return {g,docH,run:s=>vm.runInContext(s,ctx)};};
+ const last=payload.report.frames-1,start=payload.preview_flights.fits[0].start_frame,target=Math.min(last,start+3);
+ // No hash (or no location at all, as in the suite above): the page opens exactly as before.
+ assert.equal(boot({location:{hash:''}}).run('frame'),start);
+ const loc={hash:'#frame='+target},win={};
+ const page=boot({location:loc,window:{addEventListener:(type,handler)=>{win[type]=handler;}}});
+ const review=()=>page.run('JSON.stringify([D.events.map(e=>e.status),corrections,contactLabels,handCorrections])'),before=review();
+ assert.equal(page.run('frame'),target,'#frame=N on load seeks to replay frame N');
+ assert.equal(page.g('video').paused,true);
+ assert.match(page.g('notice').textContent,new RegExp(`Jumped to frame ${target} .*source frame ${(payload.report.source_start_frame||0)+target}`));
+ assert.equal(typeof win.hashchange,'function','page listens for hashchange');
+ const go=hash=>{loc.hash=hash;win.hashchange();return page.run('frame');};
+ assert.equal(go('#frame=2'),2);
+ assert.equal(go('#frame=999999999'),last,'clamped to the last frame');
+ assert.equal(go('#frame=-4'),0,'clamped to frame 0');
+ go('#frame=2');
+ for(const bad of ['#frame=abc','#frame=3.5','#frame=','#frame=1e3','#shot=5','#',''])assert.equal(go(bad),2,`ignored: ${bad}`);
+ assert.equal(page.run('hashFrame("frame=7")'),Math.min(7,last));assert.equal(page.run('hashFrame("#frame= 7")'),null);
+ // Keyboard shortcuts still work after a deep link, and deep links never change review data.
+ const e={key:'ArrowRight',code:'',shiftKey:false,ctrlKey:false,metaKey:false,altKey:false,repeat:false,defaultPrevented:false,target:{tagName:'BODY'},preventDefault(){}};
+ page.docH.keydown(e);assert.equal(page.run('frame'),3);
+ assert.equal(review(),before);
+ // Video not loaded yet (file:// first paint): the deep link waits for loadedmetadata.
+ const slow=boot({location:{hash:'#frame='+target}},g=>{g('video').readyState=0;});
+ assert.notEqual(slow.run('pendingSeek'),null);slow.g('video').readyState=1;slow.g('video').handlers.loadedmetadata();
+ assert.equal(slow.run('frame'),target);
+}
 get('export').click();
 (async()=>{const exported=JSON.parse(await download.text());assert.equal(exported.package_id,payload.report.package_id);assert.equal(exported.corrections[0].shot_type,'not_a_shot');
  // Missing frames must clear current balls/players rather than reuse last state.
