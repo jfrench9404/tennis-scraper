@@ -1012,7 +1012,8 @@ def source_manifest_pointer(manifest: dict[str, Any], start: int, frames: int, s
     their ``source_run``/``input_run``) reads ``longrun-manifest.json`` of the run folder
     and needs ``input.sha256`` plus a matching ``selection``. This file carries the
     source run's input/settings/models/code unchanged, the selection of the rows written
-    here, NO chunks (nothing here is resumable), and this pass's own fingerprint, so
+    here, NO "chunks" key (nothing is resumable; run_status reports it as not a readable
+    long-run manifest instead of "merge pending"), and this pass's own fingerprint, so
     ``longrun`` refuses to resume into the folder (its computed fingerprint differs).
     """
     info = (manifest or {}).get("input") or {}
@@ -1022,7 +1023,7 @@ def source_manifest_pointer(manifest: dict[str, Any], start: int, frames: int, s
             "selection": {"source_start_frame": start, "source_end_frame_exclusive": start + frames,
                           "frames": frames},
             "settings": manifest.get("settings"), "models": manifest.get("models"), "code": manifest.get("code"),
-            "device": manifest.get("device"), "chunks": [],
+            "device": manifest.get("device"),
             "derived": {"kind": "court_side_reassociation", "version": VERSION, "report": "reassociation.json",
                         "note": "Not a resumable long run: rows were re-associated offline from the source run.",
                         "source_run": str(source.resolve()), "source_fingerprint": manifest.get("fingerprint"),

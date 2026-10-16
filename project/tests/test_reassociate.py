@@ -376,8 +376,8 @@ class RunFolder(unittest.TestCase):
         self.assertEqual(json.loads((output / "summary.json").read_text())["frames"], 120)
         self.assertEqual(review_load_run(output)[1], START)
         pointer = json.loads((output / "longrun-manifest.json").read_text())  # derived, not resumable
-        self.assertEqual((pointer["selection"]["frames"], pointer["input"]["sha256"], pointer["chunks"]),
-                         (120, "abc", []))
+        self.assertEqual((pointer["selection"]["frames"], pointer["input"]["sha256"]), (120, "abc"))
+        self.assertNotIn("chunks", pointer)
 
 
 # ----------------------------------------------------------------------------- clothing colour (--video)
@@ -585,7 +585,9 @@ class SourceManifestPointer(unittest.TestCase):
             self.assertEqual(pointer["derived"]["source_fingerprint"], manifest["fingerprint"])
             self.assertEqual(pointer["derived"]["source_run"], str(source.resolve()))
             self.assertEqual(pointer["fingerprint"], report["fingerprint"])
-            self.assertEqual(pointer["chunks"], [])
+            self.assertNotIn("chunks", pointer)  # never looks resumable
+            from tennis_vision.run_status import status
+            self.assertNotIn("merge pending", status(output)["state"])
             # longrun would refuse to resume into this folder: its computed fingerprint differs.
             self.assertNotEqual(longrun.fingerprint(pointer), pointer["fingerprint"])
             self.assertEqual(report["source_manifest_pointer"], "longrun-manifest.json")
