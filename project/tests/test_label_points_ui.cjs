@@ -179,7 +179,7 @@ press('s'); assert.match(notice(), /Name both players/);
 typeName('playerAName', 'Alice'); typeName('playerBName', 'Alice');
 press('['); assert.match(notice(), /two different names/);
 typeName('playerBName', 'Bob');
-assert.equal(get('sides').children.slice(0, 2).map(c => c.textContent).join('|'), 'Near: Alice|Far: Bob');
+assert.equal(get('sides').children.slice(0, 2).map(c => c.textContent).join('|'), 'Near: Alice| · Far: Bob');
 
 // ---- points: start/server, end/winner (by name), score text
 press(']'); assert.match(notice(), /No open point/);
@@ -203,7 +203,7 @@ goto(START + 50); press('['); assert.match(notice(), /inside point/);
 // Overlap on the way out: a point started before an existing one cannot end inside it.
 // Changeover: S swaps sides (undoable); the next point records Bob as near.
 press('s'); assert.match(notice(), /near is now Bob, far is Alice/);
-assert.equal(get('sides').children.slice(0, 2).map(c => c.textContent).join('|'), 'Near: Bob|Far: Alice');
+assert.equal(get('sides').children.slice(0, 2).map(c => c.textContent).join('|'), 'Near: Bob| · Far: Alice');
 press('z'); assert.equal(run('L.nearPlayer'), 'player_a'); press('S'); assert.equal(run('L.nearPlayer'), 'player_b');
 goto(START + 101); press('['); press('u'); goto(START + 150); press(']'); press('n');
 assert.equal(L().points[1].server, 'unknown');

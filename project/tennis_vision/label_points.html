@@ -279,7 +279,7 @@ function renderHint(){const sf=srcNow(),here=candidates.filter(c=>Math.abs(c.sou
  if(here.length)$('hint').textContent=`Machine candidate near this frame (unconfirmed hint, not a label): ${here.map(c=>`${candidateText(c)} at ${c.source_frame}`).join('; ')}. Label only what you see.`;}
 function renderSides(){const el=$('sides');if(!namesReady()){el.className='missing';el.textContent='Players not named yet: name Player A and Player B (right) before labelling points.';return;}
  $('playersPanel').className='panel';const near=L.open.point?L.open.point.near_player:L.nearPlayer;el.className='';
- el.replaceChildren(...[['near',`Near: ${playerName(near)}`],['far',`Far: ${playerName(otherPlayer(near))}`]].map(([c,t])=>{const s=document.createElement('span');s.className=c;s.textContent=t;return s;}));
+ el.replaceChildren(...[['near',`Near: ${playerName(near)}`],['far',` · Far: ${playerName(otherPlayer(near))}`]].map(([c,t])=>{const s=document.createElement('span');s.className=c;s.textContent=t;return s;}));
  el.append(L.open.point?' · this point (sides fixed until it ends)':' · S swaps at a changeover');}
 function render(){const rf=runFrame();renderSides();$('readout').textContent=`source frame ${rf+START} · run frame ${rf}/${N-1} · ${(rf/fps).toFixed(2)}s`;
  $('play').textContent=video.paused===false?'Pause':'Play';renderLists();renderEditor();renderHint();drawTimeline();}
