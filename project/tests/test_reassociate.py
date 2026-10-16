@@ -16,7 +16,8 @@ from tennis_vision import longrun
 from tennis_vision.compare_runs import compare
 from tennis_vision.court import CourtMapper
 from tennis_vision.event_review import load_run as review_load_run
-from tennis_vision.reassociate import (DEFAULTS, build_tracklets, load_source, main as reassociate_main,
+from tennis_vision.reassociate import (DEFAULTS, build_tracklets, colour_regions, load_source,
+                                       main as reassociate_main,
                                        observations, reassociate, write_run)
 from tennis_vision.segments import load_run as segments_load_run
 
@@ -65,7 +66,7 @@ def lerp(a, b, t):
     return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]
 
 
-def make_rows(frames, people, original=None, extra_tracks=None):
+def make_rows(frames, people, original=None, extra_tracks=None, start=START):
     """people(f) -> {name: (x, y) or (x, y, kwargs)}; original(f, cands) -> {identity: name}."""
     rows = []
     for f in range(frames):
@@ -78,15 +79,15 @@ def make_rows(frames, people, original=None, extra_tracks=None):
                   for i, (identity, name) in enumerate((original(f) if original else {}).items()) if name in named]
         tracks += (extra_tracks(f, tracks) if extra_tracks else [])
         rows.append({"frame": f, "time_s": round(f / FPS, 4), "tracks": tracks, "events": [],
-                     "filters": {"off_court_players": 0}, "source_frame": START + f,
+                     "filters": {"off_court_players": 0}, "source_frame": start + f,
                      "detail": {"crop_passes": 2, "candidates": cands, "scene": {"players_unselected": 0}}})
     return rows
 
 
-def write_source(folder, rows):
+def write_source(folder, rows, start=START):
     folder.mkdir(parents=True)
-    (folder / "source-offset.json").write_text(json.dumps({"source_start_frame": START,
-                                                           "source_start_seconds": START / FPS}))
+    (folder / "source-offset.json").write_text(json.dumps({"source_start_frame": start,
+                                                           "source_start_seconds": start / FPS}))
     (folder / "summary.json").write_text(json.dumps({"input": "synthetic.mp4", "frames": len(rows), "fps": FPS,
                                                      "width": 1280, "height": 720, "events": 0}))
     (folder / "shots.json").write_text(json.dumps({"contacts": [], "bounces": [], "shots": []}))
@@ -98,11 +99,11 @@ def write_source(folder, rows):
     return court
 
 
-def run(rows, **settings):
-    loaded = {"run": Path("synthetic"), "rows": rows, "fps": FPS, "source_start_frame": START, "partial": False,
+def run(rows, colour=None, start=START, **settings):
+    loaded = {"run": Path("synthetic"), "rows": rows, "fps": FPS, "source_start_frame": start, "partial": False,
               "source": "merged", "selection_frames": len(rows), "manifest": None, "court": COURT,
               "court_basis": "test", "court_corners": CORNERS, "rows_sha256": "0"}
-    return reassociate(loaded, settings)
+    return reassociate(loaded, settings, colour)
 
 
 def players(row):
@@ -375,6 +376,160 @@ class RunFolder(unittest.TestCase):
         self.assertEqual(json.loads((output / "summary.json").read_text())["frames"], 120)
         self.assertEqual(review_load_run(output)[1], START)
         self.assertFalse((output / "longrun-manifest.json").exists())
+
+
+# ----------------------------------------------------------------------------- clothing colour (--video)
+
+RED, BLUE, BLACK, WHITE = (30, 30, 200), (200, 60, 30), (20, 20, 20), (235, 235, 235)
+
+
+def draw_frame(people, f, clothes):
+    """A synthetic 1280x720 BGR frame: green court, each person's torso/shorts in their colours."""
+    image = np.full((720, 1280, 3), (60, 120, 60), np.uint8)
+    # Farther people first, so nearer people occlude them as in the real camera view.
+    for name, spec in sorted(people(f).items(), key=lambda item: -item[1][1]):
+        c = candidate(*spec[:2], **(spec[2] if len(spec) > 2 else {}))
+        x1, y1, x2, y2 = (int(round(v)) for v in c["bbox"])
+        image[max(0, y1):y2, max(0, x1):x2] = (140, 150, 160)
+        shirt, shorts = clothes[name.rstrip("0123456789")]
+        h = y2 - y1
+        image[max(0, y1 + int(.15 * h)):y1 + int(.52 * h), max(0, x1):x2] = shirt
+        image[max(0, y1 + int(.52 * h)):y1 + int(.76 * h), max(0, x1):x2] = shorts
+    return image
+
+
+def synthetic_reader(people, clothes, start=START, log=None):
+    def read(needed):
+        for source_frame in needed:
+            if log is not None:
+                log.append(source_frame)
+            yield source_frame, draw_frame(people, source_frame - start, clothes)
+    return read
+
+
+def absence_changeover(f):
+    """A near / B far; 5 s with nobody detected; then A far / B near (geometry alone: unknown)."""
+    if f < 60:
+        return {"A": (3, -1), "B": (8, 25)}
+    if f < 210:
+        return {}
+    return {"A": (3, 25), "B": (8, -1)}
+
+
+class ClothingColour(unittest.TestCase):
+    def test_colour_resolves_an_otherwise_unknown_changeover(self):
+        rows = make_rows(270, absence_changeover)
+        decoded = []
+        reader = synthetic_reader(absence_changeover, {"A": (RED, BLACK), "B": (BLUE, WHITE)}, log=decoded)
+        result = run(rows, colour={"frames": reader, "video": {"path": "synthetic"}})
+        late = players(result["rows"][250])
+        self.assertEqual((late["far"]["person_id"], late["near"]["person_id"]), ("player_a", "player_b"))
+        self.assertEqual({t["person_evidence"] for t in late.values()}, {"clothing_colour"})
+        self.assertNotIn("person_evidence", players(result["rows"][10])["near"])  # seed: continuity, not colour
+        report = result["report"]
+        self.assertEqual(len(report["colour"]["links"]), 2)
+        self.assertGreater(report["colour"]["reference_separation"], .5)
+        after = [s for s in report["stretches"] if s["source_start_frame"] >= START + 210]
+        self.assertEqual(sorted((s["person"], s["side"]) for s in after), [("player_a", "far"), ("player_b", "near")])
+        for s in after:
+            self.assertIn("linked by clothing colour", s["basis"])
+            self.assertIn("side changed", s["basis"])
+            self.assertLess(s["colour_evidence"]["distance"], s["colour_evidence"]["other_distance"])
+        # Only sampled frames were decoded (<= 8 per tracklet), in order, never all 270.
+        self.assertEqual(decoded, sorted(set(decoded)))
+        self.assertLessEqual(len(decoded), 8 * report["tracklets"]["eligible"])
+        # Colour only labels persons: boxes are exactly the geometry-only ones.
+        plain = run(make_rows(270, absence_changeover))["rows"]
+        for a, b in zip(plain, result["rows"]):
+            self.assertEqual([(t["identity_id"], t["bbox"]) for t in a["tracks"]],
+                             [(t["identity_id"], t["bbox"]) for t in b["tracks"]])
+
+    def test_colour_resolves_an_ambiguous_crossing(self):
+        # Hidden 0.8 s, reappearing on swapped sides: geometry alone cannot tell (any start is in reach).
+        def people(f):
+            if f < 60:
+                return {"A": (2.0, 10.0), "B": (9.0, 13.5)}
+            if f < 84:
+                return {}
+            return {"B2": (8.5, 10.2), "A2": (2.5, 13.8)}
+        self.assertEqual({t["person_id"] for t in players(run(make_rows(150, people))["rows"][120]).values()},
+                         {"unknown"})
+        reader = synthetic_reader(people, {"A": (RED, BLACK), "B": (BLUE, WHITE)})
+        late = players(run(make_rows(150, people), colour={"frames": reader})["rows"][120])
+        self.assertEqual((late["near"]["person_id"], late["far"]["person_id"]), ("player_b", "player_a"))
+
+    def test_similar_clothes_stay_unknown(self):
+        reader = synthetic_reader(absence_changeover, {"A": (RED, BLACK), "B": (RED, BLACK)})
+        result = run(make_rows(270, absence_changeover), colour={"frames": reader})
+        late = players(result["rows"][250])
+        self.assertEqual({t["person_id"] for t in late.values()}, {"unknown"})
+        self.assertEqual(result["report"]["colour"]["links"], [])
+        after = [s for s in result["report"]["stretches"] if s["source_start_frame"] >= START + 210]
+        self.assertEqual(len(after), 2)
+        for s in after:
+            self.assertEqual(s["person"], "unknown")
+            self.assertIn("clothing colour inconclusive", s["basis"])
+            self.assertIn("too similar", s["colour_evidence"]["reason"])
+
+    def test_new_clothes_after_the_break_are_not_forced(self):
+        # Seed players differ, but the people after the break wear colours matching neither.
+        def renamed(f):
+            return {("C" if n == "A" else "D") if f >= 210 else n: p for n, p in absence_changeover(f).items()}
+        reader = synthetic_reader(renamed, {"A": (RED, BLACK), "B": (BLUE, WHITE),
+                                            "C": ((30, 200, 200), (90, 30, 120)),
+                                            "D": ((200, 30, 200), (30, 140, 230))})
+        result = run(make_rows(270, absence_changeover), colour={"frames": reader})
+        self.assertEqual({t["person_id"] for t in players(result["rows"][250]).values()}, {"unknown"})
+        self.assertEqual(result["report"]["colour"]["links"], [])
+
+    def test_regions_follow_saved_keypoints(self):
+        c = candidate(5, 0)
+        regions = colour_regions(c)
+        x1, y1, x2, y2 = c["bbox"]
+        for a, b, c_, d in regions.values():
+            self.assertTrue(x1 - 2 <= a < c_ <= x2 + 2 and y1 - 2 <= b < d <= y2 + 2)
+        self.assertLess(regions["torso"][3], regions["shorts"][3])
+        self.assertEqual(set(colour_regions(dict(c, keypoints=None))), {"torso", "shorts"})
+
+    def test_cli_with_tiny_video_and_without_video_unchanged(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            rows = make_rows(270, absence_changeover, start=0)
+            court = write_source(root / "runs" / "source", rows, start=0)
+            video = root / "source.avi"
+            writer = cv2.VideoWriter(str(video), cv2.VideoWriter_fourcc(*"MJPG"), FPS, (1280, 720))
+            if not writer.isOpened():
+                self.skipTest("cv2.VideoWriter MJPG unavailable")
+            clothes = {"A": (RED, BLACK), "B": (BLUE, WHITE)}
+            for f in range(270):
+                writer.write(draw_frame(absence_changeover, f, clothes))
+            writer.release()
+            source = root / "runs" / "source"
+            plain, coloured = root / "runs" / "plain", root / "runs" / "coloured"
+            with contextlib.redirect_stdout(io.StringIO()):
+                reassociate_main(["--run", str(source), "--output", str(plain), "--court", str(court)])
+                reassociate_main(["--run", str(source), "--output", str(coloured), "--court", str(court),
+                                  "--video", str(video)])
+            # Without --video: exactly the geometry-only computation, no colour fields anywhere.
+            expected = "".join(json.dumps(r) + "\n" for r in run(rows, start=0)["rows"])
+            self.assertEqual((plain / "events.jsonl").read_text(), expected)
+            plain_report = json.loads((plain / "reassociation.json").read_text())
+            self.assertNotIn("colour", plain_report)
+            self.assertNotIn("person_evidence", expected)
+            report = json.loads((coloured / "reassociation.json").read_text())
+            self.assertEqual(report["colour"]["video"]["sha256"], longrun.file_sha256(video))
+            self.assertNotEqual(report["fingerprint"], plain_report["fingerprint"])
+            late = [json.loads(line) for line in (coloured / "events.jsonl").read_text().splitlines()][250]
+            self.assertEqual((players(late)["far"]["person_id"], players(late)["near"]["person_id"]),
+                             ("player_a", "player_b"))
+            # A video of another size cannot be this run's input: refused.
+            small = root / "small.avi"
+            writer = cv2.VideoWriter(str(small), cv2.VideoWriter_fourcc(*"MJPG"), FPS, (320, 180))
+            writer.write(np.zeros((180, 320, 3), np.uint8))
+            writer.release()
+            with self.assertRaises(SystemExit):
+                reassociate_main(["--run", str(source), "--output", str(root / "runs" / "bad"),
+                                  "--court", str(court), "--video", str(small)])
 
 
 if __name__ == "__main__":

@@ -23,12 +23,18 @@ Roles (decided by John, 2026-10-06):
   have moved from where one tracklet ended to where the next began. Anything
   else, including "the other player by elimination", leaves the person
   ``unknown`` (the elimination is recorded as a low-confidence proposal for John).
+* Optional ``--video`` (John, 2026-10-16): clothing colour of the SAVED candidate
+  boxes (torso/shorts HSV histograms, CPU decode of only the sampled frames, no
+  model) is extra evidence for linking a person across a gap. It only labels
+  persons, never adds or moves a box, skips occluded candidates, and leaves the
+  person ``unknown`` when colour is ambiguous. Without ``--video`` the output is
+  exactly the geometry-only result.
 * Break proposals from ``segments.py`` (#24) are attached to stretches as
   timing context only; timing alone never links a person.
 
 Everything written here is an estimate from detector output, not ground truth.
-Coverage counts are not accuracy. Thresholds are proposals for John (see
-DEFAULTS); the chosen values are recorded in ``reassociation.json``.
+Coverage counts are not accuracy. Thresholds: DEFAULTS were decided by John
+(2026-10-16); COLOUR_DEFAULTS are proposals. Values used go in ``reassociation.json``.
 """
 import argparse
 import hashlib
@@ -53,7 +59,7 @@ NET_Y = 11.885
 COURT_W, COURT_L = 10.97, 23.77
 SIDES = ("near", "far")
 PERSONS = ("player_a", "player_b")
-# Proposed defaults; the changeover/absence thresholds and court margins are John's decision.
+# Thresholds decided by John on 2026-10-16 (approved as proposed in PR #41).
 DEFAULTS = {
     "side_margin_m": 1.5,          # beyond the doubles sidelines (same as the live run)
     "baseline_margin_m": 6.0,      # behind the baselines (same as the live run)
@@ -394,7 +400,8 @@ def stretches(roles, tracklets, people, links, fps, settings, start, proposals) 
             raw.append(current)
     raw.sort(key=lambda s: (s["frames"][0][0], s["side"]))
     link_by_to = {link["to_tracklet"]: link for link in links}
-    out, last_of = [], {}
+    out, last_of, seen_roots = [], {}, set()
+    colour_links, colour_unresolved = people.get("colour_links", {}), people.get("colour_unresolved", {})
     context = settings["break_context_seconds"] * fps
     for s in raw:
         root, first, last = s["root"], s["frames"][0][0], s["frames"][-1][0]
@@ -415,11 +422,23 @@ def stretches(roles, tracklets, people, links, fps, settings, start, proposals) 
                 item["proposal_confidence"] = "low"
                 item["basis"] += (f"; by elimination it could be {proposal} (only the other player was seen "
                                   "meanwhile) - low confidence, needs John's confirmation")
+            if root in colour_unresolved:
+                evidence = colour_unresolved[root]
+                item["colour_evidence"] = evidence
+                item["basis"] += f"; clothing colour inconclusive ({evidence['reason']})"
         else:
             previous = last_of.get(person)
             if previous is None:
                 item["basis"] = (f"seed: {person} first held a side; first frame with both sides held by different "
                                  f"tracked people is source frame {start + people['seed_frame']}")
+            elif root in colour_links and root not in seen_roots:
+                evidence = colour_links[root]
+                item["colour_evidence"] = evidence
+                item["basis"] = (f"linked by clothing colour of saved candidates (torso/shorts HSV, Bhattacharyya): "
+                                 f"distance {evidence['distance']} to {person} vs {evidence['other_distance']} to "
+                                 f"{evidence['other_person']} ({evidence['samples']} samples)")
+                if previous["side"] != s["side"]:
+                    item["basis"] += "; side changed"
             elif previous["tracklets"][-1] == s["tracklets"][0]:
                 item["basis"] = ("walk across the net observed: one continuous tracklet"
                                  if previous["side"] != s["side"] else "same continuous tracklet after a role gap")
@@ -438,9 +457,242 @@ def stretches(roles, tracklets, people, links, fps, settings, start, proposals) 
         if near_breaks:
             item["break_proposals"] = near_breaks
         out.append(item)
+        seen_roots.add(root)
         if person != "unknown" and root not in people["conflict"]:
             last_of[person] = s
     return out
+
+
+# ----------------------------------------------------------------------------- clothing colour (optional)
+
+# Proposed defaults for the optional --video colour evidence (John approved the
+# approach on 2026-10-16; the values themselves are proposals).
+COLOUR_DEFAULTS = {
+    "colour_samples": 8,            # observations sampled per tracklet (evenly spread, pose preferred)
+    "colour_max_distance": .6,      # Bhattacharyya distance to the matched player's seed colour (cf. cached_identity)
+    "colour_margin": .2,            # matched player must be this much closer than the other one,
+                                    # and the two seed players must differ by at least this much
+}
+COLOUR_MEANING = ("Clothing colour (HSV histograms of the torso and shorts regions of SAVED candidate boxes/keypoints, "
+                  "decoded from the source video on the CPU; no model) used only to link anonymous persons across gaps. "
+                  "It never adds or moves a box. Ambiguous colour leaves the person 'unknown'.")
+HIST_BINS = [8, 4, 4]
+
+
+def colour_regions(c: dict[str, Any]) -> dict[str, tuple[int, int, int, int]]:
+    """Torso and shorts pixel boxes of a saved candidate (keypoints when confident, else box fractions)."""
+    x1, y1, x2, y2 = c["bbox"]
+    w, h = x2 - x1, y2 - y1
+    joints = c.get("keypoints") or {}
+    get = lambda name: joints.get(name) if joints.get(name) and joints[name][2] >= .3 else None
+    shoulders = [p for p in (get("left_shoulder"), get("right_shoulder")) if p]
+    hips = [p for p in (get("left_hip"), get("right_hip")) if p]
+    knees = [p for p in (get("left_knee"), get("right_knee")) if p]
+    if len(shoulders) == 2 and len(hips) == 2:
+        xs = [p[0] for p in shoulders + hips]
+        left, right = min(xs), max(xs)
+        inset = .15 * (right - left)
+        top, bottom = min(p[1] for p in shoulders), max(p[1] for p in hips)
+        torso = (left + inset, top + .1 * (bottom - top), right - inset, bottom)
+        hip_y = sum(p[1] for p in hips) / 2
+        knee_y = sum(p[1] for p in knees) / 2 if len(knees) == 2 else hip_y + .2 * h
+        shorts = (left + inset, hip_y, right - inset, hip_y + .5 * max(1., knee_y - hip_y))
+    else:  # same central torso crop as scene.appearance, plus a shorts band
+        torso = (x1 + .25 * w, y1 + .22 * h, x2 - .25 * w, y1 + .5 * h)
+        shorts = (x1 + .25 * w, y1 + .5 * h, x2 - .25 * w, y1 + .65 * h)
+    out = {}
+    for name, (a, b, c_, d) in (("torso", torso), ("shorts", shorts)):
+        a, b, c_, d = int(math.floor(a)), int(math.floor(b)), int(math.ceil(c_)), int(math.ceil(d))
+        if c_ - a < 2:
+            a, c_ = a - 1, a + 2
+        if d - b < 2:
+            b, d = b - 1, b + 2
+        out[name] = (a, b, c_, d)
+    return out
+
+
+def colour_descriptor(image: np.ndarray, c: dict[str, Any]) -> dict[str, np.ndarray | None]:
+    import cv2
+    out = {}
+    for name, (a, b, c_, d) in colour_regions(c).items():
+        crop = image[max(0, b):min(image.shape[0], d), max(0, a):min(image.shape[1], c_)]
+        if crop.size == 0:
+            out[name] = None
+            continue
+        hsv = cv2.cvtColor(crop, cv2.COLOR_BGR2HSV)
+        hist = cv2.calcHist([hsv], [0, 1, 2], None, HIST_BINS, [0, 180, 0, 256, 0, 256]).flatten()
+        out[name] = (hist / max(float(hist.sum()), 1.)).astype(np.float32)
+    return out
+
+
+def colour_distance(a: dict[str, Any] | None, b: dict[str, Any] | None) -> float | None:
+    """Mean Bhattacharyya distance over the parts both descriptors have (0 same .. 1 disjoint)."""
+    import cv2
+    if not a or not b:
+        return None
+    parts = [cv2.compareHist(a[k], b[k], cv2.HISTCMP_BHATTACHARYYA) for k in ("torso", "shorts")
+             if a.get(k) is not None and b.get(k) is not None]
+    return float(sum(parts) / len(parts)) if parts else None
+
+
+def _occluded(row: dict[str, Any], index: int, fraction: float = .1) -> bool:
+    """True if another saved person box covers more than ``fraction`` of this candidate's box."""
+    candidates = (row.get("detail") or {}).get("candidates") or []
+    a = candidates[index]["bbox"]
+    area = max(1e-9, (a[2] - a[0]) * (a[3] - a[1]))
+    for j, other in enumerate(candidates):
+        if j == index or not valid_candidate(other):
+            continue
+        b = other["bbox"]
+        inter = max(0., min(a[2], b[2]) - max(a[0], b[0])) * max(0., min(a[3], b[3]) - max(a[1], b[1]))
+        if inter / area > fraction:
+            return True
+    return False
+
+
+def tracklet_colours(tracklets, rows, start, reader, colour_settings) -> int:
+    """Sample saved candidates of each usable tracklet; decode only the frames needed."""
+    plan: dict[int, list[tuple[int, int]]] = {}
+    n = int(colour_settings["colour_samples"])
+    for t in tracklets:
+        t["colour"] = None
+        if not t["eligible"] or n <= 0:
+            continue
+        # Only unoccluded observations: another person's box over this one would mix their colours.
+        clear = [k for k in range(len(t["frames"])) if not _occluded(rows[t["frames"][k]], t["obs"][k]["index"])]
+        posed = [k for k in clear if t["obs"][k]["pose"]] or clear
+        if not posed:
+            continue
+        picks = sorted({posed[round(i * (len(posed) - 1) / max(1, n - 1))] for i in range(min(n, len(posed)))})
+        for k in picks:
+            plan.setdefault(start + t["frames"][k], []).append((t["id"], k))
+    samples: dict[int, list[dict]] = {}
+    for source_frame, image in reader(sorted(plan)):
+        for tid, k in plan.get(source_frame, []):
+            t = tracklets[tid]
+            c = rows[t["frames"][k]]["detail"]["candidates"][t["obs"][k]["index"]]
+            samples.setdefault(tid, []).append(colour_descriptor(image, c))
+    for tid, items in samples.items():
+        tracklets[tid]["colour"] = _mean_descriptor(items)
+    return len(plan)
+
+
+def _mean_descriptor(items: list[dict], weights: list[int] | None = None) -> dict[str, Any] | None:
+    weights = weights or [d.get("samples", 1) for d in items]
+    out: dict[str, Any] = {"samples": 0}
+    for part in ("torso", "shorts"):
+        found = [(d[part], w) for d, w in zip(items, weights) if d.get(part) is not None]
+        out[part] = (sum(h * w for h, w in found) / sum(w for _, w in found)).astype(np.float32) if found else None
+    out["samples"] = int(sum(weights))
+    return out if out["torso"] is not None or out["shorts"] is not None else None
+
+
+def colour_links(tracklets, people, colour_settings) -> dict[str, Any]:
+    """Label unknown person groups as player_a/player_b only when colour clearly says so.
+
+    References are the SEED groups only (no drift). A group is linked when it is close
+    to one player's seed colour, clearly closer than to the other, the two players are
+    distinguishable, and the link contradicts no observation (same person seen twice at
+    once). Otherwise it stays 'unknown' and the evidence is recorded.
+    """
+    label, groups, conflict = people["label"], people["groups"], people["conflict"]
+    names = people["group_names"]
+    colour_of = {root: _mean_descriptor([tracklets[m]["colour"] for m in members if tracklets[m]["colour"]])
+                 for root, members in groups.items()
+                 if any(tracklets[m]["colour"] for m in members)}
+    seeds = {person: root for root, person in label.items()}
+    report: dict[str, Any] = {"links": [], "unresolved": [], "reference_separation": None}
+    people["colour_links"], people["colour_unresolved"] = {}, {}
+    if len(seeds) != 2 or any(seeds[p] not in colour_of for p in PERSONS):
+        report["note"] = "no colour reference for both seed players; colour not used"
+        return report
+    reference = {p: colour_of[seeds[p]] for p in PERSONS}
+    separation = colour_distance(reference["player_a"], reference["player_b"])
+    report["reference_separation"] = None if separation is None else round(separation, 4)
+    spans = {root: [(tracklets[m]["frames"][0], tracklets[m]["frames"][-1]) for m in members]
+             for root, members in groups.items()}
+    overlaps = lambda r1, r2: any(a[0] <= b[1] and b[0] <= a[1] for a in spans[r1] for b in spans[r2])
+    proposed = {}
+    for root in sorted(groups, key=lambda r: names[r]):
+        if root in label or root in conflict:
+            continue
+        desc = colour_of.get(root)
+        if desc is None:
+            continue
+        d = {p: colour_distance(desc, reference[p]) for p in PERSONS}
+        if None in d.values():
+            continue
+        best = min(PERSONS, key=lambda p: d[p])
+        other = next(p for p in PERSONS if p != best)
+        evidence = {"group": names[root], "samples": desc["samples"], "distance": round(d[best], 4),
+                    "other_distance": round(d[other], 4), "closest_person": best, "other_person": other}
+        if separation is None or separation < colour_settings["colour_margin"]:
+            reason = ("the two players' seed colours are too similar"
+                      + ("" if separation is None else f" (distance {separation:.3f})"))
+        elif d[best] > colour_settings["colour_max_distance"]:
+            reason = f"closest seed colour ({best}) is {d[best]:.3f} away, above {colour_settings['colour_max_distance']}"
+        elif d[other] - d[best] < colour_settings["colour_margin"]:
+            reason = f"{best} {d[best]:.3f} vs {other} {d[other]:.3f}: margin below {colour_settings['colour_margin']}"
+        elif any(label.get(r) == best and overlaps(root, r) for r in groups):
+            reason = f"{best} is observed elsewhere at the same time"
+        else:
+            proposed[root] = (best, evidence)
+            continue
+        evidence["reason"] = reason
+        people["colour_unresolved"][root] = evidence
+    # Two groups seen at the same time cannot both be the same person.
+    for root, (person, evidence) in list(proposed.items()):
+        if any(r != root and p == person and overlaps(root, r) for r, (p, _) in proposed.items()):
+            evidence["reason"] = f"another group seen at the same time also matches {person}"
+            people["colour_unresolved"][root] = evidence
+    for root, (person, evidence) in proposed.items():
+        if root in people["colour_unresolved"]:
+            continue
+        label[root] = person
+        evidence["person"] = person
+        people["colour_links"][root] = evidence
+    report["links"] = list(people["colour_links"].values())
+    report["unresolved"] = list(people["colour_unresolved"].values())
+    return report
+
+
+def video_reader(path: Path, width: int | None = None, height: int | None = None, fps: float | None = None):
+    """Sequential CPU decode of only the requested source frames (grab skips the rest)."""
+    import cv2
+    path = Path(path)
+    cap = cv2.VideoCapture(str(path))
+    if not cap.isOpened():
+        raise ValueError(f"Cannot open video {path}")
+    info = {"frames": int(cap.get(cv2.CAP_PROP_FRAME_COUNT)), "fps": float(cap.get(cv2.CAP_PROP_FPS)),
+            "width": int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), "height": int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))}
+    cap.release()
+    if (width and info["width"] != width) or (height and info["height"] != height) \
+            or (fps and abs(info["fps"] - fps) > .01):
+        raise ValueError(f"{path}: {info['width']}x{info['height']} @ {info['fps']} fps does not match the run "
+                         f"({width}x{height} @ {fps} fps)")
+
+    def read(needed):
+        if needed and needed[-1] >= info["frames"]:
+            raise ValueError(f"{path} has {info['frames']} frames; the run needs source frame {needed[-1]}")
+        cap = cv2.VideoCapture(str(path))
+        try:
+            wanted, frame = iter(needed), 0
+            target = next(wanted, None)
+            while target is not None:
+                if frame < target:
+                    if not cap.grab():
+                        raise ValueError(f"{path}: decode failed at frame {frame}")
+                    frame += 1
+                    continue
+                ok, image = cap.read()
+                if not ok:
+                    raise ValueError(f"{path}: decode failed at frame {frame}")
+                yield frame, image
+                frame += 1
+                target = next(wanted, None)
+        finally:
+            cap.release()
+    return read, info
 
 
 # ----------------------------------------------------------------------------- rows
@@ -507,6 +759,8 @@ def rebuild_rows(rows, obs, tracklets, roles, people, court, settings):
                 new.update(person_id="unknown" if conflict else label.get(root, "unknown"),
                            person_group=people["group_names"][root], identity_basis=VERSION,
                            candidate_index=o["index"])
+                if not conflict and root in people.get("colour_links", {}):
+                    new["person_evidence"] = "clothing_colour"
                 players.append(new)
             old = original[side]
             if old and new:
@@ -574,8 +828,14 @@ def change_intervals(changes, start):
 
 # ----------------------------------------------------------------------------- run
 
-def reassociate(loaded: dict[str, Any], settings: dict[str, float] | None = None) -> dict[str, Any]:
-    """Pure computation: new rows plus the report (nothing written)."""
+def reassociate(loaded: dict[str, Any], settings: dict[str, float] | None = None,
+                colour: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Pure computation: new rows plus the report (nothing written).
+
+    ``colour`` (optional): {"frames": reader, "settings": {...}, "video": {...}} where
+    ``reader(sorted_source_frames)`` yields (source_frame, BGR image). Without it the
+    result is exactly the geometry-only result.
+    """
     from .compare_runs import frame_stats
     from .segments import propose
     settings = {**DEFAULTS, **(settings or {})}
@@ -589,6 +849,17 @@ def reassociate(loaded: dict[str, Any], settings: dict[str, float] | None = None
     roles = assign_sides(tracklets, len(rows), fps, settings)
     links = gap_links(tracklets, fps, settings)
     people = persons(tracklets, roles, links)
+    colour_report = None
+    if colour is not None:
+        colour_settings = {**COLOUR_DEFAULTS, **(colour.get("settings") or {})}
+        for key, value in colour_settings.items():
+            if not (isinstance(value, (int, float)) and math.isfinite(value) and value >= 0):
+                raise ValueError(f"{key} must be a finite number >= 0")
+        sampled = tracklet_colours(tracklets, rows, start, colour["frames"], colour_settings)
+        colour_report = colour_links(tracklets, people, colour_settings)
+        colour_report.update(settings=colour_settings, video=colour.get("video"), sampled_frames=sampled,
+                             tracklets_with_colour=sum(t.get("colour") is not None for t in tracklets),
+                             meaning=COLOUR_MEANING)
     new_rows, changes, track_ids, racket_changes, predicted_dropped = rebuild_rows(
         rows, obs, tracklets, roles, people, court, settings)
     breaks = propose({"run": "reassociated rows", "source": "reassociated", "partial": loaded["partial"],
@@ -644,6 +915,8 @@ def reassociate(loaded: dict[str, Any], settings: dict[str, float] | None = None
         "person_frames": person_frames,
         "coverage": {**coverage, "meaning": "Observation coverage over all rows. Not accuracy; no ground truth used."},
     }
+    if colour_report is not None:
+        report["colour"] = colour_report
     return {"rows": new_rows, "report": report}
 
 
@@ -706,9 +979,12 @@ def write_run(loaded: dict[str, Any], result: dict[str, Any], output: Path) -> d
                        "court_basis": loaded["court_basis"], "court_image_corners": loaded["court_corners"]}
     if loaded.get("chunks"):
         source_identity["chunks"] = loaded["chunks"]
-    fingerprint = hashlib.sha256(json.dumps({"version": VERSION, "source": source_identity,
-                                             "settings": result["report"]["settings"], "code_sha256": code_sha},
-                                            sort_keys=True).encode()).hexdigest()
+    identity = {"version": VERSION, "source": source_identity, "settings": result["report"]["settings"],
+                "code_sha256": code_sha}
+    if "colour" in result["report"]:  # only with --video; without it the fingerprint is unchanged
+        identity["colour"] = {"settings": result["report"]["colour"]["settings"],
+                              "video": result["report"]["colour"]["video"]}
+    fingerprint = hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest()
     report = {"schema_version": 1, "kind": "court_side_reassociation", "version": VERSION,
               "fingerprint": fingerprint, "source_run": source_identity, "code_sha256": code_sha,
               "events_sha256": events_sha, "copied_unchanged": copied, **result["report"]}
@@ -725,7 +1001,30 @@ def parse_args(argv=None) -> argparse.Namespace:
                    help="auto: events.jsonl if present, else complete chunks/*/events.jsonl")
     for key, value in DEFAULTS.items():
         p.add_argument("--" + key.replace("_", "-"), type=float, default=value)
+    p.add_argument("--video", type=Path, help="Optional source video: adds clothing-colour evidence for person links "
+                   "(CPU decode of the needed frames only; no model). Without it the output is geometry-only")
+    for key, value in COLOUR_DEFAULTS.items():
+        p.add_argument("--" + key.replace("_", "-"), type=float, default=value, help="Only with --video")
     return p.parse_args(argv)
+
+
+def colour_input(video: Path, loaded: dict[str, Any], colour_settings: dict[str, float]) -> dict[str, Any]:
+    """Reader plus identity of the source video; refuses a video that is not the run's input."""
+    from .longrun import file_sha256
+    video = Path(video)
+    if not video.is_file():
+        raise FileNotFoundError(f"--video {video} does not exist")
+    summary_path = Path(loaded["run"]) / "summary.json"
+    summary = json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.is_file() else {}
+    info = (loaded["manifest"] or {}).get("input", {})
+    reader, probe = video_reader(video, info.get("width") or summary.get("width"),
+                                 info.get("height") or summary.get("height"), loaded["fps"])
+    sha = file_sha256(video)
+    if info.get("sha256") and info["sha256"] != sha:
+        raise ValueError(f"--video {video} is not this run's input (sha256 differs from longrun-manifest.json)")
+    return {"frames": reader, "settings": colour_settings,
+            "video": {"path": str(video), "sha256": sha, "frames": probe["frames"],
+                      "matches_run_input": bool(info.get("sha256")) or None}}
 
 
 def main(argv=None) -> None:
@@ -733,7 +1032,10 @@ def main(argv=None) -> None:
     settings = {key: getattr(args, key) for key in DEFAULTS}
     try:
         loaded = load_source(args.run, args.source, args.court)
-        result = reassociate(loaded, settings)
+        colour = None
+        if args.video is not None:
+            colour = colour_input(args.video, loaded, {key: getattr(args, key) for key in COLOUR_DEFAULTS})
+        result = reassociate(loaded, settings, colour)
         report = write_run(loaded, result, args.output)
     except (FileNotFoundError, ValueError) as error:
         raise SystemExit(str(error))
@@ -746,6 +1048,10 @@ def main(argv=None) -> None:
               f"{c['reassociated'].get(side + '_frames_6plus_joints', 0)}  {report['status_counts'][side]}")
     print(f"  {len(report['stretches'])} stretch(es); {len(report['low_confidence_proposals'])} low-confidence "
           f"person proposal(s) for review. Coverage, not accuracy.")
+    if "colour" in report:
+        c = report["colour"]
+        print(f"  clothing colour: {len(c['links'])} link(s), {len(c['unresolved'])} left unknown "
+              f"({c['sampled_frames']} frames decoded; seed separation {c['reference_separation']})")
 
 
 if __name__ == "__main__":
