@@ -4,7 +4,10 @@ Reads a finished run (``events.jsonl``) or the complete leading chunks of a long
 run, and writes a NEW run folder with the same contract (``events.jsonl``,
 ``summary.json``, ``source-offset.json``; ``shots.json``/``flight3d.json``/
 ``ball-model.json`` copied unchanged when present) so event review and the
-replay builder can read it. The source run is never modified.
+replay builder can read it. The source run is never modified. When the source
+is a long run, a DERIVED ``longrun-manifest.json`` (no chunks, own fingerprint,
+``derived.source_run``) points back to it so label scoring finds the source
+video's SHA-256 through reviews/replays built from this folder.
 
 Roles (decided by John, 2026-10-06):
 
@@ -33,8 +36,9 @@ Roles (decided by John, 2026-10-06):
   timing context only; timing alone never links a person.
 
 Everything written here is an estimate from detector output, not ground truth.
-Coverage counts are not accuracy. Thresholds: DEFAULTS were decided by John
-(2026-10-16); COLOUR_DEFAULTS are proposals. Values used go in ``reassociation.json``.
+Coverage counts are not accuracy. Thresholds: DEFAULTS and COLOUR_DEFAULTS were
+decided by John (2026-10-16; colour values are tunable starting values). Values
+used go in ``reassociation.json``.
 """
 import argparse
 import hashlib
@@ -465,8 +469,8 @@ def stretches(roles, tracklets, people, links, fps, settings, start, proposals) 
 
 # ----------------------------------------------------------------------------- clothing colour (optional)
 
-# Proposed defaults for the optional --video colour evidence (John approved the
-# approach on 2026-10-16; the values themselves are proposals).
+# Defaults for the optional --video colour evidence (John approved the
+# approach and these starting values on 2026-10-16; tunable after the real run).
 COLOUR_DEFAULTS = {
     "colour_samples": 8,            # observations sampled per tracklet (evenly spread, pose preferred)
     "colour_max_distance": .6,      # Bhattacharyya distance to the matched player's seed colour (cf. cached_identity)
@@ -988,8 +992,42 @@ def write_run(loaded: dict[str, Any], result: dict[str, Any], output: Path) -> d
     report = {"schema_version": 1, "kind": "court_side_reassociation", "version": VERSION,
               "fingerprint": fingerprint, "source_run": source_identity, "code_sha256": code_sha,
               "events_sha256": events_sha, "copied_unchanged": copied, **result["report"]}
+    pointer = source_manifest_pointer(manifest, start, len(rows), source, fingerprint)
+    if pointer is not None:
+        _save_json(output / "longrun-manifest.json", pointer)
+        report["source_manifest_pointer"] = "longrun-manifest.json"
+    else:
+        report["source_manifest_pointer"] = None
+        report["source_manifest_pointer_note"] = ("source run has no long-run manifest with input.sha256; label "
+                                                  "scoring will need --video to hash the source")
     _save_json(output / "reassociation.json", report)
     return report
+
+
+def source_manifest_pointer(manifest: dict[str, Any], start: int, frames: int, source: Path,
+                            fingerprint: str) -> dict[str, Any] | None:
+    """A DERIVED long-run manifest pointing back to the source run (John, 2026-10-16).
+
+    Label scoring (``score_labels._source_run_manifest``, used for reviews/replays via
+    their ``source_run``/``input_run``) reads ``longrun-manifest.json`` of the run folder
+    and needs ``input.sha256`` plus a matching ``selection``. This file carries the
+    source run's input/settings/models/code unchanged, the selection of the rows written
+    here, NO chunks (nothing here is resumable), and this pass's own fingerprint, so
+    ``longrun`` refuses to resume into the folder (its computed fingerprint differs).
+    """
+    info = (manifest or {}).get("input") or {}
+    if not info.get("sha256"):
+        return None
+    return {"version": manifest.get("version"), "input": info,
+            "selection": {"source_start_frame": start, "source_end_frame_exclusive": start + frames,
+                          "frames": frames},
+            "settings": manifest.get("settings"), "models": manifest.get("models"), "code": manifest.get("code"),
+            "device": manifest.get("device"), "chunks": [],
+            "derived": {"kind": "court_side_reassociation", "version": VERSION, "report": "reassociation.json",
+                        "note": "Not a resumable long run: rows were re-associated offline from the source run.",
+                        "source_run": str(source.resolve()), "source_fingerprint": manifest.get("fingerprint"),
+                        "source_selection": manifest.get("selection")},
+            "fingerprint": fingerprint}
 
 
 def parse_args(argv=None) -> argparse.Namespace:

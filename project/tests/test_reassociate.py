@@ -375,7 +375,9 @@ class RunFolder(unittest.TestCase):
         self.assertEqual(report["source_run"]["input_sha256"], "abc")
         self.assertEqual(json.loads((output / "summary.json").read_text())["frames"], 120)
         self.assertEqual(review_load_run(output)[1], START)
-        self.assertFalse((output / "longrun-manifest.json").exists())
+        pointer = json.loads((output / "longrun-manifest.json").read_text())  # derived, not resumable
+        self.assertEqual((pointer["selection"]["frames"], pointer["input"]["sha256"], pointer["chunks"]),
+                         (120, "abc", []))
 
 
 # ----------------------------------------------------------------------------- clothing colour (--video)
@@ -530,6 +532,113 @@ class ClothingColour(unittest.TestCase):
             with self.assertRaises(SystemExit):
                 reassociate_main(["--run", str(source), "--output", str(root / "runs" / "bad"),
                                   "--court", str(court), "--video", str(small)])
+
+
+# ----------------------------------------------------------------------------- source-manifest pointer
+
+class SourceManifestPointer(unittest.TestCase):
+    """John, 2026-10-16: label scoring must find the source video's SHA-256 through
+    reviews/replays built from a re-associated run (score_labels._source_run_manifest)."""
+
+    def make_longrun_source(self, root):
+        rows = walk_changeover()
+        rows = [dict(r, source_frame=r["frame"]) for r in rows]  # start 0: frames index the tiny video
+        source = root / "runs" / "claude-game-v1-full"
+        court = write_source(source, rows, start=0)
+        video = root / "media" / "source.avi"
+        video.parent.mkdir()
+        writer = cv2.VideoWriter(str(video), cv2.VideoWriter_fourcc(*"MJPG"), FPS, (1280, 720))
+        if not writer.isOpened():
+            self.skipTest("cv2.VideoWriter MJPG unavailable")
+        for f in range(len(rows)):
+            writer.write(np.full((720, 1280, 3), (60, 120, 60), np.uint8))
+        writer.release()
+        summary = json.loads((source / "summary.json").read_text())
+        summary["input"] = str(video)
+        (source / "summary.json").write_text(json.dumps(summary))
+        manifest = {"version": longrun.LONGRUN_VERSION,
+                    "input": {"path": str(video), "sha256": longrun.file_sha256(video), "fps": FPS,
+                              "frames": len(rows), "width": 1280, "height": 720},
+                    "selection": {"source_start_frame": 0, "source_end_frame_exclusive": len(rows),
+                                  "frames": len(rows)},
+                    "settings": {"chunk_frames": 120, "court": COURT_YAML}, "models": {}, "code": {},
+                    "device": "directml", "chunks": longrun.plan_chunks(0, len(rows), 120)}
+        manifest["fingerprint"] = longrun.fingerprint(manifest)
+        longrun.save_json(source / "longrun-manifest.json", manifest)
+        return source, court, video, manifest
+
+    def test_review_and_replay_of_reassociated_run_resolve_source_video_hash(self):
+        from tennis_vision import score_labels
+        from tennis_vision.event_review import build_review
+        from tennis_vision.labels import LabelsError, check_binding
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source, court, video, manifest = self.make_longrun_source(root)
+            before = self.digest(source)
+            output = root / "runs" / "claude-game-v1-reassociated"
+            with contextlib.redirect_stdout(io.StringIO()):
+                reassociate_main(["--run", str(source), "--output", str(output)])
+            self.assertEqual(self.digest(source), before)
+            pointer = json.loads((output / "longrun-manifest.json").read_text())
+            report = json.loads((output / "reassociation.json").read_text())
+            self.assertEqual(pointer["input"]["sha256"], manifest["input"]["sha256"])
+            self.assertEqual(pointer["derived"]["source_fingerprint"], manifest["fingerprint"])
+            self.assertEqual(pointer["derived"]["source_run"], str(source.resolve()))
+            self.assertEqual(pointer["fingerprint"], report["fingerprint"])
+            self.assertEqual(pointer["chunks"], [])
+            # longrun would refuse to resume into this folder: its computed fingerprint differs.
+            self.assertNotEqual(longrun.fingerprint(pointer), pointer["fingerprint"])
+            self.assertEqual(report["source_manifest_pointer"], "longrun-manifest.json")
+            # Downstream readers still use the merged rows.
+            self.assertEqual(segments_load_run(output)["source"], "merged")
+
+            # A real event review (data only: no FFmpeg) built from the re-associated run.
+            review = root / "runs" / "claude-game-v1-reassociated-review"
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                build_review(output, review, court, data_only=True)
+            loaded = score_labels.load_run(review)
+            self.assertEqual(loaded["source_video_sha256"], manifest["input"]["sha256"])
+            self.assertIn("claude-game-v1-reassociated", loaded["video_hash_basis"])
+            labels = {"binding": {"run_id": loaded["run_id"], "source_video_sha256": longrun.file_sha256(video),
+                                  "fps": FPS}}
+            check_binding(labels, loaded["run_id"], loaded["source_video_sha256"], loaded["fps"])
+            with self.assertRaises(LabelsError):
+                check_binding(dict(labels, binding=dict(labels["binding"], source_video_sha256="0" * 64)),
+                              loaded["run_id"], loaded["source_video_sha256"], loaded["fps"])
+
+            # A replay folder built from that review records input_run = the re-associated run.
+            replay = root / "runs" / "claude-game-v1-reassociated-replay"
+            replay.mkdir()
+            review_report = json.loads((review / "review-report.json").read_text())
+            (replay / "replay-report.json").write_text(json.dumps({
+                "review_run_id": review_report["run_id"], "input_run": str(output.resolve()),
+                "source_start_frame": 0, "frames": review_report["frames"], "fps": FPS}))
+            (replay / "reviewed-events.json").write_text(json.dumps({"run_id": review_report["run_id"],
+                                                                      "events": []}))
+            (replay / "build-status.json").write_text(json.dumps({"status": "complete"}))
+            self.assertEqual(score_labels.load_run(replay)["source_video_sha256"], manifest["input"]["sha256"])
+
+            # The re-associated run folder itself scores as a (derived) long run with its own id.
+            direct = score_labels.load_run(output)
+            self.assertEqual((direct["run_id"], direct["source_video_sha256"]),
+                             (report["fingerprint"], manifest["input"]["sha256"]))
+
+    def test_single_pass_source_writes_no_pointer(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "runs" / "source"
+            court = write_source(source, walk_changeover())
+            output = root / "runs" / "out"
+            with contextlib.redirect_stdout(io.StringIO()):
+                reassociate_main(["--run", str(source), "--output", str(output), "--court", str(court)])
+            self.assertFalse((output / "longrun-manifest.json").exists())
+            report = json.loads((output / "reassociation.json").read_text())
+            self.assertIsNone(report["source_manifest_pointer"])
+            self.assertIn("--video", report["source_manifest_pointer_note"])
+
+    def digest(self, folder):
+        return {str(p.relative_to(folder)): hashlib.sha256(p.read_bytes()).hexdigest()
+                for p in sorted(folder.rglob("*")) if p.is_file()}
 
 
 if __name__ == "__main__":
