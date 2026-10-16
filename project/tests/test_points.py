@@ -158,8 +158,9 @@ class PointProposalTests(unittest.TestCase):
                                         for w in walking))
         self.assertEqual([e["event_id"] for e in p["events_within"]], ["s1", "r1", "r2", "r3"])
         self.assertEqual(report["thresholds"]["dead_ball_seconds"], DEFAULTS["dead_ball_seconds"])
-        self.assertIn("TODO(#27)", report["label_scoring"])
-        # Plain view for #27's scorer: source frames, inclusive, server side, no winner.
+        self.assertIn("score_labels", report["label_scoring"])
+        self.assertNotIn("TODO", report["label_scoring"])
+        # Plain view read by score_labels --points: source frames, inclusive, server side, no winner.
         self.assertEqual(report["points"], [{"id": "point-proposal-1", "source_start_frame": OFFSET + 20,
                                              "source_end_frame": OFFSET + 75, "server": "near",
                                              "status": "proposal_unreviewed"}])
