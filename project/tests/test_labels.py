@@ -139,6 +139,67 @@ class ValidateTest(unittest.TestCase):
         validate_labels(labels)
 
 
+def named_labels():
+    """Additive v1 extension: named players; each point records the near player and the winner by name."""
+    labels = make_labels(players=[{"id": "player_a", "name": "John"}, {"id": "player_b", "name": "Sebbie"}])
+    labels["points"] = [
+        {"id": "p1", "source_start_frame": 110, "source_end_frame": 200, "server": "near", "winner": "far",
+         "near_player": "player_a", "winner_player": "player_b", "decision": "human"},
+        # After a changeover Sebbie is near; server may stay "unknown" (e.g. serve cut off).
+        {"id": "p2", "source_start_frame": 210, "source_end_frame": 300, "server": "unknown", "winner": "near",
+         "near_player": "player_b", "winner_player": "player_b", "decision": "human"},
+    ]
+    return labels
+
+
+class NamedPlayersTest(unittest.TestCase):
+    def assertRejected(self, labels, fragment):
+        with self.assertRaises(LabelsError) as caught:
+            validate_labels(labels)
+        self.assertIn(fragment, str(caught.exception))
+
+    def test_named_players_file_is_valid(self):
+        validate_labels(named_labels())
+
+    def test_files_without_players_keep_the_original_rules(self):
+        labels = make_labels()  # winner "unknown", no near_player/winner_player
+        self.assertNotIn("players", labels)
+        validate_labels(labels)
+        labels["points"][0]["near_player"] = "player_a"
+        self.assertRejected(labels, "needs the top-level players list")
+
+    def test_players_list_shape(self):
+        for players, fragment in (([{"id": "player_a", "name": "John"}], "exactly 2"),
+                                  ("John, Sebbie", "exactly 2"),
+                                  ([{"id": "a", "name": "John"}, {"id": "a", "name": "Sebbie"}], "duplicate player id"),
+                                  ([{"id": "a", "name": "John"}, {"id": "b", "name": " "}], "players[1].name"),
+                                  ([{"id": "a", "name": "John"}, {"id": "b"}], "missing field(s) name"),
+                                  ([{"id": "a", "name": "J", "rating": 3}, {"id": "b", "name": "S"}], "unknown field")):
+            labels = named_labels()
+            labels["players"] = players
+            self.assertRejected(labels, fragment)
+
+    def test_points_must_name_near_player_and_winner(self):
+        for key in ("near_player", "winner_player"):
+            labels = named_labels()
+            del labels["points"][0][key]
+            self.assertRejected(labels, f"missing field(s) {key}")
+        labels = named_labels()
+        labels["points"][0]["near_player"] = "player_c"
+        self.assertRejected(labels, "not one of the players")
+
+    def test_winner_is_a_person_and_consistent_with_sides(self):
+        labels = named_labels()
+        labels["points"][0]["winner"] = "unknown"
+        self.assertRejected(labels, "a point's winner is a person")
+        labels = named_labels()
+        labels["points"][0]["winner_player"] = "player_a"  # John was near, but "far" won
+        self.assertRejected(labels, "the far player was 'Sebbie'")
+        labels = named_labels()
+        labels["points"][1]["winner"] = "far"  # Sebbie near after the changeover; far is John
+        self.assertRejected(labels, "the far player was 'John'")
+
+
 class BindingTest(unittest.TestCase):
     def test_matching_binding_passes(self):
         check_binding(make_labels(), RUN_ID, VIDEO, 30.0)
