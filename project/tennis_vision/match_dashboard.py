@@ -15,10 +15,12 @@ filters, counts and draws them. In particular:
 * No spin or RPM. Ball speed is shown only where the table has it, as an estimate.
 * Counts are coverage, never accuracy.
 
-A shot links to ``replay.html`` only when the replay folder can be found, its
-``replay-data.json`` is byte-identical to the one the table was built from
+A shot links to ``replay.html#frame=N`` only when the replay folder can be found,
+its ``replay-data.json`` is byte-identical to the one the table was built from
 (sha256 in ``shot-table.json``), and ``replay.html`` exists. The link is stored
-relative to the output folder.
+relative to the output folder. ``N`` is the table's ``contact_frame`` (the
+replay-local frame). Replay pages built before ``#frame=N`` support open at their
+default frame; the page then says so next to the links.
 """
 import argparse
 import csv
@@ -32,8 +34,11 @@ TABLE_KIND = "shot_point_table"
 SUPPORTED_TABLE_SCHEMAS = (1,)
 TEMPLATE = Path(__file__).with_name("match_dashboard.html")
 PLACEHOLDER = "__DASHBOARD_DATA__"
-REPLAY_SEEK = ("replay.html does not seek from a link yet: the link opens the replay and the frame "
-               "number is shown next to it. The '#frame=N' suffix is ignored by the current replay page.")
+DEEP_LINK_MARKER = "function seekFromHash("  # present in replay pages built after #frame=N support (issue #32)
+REPLAY_JUMPS = ("Each link opens replay.html at the shot's contact frame (#frame=N, the replay-local frame the scrubber "
+                "shows; source frame = N + source_start_frame).")
+REPLAY_NO_JUMP = ("This replay.html was built before frame links: it opens at its default frame, so go to the frame "
+                  "shown next to the link by hand (rebuilding the replay adds jump-to-frame).")
 
 
 def _sha256(path):
@@ -80,7 +85,7 @@ def load_table(folder):
 
 
 def find_replay_link(table, output, replay=None, table_folder=None):
-    """Relative link from ``output`` to the replay page, or None with a reason."""
+    """(relative link from ``output`` to the replay page or None, reason, page supports #frame=N)."""
     candidates = [Path(replay)] if replay else []
     folder_name = (table.get("replay") or {}).get("folder")
     if not replay and table_folder is not None and folder_name:
@@ -91,18 +96,19 @@ def find_replay_link(table, output, replay=None, table_folder=None):
         if not page.is_file():
             continue
         if not data.is_file() or not expected or _sha256(data) != expected:
-            return None, f"{folder.name}/replay-data.json is not the one this table was built from; no replay links"
+            return None, f"{folder.name}/replay-data.json is not the one this table was built from; no replay links", False
         try:
             relative = os.path.relpath(page.resolve(), Path(output).resolve())
         except ValueError:  # different drive on Windows
-            return None, "replay.html is on a different drive from the dashboard; no replay links"
-        return relative.replace(os.sep, "/"), "replay-data.json matches the table's input sha256"
+            return None, "replay.html is on a different drive from the dashboard; no replay links", False
+        jumps = DEEP_LINK_MARKER in page.read_text(encoding="utf-8", errors="replace")
+        return relative.replace(os.sep, "/"), "replay-data.json matches the table's input sha256", jumps
     if replay:
-        return None, f"{Path(replay)} has no replay.html; no replay links"
-    return None, "replay folder not found next to the table (pass --replay); no replay links"
+        return None, f"{Path(replay)} has no replay.html; no replay links", False
+    return None, "replay folder not found next to the table (pass --replay); no replay links", False
 
 
-def build_payload(table, table_folder, replay_link, replay_reason):
+def build_payload(table, table_folder, replay_link, replay_reason, jumps=False):
     return {
         "schema_version": SCHEMA_VERSION, "kind": "match_dashboard",
         "table": {"folder": Path(table_folder).name, "sha256": _sha256(Path(table_folder) / "shot-table.json"),
@@ -110,7 +116,8 @@ def build_payload(table, table_folder, replay_link, replay_reason):
         "replay": table["replay"], "labels": table.get("labels"), "calibration": table.get("calibration"),
         "conventions": table.get("conventions"), "counts": table.get("counts"),
         "limitations": table.get("limitations", []),
-        "replay_link": {"href": replay_link, "status": replay_reason, "seek": REPLAY_SEEK if replay_link else None},
+        "replay_link": {"href": replay_link, "status": replay_reason, "jumps": bool(replay_link and jumps),
+                        "seek": (REPLAY_JUMPS if jumps else REPLAY_NO_JUMP) if replay_link else None},
         "shots": table["shots"], "points": table["points"],
     }
 
@@ -133,8 +140,8 @@ def run(table_folder, output, replay=None):
     if replay and (output.resolve() == Path(replay).resolve() or Path(replay).resolve() in output.resolve().parents):
         raise ValueError("Write the dashboard outside the replay folder; replay folders are not modified")
     output.mkdir(parents=True)
-    link, reason = find_replay_link(table, output, replay, table_folder)
-    payload = build_payload(table, table_folder, link, reason)
+    link, reason, jumps = find_replay_link(table, output, replay, table_folder)
+    payload = build_payload(table, table_folder, link, reason, jumps)
     (output / "dashboard.html").write_text(render(payload), encoding="utf-8")
     return payload
 

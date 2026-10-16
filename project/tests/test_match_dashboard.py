@@ -216,7 +216,17 @@ class MatchDashboardTest(unittest.TestCase):
         payload = md.run(self.table, self.root / "out" / "dash", replay=self.replay)
         self.assertEqual(payload["replay_link"]["href"], "../../replay/replay.html")
         self.assertTrue((self.root / "out" / "dash" / payload["replay_link"]["href"]).is_file())
-        self.assertIn("does not seek", payload["replay_link"]["seek"])
+        # The synthetic stand-in replay.html predates #frame=N support: say so instead of promising a jump.
+        self.assertFalse(payload["replay_link"]["jumps"])
+        self.assertIn("built before frame links", payload["replay_link"]["seek"])
+
+    def test_links_jump_when_the_replay_page_supports_frame_links(self):
+        (self.replay / "replay.html").write_text("<script>function seekFromHash(){}</script>")
+        payload = md.run(self.table, self.root / "dash", replay=self.replay)
+        self.assertTrue(payload["replay_link"]["jumps"])
+        self.assertIn("#frame=N", payload["replay_link"]["seek"])
+        template = (PROJECT / "tennis_vision" / "shot_replay.html").read_text(encoding="utf-8")
+        self.assertIn(md.DEEP_LINK_MARKER, template, "the replay template the marker detects must support #frame=N")
 
     def test_replay_found_next_to_the_table_by_folder_name(self):
         table = json.loads((self.table / "shot-table.json").read_text())
@@ -299,6 +309,8 @@ class MatchDashboardTest(unittest.TestCase):
         self.assertEqual(payload["points"], [])
         self.assertTrue(all(r["landing_source"] == "unknown" for r in payload["shots"]))
         self.assertTrue(payload["replay_link"]["href"].endswith("raw-play-ready/replay.html"))
+        # The committed page is a historic build from before #frame=N support; it is not regenerated.
+        self.assertFalse(payload["replay_link"]["jumps"])
         if NODE:
             result = subprocess.run([NODE, str(UI_TEST), str(self.root / "raw-dash" / "dashboard.html")],
                                     capture_output=True, text=True)

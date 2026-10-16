@@ -74,7 +74,7 @@ label.toggle{display:flex;gap:6px;align-items:center;font-size:.85rem;color:var(
 .main{display:grid;grid-template-columns:minmax(280px,380px) 1fr;gap:20px;align-items:start}
 @media (max-width:820px){.main{grid-template-columns:1fr}}
 .panel{background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:14px;display:grid;gap:10px;min-width:0;align-content:start}
-.main>*,.grid3>*,.twocol>*,.tiles>*{min-width:0}
+.main>*,.grid3>*,.twocol>*,.tiles>*,.panel>*{min-width:0}
 .panel-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 12px}
 .legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.82rem;color:var(--ink-2);align-items:center}
 .legend .k{display:inline-flex;gap:6px;align-items:center}
@@ -668,7 +668,11 @@ function renderPoints(){
 
 function replayLink(r){
   var href = MD.replayHref(DATA, r);
-  return href ? h("a", {href:href, title:"Open replay.html (go to frame " + r.contact_frame + ")", text:"replay · frame " + r.contact_frame}) : null;
+  if(!href) return null;
+  var jumps = !!DATA.replay_link.jumps;
+  return h("a", {href:href, "data-jumps":jumps ? "true" : "false",
+    title:jumps ? "Open replay.html at replay frame " + r.contact_frame : "Open replay.html, then go to frame " + r.contact_frame + " (this replay predates frame links)",
+    text:(jumps ? "jump to replay frame " : "replay · go to frame ") + r.contact_frame});
 }
 function speedText(r){ return r.ball_speed_source !== "unknown" && state.showEst ? " · ~" + r.ball_speed_kmh + " km/h (estimated)" : ""; }
 function shotItem(r, order){

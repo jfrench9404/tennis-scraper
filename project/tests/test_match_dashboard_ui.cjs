@@ -42,7 +42,8 @@ const fixture = {
   labels: {file: 'labels.json', labeller: 'test', labelled_on: '2026-10-08'},
   calibration: {status: 'reviewed', reviewed: true},
   limitations: ['Coverage and source counts are not accuracy.'],
-  replay_link: {href: 'replay.html', status: 'fixture', seek: 'replay.html does not seek from a link yet.'},
+  replay_link: {href: 'replay.html', status: 'fixture', jumps: true,
+    seek: "Each link opens replay.html at the shot's contact frame (#frame=N, the replay-local frame the scrubber shows)."},
   shots: [
     shot('a', 10, Object.assign({hitter: 'near', hitter_source: HC, shot_status: 'labelled_shot', shot_status_source: HC,
       shot_type: 'serve', shot_type_source: HC, direction: 'cross_court', direction_source: EST, depth: 'mid', depth_source: EST,
@@ -233,7 +234,13 @@ if (!pagePath) {
   assert.match(seqItems[3].textContent, /landing unknown/);
   assert.deepEqual(links(get('seq')).map(a => a.getAttribute('href')), ['replay.html#frame=10', 'replay.html#frame=40', 'replay.html#frame=70', 'replay.html#frame=100']);
   assert.match(get('seq').textContent, /Won by Near \(labelled\)/);
-  assert.match(get('seq').textContent, /does not seek/);
+  assert.match(get('seq').textContent, /opens replay.html at the shot's contact frame/);
+  assert.deepEqual(links(get('seq')).map(a => a.textContent), ['jump to replay frame 10', 'jump to replay frame 40', 'jump to replay frame 70', 'jump to replay frame 100']);
+  // A replay built before frame links: same hrefs, but the page says to go to the frame by hand.
+  run('DATA.replay_link.jumps = false; renderAll();');
+  assert.equal(links(get('shotsBody'))[0].textContent, 'replay · go to frame 10');
+  assert.equal(links(get('shotsBody'))[0].getAttribute('data-jumps'), 'false');
+  run('DATA.replay_link.jumps = true; renderAll();');
   assert.equal(get('clearSel').hidden, false);
   get('clearSel').fire('click');
   assert.equal(evaluate('state.sel'), null);
