@@ -10,9 +10,12 @@ import tempfile
 import unittest
 
 from tennis_vision import shot_table as st
+from tennis_vision.labels import LabelsError
 
 FPS = 30.0
 RAW_PLAY = Path(__file__).resolve().parent.parent / "runs" / "raw-play-ready"
+# Labels bind to the replay's review_run_id, which tennis_vision.labels requires to be 64 hex characters.
+RUN_ID = "ab" * 32
 
 
 def player(identity, x, y, basis="two_ankles_ground", estimated=False, predicted=False):
@@ -69,10 +72,10 @@ def make_replay(folder, calibration_status="reviewed", mutate_frame=None):
     shots = {"shots": [shot("h10", 10, "near", classification="forehand"), shot("h50", 50, "far"),
                        shot("w80", 80, "far", state="uncertain_contact")]}
     flights = {"status": "ok", "fits": [gravity_fit("h10", "b30", 10, 30, [3.0, 20.0, 2.0])], "skipped": []}
-    corrections = {"schema_version": 1, "kind": "court_and_bounce_review", "run_id": "run-x",
+    corrections = {"schema_version": 1, "kind": "court_and_bounce_review", "run_id": RUN_ID,
                    "calibration_status": calibration_status, "landmark_source": "synthetic", "landmarks": {},
                    "bounce_edits": []}
-    report = {"schema_version": 1, "package_id": "pkg-x", "review_run_id": "run-x", "frames": 100, "fps": FPS,
+    report = {"schema_version": 1, "package_id": "pkg-x", "review_run_id": RUN_ID, "frames": 100, "fps": FPS,
               "source_start_frame": 1000,
               "camera_fit": {"basis": "multi_point_radial_camera", "review_status": calibration_status,
                              "status": "approximate_not_measurement_grade", "landmark_rmse_px": 1.5},
@@ -82,7 +85,7 @@ def make_replay(folder, calibration_status="reviewed", mutate_frame=None):
     folder.mkdir(parents=True)
     (folder / "replay-data.json").write_text(json.dumps(data))
     (folder / "build-status.json").write_text(json.dumps({"status": "complete"}))
-    (folder / "reviewed-events.json").write_text(json.dumps({"run_id": "run-x", "events": events}))
+    (folder / "reviewed-events.json").write_text(json.dumps({"run_id": RUN_ID, "events": events}))
     (folder / "shot-candidates.json").write_text(json.dumps(shots))
     (folder / "validated-flight3d.json").write_text(json.dumps(flights))
     (folder / "calibration-corrections.json").write_text(json.dumps(corrections))
@@ -111,7 +114,7 @@ def span(start, end, *kinds):
 
 def write_labels(path, binding=None, **overrides):
     labels = {"schema_version": 1, "kind": "tennis_ground_truth_labels",
-              "binding": binding or {"run_id": "run-x", "source_video_sha256": "0" * 64, "fps": FPS},
+              "binding": binding or {"run_id": RUN_ID, "source_video_sha256": "0" * 64, "fps": FPS},
               "labeller": {"name": "test", "date": "2026-09-28"},
               "shot_types": ["serve", "forehand", "backhand", "volley", "overhead", "other", "unsure"],
               "coverage": [], "shots": [], "bounces": [], "points": []}
@@ -218,7 +221,7 @@ class ShotTableTest(unittest.TestCase):
         replay = make_replay(self.root / "r")
         data = json.loads((replay / "replay-data.json").read_text())
         events = data["events"] + [hit("x20", 20, "far")]
-        (replay / "reviewed-events.json").write_text(json.dumps({"run_id": "run-x", "events": events}))
+        (replay / "reviewed-events.json").write_text(json.dumps({"run_id": RUN_ID, "events": events}))
         payload = st.run(replay, self.root / "o")
         row = self.rows(payload)["h10"]
         self.assertEqual(row["landing_source"], "unknown")
@@ -383,29 +386,35 @@ class ShotTableTest(unittest.TestCase):
         video = self.root / "original.bin"
         video.write_bytes(b"not really a video")
         digest = hashlib.sha256(video.read_bytes()).hexdigest()
-        good = write_labels(self.root / "good.json", binding={"run_id": "run-x", "source_video_sha256": digest, "fps": FPS})
+        good = write_labels(self.root / "good.json", binding={"run_id": RUN_ID, "source_video_sha256": digest, "fps": FPS})
         replay = make_replay(self.root / "r")
         self.assertEqual(st.run(replay, self.root / "o1", good, video=video)["labels"]["video_check"], "matched")
         bad = write_labels(self.root / "bad.json")
-        with self.assertRaisesRegex(ValueError, "different source video"):
+        with self.assertRaisesRegex(LabelsError, "bound to source video"):
             st.run(replay, self.root / "o2", bad, video=video)
 
     def test_invalid_or_foreign_labels_are_rejected(self):
+        # Messages are tennis_vision.labels' own (validate_labels / check_binding).
         replay = make_replay(self.root / "r")
         cases = {
-            "different run": write_labels(self.root / "a.json", binding={"run_id": "other", "source_video_sha256": "0" * 64,
-                                                                        "fps": FPS}),
-            "fps does not match": write_labels(self.root / "b.json", binding={"run_id": "run-x",
-                                                                               "source_video_sha256": "0" * 64, "fps": 25}),
-            "overlap": write_labels(self.root / "c.json", points=[label_point("p1", 1, 20), label_point("p2", 20, 30)]),
-            "Invalid labelled point": write_labels(self.root / "d.json", points=[label_point("p1", 1, 20, winner="draw")]),
-            "Invalid labelled shot": write_labels(self.root / "e.json",
-                                                  shots=[dict(label_shot("s1", 5, "near", "serve"), decision="model")]),
-            "unknown or missing": write_labels(self.root / "f.json", spin_rpm=[]),
+            "bound to run": write_labels(self.root / "a.json", binding={"run_id": "cd" * 32, "source_video_sha256": "0" * 64,
+                                                                       "fps": FPS}),
+            "25 fps but the run is 30": write_labels(self.root / "b.json", binding={"run_id": RUN_ID,
+                                                                                     "source_video_sha256": "0" * 64, "fps": 25}),
+            "overlaps point": write_labels(self.root / "c.json", points=[label_point("p1", 1, 20), label_point("p2", 20, 30)]),
+            "winner: 'draw'": write_labels(self.root / "d.json", points=[label_point("p1", 1, 20, winner="draw")]),
+            "decision: must be 'human'": write_labels(self.root / "e.json",
+                                                      shots=[dict(label_shot("s1", 5, "near", "serve"), decision="model")]),
+            "unknown field": write_labels(self.root / "f.json", spin_rpm=[]),
+            "64 lowercase hex": write_labels(self.root / "g.json", binding={"run_id": "run-x", "source_video_sha256": "0" * 64,
+                                                                           "fps": FPS}),
+            "shot_types: must be exactly": write_labels(self.root / "h.json", shot_types=["serve", "forehand"]),
+            "overlaps another shots coverage": write_labels(self.root / "i.json",
+                                                            coverage=[span(0, 50, "shots"), span(40, 60, "shots")]),
         }
         for n, (message, path) in enumerate(cases.items()):
             with self.subTest(message):
-                with self.assertRaisesRegex(ValueError, message):
+                with self.assertRaisesRegex(LabelsError, message):
                     st.run(replay, self.root / f"o{n}", path)
                 self.assertFalse((self.root / f"o{n}").exists())
 

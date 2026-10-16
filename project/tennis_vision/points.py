@@ -38,8 +38,9 @@ choice, and every threshold, is John's decision.
 Frames: ``run_frame`` is the index inside the replay/run (0 = its first frame);
 ``source_frame`` = the replay's ``source_start_frame`` + ``run_frame`` (frame of
 the original video). Seconds are frame timestamps (``frame / fps``); end frames
-are inclusive. The top-level ``points`` list is a plain view for a label scorer
-(#27): ``source_start_frame``, ``source_end_frame``, ``server``. Proposals never claim a winner, score, ace, fault, let, or a
+are inclusive. The top-level ``points`` list (with ``run_id``) is the plain view
+that ``score_labels --points`` reads as is: ``source_start_frame``,
+``source_end_frame``, ``server``. Proposals never claim a winner, score, ace, fault, let, or a
 winning shot, and nothing is written into the input folder.
 """
 import argparse
@@ -74,10 +75,11 @@ END_SIGNALS = {
 MEANING = ("Point PROPOSALS for John to confirm or reject; nothing is a point until he does. Starts are serve "
            "candidates (heuristic, not confirmed serves); ends are dead-ball evidence. No winner, score, ace, "
            "fault, let or winning shot is inferred: missing observations prove nothing. Coverage is not accuracy.")
-SCORING_TODO = ("TODO(#27): score_labels is not merged into dev yet. The top-level 'points' list follows the "
-                "--points input described in #27's draft docs/labels-schema.md ({'points': [{source_start_frame, "
-                "source_end_frame, server}], 'run_id'}, source frames, inclusive); check it against the scorer "
-                "once #27 lands. No 'winner' is ever given.")
+LABEL_SCORING = ("This file is a valid --points input for tennis_vision.score_labels as is: "
+                 "python -m tennis_vision.score_labels --labels <labels.json> --run <same folder> --points <this file> "
+                 "--output <new.json>. It reads the top-level 'run_id' (must match the run) and 'points' "
+                 "({id, source_start_frame, source_end_frame, server}; source-video frames, inclusive; see "
+                 "docs/labels-schema.md). No 'winner' is ever given, so winner agreement is never scored.")
 
 
 # ----------------------------------------------------------------------------- loading
@@ -449,8 +451,8 @@ def propose(loaded: dict[str, Any], dead_ball_seconds: float = DEFAULTS["dead_ba
             "thresholds": thresholds, "repeat_serve_policy": repeat_serve,
             "break_proposals_source": break_info, "meaning": MEANING, "not_claimed": [
                 "point winner", "score", "ace", "fault", "let", "winning shot", "game or set boundary"],
-            "label_scoring": SCORING_TODO, "notes": notes, "run_id": loaded["run_id"],
-            # Plain view for a label scorer (#27): source frames, inclusive; server side; never a winner.
+            "label_scoring": LABEL_SCORING, "notes": notes, "run_id": loaded["run_id"],
+            # Plain view read by score_labels --points: source frames, inclusive; server side; never a winner.
             "points": [{"id": q["id"], "source_start_frame": q["source_frames"][0],
                         "source_end_frame": q["source_frames"][1], "server": q["start"]["server_side"],
                         "status": q["status"]} for q in proposals],

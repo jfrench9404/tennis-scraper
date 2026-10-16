@@ -29,20 +29,26 @@ HITTERS = ("near", "far")
 BOUNCE_CALLS = ("in", "out", "unsure")
 POINT_SIDES = ("near", "far", "unknown")
 COVERAGE_KINDS = ("shots", "bounces", "points")
+# Additive v1 extension (John, PR #42): a file may name its two players. When it does,
+# every point records which player was on the near side and which player won, and the
+# winner must be a person (near/far), never "unknown". Files without ``players`` keep
+# the original v1 rules.
+PLAYER_COUNT = 2
+POINT_PLAYER_FIELDS = ("near_player", "winner_player")
 
 _HEX64 = re.compile(r"^[0-9a-f]{64}$")
 _DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 _TOP_REQUIRED = {"schema_version", "kind", "binding", "labeller", "shot_types", "coverage", "shots", "bounces",
                  "points"}
-_TOP_OPTIONAL = {"notes"}
+_TOP_OPTIONAL = {"notes", "players"}
 _BINDING_REQUIRED = {"run_id", "source_video_sha256", "fps"}
 _BINDING_OPTIONAL = {"source_video_name"}
 _ENTRY_FIELDS = {
     "shots": ({"id", "source_frame", "hitter", "shot_type", "decision"}, {"notes"}),
     "bounces": ({"id", "source_frame", "call", "decision"}, {"notes"}),
     "points": ({"id", "source_start_frame", "source_end_frame", "server", "winner", "decision"},
-               {"score_text", "notes"}),
+               {"score_text", "notes", *POINT_PLAYER_FIELDS}),
 }
 
 
@@ -75,6 +81,47 @@ def _text(value: Any, where: str, *, empty_ok: bool = True) -> None:
 def _choice(value: Any, allowed: tuple[str, ...], where: str) -> None:
     if value not in allowed:
         raise LabelsError(f"{where}: {value!r} is not one of {', '.join(allowed)}")
+
+
+def _players(data: dict[str, Any]) -> dict[str, str] | None:
+    """Validate the optional ``players`` list. Returns {player id: name}, or None when absent."""
+    if "players" not in data:
+        return None
+    players = data["players"]
+    if not isinstance(players, list) or len(players) != PLAYER_COUNT:
+        raise LabelsError(f"players: expected a list of exactly {PLAYER_COUNT} players")
+    names: dict[str, str] = {}
+    for i, player in enumerate(players):
+        where = f"players[{i}]"
+        _fields(player, where, {"id", "name"}, set())
+        _text(player["id"], f"{where}.id", empty_ok=False)
+        _text(player["name"], f"{where}.name", empty_ok=False)
+        if player["id"] in names:
+            raise LabelsError(f"{where}: duplicate player id {player['id']!r}")
+        names[player["id"]] = player["name"]
+    return names
+
+
+def _check_point_players(entry: dict[str, Any], where: str, players: dict[str, str] | None) -> None:
+    """With named players, near_player/winner_player are required and must agree with ``winner``."""
+    present = [key for key in POINT_PLAYER_FIELDS if key in entry]
+    if players is None:
+        if present:
+            raise LabelsError(f"{where}: {', '.join(present)} needs the top-level players list")
+        return
+    missing = [key for key in POINT_PLAYER_FIELDS if key not in entry]
+    if missing:
+        raise LabelsError(f"{where}: missing field(s) {', '.join(missing)} (required when players are named)")
+    for key in POINT_PLAYER_FIELDS:
+        if entry[key] not in players:
+            raise LabelsError(f"{where}.{key}: {entry[key]!r} is not one of the players ({', '.join(players)})")
+    if entry["winner"] not in HITTERS:
+        raise LabelsError(f"{where}.winner: must be near or far when players are named; a point's winner is a person")
+    far_player = next(pid for pid in players if pid != entry["near_player"])
+    expected = entry["near_player"] if entry["winner"] == "near" else far_player
+    if entry["winner_player"] != expected:
+        raise LabelsError(f"{where}: the {entry['winner']} player was {players[expected]!r}, "
+                          f"but winner_player is {players[entry['winner_player']]!r}")
 
 
 def validate_labels(data: Any) -> dict[str, Any]:
@@ -110,6 +157,8 @@ def validate_labels(data: Any) -> dict[str, Any]:
         date.fromisoformat(labeller["date"])
     except ValueError as error:
         raise LabelsError(f"labeller.date: {error}") from None
+
+    players = _players(data)
 
     if data["shot_types"] != list(SHOT_TYPES):
         raise LabelsError(f"shot_types: must be exactly {list(SHOT_TYPES)} (the current list); "
@@ -161,6 +210,7 @@ def validate_labels(data: Any) -> dict[str, Any]:
                     raise LabelsError(f"{where}: source_end_frame is before source_start_frame")
                 _choice(entry["server"], POINT_SIDES, f"{where}.server")
                 _choice(entry["winner"], POINT_SIDES, f"{where}.winner")
+                _check_point_players(entry, where, players)
                 for c, d, other in intervals:
                     if a <= d and c <= b:
                         raise LabelsError(f"{where}: overlaps point {other!r}")

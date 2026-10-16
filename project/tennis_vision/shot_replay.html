@@ -157,5 +157,11 @@ function handleShortcut(e){
  if(!act)return;e.preventDefault();act();
 }
 document.addEventListener('keydown',handleShortcut);
-listShots();listBounces();listTrajectories();if(previews.fits.length)selectTrajectory('preview',0);else if(D.flights.fits.length)selectTrajectory('reviewed',0);else if(D.shots.shots.length)selectShot(D.shots.shots[0]);else seek(0);modeNotice();refresh();
+// Deep link #frame=N (issue #32): N is the REPLAY-LOCAL frame (0 to frames-1), the number the scrubber and frame
+// readout show and the shot table's contact_frame; it is not the source-video frame (that is N + source_start_frame).
+// Out-of-range values are clamped; anything that is not a whole number is ignored. Navigation only: no review data changes.
+function hashFrame(hash){const m=/^#?frame=(-?\d{1,9})$/.exec(String(hash||'').trim());return m?Math.max(0,Math.min(R.frames-1,Number(m[1]))):null;}
+function seekFromHash(){const f=hashFrame(typeof location==='undefined'?'':location.hash);if(f===null)return false;seek(f);notice(`Jumped to frame ${f} from the link (replay frame; source frame ${(R.source_start_frame||0)+f}).`);return true;}
+if(typeof window!=='undefined'&&window.addEventListener)window.addEventListener('hashchange',seekFromHash);
+listShots();listBounces();listTrajectories();if(previews.fits.length)selectTrajectory('preview',0);else if(D.flights.fits.length)selectTrajectory('reviewed',0);else if(D.shots.shots.length)selectShot(D.shots.shots[0]);else seek(0);modeNotice();seekFromHash();refresh();
 </script><script id="three-vendor">__THREE_JS__</script><script id="body-meshes">__BODY_MESHES_JS__</script></body></html>
