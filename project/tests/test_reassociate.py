@@ -291,11 +291,21 @@ class SideRoles(unittest.TestCase):
         self.assertNotIn(near_id, {t["track_id"] for t in rows[0]["tracks"]})
 
     def test_crossing_people_end_tracklets_instead_of_swapping(self):
-        obs = observations(make_rows(3, lambda f: {"A": (5.0, 2.0)} if f < 2 else
-                                     {"A": (4.9, 2.0), "B": (5.1, 2.0)}), COURT, DEFAULTS)
-        tracklets = build_tracklets(obs, 5)
+        # A alone; B appears at the same spot (one observation while overlapping); they
+        # separate left/right: the tracklet must end instead of picking one of them.
+        def people(f):
+            if f < 2:
+                return {"A": (5.0, 2.0)}
+            if f < 4:
+                return {"A": (4.9, 2.0), "B": (5.1, 2.0)}
+            return {"A": (4.9 - .5 * (f - 3), 2.0), "B": (5.1 + .5 * (f - 3), 2.0)}
+        tracklets = build_tracklets(observations(make_rows(8, people), COURT, DEFAULTS), 5)
         self.assertEqual(tracklets[0]["end_reason"], "ambiguous")
-        self.assertEqual(len(tracklets[0]["frames"]), 2)
+        self.assertLessEqual(tracklets[0]["frames"][-1], 4)
+        late = [t for t in tracklets if t["frames"][0] >= 4]
+        self.assertEqual({t["start_reason"] for t in late if t["frames"][0] == min(x["frames"][0] for x in late)},
+                         {"ambiguous"})
+        self.assertEqual(len([t for t in tracklets if 7 in t["frames"]]), 2)
 
 
 class RunFolder(unittest.TestCase):
@@ -641,6 +651,86 @@ class SourceManifestPointer(unittest.TestCase):
     def digest(self, folder):
         return {str(p.relative_to(folder)): hashlib.sha256(p.read_bytes()).hexdigest()
                 for p in sorted(folder.rglob("*")) if p.is_file()}
+
+
+# ----------------------------------------------------------------------------- ambiguity cascade (2026-10-16)
+
+def converge(f):
+    """Two people with history converge onto ONE candidate mid-run; one person then continues
+    150 frames (as on the full video-1 run, where the far player fragmented into 1-frame tracklets)."""
+    out = {"C": (5.0, 25.0)}
+    if f < 60:
+        out.update(A=(4.0, 2.0), B=(6.0, 2.0))
+    elif f < 70:
+        t = (f - 60) / 10
+        out.update(A=(4.0 + .9 * t, 2.0), B=(6.0 - .9 * t, 2.0))
+    else:
+        out["A"] = (5.0 + .01 * (f - 70), 2.0 - .005 * (f - 70))
+    return out
+
+
+class AmbiguityCascade(unittest.TestCase):
+    def test_recovers_into_one_long_tracklet_after_convergence(self):
+        rows = make_rows(220, converge)
+        obs = observations(rows, COURT, DEFAULTS)
+        tracklets = build_tracklets(obs, 5)
+        holder = next(t for t in tracklets if 150 in t["frames"] and t["obs"][t["frames"].index(150)]["feet"][1] < 11.885)
+        self.assertLessEqual(holder["frames"][0], 75)       # recovers within a few frames of the merge
+        self.assertEqual(holder["frames"][-1], 219)
+        self.assertEqual(len(holder["frames"]), 220 - holder["frames"][0])
+        near_after = [t for t in tracklets if t["frames"][0] >= 70 and t["obs"][0]["feet"][1] < 11.885]
+        self.assertLessEqual(len(near_after), 3)              # no 1-frame cascade
+        result = run(rows)
+        self.assertTrue(all("near" in players(r) for r in result["rows"][75:]))
+        diag = result["report"]["tracklets"]
+        self.assertGreaterEqual(diag["eligible_length_frames_max"], 145)
+        self.assertLessEqual(diag["started_ambiguous"], 5)  # the merge itself, not one per frame
+        for key in ("total", "eligible", "banned_off_court", "started_ambiguous", "ended_ambiguous",
+                    "eligible_length_frames_median", "eligible_length_frames_max"):
+            self.assertIn(key, diag)
+
+    def test_merge_point_is_never_bridged_by_geometry(self):
+        # Who continues after the merge is unknowable from geometry: the continuing person is a
+        # new group (unknown), never silently A or B.
+        rows = make_rows(220, converge)
+        result = run(rows)
+        late = players(result["rows"][200])["near"]
+        early = {players(r)["near"]["person_group"] for r in result["rows"][:55]}
+        self.assertNotIn(late["person_group"], early)
+
+    def test_crossing_still_never_swaps(self):
+        # Two players walk through each other on the same baseline; no tracklet may contain both
+        # sides of the crossing with the other person's position.
+        def people(f):
+            t = min(1., max(0., (f - 20) / 40))
+            return {"A": lerp((2.0, 1.0), (9.0, 1.0), t), "B": lerp((9.0, 1.3), (2.0, 1.3), t)}
+        obs = observations(make_rows(80, people), COURT, DEFAULTS)
+        for t in build_tracklets(obs, 5):
+            xs = [o["feet"][0] for o in t["obs"]]
+            # A tracklet follows one person: its x moves monotonically in one direction.
+            steps = [b - a for a, b in zip(xs, xs[1:]) if abs(b - a) > 1e-6]
+            self.assertTrue(all(s > 0 for s in steps) or all(s < 0 for s in steps), xs)
+
+
+class DuplicateBoxes(unittest.TestCase):
+    def test_one_person_seen_twice_stays_one_tracklet(self):
+        # As at source 4936-4941: the far player has a tall pose box (racquet overhead) and a
+        # wide detector box on and off; both are the same person and must not fragment.
+        rows = make_rows(200, lambda f: {"A": (5, -1), "B": (6.0 + .005 * f, 25.0)})
+        for f, row in enumerate(rows):
+            if f % 3:
+                b = row["detail"]["candidates"][1]["bbox"]
+                w, h = b[2] - b[0], b[3] - b[1]
+                row["detail"]["candidates"].append({"label": "player", "confidence": .6, "keypoints": None,
+                                                    "source": "model",
+                                                    "bbox": [b[0] - .2 * w, b[1] + .35 * h, b[2] + 1.1 * w, b[3]]})
+        result = run(rows)
+        far = [s for s in result["report"]["stretches"] if s["side"] == "far"]
+        self.assertEqual([(s["person"], s["source_start_frame"], s["source_end_frame"]) for s in far],
+                         [("player_b", START, START + 199)])
+        self.assertEqual(result["report"]["tracklets"]["started_ambiguous"], 0)
+        for row in result["rows"]:
+            self.assertIsNotNone(players(row)["far"]["keypoints"])  # the posed box of the pair is kept
 
 
 if __name__ == "__main__":

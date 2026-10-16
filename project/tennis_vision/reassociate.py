@@ -166,13 +166,51 @@ def observations(rows: list[dict[str, Any]], court: CourtMapper, settings: dict[
 AMBIGUITY_MARGIN = .15
 
 
+DUPLICATE_CONTAINMENT = .4   # share of the smaller box covered by the other
+DUPLICATE_FEET_M = 2.0       # and feet this close on the court (far-side feet are coarse): one person seen twice
+
+
+def same_spot(a: dict, b: dict) -> bool:
+    """Two observations that overlap heavily with nearby feet: one person seen twice."""
+    p, q = a["bbox"], b["bbox"]
+    inter = max(0., min(p[2], q[2]) - max(p[0], q[0])) * max(0., min(p[3], q[3]) - max(p[1], q[1]))
+    smaller = min((p[2] - p[0]) * (p[3] - p[1]), (q[2] - q[0]) * (q[3] - q[1]))
+    return (inter / max(smaller, 1e-9) >= DUPLICATE_CONTAINMENT
+            and math.dist(a["feet"], b["feet"]) <= DUPLICATE_FEET_M)
+
+
+def duplicate_groups(items: list[dict]) -> list[list[int]]:
+    """Candidates of one frame that are the same person seen twice (e.g. a tall pose box and
+    a wide detector box of the far player that detail.merge kept apart). They count as ONE
+    observation for tracking; each group's members are listed best first (pose, confidence)."""
+    parent = list(range(len(items)))
+
+    def find(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+    for a in range(len(items)):
+        for b in range(a + 1, len(items)):
+            if same_spot(items[a], items[b]):
+                parent[find(a)] = find(b)
+    groups: dict[int, list[int]] = {}
+    for i in range(len(items)):
+        groups.setdefault(find(i), []).append(i)
+    return [sorted(g, key=lambda i: (not items[i]["pose"], -items[i]["confidence"], i)) for g in groups.values()]
+
+
 def build_tracklets(obs: list[list[dict]], max_missed: int) -> list[dict[str, Any]]:
     """Short, conservative person tracklets from saved candidates.
 
-    A candidate continues a tracklet only when the match is unique: if a tracklet
-    has two similar candidates, or a candidate two similar tracklets, the
-    tracklet ends ('ambiguous') and the candidate starts a new one. Ambiguous
-    ends/starts are never bridged later, so two people crossing never swap.
+    Overlapping candidates with the same feet are one observation (duplicate_groups).
+    An observation continues a tracklet only when the match is unique: if a tracklet
+    has two similar observations, or an observation two similar tracklets, every
+    tracklet involved ends ('ambiguous') and the observation starts ONE new tracklet,
+    which is then the only continuation, so the next frames recover. (Before
+    2026-10-16, contending tracklets stayed live and re-created the ambiguity every
+    frame: a cascade of 1-frame tracklets on the full video-1 run.) Ambiguous
+    ends/starts are never bridged by geometry later, so two people crossing never swap.
     """
     tracklets: list[dict[str, Any]] = []
     active: list[int] = []
@@ -181,43 +219,88 @@ def build_tracklets(obs: list[list[dict]], max_missed: int) -> list[dict[str, An
         for t in active:
             if t not in live:
                 tracklets[t]["end_reason"] = "lost"
-        pairs = []
+        groups = duplicate_groups(items)
+        pairs = []  # (cost, tracklet, group, best member)
         for t in live:
             last = tracklets[t]["obs"][-1]
             gap = f - tracklets[t]["frames"][-1]
-            for j, o in enumerate(items):
-                scale = o["height"] / max(1., last["height"])
-                dist = math.dist(o["centre"], last["centre"]) / max(1., last["height"])
-                if .67 <= scale <= 1.5 and dist <= .6 + .18 * (gap - 1):
-                    pairs.append((dist + .5 * abs(math.log(scale)), t, j))
+            for g, members in enumerate(groups):
+                options = []
+                for j in members:
+                    o = items[j]
+                    scale = o["height"] / max(1., last["height"])
+                    dist = math.dist(o["centre"], last["centre"]) / max(1., last["height"])
+                    if .67 <= scale <= 1.5 and dist <= .6 + .18 * (gap - 1):
+                        options.append((dist + .5 * abs(math.log(scale)), j))
+                if options:
+                    # One person seen twice: among equally good boxes, keep the one with a pose.
+                    cost = min(options)[0]
+                    j = min((not items[j]["pose"], c, j) for c, j in options if c - cost < AMBIGUITY_MARGIN)[2]
+                    pairs.append((cost, t, g, j))
         by_t: dict[int, list[float]] = {}
-        by_j: dict[int, list[float]] = {}
-        for cost, t, j in pairs:
+        by_g: dict[int, list[float]] = {}
+        best_g: dict[int, tuple[float, int]] = {}
+        for cost, t, g, _ in pairs:
             by_t.setdefault(t, []).append(cost)
-            by_j.setdefault(j, []).append(cost)
+            by_g.setdefault(g, []).append(cost)
+            best_g[t] = min(best_g.get(t, (cost, g)), (cost, g))
         ambiguous_t = {t for t, c in by_t.items() if len(c) > 1 and sorted(c)[1] - sorted(c)[0] < AMBIGUITY_MARGIN}
-        ambiguous_j = {j for j, c in by_j.items() if len(c) > 1 and sorted(c)[1] - sorted(c)[0] < AMBIGUITY_MARGIN}
-        used_t, used_j = set(), set()
-        for cost, t, j in sorted(pairs):
-            if t in used_t or j in used_j or t in ambiguous_t or j in ambiguous_j:
+        ambiguous_g = {g for g, c in by_g.items() if len(c) > 1 and sorted(c)[1] - sorted(c)[0] < AMBIGUITY_MARGIN}
+        # Contenders whose last observations were themselves one person seen twice (a
+        # duplicate box that started its own tracklet) are not two people: the longest
+        # tracklet continues and the duplicates end ('duplicate'; never bridged).
+        duplicates = set()
+        for g in list(ambiguous_g):
+            best = min(c for c in by_g[g])
+            rivals = [t for cost, t, g_, _ in pairs if g_ == g and cost - best < AMBIGUITY_MARGIN]
+            if all(same_spot(tracklets[a]["obs"][-1], tracklets[b]["obs"][-1]) for a in rivals for b in rivals if a < b):
+                keep = max(rivals, key=lambda t: (len(tracklets[t]["frames"]), -t))
+                duplicates |= {t for t in rivals if t != keep}
+                ambiguous_g.discard(g)
+        for t in duplicates:
+            tracklets[t]["end_reason"] = "duplicate"
+        live = [t for t in live if t not in duplicates]
+        pairs = [pair for pair in pairs if pair[1] not in duplicates]
+        by_t = {t: c for t, c in by_t.items() if t not in duplicates}
+        best_g = {t: v for t, v in best_g.items() if t not in duplicates}
+        ambiguous_t -= duplicates
+        # Every tracklet that wanted an ambiguous observation ends too, so it cannot keep
+        # competing with the fresh tracklet on the next frames.
+        ended = ambiguous_t | {t for t, (_, g) in best_g.items() if g in ambiguous_g}
+        used_t, used_g = set(), set()
+        for cost, t, g, j in sorted(pairs):
+            if t in used_t or g in used_g or t in ended or g in ambiguous_g:
                 continue
             tracklets[t]["frames"].append(f)
             tracklets[t]["obs"].append(items[j])
             used_t.add(t)
-            used_j.add(j)
-        for t in ambiguous_t:
+            used_g.add(g)
+        for t in ended:
             tracklets[t]["end_reason"] = "ambiguous"
-        active = [t for t in live if t not in ambiguous_t]
-        for j, o in enumerate(items):
-            if j in used_j:
+        # Ended tracklets leave `active` for good: they can never be revived or bridged.
+        active = [t for t in live if t not in ended]
+        contested = ambiguous_g | {g for _, t, g, _ in pairs if t in ended}
+        for g, members in enumerate(groups):
+            if g in used_g:
                 continue
-            tracklets.append({"id": len(tracklets), "frames": [f], "obs": [o], "end_reason": None,
-                              "start_reason": "ambiguous" if j in ambiguous_j else "new"})
+            tracklets.append({"id": len(tracklets), "frames": [f], "obs": [items[members[0]]], "end_reason": None,
+                              "start_reason": "ambiguous" if g in contested else "new"})
             active.append(len(tracklets) - 1)
     for t in active:
         if tracklets[t]["end_reason"] is None:
             tracklets[t]["end_reason"] = "end_of_rows"
     return tracklets
+
+
+def tracklet_diagnostics(tracklets: list[dict]) -> dict[str, Any]:
+    """Fragmentation check: many short / ambiguous-start tracklets mean persons cannot be followed."""
+    lengths = sorted(len(t["frames"]) for t in tracklets if t["eligible"])
+    return {"total": len(tracklets), "eligible": len(lengths),
+            "banned_off_court": sum(t["banned"] for t in tracklets),
+            "started_ambiguous": sum(t["start_reason"] == "ambiguous" for t in tracklets),
+            "ended_ambiguous": sum(t["end_reason"] == "ambiguous" for t in tracklets),
+            "eligible_length_frames_median": median(lengths) if lengths else None,
+            "eligible_length_frames_max": lengths[-1] if lengths else None}
 
 
 def classify_tracklets(tracklets: list[dict], fps: float, settings: dict[str, float]) -> None:
@@ -315,7 +398,7 @@ def gap_links(tracklets: list[dict], fps: float, settings: dict[str, float]) -> 
     options: dict[int, list] = {}
     reverse: dict[int, list] = {}
     for e in usable:
-        if e["end_reason"] in ("ambiguous", "end_of_rows"):
+        if e["end_reason"] in ("ambiguous", "duplicate", "end_of_rows"):
             continue
         end = e["frames"][-1]
         for s in usable:
@@ -903,9 +986,7 @@ def reassociate(loaded: dict[str, Any], settings: dict[str, float] | None = None
         "settings": settings, "meaning": MEANING,
         "frames": len(new_rows), "source_frames": [start, start + len(new_rows) - 1],
         "player_track_ids": track_ids,
-        "tracklets": {"total": len(tracklets), "eligible": sum(t["eligible"] for t in tracklets),
-                      "banned_off_court": sum(t["banned"] for t in tracklets),
-                      "ended_ambiguous": sum(t["end_reason"] == "ambiguous" for t in tracklets)},
+        "tracklets": tracklet_diagnostics(tracklets),
         "seed_source_frame": None if people["seed_frame"] is None else start + people["seed_frame"],
         "stretches": table,
         "person_links": links,
