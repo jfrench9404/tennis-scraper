@@ -92,6 +92,7 @@ Example (frame numbers and ids are illustrative, not real labels):
 | `coverage` | yes | Spans that were **fully labelled** (below). May be empty. |
 | `shots`, `bounces`, `points` | yes | Lists of entries (may be empty). |
 | `notes` | no | Free text. |
+| `players` | no | The two players, `[{"id": text, "name": text}, {"id": ..., "name": ...}]` (exactly two, unique ids, non-empty names). Added in PR #42 as an **additive** v1 extension; when present, every point must name its near player and winner (see "Named players"). |
 
 Unknown fields are rejected (at every level) so a typo cannot silently drop a decision.
 
@@ -163,6 +164,38 @@ Two bounces may not share a `source_frame`.
 | `notes` | no | Text. |
 
 Points may not overlap each other.
+
+### Named players (additive v1 extension)
+
+John decided (PR #42) that a point's winner must always be a named person. A file may
+therefore carry a top-level `players` list, and when it does every point also has:
+
+| Field | Required | Values |
+|---|---|---|
+| `near_player` | yes, when `players` is present | Id of the player on the **near** side during this point (sides swap at changeovers, so it is recorded per point). |
+| `winner_player` | yes, when `players` is present | Id of the player who won the point. |
+
+Rules when `players` is present:
+
+- `winner` must be `"near"` or `"far"` (`"unknown"` is rejected: a point's winner is a person).
+- `winner` and `winner_player` must agree: `winner: "near"` means `winner_player == near_player`;
+  `winner: "far"` means it is the other player.
+- `server` keeps `"near"`, `"far"` or `"unknown"` (for a clip whose serve is cut off); the
+  server's name follows from `server` and `near_player`.
+
+`near_player` / `winner_player` without a `players` list are rejected. Files without
+`players` are unchanged v1 files and keep the original rules (`winner` may be `"unknown"`).
+`schema_version` stays `1`; the scorer ignores the names (it compares sides only).
+
+Example:
+
+```json
+"players": [{"id": "player_a", "name": "John"}, {"id": "player_b", "name": "Sebbie"}],
+"points": [
+  {"id": "point-1", "source_start_frame": 4770, "source_end_frame": 5100, "server": "near", "winner": "far",
+   "near_player": "player_a", "winner_player": "player_b", "decision": "human"}
+]
+```
 
 There are **no spin, speed or RPM fields** (CLAUDE.md rule 3).
 
